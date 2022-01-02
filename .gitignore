@@ -1,0 +1,14 @@
+bookmarks
+config.el
+.cache
+backups
+elpa
+ido.last
+transient
+.last-package-update-day
+eshell
+.org-id-locations
+history
+recentf
+.lsp-session*
+projects

@@ -1,0 +1,4345 @@
+:PROPERTIES:
+:header-args:    :results silent
+:END:
+#+TITLE: My Emacs configuration
+#+STARTUP: indent show2levels
+
+https://github.com/snackon/Witchmacs
+
+https://github.com/susam/emfy/blob/main/.emacs
+
+https://github.com/MatthewZMD/.emacs.d
+
+
+My hand-crafted Emacs configuration
+
+
+init-time atual do emacs: ~1.6
+
+Activate use-package report -> call the command ~use-package-report~. Ideally, you want
+packages that were not used yet to be only "initialized" and only after they have been
+used for the first time they should be "configured".
+#+begin_src elisp
+(setq use-package-compute-statistics t)
+#+end_src
+
+* Safe local variables
+#+begin_src elisp
+(put 'helm-make-build-dir 'safe-local-variable 'stringp)
+(put 'projectile-project-compilation-cmd 'safe-local-variable 'stringp)
+(put 'projectile-project-run-cmd 'safe-local-variable 'stringp)
+(put 'user-mail-address 'safe-local-variable 'stringp)
+(put 'reftex-default-bibliography 'safe-local-variable 'darlan/list-of-strings-p)
+(put 'darlan-cmake-use-ninja 'safe-local-variable 'booleanp)
+(put 'darlan-build-dir 'safe-local-variable 'stringp)
+(put 'abbrev-file-name 'safe-local-variable 'stringp)
+(put 'TeX-master 'safe-local-variable 'stringp)
+(put 'ispell-skip-html 'safe-local-variable 'booleanp)
+(put 'ispell-local-dictionary 'safe-local-variable 'stringp)
+(put 'org-download-image-dir 'safe-local-variable 'stringp)
+(put 'org-html-table-align-individual-fields 'safe-local-variable 'booleanp)
+(put 'org-attach-id-dir 'safe-local-variable 'stringp)
+#+end_src
+
+* Set the theme and apearance                                            :Appearance:
+** Theme                                                                     :Theme:
+Good themes:
+- wombat (nativo)
+- doom opera
+- doom monokai pro
+- doom monokai spectrum
+- doom oceanic next
+- material dark
+- doom tomorrow night
+#+begin_src elisp
+(use-package doom-themes
+  :ensure t
+  :config
+  ;; (load-theme 'wombat)
+  (load-theme 'doom-material-dark t)
+  )
+
+;; (set-face-background 'default "#111")
+(set-face-background 'cursor "#c96")
+(set-face-background 'isearch "#c60")
+(set-face-foreground 'isearch "#eee")
+(set-face-background 'lazy-highlight "#960")
+(set-face-foreground 'lazy-highlight "#ccc")
+;; (set-face-foreground 'font-lock-comment-face "#fc0")
+
+(set-face-attribute 'default nil :family "JetBrains Mono" :height 120)
+#+end_src
+
+** Customize user interface
+#+begin_src elisp
+(menu-bar-mode 0)
+;; (when (display-graphic-p)
+  (tool-bar-mode 0)
+  (scroll-bar-mode 0)
+  ;; )
+
+(setq inhibit-startup-screen t)
+(column-number-mode)
+#+end_src
+
+** Customize apearance
+#+begin_src elisp
+;; Show stray whitespace.
+;; (setq-default show-trailing-whitespace t)
+(setq-default indicate-empty-lines t)
+(setq-default indicate-buffer-boundaries 'left)
+#+end_src
+
+** Enable tab-bar-mode                                                      :TabBar:
+Alternate between tabs with C-<tab>
+#+begin_src elisp
+(tab-bar-mode)
+#+end_src
+
+The keybindinds all start with =C-x t=
+| t C-f | find-file-other-tab        |
+| REF   | tag-bar-select-tab-by-name |
+| 0     | tab-close                  |
+| 1     | tab-close-other            |
+| 2     | tab-new                    |
+| b     | switch-to-buffer-other-tab |
+| d     | dired-other-tab            |
+| f     | find-file-other-tab        |
+| m     | tab-move                   |
+| o     | tab-next                   |
+| p     | project-other-tab-command  |
+| r     | tab-rename                 |
+** Doom Modeline
+#+begin_src elisp
+(use-package doom-modeline
+  :ensure t
+  :init (doom-modeline-mode 1))
+#+end_src
+
+** Dashboard                                                             :Dashboard:
+#+begin_src elisp
+(use-package dashboard
+  :ensure t
+  :custom
+  (dashboard-set-heading-icons t)
+  ;; Configure initial-buffer-choice to show Dashboard in frames
+  ;; created with emacsclient -c as follows:
+  (initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
+  (dashboard-set-footer nil)
+  :config
+  (dashboard-setup-startup-hook))
+#+end_src
+
+* TODO Completion framework [0/2]                                        :Completion:
+** COMMENT Ido Mode
+#+begin_src elisp
+(ido-mode 1)
+(ido-everywhere)
+(setq ido-enable-flex-matching t)
+(fido-mode)
+#+end_src
+
+** Vertico and orderless                                         :Orderless:Vertico:
+Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
+*** Basic configuration
+#+begin_src elisp
+;; We want case-insensitive filenames, since we will use vertigo to
+;; filter filenames anyway
+(setq read-file-name-completion-ignore-case t)
+
+;; Enable vertico
+(use-package vertico
+  :ensure t
+  :custom
+  ;; Different scroll margin
+  ;; (vertico-scroll-margin 0)
+
+  ;; Show more candidates
+  ;; (vertico-count 20)
+
+  ;; Grow and shrink the Vertico minibuffer
+  ;; (vertico-resize t)
+
+  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
+  (vertico-cycle t)
+  :init
+  (vertico-mode)
+  ;; :bind (:map vertico-map
+  ;; ("C-j" . vertico-next))
+  ;; backward-kill-word
+  )
+
+
+;; Note that you can also use C-M-f and C-M-b to move cursor between directories
+(use-package vertigo-directory
+  ;; Use C-l to delete parent directory when completing file/directory names
+  :bind (
+         :map vertico-map
+         ("C-l" . vertico-directory-up))
+  )
+
+;; Optionally use the `orderless' completion style. See
+;; `+orderless-dispatch' in the Consult wiki for an advanced Orderless style
+;; dispatcher. Additionally enable `partial-completion' for file path
+;; expansion. `partial-completion' is important for wildcard support.
+;; Multiple files can be opened at once with `find-file' if you enter a
+;; wildcard. You may also give the `initials' completion style a try.
+(use-package orderless
+  :ensure t
+  :init
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
+  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
+  (setq completion-styles '(orderless)
+        completion-category-defaults nil
+        completion-category-overrides '((file (styles partial-completion)))))
+
+;; Persist history over Emacs restarts. Vertico sorts by history position.
+(use-package savehist
+  :init
+  (savehist-mode))
+
+
+;; A few more useful configurations...
+(use-package emacs
+  :init
+  ;; Add prompt indicator to `completing-read-multiple'.
+  ;; Alternatively try `consult-completing-read-multiple'.
+  (defun crm-indicator (args)
+    (cons (concat "[CRM] " (car args)) (cdr args)))
+  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+
+  ;; Do not allow the cursor in the minibuffer prompt
+  (setq minibuffer-prompt-properties
+        '(read-only t cursor-intangible t face minibuffer-prompt))
+  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
+  ;; Vertico commands are hidden in normal buffers.
+  ;; (setq read-extended-command-predicate
+  ;;       #'command-completion-default-include-p)
+
+  ;; Enable recursive minibuffers
+  (setq enable-recursive-minibuffers t))
+#+end_src
+
+*** Extra packages: vertigo-mouse
+#+begin_src elisp
+(use-package vertigo-mouse
+  :init
+  (vertico-mouse-mode))
+#+end_src
+
+** Marginalia                                                           :Marginalia:
+#+begin_src elisp
+(use-package marginalia
+  :ensure t
+  ;; Either bind `marginalia-cycle` globally or only in the minibuffer
+  :bind (("M-A" . marginalia-cycle)
+         :map minibuffer-local-map
+         ("M-A" . marginalia-cycle))
+
+  ;; The :init configuration is always executed (Not lazy!)
+  :init
+
+  ;; Must be in the :init section of use-package such that the mode gets
+  ;; enabled right away. Note that this forces loading the package.
+  (marginalia-mode))
+#+end_src
+
+** Consult                                                     :Keybindings:Consult:
+
+Use "M-x" e digite "^consult" para ver os diversos comandos.
+
+Nota: Alguns comandos possuem múltiplos grupos. Vc pode filtrar para um grupo específico
+usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer (b)", "file
+(f)" e "bookmark" (m). Digitar "f SPC" vai limitar o completion a apenas arquivos.
+
+#+begin_src elisp
+(use-package consult
+  :ensure t
+  :bind (
+         ;; Global keybindings
+         ("M-i" . consult-imenu)
+         ("M-I" . consult-imenu-multi)
+
+         ;; C-c keybindigs
+         ;; ("C-c h" . consult-history)
+         ("C-c m" . consult-mode-command)
+         ;; ("C-c k" . consult-kmacro)
+
+         ;; C-x bindings (ctl-x-map)
+         ("C-x b" . consult-buffer)
+         ("C-x 4 b" . consult-buffer-other-window)
+         ("C-x 5 b" . consult-buffer-other-frame)
+         ("C-x r b" . consult-bookmark)
+
+         ;; M-g bindings
+         ("M-g e" . consult-compile-error)
+         ("M-g f" . consult-flymake)
+         ("M-g g" . consult-goto-line)
+         ("M-g M-g" . consult-goto-line)
+         ("M-g o" . consult-outline)
+         ("M-g m" . consult-mark)
+         ("M-g k" . consult-global-mark)
+         ("M-g i" . consult-imenu)
+         ("M-g I" . consult-imenu-multi)
+
+         ;; Other bindings
+         ("M-y" . consult-yank-pop)
+         ("<help> a" . consult-apropos)
+
+         ;; M-s bindings
+         ("M-s d" . consult-find)
+         ("M-s D" . consult-locate)
+         ("M-s g" . consult-grep)
+         ("M-s G" . consult-git-grep)
+         ("M-s r" . consult-ripgrep)
+         ("M-s l" . consult-line)
+         ("M-s L" . consult-line-multi)
+         ("M-s m" . consult-multi-occur)
+         ("M-s k" . consult-keep-lines)
+         ("M-s u" . consult-focus-lines)
+
+         ;; Isearch integration
+         ;; Isearch integration
+         ("M-s e" . consult-isearch-history)
+         :map isearch-mode-map
+         ("M-e" . consult-isearch-history)         ;; orig. isearch-edit-string
+         ("M-s e" . consult-isearch-history)       ;; orig. isearch-edit-string
+         ("M-s l" . consult-line)                  ;; needed by consult-line to detect isearch
+         ("M-s L" . consult-line-multi)           ;; needed by consult-line to detect isearch
+
+         ;; Keybindings only in org-mode
+         :map org-mode-map (("M-i" . consult-org-heading))
+         )
+
+  ;; Enable automatic preview at point in the *Completions* buffer. This is
+  ;; relevant when you use the default completion UI. You may want to also
+  ;; enable `consult-preview-at-point-mode` in Embark Collect buffers.
+  :hook (completion-list-mode . consult-preview-at-point-mode)
+
+  :init
+  ;; Optionally configure the register formatting. This improves the register
+  ;; preview for `consult-register', `consult-register-load',
+  ;; `consult-register-store' and the Emacs built-ins.
+  (setq register-preview-delay 0
+        register-preview-function #'consult-register-format)
+
+  ;; Optionally tweak the register preview window.
+  ;; This adds thin lines, sorting and hides the mode line of the window.
+  (advice-add #'register-preview :override #'consult-register-window)
+
+  ;; Optionally replace `completing-read-multiple' with an enhanced version.
+  (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
+
+  ;; Use Consult to select xref locations with preview
+  (setq xref-show-xrefs-function #'consult-xref
+        xref-show-definitions-function #'consult-xref)
+
+  :config
+  ;; Optionally configure preview. The default value
+  ;; is 'any, such that any key triggers the preview.
+  ;; (setq consult-preview-key 'any)
+  ;; (setq consult-preview-key (kbd "M-."))
+  ;; (setq consult-preview-key (list (kbd "<S-down>") (kbd "<S-up>")))
+  ;; For some commands and buffer sources it is useful to configure the
+  ;; :preview-key on a per-command basis using the `consult-customize' macro.
+  (consult-customize
+   consult-theme
+   :preview-key '(:debounce 0.2 any)
+   consult-ripgrep consult-git-grep consult-grep
+   consult-bookmark consult-recent-file consult-xref
+   consult--source-recent-file consult--source-project-recent-file consult--source-bookmark
+   :preview-key (kbd "M-."))
+
+  ;; Optionally configure the narrowing key.
+  ;; Both < and C-+ work reasonably well.
+  (setq consult-narrow-key (kbd "C-+"))
+
+
+  ;; Optionally make narrowing help available in the minibuffer.
+  ;; You may want to use `embark-prefix-help-command' or which-key instead.
+  ;; (define-key consult-narrow-map (vconcat consult-narrow-key "?") #'consult-narrow-help)
+
+  ;; Optionally configure a function which returns the project root directory.
+  ;; There are multiple reasonable alternatives to chose from.
+  ;;;; 1. project.el (project-roots)
+  (setq consult-project-root-function
+        (lambda ()
+          (when-let (project (project-current))
+            (car (project-roots project)))))
+  ;;;; 2. projectile.el (projectile-project-root)
+  ;; (autoload 'projectile-project-root "projectile")
+  ;; (setq consult-project-root-function #'projectile-project-root)
+  ;;;; 3. vc.el (vc-root-dir)
+  ;; (setq consult-project-root-function #'vc-root-dir)
+  ;;;; 4. locate-dominating-file
+  ;; (setq consult-project-root-function (lambda () (locate-dominating-file "." ".git")))
+
+  )
+#+end_src
+
+** Consult-dir                                                             :Consult:
+#+begin_src elisp
+(use-package consult-dir
+  :ensure t
+  :bind (("C-x C-d" . consult-dir)
+         ;; :map vertico-map
+         ;; ("C-x C-d" . consult-dir)
+         ;; ("C-x C-j" . consult-dir-jump-file)
+         ))
+#+end_src
+
+** Other useful consult commands                                           :Consult:
+- consult-minor-mode-men
+  - Filter the groups with "g", "i", "l" and "o"
+
+** Embark                                                       :Keybindings:Embark:
+Talvez o keybinding ~C-,~ seja bom pra ele
+
+#+begin_src elisp
+(use-package embark
+  :ensure t
+
+  :bind
+  (("C-." . embark-act)         ;; pick some comfortable binding
+   ("C-;" . embark-dwim)        ;; good alternative: M-.
+   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+
+  :init
+
+  ;; Optionally replace the key help with a completing-read interface
+  (setq prefix-help-command #'embark-prefix-help-command)
+
+  :config
+
+  ;; Hide the mode line of the Embark live/completions buffers
+  (add-to-list 'display-buffer-alist
+               '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
+                 nil
+                 (window-parameters (mode-line-format . none)))))
+
+;; Consult users will also want the embark-consult package.
+(use-package embark-consult
+  :ensure t
+  :after (embark consult)
+  :demand t ; only necessary if you have the hook below
+  ;; if you want to have consult previews as you move around an
+  ;; auto-updating embark collect buffer
+  :hook
+  (embark-collect-mode . consult-preview-at-point-mode))
+#+end_src
+
+** Corfu                                                                     :Corfu:
+#+begin_src elisp
+(use-package corfu
+  :ensure t
+  ;; Optional customizations
+  :custom
+  (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
+  (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-commit-predicate nil)   ;; Do not commit selected candidates on next input
+  ;; (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
+  ;; (corfu-quit-no-match t)        ;; Automatically quit if there is no match
+  (corfu-preview-current nil)    ;; Disable current candidate preview
+  ;; (corfu-preselect-first nil)    ;; Disable candidate preselection
+  ;; (corfu-echo-documentation nil) ;; Disable documentation in the echo area
+  ;; (corfu-scroll-margin 5)        ;; Use scroll margin
+
+  ;; You may want to enable Corfu only for certain modes.
+  ;; :hook ((prog-mode . corfu-mode)
+  ;;        (shell-mode . corfu-mode)
+  ;;        (eshell-mode . corfu-mode))
+
+  ;; Recommended: Enable Corfu globally.
+  ;; This is recommended since dabbrev can be used globally (M-/).
+  :init
+  (corfu-global-mode))
+
+;; A few more useful configurations...
+(use-package emacs
+  :init
+  ;; TAB cycle if there are only few candidates
+  (setq completion-cycle-threshold 3)
+
+  ;; Emacs 28: Hide commands in M-x which do not apply to the current mode.
+  ;; Corfu commands are hidden, since they are not supposed to be used via M-x.
+  ;; (setq read-extended-command-predicate
+  ;;       #'command-completion-default-include-p)
+
+  ;; Enable indentation+completion using the TAB key.
+  ;; `completion-at-point' is often bound to M-TAB.
+  (setq tab-always-indent 'complete))
+
+;; https://github.com/jdtsmith/kind-icon
+;; Add nice icons in corfu popup
+(use-package kind-icon
+  :ensure t
+  :after corfu
+  :custom
+  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+  :config
+  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+
+#+end_src
+
+** TODO Cape (optional)                                                       :Cape:
+https://github.com/minad/cape
+Add more complete-at-point functions
+** TODO Yasnippets                                                      :Yasnippets:
+You still need to activate the minor mode
+
+Veja aqui
+https://github.com/MatthewZMD/.emacs.d#yasnippet-1
+
+#+begin_src elisp
+(use-package yasnippet
+  :ensure t
+  )
+
+(use-package consult-yasnippet
+  :ensure t
+  :commands consult-yasnippet
+  )
+#+end_src
+
+* Company-mode                                                              :Company:
+Tente o corfu-mode primeiro
+* darcamo function
+#+begin_src elisp
+;; From https://stackoverflow.com/a/4717026/1102805
+;; This is also in https://www.emacswiki.org/emacs/CopyingWholeLines
+(defun duplicate-line-or-region (&optional n)
+  "Duplicate current line, or region if active.
+With argument N, make N copies.
+With negative N, comment out original line and use the absolute value."
+  (interactive "*p")
+  (let ((use-region (use-region-p)))
+    (save-excursion
+      (let ((text (if use-region        ;Get region if active, otherwise line
+                      (buffer-substring (region-beginning) (region-end))
+                    (prog1 (thing-at-point 'line)
+                      (end-of-line)
+                      (if (< 0 (forward-line 1)) ;Go to beginning of next line, or make a new one
+                          (newline))))))
+        (dotimes (i (abs (or n 1)))     ;Insert N times, or once if not specified
+          (insert text))))
+    (if use-region nil                  ;Only if we're working with a line (not a region)
+      (let ((pos (- (point) (line-beginning-position)))) ;Save column
+        (if (> 0 n)                             ;Comment out original with negative arg
+            (comment-region (line-beginning-position) (line-end-position)))
+        (forward-line 1)
+        (forward-char pos)))))
+
+;; Got from http://stackoverflow.com/questions/17325713/looking-for-a-replace-in-string-function-in-elisp
+(defun darlan-replace-in-string (what with in)
+  (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
+
+(defun darlan/list-of-strings-p (arg)
+  "Return t if arg is a list of strings"
+  (every 'stringp arg)
+  )
+
+(defun darlan/string-to-ascii (string)
+  "Change a string containing unicode characters to the
+        equivalent ascii string. Note that not all characters are
+        replaced, only the ones I usually don't want."
+  (s-replace-all
+   '(
+     ("“" . "\"")
+     ("”" . "\"")
+     ("→" . "->")
+     ("–" . "-")
+     ("—" . "-")
+     ("…" . "...")
+     ("’" . "'")
+     ("‘" . "'")
+     )
+   string)
+  )
+
+(defun darlan/string-to-ascii-region (beg end)
+  "Change the selected text containing unicode characters to the
+        equivalent text in ascii. Note that not all characters are
+        replaced, only the ones I usually don't want."
+  (interactive "r")
+  (let (replacement)
+    (save-restriction
+      (narrow-to-region beg end)
+      (save-excursion
+        (setq replacement (darlan/string-to-ascii (buffer-substring beg end)))
+        (delete-region beg end)
+        (goto-char beg)
+        (insert replacement)))))
+
+(defun darlan/surround-region (beg end leftPart rightPart)
+  "Surround a region with the content of the leftPart and
+      rightPart variables."
+  (interactive "r")
+  (save-restriction
+    (narrow-to-region beg end)
+    (goto-char (point-min))
+    (insert leftPart)
+    (goto-char (point-max))
+    (insert rightPart)))
+
+(defun darlan/surround-region-dowim (leftPart rightPart)
+  "Surround a region with the content of the leftPart and
+      rightPart variables. If the region is not active, the region
+      between the current point and the point given by forward-word
+      will be used."
+  (interactive)
+  (let (beg end)
+    (if (and transient-mark-mode
+             mark-active)
+        ;; Region active code
+        (progn (setq beg (region-beginning) end (region-end))
+               (darlan/surround-region beg end leftPart rightPart)
+               )
+      ;; Region inactive code: beg = current point, end = end of the word
+      (progn
+        (setq beg (point))
+        (forward-word)
+        (setq end (point))
+        (darlan/surround-region beg end leftPart rightPart)
+        )
+      )
+    )
+  )
+
+(defun darlan/surround-with-command ()
+  "Usefull to surround a region with a command (in MATLAB shell
+      buffers, for instance). If the command if not provided it will be
+      asked in the minibuffer."
+  (interactive)
+  (let (command rightPart leftPart)
+    (setq command (read-from-minibuffer "Command Name: "))
+    (setq leftPart (concat command "("))
+    (setq rightPart ")")
+    (darlan/surround-region-dowim leftPart rightPart)
+    )
+  )
+
+(defun browse-doi-url (url)
+  "Open the url corresponding to the specified DOI number in the browser"
+  (interactive "sDoi Number: ")
+  (browse-url (concat "http://dx.doi.org/" url)))
+
+(defun toggle-current-window-dedication ()
+  (interactive)
+  (let* ((window    (selected-window))
+         (dedicated (window-dedicated-p window)))
+    (set-window-dedicated-p window (not dedicated))
+    (message "Window %sdedicated to %s"
+             (if dedicated "no longer " "")
+             (buffer-name))))
+
+;; Time functions
+(defun replace-nth-element (lista index valor)
+  "Replace the elemented pointed by 'index' in the list 'lista'
+        with the value of 'value'"
+  (replace lista (list valor) :start1 index)
+  )
+
+(defun get-current-year()
+  (interactive)
+  (format-time-string "%Y" (current-time))
+  )
+
+(defun get-current-month()
+  (interactive)
+  (capitalize (format-time-string "%B" (current-time)))
+  )
+
+(defun get-me-an-org-id-for-the-month (categoryName)
+  "Used only in my template for the finances of the month. It
+        return a suitable ID for the month sub-headline."
+  (interactive)
+  (concat (get-current-month) (get-current-year) categoryName)
+  )
+
+(defun get-today-org-time-stamp ()
+  "Insert a time-stamp for today in the same format org-mode uses
+        for inactive timestamps."
+  (interactive)
+  (format-time-string "[%Y-%m-%d %a]" (current-time))
+  )
+
+(defun get-previous-month()
+  (interactive)
+  (capitalize (format-time-string "%B"
+                                  ;; decode-time retorna uma lista especificando a data/hora atual na forma
+                                  ;; (SEC MINUTE HOUR DAY MONTH YEAR DOW DST ZONE). Depois substituo o dia
+                                  ;; por 0. Com isso ao aplicar encode-time e em seguida format-time-string
+                                  ;; eu vou pegar o mês anterior ao invés do mez atual (funciona até mesmo
+                                  ;; para janeiro).
+                                  (apply 'encode-time ( replace-nth-element (decode-time) 3 0))
+                                  ))
+  )
+
+(defun get-previous-month-year()
+  "Get the year of the previous month. This will be equal to the current yar except when we are in january"
+  (interactive)
+  (capitalize (format-time-string "%Y"
+                                  ;; decode-time retorna uma lista especificando a data/hora atual na forma
+                                  ;; (SEC MINUTE HOUR DAY MONTH YEAR DOW DST ZONE). Depois substituo o dia
+                                  ;; por 0. Com isso ao aplicar encode-time e em seguida format-time-string
+                                  ;; eu vou pegar o ano do mês anterior (igual ao ano atual, exceto se
+                                  ;; estivermos em janeiro, quando ele retorna o ano anterior)
+                                  (apply 'encode-time ( replace-nth-element (decode-time) 3 0))
+                                  ))
+  )
+
+(defun get-filemanager-fullpath ()
+  "Return the path to nautilus, if installed, or to pcmanfm. If
+ neither is installed, return nil."
+  (setq filemanager (executable-find "nautilus"))
+  (if (equal filemanager nil)
+      (setq filemanager (executable-find "pcmanfm")))
+  filemanager
+  )
+
+;; Browse Directory
+(defun browse-dir (dir-as-string)
+  (start-process-shell-command
+   "browse"
+   "*scratch*"
+   ;; Trocar nautilus por pcmanfm para o lxde
+   (concat (get-filemanager-fullpath) " " (concat "\"" (expand-file-name dir-as-string) "\""))))
+
+;; Use essa para abrir links sftp com o nautilus, como sftp://darlan@ssh.gtel.ufc.br/home/gtels0/projetos/ufc32
+(defun browse-dir-sftp (dir-as-string)
+  (start-process-shell-command
+   "browse"
+   "*scratch*"
+   (concat (get-filemanager-fullpath) " --no-desktop " dir-as-string)))
+
+(defun browse-default-dir ()
+  "Open Nautilus in the default directory, which is the directory
+              of the file associated with the current buffer."
+  (interactive)
+  (browse-dir default-directory))
+
+(defun browse-default-dir-in-emacs ()
+  "Open the default directory in emacs with dired, which is the
+              directory of the file associated with the current buffer."
+  (interactive)
+  (dired default-directory))
+
+(defun get-terminal-fullpath ()
+  "Return the path to the installed terminal emulator.
+
+First it will try the tilix terminal emulator. If not installed
+it will try gnome-terminal and if that is not installed it will
+then try lxterminal."
+  (setq terminal (executable-find "tilix"))
+  (if (equal terminal nil)
+      (setq terminal (executable-find "gnome-terminal")))
+  (if (equal terminal nil)
+      (setq terminal (executable-find "lxterminal")))
+  terminal
+  )
+
+(defun gnome-terminal-dir (dir-as-string)
+  "Open terminal in the provided directory"
+  (start-process-shell-command
+   "browse"
+   "*scratch*"
+   ;; (concat (get-terminal-fullpath) " " (concat "--working-directory \"" (expand-file-name dir-as-string) "\""))
+   (concat (get-terminal-fullpath))
+   ))
+
+(defun gnome-terminal-default-dir ()
+  "Open terminal in the default directory, which is the directory
+of the file associated with the current buffer."
+  (interactive)
+  (gnome-terminal-dir default-directory))
+
+;; Ver PDF
+(defun ver-pdf-no-evince (pdf &optional page)
+  (start-process-shell-command
+   "evince"
+   "*scratch*"
+   (if page
+       (format "evince -i %s %s" page pdf)
+     (format "evince %s" pdf))
+   ))
+
+(defun ver-pdf-no-acroread (pdf)
+  (start-process-shell-command
+   "acroread"
+   "*scratch*"
+   (concat "acroread " pdf)))
+
+;; You need to have a script called pdfxchange
+(defun ver-pdf-no-pdfxchange (pdf)
+  (start-process-shell-command
+   "pdfxchange"
+   "*scratch*"
+   (concat "pdfxchange " pdf)))
+
+
+
+;; Abrir no OpenOffice
+(defun abrir-no-openoffice (documento)
+  (start-process-shell-command
+   "openoffice"
+   "*scratch*"
+   (concat "libreoffice.org -o " "\"" documento "\"")))
+
+
+
+;; Ver vídeo
+(defun ver-arquivo-de-video (video-file)
+  (start-process-shell-command
+   "vlc"
+   "*scratch*"
+   (concat "vlc " (surround-with-quotes video-file)))
+  )
+
+(defun surround-with-quotes (filename)
+  "Surround a given filename with quotes. This is useful to pass that file name to functions to be executed in the shell, since we would have to scape some characters otherwise."
+  (message (concat "\"" filename "\""))
+  )
+
+;; Run shell command from given folder
+(defun run-shell-command-from-folder (command folder)
+  "Run a given command from the specified folder."
+  (interactive)
+  ;; (let (var1)
+  ;;   (setq var1 some)
+
+  ;;   )
+  (start-process-shell-command
+   command
+   "*scratch*"
+   ;; (concat "/usr/bin/nautilus --no-desktop " (concat "\"" (expand-file-name dir-as-string) "\""))
+   (concat "cd " (expand-file-name folder) " && " command)
+   )
+  )
+
+;; Test if a buffer exists
+(defun buffer-exists (bufname)
+  (not
+   (eq nil (get-buffer bufname))
+   )
+  )
+
+
+;; Dictionaries / Synonyms / Wikipedia
+
+;; Wikipedia
+(defun lookup-wikipedia ()
+  "Look up the word's in Wikipedia.
+              This command generates a url for Wikipedia.com and switches you
+              to browser. If a region is active (a phrase), lookup that
+              phrase."
+  (interactive)
+  (let (myword myurl)
+    (setq myword
+          (if (and transient-mark-mode mark-active)
+              (buffer-substring-no-properties (region-beginning) (region-end))
+            (thing-at-point 'symbol)))
+
+    (setq myword (replace-regexp-in-string " " "_" myword))
+    (setq myurl (concat "http://en.wikipedia.org/wiki/" myword))
+    (browse-url myurl)
+    ))
+
+
+;; Check system type (Linux or Windows)
+;; Check if system is GNU/Linux
+(defun system-type-is-linux ()
+  (interactive)
+  "Return true if system"
+  (string-equal system-type "gnu/linux")
+  )
+
+;; Check if system is Windows
+(defun system-type-is-XP ()
+  (interactive)
+  "Return true if system"
+  (string-equal system-type "windows-nt")
+  )
+
+;; whitespace <-> Underline
+(defun darlan/change-to-space (arg)
+  "Remove underline e substitui por um espaço"
+  (replace-regexp-in-string "_" " " arg))
+
+(defun darlan/change-to-underline (arg)
+  "Remove um espaço e substitui por um underline"
+  (replace-regexp-in-string " " "_" arg))
+
+(defun darlan/change-to-label (start end)
+  "Remove os espaços e muda para lower case. Isso é útil para transformar um caption de uma figura em algo útil para o label dela, por exemplo"
+  (interactive "r")
+  (save-excursion
+    (save-restriction
+      (narrow-to-region start end)
+      (goto-char (point-min))
+      (while (search-forward " " nil t) (replace-match "_" nil t))
+
+      ;; Ate aqui já substituiu espaços por underlines. Agora vamos colocar em lowercase
+      (let ((label (downcase (buffer-substring-no-properties start end))))
+        (delete-region start end)
+        (goto-char (point-min))
+        (insert label)
+        )
+      )
+    )
+  )
+
+;; Find duplicated words in a buffer
+(defun darlan/find-duplicated-words ()
+  "Search forward for for a duplicated word."
+  (interactive)
+  (message "Searching for for duplicated words ...")
+  (push-mark)
+  ;; This regexp is not perfect
+  ;; but is fairly good over all:
+  (if (re-search-forward
+       "\\b\\([^@ \n\t]+\\)[ \n\t]+\\1\\b" nil 'move)
+      (message "Found duplicated word.")
+    (message "End of buffer")))
+
+;; ;; Autoremote
+;; ;; This will read the file "my-autoremote-key.el.gpg", which define the
+;; ;; variable 'my-cellphone-autoremote-key' and set my autoremote key (a
+;; ;; string) to it.
+;; ;;
+;; ;; Note that I have disabled reading gpg files during emacs initialization
+;; ;; to increese initialization time. Thus, we run this in after-init-hook
+;; (add-hook 'after-init-hook
+;;           '(lambda ()
+;;              (load-file "~/.emacs.d/my-autoremote-key.el.gpg")
+;;              ))
+
+;; ;; org-link-escape is used to "urlify" the message
+;; ;; url-retrieve-synchronously is used to send the autoremote request
+;; (defun darlan/send-region-to-moto-x-cellphone-clipboard (start end)
+;;   "Send text to Moto X clipboard through Autoremote"
+;;   (interactive "r")
+;;   (let (mensagem)
+;;     (if (and transient-mark-mode
+;;              mark-active)
+;;         (progn (setq start (region-beginning) end (region-end))
+;;                (setq mensagem (buffer-substring start end))
+;;                )
+;;       (setq mensagem (read-from-minibuffer "Texto para enviar: "))
+;;       )
+;;     (url-retrieve-synchronously
+;;      (concat (concat "http://autoremotejoaomgcd.appspot.com/sendmessage?key=" my-cellphone-autoremote-key "&message=copy=:=" mensagem) "&ttl=30")
+;;      )))
+
+
+;; Get a safe filename from a string
+;; These two functions were obtained from
+;; https://lists.gnu.org/archive/html/help-gnu-emacs/2012-07/msg00146.html
+;; I renamed them only to make it easier to find them with smex and change
+;; them to interactive
+(defun darlan/alphanumericp (ch)
+  (find ch "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"))
+
+(defun darlan/clean-filename (name)
+  (interactive "sNome ")
+  (setq m(remove-if-not (lambda (ch) (or (darlan/alphanumericp ch) (find ch "-_.")))
+                        (substitute ?- 32 name)))
+  (message m)
+  )
+#+end_src
+
+* TODO General Usability [/]                                                :General:
+** Configuration
+#+begin_src elisp
+(use-package conf-mode
+  :ensure nil
+  :mode
+  ("\\PKGBUILD$" . conf-mode)
+  )
+
+(use-package emacs
+  :mode
+  ("\\.abbrev_defs\\'" . emacs-lisp-mode)
+  :custom
+  ;; Consider a period followed by a single space to be end of sentence.
+  (sentence-end-double-space nil)
+
+  ;; Display the distance between two tab stops as 4 characters wide.
+  (tab-width 4)
+  (indent-tabs-mode nil)
+
+  :init
+  ;; Enable recentf-mode to save recent files
+  ;; With this minor-mode emacs will save recent files when it exits
+  (recentf-mode)
+
+  ;; Deleta região selecionada quando tecla DEL ou digita algum texto
+  (delete-selection-mode 1)
+
+  ;; Treat 'y' or <CR> as yes, 'n' as no.
+  (fset 'yes-or-no-p 'y-or-n-p)
+  )
+
+;; xxxxx Save backup files (files endind with ~) to specific directory xxxxxxxxx
+(make-directory "~/tmp/emacs/auto-save/" t)
+(setq backup-directory-alist
+      `(("." . ,(expand-file-name "~/tmp/emacs/auto-save/"))))
+;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
+
+(use-package page-break-lines
+  :ensure t
+  :init
+  (global-page-break-lines-mode)
+  (add-to-list 'page-break-lines-modes 'c++-mode)
+  (add-to-list 'page-break-lines-modes 'python-mode)
+  (add-to-list 'page-break-lines-modes 'org-mode)
+  :custom
+  (page-break-lines-lighter "")
+  )
+
+;; Indicate in the (right) fringe which lines were wrapped by visual-line-mode
+(setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
+
+;; Enable visual-fill-column-mode everytime visual-line-mode is enabled
+(add-hook 'visual-line-mode-hook
+          (lambda ()
+            ;; (visual-fill-column-mode)  ;; Nice minor-mode, but it comflicts with git-gutter
+            (use-package adaptive-wrap
+              :ensure t
+              :config
+              (adaptive-wrap-prefix-mode))
+            )
+          )
+
+
+;; Add some visual indicator (pulse) where the cursor is with some movement commands
+;; taken from https://karthinks.com/software/batteries-included-with-emacs/
+(defun pulse-line (&rest _)
+  "Pulse the current line."
+  (pulse-momentary-highlight-one-line (point)))
+
+
+
+(dolist (command '(scroll-up-command scroll-down-command
+                                     recenter-top-bottom other-window))
+  (advice-add command :after #'pulse-line))
+
+
+;; Write customizations to a separate file instead of the init file.
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file t)
+
+(use-package rainbow-delimiters
+  :ensure t
+  :defer t
+  :config
+  (set-face-foreground 'rainbow-delimiters-depth-1-face "#c66")  ; red
+  (set-face-foreground 'rainbow-delimiters-depth-2-face "#6c6")  ; green
+  (set-face-foreground 'rainbow-delimiters-depth-3-face "#69f")  ; blue
+  (set-face-foreground 'rainbow-delimiters-depth-4-face "#cc6")  ; yellow
+  (set-face-foreground 'rainbow-delimiters-depth-5-face "#6cc")  ; cyan
+  (set-face-foreground 'rainbow-delimiters-depth-6-face "#c6c")  ; magenta
+  (set-face-foreground 'rainbow-delimiters-depth-7-face "#ccc")  ; light gray
+  (set-face-foreground 'rainbow-delimiters-depth-8-face "#999")  ; medium gray
+  (set-face-foreground 'rainbow-delimiters-depth-9-face "#666")  ; dark gray
+  :hook
+  (prog-mode . rainbow-delimiters-mode)
+  )
+#+end_src
+
+** Keybindigns                                                         :Keybindings:
+#+begin_src elisp
+(use-package emacs
+  :bind (
+         ([f2] . delete-window)
+         ([f3] . bury-buffer) ; put the current buffer at the end of the buffer list
+         ([C-f3] . unbury-buffer) ; change the buffert at the end of the buffer list to the current buffer
+         ([f4] . kill-this-buffer) ;C-x k
+         ([f11] . browse-default-dir)
+         ([S-f11] . browse-default-dir-in-emacs)
+         ([C-S-f11] . gnome-terminal-default-dir)
+         ("C-z" . eshell)
+         ("M-z" . ansi-term)
+         ("C-c o" . other-frame) ; When there are multiple frames, change to another frame
+         ("C-c r" . revert-buffer)
+         ("C-x C-b" . ibuffer)
+         ("C-c d" . duplicate-line-or-region)  ;; Maybe change this keybinding
+
+         ;; Use "pause" to set a window as dedicated
+         ([pause] . toggle-current-window-dedication)
+         )
+  )
+
+
+;; Default keybinging for complete-symbol is <C-M-i>
+;;(global-set-key (kbd "<C-tab>") 'completion-at-point)
+
+
+;; Note that the default keybind can also be used, which is "C-x c i"
+;; (global-set-key (kbd "M-i") 'consult-imenu)
+;; (global-set-key (kbd "M-I") 'imenu)  ;; Use Alt+Shift+i for standard imenu
+#+end_src
+
+** Extra packages                                                      :Keybindings:
+#+begin_src elisp
+(use-package diminish
+ :ensure t)
+
+;; While autorevert is a native functionality, we use "use-package" here as a way to diminish its modline
+(use-package autorevert
+  :defer t
+  :diminish auto-revert-mode
+  )
+
+(use-package which-key
+  :ensure t
+  :config (which-key-mode)
+  :diminish which-key-mode
+  )
+
+(use-package windmove
+  :bind
+  ;; Note that windmove has the "(windmove-default-keybindings 'shift)"
+  ;; function to bind the keymaps, but it binds to a keymap specific to
+  ;; windmove. I prefer to add them to the global keymap such that other modes
+  ;; can overwrite it. This is mainly useful in org-mode.
+  ("<S-right>" . windmove-right)
+  ("<S-left>" . windmove-left)
+  ("<S-up>" . windmove-up)
+  ("<S-down>" . windmove-down)
+  )
+
+(use-package goto-last-change
+  :ensure t
+  :bind ("C-x C-n" . goto-last-change)
+  )
+
+(use-package git-gutter
+  :ensure t
+  :config
+  (global-git-gutter-mode +1)
+  ;; The default is " GitGutter", but I don't want to waste
+  ;; space in the modeline with that
+  (setq git-gutter:lighter ""))
+
+(use-package comment-dwim-2
+  :ensure t
+  :bind ("M-;" . comment-dwim-2)
+  :config
+  (setq comment-dwim-2--inline-comment-behavior 'reindent-comment))
+
+(use-package discover-my-major
+  :ensure t
+  :bind
+  ;; Discover Major mode keybindings with 'discover-my-major'
+  ("C-h C-m" . discover-my-major)
+  )
+
+(use-package multiple-cursors
+  :ensure t
+  :bind
+  ("C-S-c C-S-c" . mc/edit-lines)
+  ("C-S-c C-S-l" . mc/mark-all-like-this)
+  ("C->" . mc/mark-next-like-this)
+  ("C-<" . mc/mark-previous-like-this)
+  )
+
+(use-package ace-mc
+  :ensure t
+  :bind (
+         ("C-)" . ace-mc-add-multiple-cursors)
+         ("C-M-)" . ace-mc-add-single-cursor)
+         )
+  )
+
+(use-package drag-stuff
+  :ensure t
+  :bind (
+         ;; Allow you to use M-up and M-down to move a line up or down
+         ([(meta up)] . drag-stuff-up)
+         ([(meta down)] . drag-stuff-down)
+         ([(meta right)] . drag-stuff-right)
+         ([(meta left)] . drag-stuff-left)
+         )
+  )
+
+(use-package rainbow-mode
+  :ensure t
+  :defer t
+  :hook
+  (help-mode . rainbow-mode)  ;; Enable by default in help buffers (useful for faces)
+  :config
+  ;; Add help-mode to rainbow-html-colors-major-mode-list such that HTML colors are also colored
+  (add-to-list 'rainbow-html-colors-major-mode-list 'help-mode)
+  )
+
+
+(use-package expand-region
+  :ensure t
+  :bind (
+         ("C-=" . er/expand-region)
+         ("C-M-=" . er/contract-region)
+         )
+  )
+
+(use-package smartparens
+  :ensure t
+  :defer t
+  :hook
+  (prog-mode . smartparens-mode)
+  :config
+  ;; Stop pairing single quotes in elisp
+  (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
+  ;; (sp-local-pair 'org-mode "[" nil :actions nil)
+  )
+
+(use-package unfill
+  :ensure t
+  :bind
+  (("M-Q" . unfill-paragraph))
+  )
+
+(use-package anzu
+  :ensure t
+  :init
+  (global-anzu-mode)
+  ;; Remap query-replace and query-replace-regexp with anzu versions
+  (global-set-key [remap query-replace] 'anzu-query-replace)
+  (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
+  )
+#+end_src
+
+** TODO Extra packages to investigate                                  :Investigate:
+- format-all OU emacs-reformatter
+* Scrolling and mouse                                               :Mouse:Scrolling:
+#+begin_src elisp
+;; (setq scroll-step 1)
+;; (setq scroll-margin 1)
+(setq scroll-conservatively 101)
+;; (setq scroll-up-aggressively 0.01)
+;; (setq scroll-down-aggressively 0.01)
+;; (setq auto-window-vscroll nil)
+;; (setq fast-but-imprecise-scrolling nil)
+(setq mouse-wheel-scroll-amount '(3 ((shift) . 1)))
+(setq mouse-wheel-progressive-speed nil)
+;; ;; Horizontal Scroll
+;; (setq hscroll-step 1)
+;; (setq hscroll-margin 1)
+#+end_src
+
+* Version control
+#+begin_src elisp
+(use-package magit
+  :ensure t
+  :bind ("C-x g" . magit-status)
+  )
+#+end_src
+
+* Emacs server
+#+begin_src elisp
+(require 'server)
+(unless (server-running-p)
+  (server-start))
+#+end_src
+
+* Spell checking                                                      :SpellChecking:
+** Config
+#+begin_src elisp
+;; find aspell and hunspell automatically
+(cond
+ ;; try hunspell at first
+ ;; if hunspell does NOT exist, use aspell
+ ((executable-find "hunspell")
+  (setq ispell-program-name "hunspell")
+  (setq ispell-local-dictionary "english")  ;; en_US
+  (setq ispell-local-dictionary-alist
+        ;; Please note the list `("-d" "en_US")` contains ACTUAL parameters passed to hunspell
+        ;; You could use `("-d" "en_US,en_US-med")` to check with multiple dictionaries
+        '(
+          ("english" "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "en_US") nil utf-8)
+          ("brasileiro" "[[:alpha:]]" "[^[:alpha:]]" "[']" t ("-d" "pt_BR") nil utf-8)
+          )))
+
+
+ ((executable-find "aspell")
+  (setq ispell-program-name "aspell")
+  ;; (set-default 'ispell-local-dictionary "english")
+  ;; Please note ispell-extra-args contains ACTUAL parameters passed to aspell
+  (setq ispell-extra-args '("--sug-mode=ultra" "--lang=en_US"))))
+
+
+
+;; Spell checking in org-mode files
+;; Make spell checking ignore PROPERTIES and LOGBOOK drawers
+(add-to-list 'ispell-skip-region-alist '(":\\(PROPERTIES\\|LOGBOOK\\):" . ":END:"))
+;; Make spell checking ignore SRC blocks
+(add-to-list 'ispell-skip-region-alist '("#\\+BEGIN_SRC" . "#\\+END_SRC"))
+
+;; Skip some math environments
+(add-to-list 'ispell-skip-region-alist '("\\\\begin{multline}" . "\\\\end{multline}"))
+(add-to-list 'ispell-skip-region-alist '("\\\\begin{equation}" . "\\\\end{equation}"))
+(add-to-list 'ispell-skip-region-alist '("\\\\begin{align}" . "\\\\end{align}"))
+#+end_src
+
+** Functions
+#+begin_src elisp
+;; lookup-word-definition
+;; Dicionário do babylon
+;; http://online.babylon.com/cgi-bin/trans.cgi?layout=uol.txt&lang=ptg&word=WORD
+;; MUDE A FUNÇÃO PARA QUE SE FORNECER UM ARGUMENTO ELE USE O DICIONÁRIO DO BABYLON
+
+;; The functions lookup-word-definition and lookup-wikipedia were copied from
+;; http://xahlee.org/emacs/emacs_lookup_ref.html
+(defun lookup-word-definition ()
+  "Look up the current word's definition in a browser.
+        If a region is active (a phrase), lookup that phrase."
+  (interactive)
+  ;; I want to use w3m as the browser to look-up definition but not set it to default browser
+  (let (myword myurl (browse-url-browser-function 'w3m-browse-url))
+    (setq myword
+          (if (and transient-mark-mode mark-active)
+              (buffer-substring-no-properties (region-beginning) (region-end))
+            (thing-at-point 'symbol)))
+
+    (setq myword (replace-regexp-in-string " " "%20" myword))
+    ;; (setq myurl (concat "http://dictionary.cambridge.org/results.asp?searchword=" myword))
+    (setq myurl (concat "http://online.babylon.com/cgi-bin/trans.cgi?layout=uol.txt&lang=ptg&word=" myword))
+    (browse-url myurl)
+    ;; (w3m-browse-url myurl) ;; if you have w3m and w3 installed
+    ;; (shell-command (concat "open -a opera " myurl))
+    ;; use diff browser in OSX
+
+    ;; alternative ref site url
+    ;; http://en.wiktionary.org/wiki/
+    ;; http://dictionary.reference.com/browse/
+    ))
+
+
+
+;; Synonyms (Lookup in a browser)
+(defun lookup-synonym ()
+  "Look up the current word's synonyms in a browser.
+    If a region is active (a phrase), lookup that phrase."
+  (interactive)
+  (let (myword myurl)
+    (setq myword
+          (if (and transient-mark-mode mark-active)
+              (buffer-substring-no-properties (region-beginning) (region-end))
+            (thing-at-point 'symbol)))
+
+    (setq myword (replace-regexp-in-string " " "_" myword))
+    (setq myurl (concat "http://thesaurus.reference.com/browse/" myword))
+    (browse-url myurl)
+    ))
+
+
+(defun darcamo/toggle-ispell-dictionary ()
+  "Toggle between 'english' and 'brasileiro' dictionaries."
+  (interactive)
+  (if (string= ispell-local-dictionary "english")
+      (setq ispell-local-dictionary "brasileiro")
+    (setq ispell-local-dictionary "english")
+    )
+  (message (concat "Set 'ispell-local-dictionary' to " ispell-local-dictionary))
+  )
+#+end_src
+
+** Keybindings                                                         :Keybindings:
+#+begin_src elisp
+(use-package emacs
+  :bind (
+         ([f7] . ispell)
+         ([S-f7] . ispell-region)
+         ([C-f7] . darcamo/toggle-ispell-dictionary)
+         ([f12] . ispell-word)
+
+         ;; Use Ctrl + f12 to lookup the definition of the word at point in the
+         ;; Cambridge dictionary and Ctrl + Shift + f12 to lookup for synonyms in
+         ;; www.thesaurus.com
+         ([C-f12] . lookup-word-definition)
+         ([C-S-f12] . lookup-synonym)
+         ;; ([M-f12] . thesaurus-choose-synonym-and-replace)
+         :map prog-mode-map
+         ;; In any programming mode, change the F7 keybinding to be a programming
+         ;; specific function that only spellchecks comments and strings
+         ([f7] . ispell-comments-and-strings)
+         )
+  )
+#+end_src
+
+* Org-mode                                                                  :OrgMode:
+** General
+*** Config
+#+begin_src elisp
+(use-package org-mode
+  :mode
+  ;; Usa o org-mode para arquivos README
+  ("README$" . org-mode)
+  ;; Usa o org-mode para arquivos com extensão
+  ("\.org_archive$" . org-mode)
+  :init
+  ;; Enable org-indent-mode by default
+  (setq org-startup-indented t)
+
+  ;; When tags are added, sort them alfabetically. However, always put
+  ;; the "ATTACH" tag at the end
+  (setq org-tags-sort-function (lambda (x y)
+                                 (if (string= "attach" (downcase x))
+                                     nil
+                                   (if (string= "attach" (downcase y))
+                                       t
+                                     (string< x y)))))
+
+  (setq org-attach-use-inheritance t
+
+        org-link-frame-setup '((vm . vm-visit-folder-other-frame)
+                               (vm-imap . vm-visit-imap-folder-other-frame)
+                               (gnus . org-gnus-no-new-news)
+                               (file . find-file)
+                               (wl . wl-other-frame))
+        org-preview-latex-default-process 'dvisvgm
+        org-hide-emphasis-markers t  ;; font-lock should hide the emphasis markers
+        org-image-actual-width '(600)
+        )
+
+  ;; T0D0 Keywords and colors
+  (setq org-todo-keywords
+        '((sequence "TODO(t)" "WAIT(w!)"  "|" "DONE(d!)" "DELE(e!)")
+          (sequence "|" "CANC(c!)")
+          (sequence "STARTED" "|")
+          (sequence "CYCLIC" "|")
+          (sequence "PROJ" "SOMEDAY" "|" "FINALIZADO(!)" "CANC(!)")
+          (sequence "|" "FINALIZADO(!)") ; Para compras na internet após receber o produto e qualificar
+          ;; (sequence "TODO(t) STARTED WAIT(w@/!) | PUBLISHED(p) REJECTED(r@/!)")
+          ))
+
+
+  ;; Allow unicode non-breaking space before and after org-mode emphasis
+  ;;
+  ;; By default it is not allowed and something like "/text/ bla" the "text" would
+  ;; not be in italics. Here we change org-emphasis-regexp-components to allow " "
+  ;; before and after org-mode emphasis.
+  ;; See this question https://stackoverflow.com/questions/1218238/how-to-make-part-of-a-word-bold-in-org-mode
+  (setcar org-emphasis-regexp-components "-[:space:]('\"{ ")
+  (setcar (nthcdr 1 org-emphasis-regexp-components) "-[:space:].,:!?;'\")}\\[ ")
+  (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+
+  ;; General
+  (setq org-directory "~/org")
+
+  ;; Change C-a and C-e behaviour in org-mode
+  (setq org-special-ctrl-a/e t)
+
+  ;; To follow links with RET, rather than a 2 key combo
+  ;; (setq org-return-follows-link t)
+
+  ;; ;; Empty lines finish the list
+  ;; (setq org-list-empty-line-terminates-plain-lists nil)
+
+  ;; Number of empty lines needed to keep an empty line between collapsed
+  ;; trees. If the number is negative, and the number of empty lines is at least
+  ;; -N, all empty lines are shown.
+  ;; (setq org-cycle-separator-lines -2)
+
+  ;; Indica se uma linha em branco deve ser inserida antes de um heading, mas não
+  ;; antes de uma lista. O ideal é usar auto, mas parece não funcionar direito
+  (setq org-blank-before-new-entry
+        '((heading . auto) (plain-list-item . nil)))
+
+  ;; tell org-mode to use the default system programn to open open office documents
+  (setq org-file-apps (quote (
+                              (auto-mode . emacs)
+                              (directory . emacs)
+                              ("\\.mm\\'" . default)
+                              ("\\.x?html?\\'" . default)
+                              ("pdf" . "evince %s")
+                              ("\\.pdf::\\([0-9]+\\)\\'" . "evince -p %1 %s")  ;; Link containing a specific page
+                              ("\\.od[s|p|t]" . default)
+                              ("xmind" . "xmind-zen %s")
+                              )))
+
+  ;; When editing source code (with C-c ') Show edit buffer in the
+  ;; current window, keeping all other windows.
+  (setq org-src-window-setup 'current-window)
+
+  ;; (setq org-archive-default-command 'org-archive-to-archive-sibling)
+
+  ;; The column to which tags should be indented in a headline. If this
+  ;; number is positive, it specifies the column.  If it is negative, it
+  ;; means that the tags should be flushright to that column.  For example,
+  ;; -80 works well for a normal 80 character screen.
+  ;;
+  ;; We use the value -85 here because in org-mode we set the value of fill-column
+  ;; to 90. Then we need 3 characters for the ellipsis and a bit more because the
+  ;; "ATTACH" tag uses a larger font size.
+  (setq org-tags-column -85)
+
+  ;; Disallow editing invisible parts (folded headlines) to avoid accidental
+  ;; modifications.
+  (setq org-catch-invisible-edits 'error)
+
+  ;; Non-nil means single character alphabetical bullets are allowed.
+  (setq org-list-allow-alphabetical t)
+
+  ;; Logging
+  ;; insert state change notes and time stamps into a drawer called LOGBOOK
+  (setq org-log-into-drawer t)
+
+  ;; Properties
+  ;; Set global properties such that you do not need a line such as
+  ;; #+PROPERTY: Effort_ALL 0 0:10 0:20 0:30 1:00 2:00 3:00 4:00 8:00
+  ;; in the beginning of each org file.
+  (setq org-global-properties
+        '(("Effort_ALL". "0 0:10 0:20 0:30 1:00 1:30 2:00 3:00 4:00 5:00 6:00 7:00 8:00")))
+
+  ;; Persistent Tags
+  (setq org-tag-persistent-alist
+        '(
+          ("Tarcísio" . ?t) ("Charles" . ?c) ("Igor" . ?i) ("Yuri" . ?y) ("Gabor" . ?G) ("ignore" . ?I) ("Ericsson" . ?e)
+          (:startgroup . nil) ("Home" . ?h) ("GTEL" . ?g) (:endgroup . nil) ("Doutorado" . ?d) ("noexport" . ?n)
+          ("Errands" . ?E) (:startgroup . nil) ("Someday" . ?s) ("NextActions" . ?N) (:endgroup . nil) ("crypt" . ?C) ("Projeto" . ?p) ("Leituras" . ?l)
+          ))
+
+  ;; Speed Commands
+  ;; Enable speed-commands
+  ;; Non-nil means, activate single letter commands at beginning of a headline.
+  ;; Press "?" in the beginning of a headline to see the available commands.
+  (setq org-use-speed-commands t)
+
+  (add-to-list 'org-speed-commands
+               '("d" org-decrypt-entry))
+  (add-to-list 'org-modules 'org-tempo t)  ;; org-tempo add completions for "<KEY" to create blocks. See
+  (add-to-list 'org-modules 'org-inlinetask t)  ;; org-tempo add completions for "<KEY" to create blocks. See
+  ;; Only the headline with the tag is a project. Any children are part of the
+  ;; project and not project themselves.
+  (add-to-list 'org-tags-exclude-from-inheritance "Projeto")
+
+  ;; Stuck Projects
+  ;; Let's assume that you, in your own way of using Org mode, identify
+  ;; projects with a tag "ProjTasks", and that you use a TODO keyword MAYBE
+  ;; to indicate a project that should not be considered yet. Let's further
+  ;; assume that the TODO keyword DONE marks finished projects, and that NEXT
+  ;; and TODO indicate next actions. The tag "ProjInfo" indicates that the
+  ;; headline is a information headline and should not be counted. Finally,
+  ;; if the project contains the special word "IGNORE" anywhere, it should
+  ;; not be listed either. In this case you would start by identifying
+  ;; eligible projects with a tags/todo match1 ‘+ProjTasks/-MAYBE-DONE’, and
+  ;; then check for TODO, NEXT, ProjInfo, and IGNORE in the subtree to identify
+  ;; projects that are not stuck. The correct customization for this is
+  (setq org-stuck-projects
+        '("+Projeto-Someday/-MAYBE-DONE-FINALIZADO-CANC" ("NEXT" "TODO" "STARTED") ("ProjInfo")
+          "\\<IGNORE\\>"))
+
+  ;; Org-bibtex
+  (setq org-bibtex-prefix "BIB_")
+  (setq org-bibtex-export-arbitrary-fields t)
+  ;; (setq org-bibtex-autogen-keys)
+
+  :hook
+  (org-mode . (lambda () (setq fill-column 90)))
+  (org-mode . (lambda () (outline-minor-mode t)))
+
+  ;; Integration with Windmove
+  (org-shiftup-final . windmove-up)
+  (org-shiftdown-final . windmove-down)
+  (org-shiftright-final . windmove-right)
+  (org-shiftleft-final . windmove-left)
+  )
+#+end_src
+
+*** Functions
+#+begin_src elisp
+;; Used in a speed comamnd
+(defun ded/org-show-next-heading-tidily ()
+  "Show next entry, keeping other entries closed."
+  (if (save-excursion (end-of-line) (outline-invisible-p))
+      (progn (org-show-entry) (show-children))
+    (outline-next-heading)
+    (unless (and (bolp) (org-on-heading-p))
+      (org-up-heading-safe)
+      (hide-subtree)
+      (error "Boundary reached"))
+    (org-overview)
+    (org-reveal t)
+    (org-show-entry)
+    (show-children)))
+
+
+;; Used in a speed comamnd
+(defun ded/org-show-previous-heading-tidily ()
+  "Show previous entry, keeping other entries closed."
+  (let ((pos (point)))
+    (outline-previous-heading)
+    (unless (and (< (point) pos) (bolp) (org-on-heading-p))
+      (goto-char pos)
+      (hide-subtree)
+      (error "Boundary reached"))
+    (org-overview)
+    (org-reveal t)
+    (org-show-entry)
+    (show-children)))
+
+;; https://stackoverflow.com/questions/10969617/hiding-markup-elements-in-org-mode
+(defun darcamo/org-toggle-emphasis ()
+  "Toggle hiding/showing of org emphasize markers."
+  (interactive)
+  (if org-hide-emphasis-markers
+      (set-variable 'org-hide-emphasis-markers nil)
+    (set-variable 'org-hide-emphasis-markers t))
+  (org-mode-restart))
+
+
+;; Advice org-fill-paragraph such that id does nothing inside code blocks
+;; src-block. This will be be binded to M-q in org-mode buffers
+(defun my-org-fill-paragraph ()
+  (interactive)
+  (when (not (equal (org-element-type (org-element-at-point)) 'src-block))
+    (org-fill-paragraph)))
+
+(defun my-org-unfill-paragraph ()
+  (interactive)
+  (when (not (equal (org-element-type (org-element-at-point)) 'src-block))
+    (unfill-paragraph)))
+#+end_src
+
+*** Keybindings                                                       :Keybindings:
+#+begin_src elisp
+;; Local Keybinding
+(use-package org
+  :bind (:map org-mode-map
+              ([C-M-return] . org-meta-return)
+              ([f8] . org-toggle-link-display)
+              ([S-f8] . org-toggle-inline-images)
+              ([C-f8] . darcamo/org-toggle-emphasis)
+
+              ;; This will open a PDF file with the same name of the org-mode file
+              ;; Useful when you are exporting the org-mode buffer to PDF
+              ([f10] . (lambda () (interactive) (find-file (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
+              ([S-f10] . (lambda () (interactive) (find-file (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".html"))))
+              ([S-f10] . (lambda () (interactive) (ver-pdf-no-evince (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
+              ([C-f10] . (lambda () (interactive) (browse-url (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".html"))))
+              ("M-q" . my-org-fill-paragraph)
+              ("M-Q" . my-org-unfill-paragraph)
+
+              ;; xxxxx Enable Drag-stuff when not in an org-mode heading xxxxxxxxxxxxxxxxx
+              ;; If cursor is in a headline or in a list item, use default org-mode
+              ;; function, otherwise use drag-stuff function
+              ("<M-up>" . (lambda ()
+                            (interactive)
+                            (call-interactively
+                             (if (or (org-at-heading-p) (org-at-item-p) )
+                                 'org-metaup
+                               'drag-stuff-up))))
+
+              ;; If cursor is in a headline or in a list item, use default org-mode
+              ;; function, otherwise use drag-stuff function
+              ("<M-down>" . (lambda ()
+                              (interactive)
+                              (call-interactively
+                               (if (or (org-at-heading-p) (org-at-item-p) )
+                                   'org-metadown
+                                 'drag-stuff-down))))
+
+              ;; If cursor is in a headline or in a list item, use default org-mode
+              ;; function, otherwise use drag-stuff function
+              ("<M-right>" . (lambda ()
+                               (interactive)
+                               (call-interactively
+                                (if (or (org-at-heading-p) (org-at-item-p) )
+                                    'org-metaright
+                                  'drag-stuff-right))))
+
+              ;; If cursor is in a headline or in a list item, use default org-mode
+              ;; function, otherwise use drag-stuff function
+              ("<M-left>" . (lambda ()
+                              (interactive)
+                              (call-interactively
+                               (if (or (org-at-heading-p) (org-at-item-p) )
+                                   'org-metaleft
+                                 'drag-stuff-left))))
+              ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+              )
+  )
+#+end_src
+
+** Agenda                                                                   :Agenda:
+*** Config
+#+begin_src elisp
+;; My agenda super-agenda groups -> Used in my custom command to show the agenda
+(setq my-agenda-org-super-agenda-groups '(
+                                          (:name "Tarefas Concluídas"
+                                                 :todo "DONE"
+                                                 ;; :and (:regexp "State \"DONE\""
+                                                 ;;               )
+                                                 :face (:foreground "gray40")
+                                                 :order 200) ;; Any item without order has a value of zero
+                                          (
+                                           :name "Started"
+                                           :todo "STARTED")
+                                          (
+                                           :name "Importantes"
+                                           :priority "A"
+                                           :face "bold")
+                                          (:name "Atrasadas"
+                                                 :deadline past)
+                                          (:name "Demais Tarefas"
+                                                 :anything t)
+                                          ))
+
+
+(use-package org
+  :bind ("C-c a" . org-agenda)
+  :custom
+  ;; Category Icons
+  ;; /home/darlan/Org-mode-dev/Icons_For_Category
+  ;; ~/.emacs.d/Icons_For_Org-Mode_Category
+  (org-agenda-category-icon-alist
+   '(
+                                        ;("Papers" "/home/darlan/Programas_Locais/Emacs-trunk/etc/images/print.xpm" nil nil :ascent center)
+     ("Papers" "/usr/share/icons/Humanity/mimes/24/application-pdf.svg" nil nil :ascent  center)
+     ("Doutorado" "~/.spacemacs.d/Icons_For_Org-Mode_Category/registry-book.svg" nil nil :ascent  center)
+     ("Book" "~/.spacemacs.d/Icons_For_Org-Mode_Category/registry-book.svg" nil nil :ascent  center)
+     ("Carro" "~/.spacemacs.d/Icons_For_Org-Mode_Category/car.svg" nil nil :ascent  center)
+     ("Escrever" "~/.spacemacs.d/Icons_For_Org-Mode_Category/write.svg" nil nil :ascent  center)
+     ("Estudos" "~/.spacemacs.d/Icons_For_Org-Mode_Category/estudos.svg" nil nil :ascent  center)
+     ("gtd" "~/.spacemacs.d/Icons_For_Org-Mode_Category/gtd.svg" nil nil :ascent  center)
+     ("Supelec\\|Francês" "~/.spacemacs.d/Icons_For_Org-Mode_Category/Flag_of_France.svg" nil nil :ascent  center)
+     ("Refile" "~/.spacemacs.d/Icons_For_Org-Mode_Category/refile.svg" nil nil :ascent  center)
+     ("IAB\\|GTEL\\|NAIVE\\|UFC.32\\|UFC.35\\|UFC.42" "~/.spacemacs.d/Icons_For_Org-Mode_Category/gtel.svg" nil nil :ascent  center)
+     ("Patent" "~/.spacemacs.d/Icons_For_Org-Mode_Category/gtel25x25.png" nil nil :ascent  center)
+     ("Projeto" "~/.spacemacs.d/Icons_For_Org-Mode_Category/project.svg" nil nil :ascent  center)
+     ("Cíclicas" "~/.spacemacs.d/Icons_For_Org-Mode_Category/recycle.svg" nil nil :ascent center)
+     ("Compras\\|Finanças" "~/.spacemacs.d/Icons_For_Org-Mode_Category/gold_coins.svg" nil nil :ascent center)
+     ("Someday" "~/.spacemacs.d/Icons_For_Org-Mode_Category/Global_thinking.svg" nil nil :ascent center)
+     ("Stanford" "~/.spacemacs.d/Icons_For_Org-Mode_Category/graduate.svg" nil nil :ascent center)
+     ("Notas" "~/.spacemacs.d/Icons_For_Org-Mode_Category/notes.svg" nil nil :ascent center)
+     ("References" "~/.spacemacs.d/Icons_For_Org-Mode_Category/estudos.svg" nil nil :ascent  center)
+     ("Eventos" "~/.spacemacs.d/Icons_For_Org-Mode_Category/event.svg" nil nil :ascent  center)
+     ))
+
+  ;; General
+  (org-agenda-inhibit-startup t)
+
+  ;; Vc pode incluir cada arquivo individualmente ou usar o comando abaixo para incluir todos
+  ;; Including all org files from a directory into the agenda
+  ;; (setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
+  ;; (setq org-agenda-files (quote ("~/org")))
+  (org-agenda-files "~/org/org-agenda-files.org")
+
+  ;; The notas.org file is not included in the agenda files, but I still want
+  ;; to search it
+  (org-agenda-text-search-extra-files
+   (append
+    '("~/org/escrever.org" "~/org/notas.org" "~/org/supelec/supelec.org")
+    (directory-files "~/org/OrgWiki/" t "^[^.#].*\\.\\(org$\\|org_archive$\\)")
+    )
+   )
+
+  ;; Set refile targets to the agenda files
+  (org-refile-targets (quote ((org-agenda-files :maxlevel . 1)
+                              ("~/org/notas.org" :tag . "REFILE"))))
+
+  ;; Use outline-path when refiling
+  (org-refile-use-outline-path (quote file))
+
+  ;; Non-nil means complete the outline path in hierarchical steps. We don't
+  ;; want that, since we will use the refile with helm.
+  (org-outline-path-complete-in-steps nil)
+
+  ;; Faz com que tarefas escalonadas ou com deadlines não apareçam na lista
+  ;; de todos (C-c a t)
+  ;; (setq org-agenda-todo-ignore-with-date t)
+
+  ;; Non-nil means, restore window configuration open exiting agenda.  Before
+  ;; the window configuration is changed for displaying the agenda, the
+  ;; current status is recorded.  When the agenda is exited with `q' or `x'
+  ;; and this option is set, the old state is restored.
+  (org-agenda-restore-windows-after-quit t)
+
+  (org-tag-alist '((:startgrouptag)
+                   ("Year")
+                   (:grouptags)
+                   ("{20[0-9][0-9]}")
+                   (:endgrouptag)))
+
+  ;; Custom agenda views
+  (org-agenda-custom-commands
+   '(
+     ("a" "Agenda" (
+                    (agenda "" ((org-super-agenda-groups my-agenda-org-super-agenda-groups)))
+                    (tags-todo "NextActions" ((org-agenda-overriding-header "Task with tag NextActions")))
+                    )
+      )
+
+     ("n" "Escolher tarefas para adicionar tag NextActions" todo "" (
+                                                                     (org-agenda-todo-ignore-scheduled 'all)
+                                                                     (org-agenda-filter-preset '("-NextActions" "-Finanças"))
+                                                                     ))
+
+     ;; ("c" "Clock" tags-todo "CLOCK")
+     ;; ("E" "NextActions" tags-todo "NextActions")
+     ;; ("N" . "Procura em notas.org")
+     ;; ("Nw" search ""
+     ;;  ((org-agenda-files '("~/org/notas.org"))
+     ;;   (org-agenda-text-search-extra-files nil)))
+     ;; ("Nt" tags ""
+     ;;  ((org-agenda-files '("~/org/notas.org"))
+     ;;   (org-agenda-text-search-extra-files nil)))
+     ;; ("w" . "Procura na Wiki no org")
+     ;; ("ww" search ""
+     ;;  ((org-agenda-files '("~/org/OrgWiki/"))
+     ;;   (org-agenda-text-search-extra-files '("~/org/notas.org"))))
+     ;; ("wt" tags ""
+     ;;  ((org-agenda-files '("~/org/OrgWiki/"))
+     ;;   (org-agenda-text-search-extra-files '("~/org/notas.org"))))
+     ("d" "Upcoming deadlines" agenda ""
+      ((org-agenda-time-grid nil)
+       (org-deadline-warning-days 365)
+       (org-agenda-entry-types '(:deadline))
+       ))
+     ;; ("P" "Papers para Ler" tags-todo "+CATEGORY=\"LeituraDePapers\"")
+     ("p" "Lista de Projetos" tags-todo "Projeto" ((org-use-tag-inheritance nil)))
+     ("S" "Started Tasks" todo "STARTED" ((org-agenda-todo-ignore-with-date nil) (org-agenda-todo-ignore-scheduled nil)))
+     ("W" "Tasks waiting on something" todo "WAIT" ((org-agenda-todo-ignore-with-date nil) (org-agenda-todo-ignore-scheduled nil)))
+     ("R" "Refile New Notes and Tasks" tags "REFILE" ((org-agenda-todo-ignore-with-date nil) (org-agenda-todo-ignore-scheduled nil)))
+     ;; ("g" "Agenda GTEL (exclui Francês e Home e Supélec)" agenda "" ((org-agenda-filter-preset (quote ("-Home" "-Francês" "-Supelec" "-Finanças")))))
+     ;; ("f" "Agenda do Francês" agenda "" ((org-agenda-filter-preset (quote ("+Francês")))))
+     ;; ("A" "Relatório de Atividades" agenda "" ((org-agenda-filter-preset (quote ("-Francês" "-Finanças" "-Revistas" "-Congressos" "-Feriado" "-Aniversários" "-CLOCK"))) (org-agenda-start-with-log-mode t) (org-agenda-archives-mode 'tree) (org-agenda-ndays 31)) "teste_relatorio.html")
+     ("F" "Agenda das Finanças" agenda "" ((org-agenda-filter-preset (quote ("+Finanças")))))
+     ;; Abaixo um exemplo de prefix key. Note que a primeira linha
+     ;; (uma con-cell) serve para setar uma descrição para a
+     ;; prefix key "h" e não é obrigatória.
+     ;; ("h" . "HOME+Name tags searches") ; description for "h" prefix
+     ;; ("hl" tags "+home+Lisa")
+     ;; ("hp" tags "+home+Peter")
+     ;; ("hk" tags "+home+Kim")
+     ))
+
+
+
+  ;; Agenda Sorting
+  (org-agenda-sorting-strategy
+   '(
+     (agenda habit-down category-down time-up priority-down)
+     (todo category-down priority-down)
+     (tags priority-down category-keep)
+     (search category-keep)
+     )
+   )
+
+  :config
+  (use-package org-tempo)
+  (use-package org-inlinetask)
+  (use-package org-indent
+  :diminish org-indent-mode)
+  )
+
+
+(use-package org-super-agenda
+  :ensure t
+  :after org
+  :custom
+  (org-super-agenda-groups
+   '((:name "Canceladas"
+            :todo "CANC"
+            :order 500)
+     (:name "Tarefas Concluídas"
+            :todo "DONE"
+            ;; :and (:regexp "State \"DONE\""
+            ;;               )
+            :face (:foreground "gray40")
+            :order 1) ;; Any item without order has a value of zero
+     (
+      :name "Started"
+      ;; :time-grid t
+      :todo "STARTED")
+     (
+      :name "Importantes"
+      :priority "A")
+     (:name "WAIT"
+            ;; :time-grid t
+            :todo "WAIT"
+            )
+     (:name "Atrasadas"
+            :deadline past)
+     (:name "GTEL"
+            :category "GTEL"
+            )
+     (:name "Estudos"
+            :category "Estudos"
+            :order 50)
+     (:name "Someday"
+            :tag "Someday"
+            :order 100
+                                        ; :face (:foreground "gray40")
+            )
+     (:name "Finanças"
+            :tag "Finanças"
+            :order 150
+            )
+     (:name "References"
+            :category "References"
+            :order 200)
+     (:auto-category t)
+     ))
+  (org-super-agenda-header-separator "")
+  :config
+  (org-super-agenda-mode)
+
+  ;; Customise some of the org-agenda faces
+  (set-face-attribute 'org-agenda-date nil :height 1.5 :foreground "Orange")
+  (set-face-attribute 'org-agenda-date-today nil :foreground "Gold")
+  )
+
+
+(use-package origami
+  :ensure t
+  :after org-super-agenda
+  :bind (:map org-super-agenda-header-map
+              ;; Enable origami-mode in org-agenda
+              ;; Note that origami package is installed by the spacemacs-editing layer
+              ("<tab>" . origami-toggle-node)
+              ;; ("C-M-p" . origami-previous-fold)
+              ;; ("C-M-n" . origami-next-fold)
+              )
+  :hook
+  (org-agenda-mode . origami-mode)
+  )
+#+end_src
+
+** Attach
+#+begin_src elisp
+(use-package org-attach
+  ;; The "attach" link type that I defined in my main gtd file uses the
+  ;; org-attach-expand function.
+  :commands (org-attach-expand org-attach-expand-link)
+  :custom
+  (org-attach-dir-relative t)
+
+  ;; Only defined after org-attach is loaded
+  (org-attach-store-link-p 'attached)
+
+  (org-link-elisp-skip-confirm-regexp
+   (regexp-opt '("org-open-file" "browse-dir-sftp" "browse-dir")))
+                                        ; )
+  )
+#+end_src
+
+** Babel                                                                     :Babel:
+#+begin_src elisp
+(use-package org
+  :defer t
+  :custom
+
+  ;; General Configuration
+  ;; turn-off confirmation when evaluating babel blocks
+  (org-confirm-babel-evaluate nil)
+
+  ;; If set to t, TAB works natively in code blocks (Deixa o TAB muito lento)
+  (org-src-tab-acts-natively nil)
+
+  ;; Don't add any leading space to code inside src blocks (default is 2 spaces)
+  (org-edit-src-content-indentation 0)
+
+  ;; Change this to the appropriated jar location
+  (org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
+
+  :init
+  ;; Load Languages
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     ;; (R . nil)
+     (ditaa . t)
+     ;; (dot . nil)
+     (emacs-lisp . t)
+     ;; (gnuplot . t)
+     ;; (haskell . t)
+     ;; (ocaml . nil)
+     (python . t)
+     ;; ipython can be a better option then standard python
+     ;;(ipython . t)
+     (C . t)  ;; Adds 'C' and 'cpp' languages to org-babel
+     ;; (ruby . nil)
+     ;; (screen . nil)
+     (shell . t)
+     ;; (sql . nil)
+     ;; (sqlite . nil)
+     ;; (octave . t)
+     ;; (matlab . t)
+     (latex . t)
+     ;; (plantuml . t)
+     (java . t)
+     ))
+  )
+#+end_src
+
+** Capture                                                                 :Capture:
+*** Config
+#+begin_src elisp
+(use-package org-capture
+  :defer t
+  :bind (("C-c c" . org-capture))
+  :custom
+  ;; Veja o E-mail [[wl:%25Newsletter/Org-Mode!#80wrgxs3yg.fsf@somewhere.org][Email from Sebastien Vauban: Re: {O} Feature request: two-l]]
+  (org-capture-templates
+        `(
+          ;; xxxxx Start Capture a new tasks xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          ("t" "Adiciona nova tarefa")
+          ("tt" "Nova Tarefa rápida (refile depois)" entry
+           (file+headline "refile.org" "Inbox")
+           (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
+          ("tp" "Tarefa do Projeto IAB" entry
+           (file+headline "ufc49-IAB.org" "Lista de Tarefas do Projeto")
+           (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
+          ("td" "Tarefa do Doutorado" entry
+           (file+headline "doutorado.org" "Lista de Tarefas")
+           (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
+          ("tc" "Tarefa dentro do clock atual" entry
+           (clock)
+           (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
+          ;; xxxxx End Capture a new tasks xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          ;;
+          ;; xxxxx Start Capture new notes xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          ("n" "Notas" entry
+           (file+headline "notas.org" "Notas diversas")
+           "* %^{Título da Nota} %^g\n  %i%?\n  %a")
+          ("e" "Nota de um E-Mail" entry
+           (file+headline "notas.org" "Notas diversas")
+           "* %^{Título da Nota} %^G\n  %i%?\n  \n  Assunto do E-mail: %:subject\n  De: %:from\n  %a")
+          ;; xxxxx End Capture new notes xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+          ;;
+          ;; xxxxx Start Capture expenses data created with tasker xxxxxxxxxx
+          ("f" "Adiciona novo gasto")
+          ("fa" "Gasto com alimentação" table-line
+           (id ,(get-me-an-org-id-for-the-month "Alimentação"))
+           "%(concat \"|\" mytemplatevalue)"
+           :table-line-pos "II-1"
+           :immediate-finish t)
+          ("fc" "Gasto com contas" table-line
+           (id ,(get-me-an-org-id-for-the-month "Contas"))
+           "%(concat \"|\" mytemplatevalue)"
+           :table-line-pos "II-1"
+           :immediate-finish t)
+          ("ft" "Gasto com o carro ou transporte" table-line
+           (id ,(get-me-an-org-id-for-the-month "Carro"))
+           "%(concat \"|\" mytemplatevalue)"
+           :table-line-pos "II-1"
+           :immediate-finish t)
+          ("fe" "Gasto com Entretenimento" table-line
+           (id ,(get-me-an-org-id-for-the-month "Entretenimento"))
+           "%(concat \"|\" mytemplatevalue)"
+           :table-line-pos "II-1"
+           :immediate-finish t)
+          ("fd" "Gasto diversos" table-line
+           (id ,(get-me-an-org-id-for-the-month "Diversos"))
+           "%(concat \"|\" mytemplatevalue)"
+           :table-line-pos "II-1"
+           :immediate-finish t)
+          ;; xxxxx End Capture expenses data created with tasker xxxxxxxxxxxx
+          ))
+  )
+#+end_src
+
+*** Function to capture in other frame
+#+begin_src elisp
+;; Função que peguei na lista do org-mode
+;; [[wl:%25Newsletter/Org-Mode!#877ha9nfgy.fsf@ginnungagap.bsc.es][Email from Lluís: {O} org-capture-other-frame]]
+;; #########################################################################
+;; # I've made a little function to launch org-capture on another frame,   #
+;; # which is very handy when plugged into a hotkey and working with other #
+;; # applications.                                                         #
+;; #                                                                       #
+;; # It lacks some settings that I already have active system wide (like   #
+;; # no scrollbars, no toolbar and the like), so you should probably tune  #
+;; # those (a defcustom for the frame parameters should suffice).          #
+;; #                                                                       #
+;; # In any case, tell me (directly, as I'm not not subscribed) if you're  #
+;; # going to install this into org-mode. Otherwise I'll upload the        #
+;; # snippet into emacs wiki:                                              #
+;; #########################################################################
+
+;; *Para usar, basta chamar a função my-org-capture-other-frame*
+;; Para usar fora do emacs (com emacs --daemon rodando) tente algo como
+;; : emacsclient -d $DISPLAY -e '(my-org-capture-other-frame)'
+(defun my-org-capture-other-frame ()
+  "Create a new frame and run org-capture."
+  (interactive)
+  (make-frame '((name . "Org-Capture")
+                (width  . 120)
+                (height .  20)
+                (menu-bar-lines . 0)
+                (tool-bar-lines . 0)
+                (auto-lower . nil)
+                (auto-raise . t)))
+  (select-frame-by-name "Org-Capture")
+  (if (condition-case nil
+          (progn (org-capture) t)
+        (error nil))
+      (delete-other-windows)
+    (my-org-capture-other-frame-cleanup)))
+
+(defun my-org-capture-other-frame-cleanup ()
+  "Close the Org-Capture frame."
+  (if (equal "Org-Capture" (frame-parameter nil 'name))
+      (delete-frame)))
+
+(add-hook 'org-capture-after-finalize-hook 'my-org-capture-other-frame-cleanup)
+#+end_src
+
+** Clock
+*** Functions
+#+begin_src elisp
+;; General Configuration
+(defun my-clock-change-state (state)
+  "If state is 'CYCLIC' return 'CYCLIC'. If it is any other todo keyword return
+        'STARTED'. This is useful to set in the variable org-clock-in-switch-to-state."
+  (interactive)
+  (if (equal state "CYCLIC")
+      (message "CYCLIC")
+    (message "STARTED")
+    )
+  )
+
+
+;; Automaticamente muda uma tarefa para STARTED se uma subtarefa for mudada p/ STARTED
+;; Pegue em http://doc.norang.ca/org-mode.html#sec-15-44
+
+;; Mark parent tasks as started
+(defvar bh/mark-parent-tasks-started nil)
+
+(defun bh/mark-parent-tasks-started ()
+  "Visit each parent task and change TODO states to STARTED"
+  (unless bh/mark-parent-tasks-started
+    (when (equal org-state "STARTED")
+      (let ((bh/mark-parent-tasks-started t))
+        (save-excursion
+          (while (org-up-heading-safe)
+            (when (member (nth 2 (org-heading-components)) (list "TODO" "NEXT"))
+              (org-todo "STARTED"))))))))
+
+(add-hook 'org-after-todo-state-change-hook 'bh/mark-parent-tasks-started 'append)
+#+end_src
+
+*** Config
+#+begin_src elisp
+(use-package org-clock
+  :custom
+  ;; Change task state to STARTED when clocking in
+  (org-clock-in-switch-to-state 'my-clock-change-state)
+
+  ;; Sometimes I change tasks I'm clocking quickly - this removes clocked tasks with 0:00 duration
+  (org-clock-out-remove-zero-time-clocks t)
+
+  ;; When equal to "t", the current clocked task is included in clock reports
+  (org-clock-report-include-clocking-task t)
+
+  :bind
+  (("C-c C-x C-j" . org-clock-goto))
+  )
+
+(use-package emacs
+  :after org-clock
+  :hook (post-command . (lambda ()
+                          (let ((color (cond ((org-clocking-p) "green")
+                                             (t "red"))))
+                            (set-face-attribute 'mode-line nil :box `(:line-width 1 :color ,color))
+                            )))
+  )
+#+end_src
+
+** Crypt
+#+begin_src elisp
+(use-package org-crypt
+  :commands (org-decrypt-entry org-decrypt-entries org-encrypt-entry org-encrypt-entries)
+  :custom
+  (org-crypt-key "15798E79")
+
+  ;; Possible values:
+  ;; t        : Disable auto-save-mode for the current buffer
+  ;;            prior to decrypting an entry.
+  ;; nil      : Leave auto-save-mode enabled.
+  ;;            This may cause data to be written to disk unencrypted!
+  ;; 'ask     : Ask user whether or not to disable auto-save-mode
+  ;;            for the current buffer.
+  ;; 'encrypt : Leave auto-save-mode enabled for the current buffer,
+  ;;            but automatically re-encrypt all decrypted entries
+  ;;            *before* auto-saving.
+  ;;            NOTE: This only works for entries which have a tag
+  ;;            that matches `org-crypt-tag-matcher'.
+  (org-crypt-disable-auto-save t)
+
+  :config
+  ;; Automatically encrypts everything that has the tag "crypt"
+  ;; when you save the file
+  (org-crypt-use-before-save-magic)
+  ;; (setq org-tags-exclude-from-inheritance (quote ("crypt" "Projeto")))
+  (add-to-list 'org-tags-exclude-from-inheritance "crypt")
+  ;; darcamo@gmail.com (see in the seahorse program)
+  )
+#+end_src
+
+** Export
+*** Filter functions used in export
+#+begin_src elisp
+;; Use unicode character for non-breaking space in org-mode
+;;
+;; In org-mode one must use `\nbsp{}` to represent a non-breaking space. This is
+;; replaced by `~` in Latex and by `&nbsp;` in HTML. However, its annoying and
+;; ugly to have `\nbsp{}` in the org-mode buffer. The code below adds a filter
+;; in org-export that replaces the unicode character for non-breaking space with
+;; the appropriated value such that it can be used instead of `\nbsp{}`.
+;; NOTE: You can enter the unicode non-breaking space with `C-x 8 SPC`
+(defun darlan/replace-unicode-non-break-space-org-filter (text backend info)
+  "Replace the unicode character for nonbreaking space with '~' in latex,
+'&nbsp;' in HTML, and a regular space in other backends."
+  (if (org-export-derived-backend-p backend 'latex)
+      (replace-regexp-in-string " "
+                                "~"
+                                text)
+    (if (org-export-derived-backend-p backend 'html)
+        (replace-regexp-in-string " "
+                                  "&nbsp;"
+                                  text)
+      (replace-regexp-in-string " "
+                                " "
+                                text))
+    )
+  )
+
+
+;; use speaker notes that work both with reveal.js and beamer
+(defun darlan/replace-notes-environment (text backend info)
+  "Replace '\begin{notes} content \end{notes}' in beamer export
+with a \note{content}. This is useful when you are creating
+presentations in org-mode with both reveal and beamer. You can
+add speaker notes inside '#+begin_notes' and '#+end_notes' as in
+reveal."
+  (if (org-export-derived-backend-p backend 'beamer)
+      (replace-regexp-in-string "\\\\end{notes}"
+                                "}"
+                                (replace-regexp-in-string "\\\\begin{notes}"
+                                                          "\\\\note{"
+                                                          text))
+    text
+    )
+  )
+#+end_src
+
+*** Config
+#+begin_src elisp
+(use-package org
+  :config
+  ;; Org Default Backends
+  (add-to-list 'org-export-backends 'md)
+  (add-to-list 'org-export-backends 'odt)
+
+  (with-eval-after-load 'use-package-core
+    (use-package ox-extra
+      :config
+      (ox-extras-activate '(ignore-headlines))
+      )
+
+    ;; (use-package ox-beamer)
+    )
+  )
+
+(use-package ox
+  :defer t
+  :config
+  (add-to-list 'org-export-filter-body-functions 'darlan/replace-unicode-non-break-space-org-filter)
+  (add-to-list 'org-export-filter-special-block-functions 'darlan/replace-notes-environment)
+  (setq org-export-with-broken-links 'mark)
+  )
+
+
+(use-package ox-latex
+  :defer t
+  :config
+  (setq org-latex-pdf-process
+        ;; This requires latexmk, but it has many advantages such as running
+        ;; latex the correct number of times, support calling biber when
+        ;; biblatex is used, etc
+        '("latexmk -shell-escape -bibtex -output-directory=%o -lualatex %f")
+        )
+  (add-to-list 'org-latex-logfiles-extensions "glo")
+  (add-to-list 'org-latex-logfiles-extensions "bbl")
+  (add-to-list 'org-latex-logfiles-extensions "acn")
+  (add-to-list 'org-latex-logfiles-extensions "ist")
+  )
+#+end_src
+
+*** Latex templates
+#+begin_src elisp
+(use-package ox-latex
+  :defer t
+  :config
+  (add-to-list
+   'org-latex-classes
+   '("sbrt"
+     "\\documentclass{sbrt2017eng}
+\\usepackage{hyperref}
+\\usepackage[nolist]{acronym}
+\\usepackage[backend=biber,doi=false,isbn=false, url=false, sorting=none, maxbibnames=3, giveninits=true, dateabbrev=true]{biblatex}
+\\addbibresource{~/Dropbox/org/references/articles.bib}
+\\addbibresource{~/Dropbox/org/references/articles_without_notes.bib}
+\\usepackage{amssymb}
+\\usepackage{amsmath}
+\\usepackage{tikz}
+\\usepackage{MathDefinitions}
+[NO-DEFAULT-PACKAGES]  % do not include any of the default packages
+[PACKAGES]             % \\usepackage statements for packages
+[EXTRA]                % the stuff from #+LATEX_HEADER(_EXTRA)
+     "
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+     ("\\paragraph{%s}" . "\\paragraph*{%s}")
+     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  ;; NOTE: hyperref PACKAGE IS NOT INCLUDED! Add the file variable
+  ;; org-latex-hyperref-template and set it to nil
+  (add-to-list
+   'org-latex-classes
+   '("IEEEtran"
+     "\\documentclass{IEEEtran}
+\\usepackage[utf8]{inputenc}
+\\usepackage[T1]{fontenc}
+\\usepackage{graphicx}
+\\usepackage{longtable}
+\\usepackage{amsmath}
+\\usepackage{amssymb}
+\\usepackage{capt-of}
+\\usepackage{wrapfig}
+\\usepackage{rotating}
+\\usepackage[normalem]{ulem}
+\\usepackage{MathDefinitions}
+\\usepackage{siunitx}
+\\usepackage{tikz}
+\\usepackage{algorithm}
+\\usepackage{algorithmic}
+\\usepackage{booktabs}
+\\usepackage{makecell}  % Provide the \\thead command
+\\usepackage{subcaption}
+\\usepackage[backend=biber,doi=false,isbn=false, url=false, sorting=none, maxbibnames=3, giveninits=true, dateabbrev=true]{biblatex}
+\\usepackage[acronym, nomain, shortcuts, sanitizesort, nogroupskip, nopostdot, nonumberlist]{glossaries}
+[NO-DEFAULT-PACKAGES]  % do not include any of the default packages
+[PACKAGES]             % \\usepackage statements for packages
+[EXTRA]                % the stuff from #+LATEX_HEADER(_EXTRA)
+     "
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+     ("\\paragraph{%s}" . "\\paragraph*{%s}")
+     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  (add-to-list
+   'org-latex-classes
+   '("gtelabnt"
+     "\\documentclass[doutorado, brazil, english]{gtelabnt}
+\\usepackage{csquotes}
+\\usepackage{MathDefinitions}
+\\usepackage{booktabs}
+[NO-DEFAULT-PACKAGES]  % do not include any of the default packages
+[PACKAGES]             % \\usepackage statements for packages
+[EXTRA]                % the stuff from #+LATEX_HEADER(_EXTRA)
+     "
+     ("\\chapter{%s}" . "\\chapter*{%s}")
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+     ("\\paragraph{%s}" . "\\paragraph*{%s}")
+     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+
+  (add-to-list
+   'org-latex-classes
+   '("thesischapter"
+     "\\documentclass{article}
+\\usepackage{csquotes}
+\\usepackage{MathDefinitions}
+\\usepackage{booktabs}
+\\usepackage{hyperref}
+[NO-DEFAULT-PACKAGES]  % do not include any of the default packages
+[PACKAGES]             % \\usepackage statements for packages
+[EXTRA]                % the stuff from #+LATEX_HEADER(_EXTRA)
+     "
+     ("\\section{%s}" . "\\section*{%s}")
+     ("\\subsection{%s}" . "\\subsection*{%s}")
+     ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+     ("\\paragraph{%s}" . "\\paragraph*{%s}")
+     ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  )
+#+end_src
+
+*** COMMENT Org publish projects
+#+begin_src elisp
+(use-package ox-publish
+  :defer t
+  :custom
+  (org-publish-project-alist
+   '(("thesis"
+      :base-directory "~/git_files/darlan-thesis"
+      :publishing-directory "export/"
+      :publishing-function org-latex-publish-to-pdf
+      :section-numbers t
+      :table-of-contents nil)
+     ("org-roam-iab-notes"
+      :base-directory "~/org/org-roam-iab-export"
+      :publishing-directory "~/org/org-roam-iab-export/"
+      :publishing-function org-html-publish-to-html
+      :table-of-contents nil
+      ;;:include '("20201120143347-iab.org" "20201217134131-adaptacao_da_topologia_no_iab.org")
+      )
+     ;; ("org-roam-iab-attachments"
+     ;;  ;; https://orgmode.org/worg/org-tutorials/org-publish-html-tutorial.html
+     ;;  :base-directory "~/org/"
+     ;;  :base-extension "css\\|js\\|png\\|jpg\\|gif\\|pdf\\|mp3\\|ogg\\|swf"
+     ;;  :publishing-directory "~/public_html/"
+     ;;  :recursive t
+     ;;  :publishing-function org-publish-attachment
+     ;;  )
+     ))
+  )
+
+
+#+end_src
+
+*** Functions
+#+begin_src elisp
+;; Orgtbl Translator function for the GitHub-Flavored-Markdown(GFM)
+;; Taken from https://gist.github.com/yryozo/5807243
+(defun orgtbl-to-gfm (table params)
+  "Convert the Orgtbl mode TABLE to GitHub Flavored Markdown."
+  (let* ((alignment (mapconcat (lambda (x) (if x "|--:" "|---"))
+                               org-table-last-alignment ""))
+         (params2
+          (list
+           :splice t
+           :hline (concat alignment "|")
+           :lstart "| " :lend " |" :sep " | ")))
+    (orgtbl-to-generic table (org-combine-plists params2 params))))
+
+
+(defun darlan/save-buffer-and-export-to-last-target ()
+  "Save the burrent buffer and export org-mode buffer to the last exported target"
+  (interactive)
+  (progn
+    (save-buffer)
+    (if org-export-dispatch-last-action
+        (org-export-dispatch 4)
+      (message "Please export to some target first"))
+    )
+  )
+#+end_src
+
+*** Keybindings                                                       :Keybindings:
+#+begin_src elisp
+(use-package org
+  :defer t
+  :bind (:map org-mode-map
+              ([f9] . darlan/save-buffer-and-export-to-last-target)
+              ))
+#+end_src
+
+** Org useful functions
+#+begin_src elisp
+;; Quick Access to projects
+(defun my-find-org-heading (projectName)
+  (let (heading org-indirect-buffer-display)
+    (setq heading (concat "* " projectName))
+    (setq org-indirect-buffer-display 'current-window)
+    (if (buffer-exists projectName)
+        (switch-to-buffer projectName)
+      ;; Else
+      (progn
+        (find-file "~/org/gtd.org")
+        (goto-char (point-min))
+        (search-forward heading)
+        (org-tree-to-indirect-buffer)
+        (rename-buffer projectName)
+        (org-overview)
+        (show-children)
+        )
+      )
+    )
+  )
+
+(defun my-find-gtd-org-heading nil
+  (interactive)
+  (find-file "~/org/gtd.org")
+  )
+
+(defun my-find-relatorio-atividades-org-heading nil
+  (interactive)
+  ;; (org-id-goto "RelatorioUFC35Wiki")
+  (find-file "~/org/RelatoriosDeAtividade/RelatoriosDeAtividade.org")
+  )
+
+(defun my-find-doutorado-org-heading nil
+  (interactive)
+                                        ;(my-find-org-heading "Doutorado")
+  (find-file "~/org/doutorado.org")
+  )
+
+(defun my-find-references-org-heading nil
+  (interactive)
+  (find-file "~/org/references/articles.org")
+  )
+
+(defun my-find-articles-org-heading nil
+  "Same as my-find-references-org-heading"
+  (interactive)
+  (find-file "~/org/references/articles.org")
+  )
+
+(defun my-find-notas-org-heading nil
+  (interactive)
+  (find-file "~/org/notas.org")
+  )
+
+(defun my-find-stanford-org-heading nil
+  (interactive)
+  (find-file "~/org/Stanford.org")
+  )
+
+(defun my-find-ufc32-org-heading nil
+  (interactive)
+  ;; (my-find-org-heading "UFC.32")
+  (find-file (concat org-directory "/ufc32.org"))
+  )
+
+(defun my-find-ufc35-org-heading nil
+  (interactive)
+  ;; (my-find-org-heading "UFC.35")
+  (find-file (concat org-directory "/ufc35.org"))
+  )
+
+(defun my-find-ufc42-org-heading nil
+  (interactive)
+  ;; (my-find-org-heading "UFC.42")
+  (find-file (concat org-directory "/ufc42.org"))
+  )
+
+(defun my-find-ufc45-org-heading nil
+  (interactive)
+  ;; (my-find-org-heading "UFC.45")
+  (find-file (concat org-directory "/ufc45.org"))
+  )
+
+(defun my-find-naive-org-heading nil
+  (interactive)
+  (find-file "~/org/ufc46-NAIVE.org")
+  )
+
+(defun my-find-iab-org-heading nil
+  (interactive)
+  (find-file "~/org/ufc49-IAB.org")
+  )
+
+(defun my-find-financas-org-heading nil
+  (interactive)
+                                        ;(my-find-org-heading "Finanças")
+  (find-file "~/org/Financas.org")
+  ;;(org-id-open "Novembro2020" nil)
+  )
+
+(defun my-find-financas-heading-by-id (value)
+  (require 'org-id)
+  (org-id-open (concat (get-current-month) (get-current-year) value) nil)
+  (recenter-top-bottom 0)
+  )
+
+(defun my-find-gastos-org-heading nil
+  (interactive)
+  (require 'org-id)
+  (my-find-financas-heading-by-id "")
+  )
+
+(defun my-find-gastos-alimentacao-org-heading nil
+  (interactive)
+  (my-find-financas-heading-by-id "Alimentação")
+  )
+
+(defun my-find-gastos-contas-org-heading nil
+  (interactive)
+  (my-find-financas-heading-by-id "Contas")
+  )
+
+(defun my-find-gastos-entretenimento-org-heading nil
+  (interactive)
+  (my-find-financas-heading-by-id "Entretenimento")
+  )
+
+(defun my-find-gastos-carro-org-heading nil
+  (interactive)
+  (my-find-financas-heading-by-id "Carro")
+  )
+
+(defun my-find-gastos-diversos-org-heading nil
+  (interactive)
+  (my-find-financas-heading-by-id "Diversos")
+  )
+
+
+(defun my-find-senhas-org-heading nil
+  (interactive)
+                                        ;(my-find-org-heading "Senhas")
+  (require 'org-crypt)
+  (find-file "~/org/Senhas.org")
+  )
+
+(defun my-find-carro-org-heading nil
+  (interactive)
+                                        ;(my-find-org-heading "Carro")
+  (find-file "~/org/Carro.org")
+  )
+
+(defun my-find-calendario-org-heading nil
+  (interactive)
+  (my-find-org-heading "Calendário")
+  )
+
+(defun my-find-gtelbook-org-heading nil
+  (interactive)
+  (org-id-goto "LivroGTEL2013")
+  )
+
+
+
+;; Functions to surround some text with an org-mode macro for red color
+;; You need the org-macros.setup file or to manyally add the macro below to your org-mode file
+;; #+MACRO: color @@html:<span style="color: $1">$2</span>@@@@latex:\textcolor{$1}{$2}@@@@odt:<text:span text:style-name="$1">$2</text:span>@@
+
+(defun my-org-textcolor-red-macro ()
+  "Surround current region with {{{color(red, content)}}} if mark is active or prompts for a text and insert {{{color(red, the text)}}}."
+  (interactive)
+  (let (pos1 pos2 text)
+    (if (and transient-mark-mode
+             mark-active)
+        (my-org-surround-textcolor-red-macro (region-beginning) (region-end))
+      (insert "{{{color(red," (read-from-minibuffer "Text in red: ") ")}}}")
+      )))
+
+(defun my-org-surround-textcolor-red-macro (beg end)
+  "Surround the region with \textcolor{red}{ }"
+  (interactive "r")
+  (save-restriction
+    (narrow-to-region beg end)
+    (goto-char (point-min))
+    (insert "{{{color(red,")
+    (goto-char (point-max))
+    (insert ")}}}")))
+
+
+;; Transpose a Table
+(defun org-transpose-table-at-point ()
+  "Transpose orgmode table at point, eliminate hlines"
+  (interactive)
+  (let ((contents
+         (apply #'mapcar* #'list
+                ;; remove 'hline from list
+                (remove-if-not 'listp
+                               ;; signals error if not table
+                               (org-table-to-lisp)))))
+    (delete-region (org-table-begin) (org-table-end))
+    (insert (mapconcat (lambda(x) (concat "| " (mapconcat 'identity x " | " ) "  |\n" ))
+                       contents ""))
+    (org-table-align)))
+
+
+
+;; Get full path of a file relative to the current file
+(defun fullpath-relative-to-current-file (file-relative-path)
+  "Returns the full path of FILE-RELATIVE-PATH, relative to file location where this function is called.
+
+        Example: If you have this line
+         (fullpath-relative-to-current-file \"../xyz.el\")
+        in the file at
+         /home/mary/emacs/emacs_lib.el
+        then the return value is
+         /home/mary/xyz.el
+        Regardless how or where emacs_lib.el is called.
+
+        This function solves 2 problems.
+
+         1. If you have file A, that calls the `load' on a file at B, and
+            B calls 'load' on file C using a relative path, then Emacs
+            will complain about unable to find C. Because, emacs does not
+            switch current directory with 'load'.
+
+            To solve this problem, when your code only knows the relative
+            path of another file C, you can use the variable
+            `load-file-name' to get the current file's full path, then
+            use that with the relative path to get a full path of the
+            file you are interested.
+
+         2. To know the current file's full path, emacs has 2 ways:
+            `load-file-name' and `buffer-file-name'. If the file is
+            loaded by 'load', then load-file-name works but
+            buffer-file-name doesn't. If the file is called by
+            `eval-buffer', then load-file-name is nil. You want to be
+            able to get the current file's full path regardless the file
+            is run by 'load' or interactively by 'eval-buffer'."
+  (concat (file-name-directory (or load-file-name buffer-file-name)) file-relative-path)
+  )
+
+#+end_src
+
+** Keybindings                                                         :Keybindings:
+#+begin_src elisp
+(use-package org
+  :defer t
+  :bind
+  (("<C-S-f5>" . my-org-textcolor-red-macro))
+  )
+#+end_src
+
+** Appearance
+#+begin_src elisp
+(use-package org-faces
+  :custom
+  ;; Set to "t" to hide leading stars in org files by default
+  (org-hide-leading-stars t)
+
+  ;; Change the face of the ellipsis that represent folded text. I like
+  ;; something with a slightly different color so that I can spot the
+  ;; ellipsis easily
+  (org-ellipsis 'org-column)
+
+  ;; Faces of some tags (ATTACH tag)
+  (org-tag-faces '(("ATTACH" :inherit org-done :box nil :underline t :height 1.2)))
+
+  :config
+  ;; By default both org-code and org-vertavim faces just inherit from the shadow
+  ;; face. This makes them undistinguishable. Let's modify the color of the
+  ;; org-code face to something different
+  (set-face-attribute 'org-code nil :foreground "indian red")
+  ;; Background color of my theme is gray14 and I'm choosing a value just a bit
+  ;; brighter than it, such that the drawer is very discrete
+  (set-face-attribute 'org-drawer nil :foreground "gray28")
+  (set-face-attribute 'org-footnote nil :foreground "firebrick1")
+
+  (with-eval-after-load 'color
+    ;; Background color of src blocks will be slightly darken than default
+    ;; background
+    (set-face-attribute 'org-block nil :background
+                        ;; (color-darken-name
+                        ;;  (face-attribute 'default :background) 2)
+                        "gray16"
+                        )
+
+    ;; Change background of the begin line and underline it
+    (set-face-attribute 'org-block-begin-line nil
+                        ;; :background (color-saturate-name (face-attribute 'default :background) 15)
+                        :underline t)
+
+    ;; Change background of the begin line and overline it
+    ;;
+    ;; Note that usually org-block-end-line inherits from org-block-begin-line,
+    ;; but since we don't want the underline we set in org-block-begin-line we
+    ;; change it to inherit from org-meta-line (which org-block-end-line inherits
+    ;; from)
+    (set-face-attribute 'org-block-end-line nil
+                        ;; :background (color-saturate-name (face-attribute 'default :background) 10)
+                        :inherit 'org-meta-line
+                        :overline t)
+    )
+
+  :hook
+  (org-mode . (lambda ()
+                (add-to-list 'prettify-symbols-alist '("<->" . "⬌"))
+                (add-to-list 'prettify-symbols-alist '("->" . "➜"))
+                (add-to-list 'prettify-symbols-alist '("<-" . "⬅"))
+                (add-to-list 'prettify-symbols-alist '("[ ]" . "☐"))
+                (add-to-list 'prettify-symbols-alist '("[X]" . "☑"))
+                (add-to-list 'prettify-symbols-alist '("[-]" . "❍"))
+
+                (add-to-list 'prettify-symbols-alist '("#+begin_src" . "↦" ))
+                (add-to-list 'prettify-symbols-alist '("#+end_src" . "⇤" ))
+
+                (setq prettify-symbols-unprettify-at-point t)
+                (prettify-symbols-mode)
+                ))
+  ;; Enable visual-line-mode in all org-mode buffers
+  ;; (org-mode . visual-line-mode)
+  )
+#+end_src
+
+** Extra packages for org-mode
+#+begin_src elisp
+;; The org-bullets package replaces all headline markers with
+;; different Unicode bullets
+;; (use-package org-bullets
+;;   :ensure t
+;;   :config
+;;   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+;; Alternative to org-bullets package
+(use-package org-superstar
+  :defer t
+  :ensure t
+  :custom
+  (org-superstar-special-todo-items t)
+  :hook
+  (org-mode . org-superstar-mode)
+  )
+
+(use-package org-download
+  :ensure t
+  :after org
+  :commands (org-download-screenshot org-download-yank)
+  ;; :bind
+  ;; (:map org-mode-map
+  ;;       (("s-Y" . org-download-screenshot)
+  ;;        ("s-y" . org-download-yank)))
+  )
+#+end_src
+
+* TODO Org-roam                                                             :OrgRoam:
+** Configuration
+#+begin_src elisp
+(use-package org-roam
+  :ensure t
+  :defer t
+  :custom
+  (org-roam-directory "/home/darlan/org/org-roam-notes/")
+  (org-roam-db-location (concat user-emacs-directory ".cache/org-roam.db"))
+  (org-roam-graph-exclude-matcher "index.org")
+  (org-roam-graph-extra-config '(("rankdir" . "LR")))
+  (org-roam-node-display-template (concat (propertize "${backlinkscount:6}" 'face 'org-document-info-keyword) "${title:75} " (propertize "${tags}" 'face 'org-tag)))
+
+  ;; Since headlines with ATTACH will have an ID, org-roam would consider them as
+  ;; nodes. This exclude all headlines with the ATTACH tag from the Org-roam
+  ;; database to avoid that.
+  (org-roam-db-node-include-function (lambda () (not (member "ATTACH" (org-get-tags)))))
+
+  (org-roam-capture-templates '(
+                                ("d" "default" plain "Criado em %u\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n\n")
+                                 :unnarrowed t :immediate-finish t)
+                                ("e" "De um E-mail" plain "Criado em %u\n\nE-mail-original: %a\nEnviado por %:from em %:date\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n")
+                                 :unnarrowed t)
+                                ("i" "IAB" plain "Criado em %u\n\n- Links :: [[id:0878fa71-2454-4d2d-a63f-8327a8a70681][IAB]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :GTEL:IAB:5G:")
+                                 :unnarrowed t :immediate-finish t)
+                                ("D" "Doutorado" plain "Criado em %u\n\n- Links :: [[id:685ce449-937c-4977-9bbc-6177273c8c49][Doutorado]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :Doutorado:")
+                                 :unnarrowed t :immediate-finish t)
+                                ;; ("i" "IAB" plain "Criado em %u\n\n%?" :if-new
+                                ;;  (file+name "%<%Y%m%d%H%M%S>-${slug}" "#+TITLE: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :GTEL:IAB:5G:\n\n- Links :: hahaha\n\n")
+                                ;;  :unnarrowed t)
+                                ))
+  :init
+  (org-roam-db-autosync-mode)
+
+  (add-to-list 'display-buffer-alist
+               '("\\*org-roam\\*"
+                 (display-buffer-in-direction)
+                 (direction . right)
+                 (window-width . 0.33)
+                 (window-height . fit-window-to-buffer)))
+  :bind (([f6] . org-roam-node-find)
+         ("C-c n f" . org-roam-node-find)
+         ("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n i" . org-roam-node-insert))
+  :config
+  ;; Define an acessor for the number of backlinks to a note -> we
+  ;; will use this in org-roam-node-display-template
+  ;; Taken from https://github.com/org-roam/org-roam/wiki/User-contributed-Tricks#showing-the-number-of-backlinks-for-each-node-in-org-roam-node-find
+  (cl-defmethod org-roam-node-backlinkscount ((node org-roam-node))
+    (let* ((count (caar (org-roam-db-query
+                         [:select (funcall count source)
+                                  :from links
+                                  :where (= dest $s1)
+                                  :and (= type "id")]
+                         (org-roam-node-id node)))))
+      (format "[%d]" count)))
+  )
+
+
+(defun my-orb-action-copy-pdf-location-to-killring (citekey)
+  (let ((key (car citekey)))
+    (kill-new (org-ref-get-pdf-filename key))
+    ))
+
+(defun my-orb-action-open-pdf-file-in-emacs (citekey)
+  (let ((key (car citekey)))
+    (find-file (org-ref-get-pdf-filename key))
+    ))
+#+end_src
+
+** Clearner backlinks buffer
+The code below will replace a function in org-roam such that only the start of a file is
+shown in the backlink buffer
+#+begin_src elisp
+(defun org-roam-preview-get-contents (file pt)
+  "Get preview content for FILE at PT."
+  (save-excursion
+    (org-roam-with-temp-buffer file
+      (org-with-wide-buffer
+       (goto-char pt)
+       (let ((beg (progn (org-roam-end-of-meta-data t)
+                         (point)))
+             (end (progn (end-of-paragraph-text)
+                         (point))))
+         (string-trim (buffer-substring-no-properties beg end)))))))
+#+end_src
+
+** Search roam notes with ripgrep
+You can already use ~consult-ripgrep~ from the notes folder or from a note to search in all
+notes. The code below has a nicer function that you can use instead
+#+begin_src elisp
+;; taken from https://org-roam.discourse.group/t/using-consult-ripgrep-with-org-roam-for-searching-notes/1226
+(defun bms/org-roam-rg-search ()
+  "Search org-roam directory using consult-ripgrep. With live-preview."
+  (interactive)
+  (let ((consult-ripgrep-command "rg --null --ignore-case --type org --line-buffered --color=always --max-columns=500 --no-heading --line-number . -e ARG OPTS"))
+    (consult-ripgrep org-roam-directory)))
+
+(use-package consult
+  :defer t
+  :bind
+  ([C-f6] . bms/org-roam-rg-search)
+  )
+#+end_src
+
+** COMMENT Org-roam-bibtex
+#+begin_src elisp
+(use-package org-roam-bibtex
+  :ensure t
+  :after org-roam
+  :defer t
+  :hook (org-roam-mode . org-roam-bibtex-mode)
+  :config
+  (add-to-list 'orb-preformat-keywords "year")
+  (add-to-list 'orb-preformat-keywords "doi")
+
+  ;; Add some useful extra "notes actions"
+  ;; Use the `C-c ) a` keybinding to call one of the actions
+  (add-to-list 'orb-note-actions-user (cons "Copy PDF location to kill-ring" #'my-orb-action-copy-pdf-location-to-killring))
+  (add-to-list 'orb-note-actions-user (cons "Open PDF file in Emacs" #'my-orb-action-open-pdf-file-in-emacs))
+  ;; :custom
+  ;; (orb-templates '(("r" "ref" plain (function org-roam-capture--get-point) ""
+  ;;                   :file-name "paper_${citekey}"
+  ;;                   :head "#+TITLE: ${title}\n#+ROAM_KEY: ${ref}\n#+ROAM_TAGS: §Literature §${year}\n#+STARTUP: indent\n\n\nPDF: [[file:${file}][${title}]]\nBib entry: [[file:~/org/references/articles.bib::${citekey}][${title}]]\n\n* ${title}\n:PROPERTIES:\n:Custom_ID: ${citekey}\n:DOI:       ${doi}\n:AUTHOR:   ${author}\n:NOTER_DOCUMENT: ${file}\n:NOTER_PAGE:\n:END:\n" ; <--
+  ;;                   :unnarrowed t)))
+  )
+#+end_src
+
+** Functions to find IDs in all roam files
+*Note*: If IDs are not known and you need to search all org-roam files for IDs, run the
+~my/org-id-update-org-roam-files~ function.
+
+#+begin_src elisp
+(defun my/org-id-update-all-org-roam-files ()
+  "Update Org-ID locations for all Org-roam files."
+  (interactive)
+  (org-id-update-id-locations (org-roam-list-files)))
+
+(defun my/org-id-update-id-current-file ()
+  "Scan the current buffer for Org-ID locations and update them."
+  (interactive)
+  (org-id-update-id-locations (list (buffer-file-name (current-buffer)))))
+#+end_src
+
+** Org-roam UI
+#+begin_src elisp
+(use-package org-roam-ui
+  :ensure t
+  :after org-roam
+  :commands (org-roam-ui-mode)
+  )
+#+end_src
+
+* Outline
+#+begin_src elisp
+(use-package outline
+  :diminish outline-minor-mode
+  :defer t
+  :bind (:map outline-minor-mode-map
+              ("C-M-n" . outline-next-visible-heading)
+              ("C-M-p" . outline-previous-visible-heading)
+              ("C-M-u" . outline-up-heading)
+              )
+  )
+
+(defun darlan/set-up-outline-minor-mode (local-outline-regexp)
+  "Set the outline-regex to local-outline-regexp"
+  (set (make-local-variable 'outline-regexp) local-outline-regexp)
+  (outline-minor-mode t)
+  )
+#+end_src
+
+* Calendar                                                                 :Calendar:
+Useful keybindings:
+| .   | go to today             |
+| <   | calendar-scroll-right   |
+| >   | calendar-scroll-left    |
+| C-@ | calendar-set-mark       |
+| ?   | calendar-gogo-info-node |
+| a   | list holidays           |
+| c   | goto org-agenda         |
+| g   | prefix -> go to date     |
+| h   | Show holiday at point   |
+| x   | mark holidays           |
+| u   | unmark calendar         |
+| M-= | count days in region    |
+| S   | calendar-sunrise-sunset |
+
+#+begin_src elisp
+(use-package emacs
+  :custom
+  (calendar-mark-holidays-flag nil)
+  (calendar-latitude -3.77)
+  (calendar-longitude -38.57)
+  :bind (("C-c C" . calendar)))
+
+;; Adaptado de https://github.com/xboard/emacs-brazilian-holidays/blob/master/brazilian-holidays.el
+(setq feriados-nacionais-fixos
+      `((holiday-fixed 1 1 "Feriado de Confraternização Mundial")
+        (holiday-fixed 4 21 "Feriado de Tiradentes")
+        (holiday-fixed 5 1 "Feriado do Dia do Trabalho")
+        (holiday-fixed 9 7 "Feriado da Independência do Brasil")
+        (holiday-fixed 10 12 "Feriado de Nossa Senhora Aparecida")
+        (holiday-fixed 11 2 "Feriado de Finados")
+        (holiday-fixed 11 15 "Feriado de Proclamação da República")
+        (holiday-fixed 12 25 "Feriado de Natal")
+        ))
+
+(setq feriados-nacionais-moveis
+      `((holiday-easter-etc 0 "Feriado de Páscoa")
+        (holiday-easter-etc -47 "Feriado de Carnaval")
+        (holiday-easter-etc -2 "Feriado da Sexta-feira Santa - Paixão de Cristo")
+        ;;(holiday-easter-etc 49 "Feriado de Pentecostes")
+        ;;(holiday-easter-etc 56 "Feriado do Domingo da Santíssima Trindade")
+        (holiday-easter-etc 60 "Feriado de Corpus Christi")))
+
+(setq feriados-facultativos-fixos
+      `(
+        (holiday-fixed 10 15 "Dia do Professor")
+        (holiday-fixed 10 28 "Dia do Servidor Público")
+        ))
+
+(setq feriados-estaduais-ce
+      `(
+        (holiday-fixed 3 19 "Dia de São José")
+        (holiday-fixed 3 25 "Data magna do Ceará")
+        ))
+
+(setq calendar-holidays
+      (append feriados-nacionais-fixos
+              feriados-nacionais-moveis
+              feriados-estaduais-ce
+              feriados-facultativos-fixos
+              ))
+#+end_src
+
+* General Programming (not including any specific language)             :Programming:
+** Some pretty symbols
+#+begin_src elisp
+(add-hook
+ 'prog-mode-hook
+ (lambda ()
+   (add-to-list 'prettify-symbols-alist '("<=" . "≤"))
+   (add-to-list 'prettify-symbols-alist '(">=" . "≥"))
+   (setq prettify-symbols-unprettify-at-point t)
+   (prettify-symbols-mode)
+   )
+ )
+#+end_src
+
+** Handle ansi colors in compilation buffer                            :Compilation:
+#+begin_src elisp
+(use-package ansi-color
+  :defer t
+  :commands ansi-color-apply-on-region
+  :init
+  (defun colorize-compilation-buffer ()
+    (toggle-read-only)
+    (ansi-color-apply-on-region compilation-filter-start (point))
+    (toggle-read-only))
+
+  :hook
+  (compilation-filter . colorize-compilation-buffer)
+  )
+#+end_src
+
+** Flycheck                                                               :Flycheck:
+https://www.flycheck.org/en/latest/index.html
+
+#+begin_src elisp
+(use-package flycheck
+  :ensure t
+  ;; :init
+  ;;(global-flycheck-mode)
+  :hook
+  (prog-mode . flycheck-mode)
+  )
+#+end_src
+
+* YAML                                                                         :YAML:
+#+begin_src elisp
+(use-package yaml-mode
+  :ensure t
+  :defer t)
+#+end_src
+
+* PDF                                                                           :PDF:
+** PDF-tools package
+#+begin_src elisp
+(use-package pdf-tools
+  :ensure t
+  :init
+  ;; First argument "t" means "Build the program (if necessary)
+  ;; without asking first". The second argument "t" means "Don't
+  ;; attempt to install system packages".
+  (pdf-tools-install t t)
+  )
+
+;; (with-eval-after-load 'pdf-view
+;;   (require 'pdf-continuous-scroll-mode))
+#+end_src
+
+** Keybindings                                                         :Keybindings:
+#+begin_src elisp
+(use-package pdf-view
+  :defer t
+  :bind (
+         :map pdf-view-mode-map
+         ("c" . pdf-continuous-scroll-mode)
+         ("i" . pdf-view-midnight-minor-mode)
+         ([f9] . tex-all)  ; We want to compile when viewing the PDF
+         ([f10] . (lambda () (interactive) (ver-pdf-no-evince (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
+         ([S-f10] . (lambda () (interactive) (eaf-open (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
+
+         ;; Set "g" as keybinding to "pdf-view-goto-page" when viewing pdfs
+         ("g" . pdf-view-goto-page)
+         ("<C-mouse-4>" . pdf-view-enlarge)
+         ("<C-mouse-5>" . pdf-view-shrink)
+         ("<S-mouse-4>" . (lambda () (interactive) (image-backward-hscroll 4)))
+         ("<S-mouse-5>" . (lambda () (interactive) (image-forward-hscroll 4)))
+
+         ("<M-left>" . (lambda () (interactive) (image-backward-hscroll 6)))
+         ("<M-right>" . (lambda () (interactive) (image-forward-hscroll 6)))
+         ("<C-left>" . (lambda () (interactive) (image-backward-hscroll 6)))
+         ("<C-right>" . (lambda () (interactive) (image-forward-hscroll 6)))
+
+         ("<C-M-left>" . (lambda () (interactive) (image-backward-hscroll 15)))
+         ("<C-M-right>" . (lambda () (interactive) (image-forward-hscroll 15)))
+
+         ("<C-up>" . (lambda () (interactive) (pdf-view-previous-line-or-previous-page 4)))
+         ("<C-down>" . (lambda () (interactive) (pdf-view-next-line-or-next-page 4)))
+         ("<M-up>" . (lambda () (interactive) (pdf-view-previous-line-or-previous-page 4)))
+         ("<M-down>" . (lambda () (interactive) (pdf-view-next-line-or-next-page 4)))
+         )
+  )
+#+end_src
+
+** Integration with org (create org-links)                                 :OrgMode:
+#+begin_src elisp
+(use-package org-pdftools
+  :ensure t
+  :hook (org-mode . org-pdftools-setup-link))
+#+end_src
+
+* Dired                                                                       :Dired:
+#+begin_src elisp
+;; (use-package dired-git
+;; :ensure t
+;; :config (add-hook 'dired-mode-hook 'dired-git-mode)
+;; )
+
+;; Use the nice icons from treemacs in dired buffers
+(use-package treemacs-icons-dired
+  :defer t
+  :ensure t
+  :config
+  (treemacs-icons-dired-mode))
+
+(use-package dired-x
+  :bind (:map dired-mode-map
+  ("C-x M-o" . dired-omit-mode))
+  :custom
+  (dired-listing-switches "-alhv")  ;; Add "h" to switches to get human-readable sizes
+
+  (dired-guess-shell-alist-user '(
+                                  ("\\.pdf\\'" "evince")
+                                  ("\\.xmind" "xmind-zen")
+                                  ))
+  :config
+  (add-to-list 'dired-omit-extensions ".fdb_latexmk")
+  (add-to-list 'dired-omit-extensions "synctex.gz")
+  (add-to-list 'dired-omit-extensions "log")
+  (add-to-list 'dired-omit-extensions "fls")
+  (add-to-list 'dired-omit-extensions "converted-to.pdf")
+  (add-to-list 'dired-omit-extensions "bcf")
+  (add-to-list 'dired-omit-extensions "acn")
+  (add-to-list 'dired-omit-extensions "acr")
+  (add-to-list 'dired-omit-extensions "alg")
+  (add-to-list 'dired-omit-extensions "ist")
+  (add-to-list 'dired-omit-extensions "loc")
+  (add-to-list 'dired-omit-extensions "soc")
+  (add-to-list 'dired-omit-extensions "slg")
+  (add-to-list 'dired-omit-extensions "slo")
+  (add-to-list 'dired-omit-extensions "sls")
+  (add-to-list 'dired-omit-extensions "wrt")
+  (add-to-list 'dired-omit-extensions "tikz.pdf")
+  (add-to-list 'dired-omit-extensions ".figlist")
+  (add-to-list 'dired-omit-extensions ".ilg")
+  (add-to-list 'dired-omit-extensions ".ind")
+  (add-to-list 'dired-omit-extensions ".out")
+  (add-to-list 'dired-omit-extensions ".run.xml")
+  (add-to-list 'dired-omit-extensions ".org_archive")
+  (add-to-list 'dired-omit-extensions ".bak")
+  (add-to-list 'dired-omit-extensions ".tramp_history")
+  (add-to-list 'dired-omit-extensions ".python_history")
+  (setq dired-omit-files (concat dired-omit-files "\\|^.idea"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^.ipynb_checkpoints"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^.cache"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^.mypy_cache"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^.ccls-cache"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^.vscode"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^__pycache__"))
+  )
+#+end_src
+
+* Project                                                                   :Project:
+Emacs already has a notion of a "project" with native =project.el=
+
+Keybindings are in "C-x p <something>".
+
+Ex:
+- ~C-x p f~ for project-find-file
+- ~C-x p g~ for project-find-regexp
+- ~C-x p D~ for project-dired
+
+
+The problem with =project.el= is that it currently only supports VC and EDE backends. Most
+of the time this is enough, since I'm usually using git. However, sometimes being able to
+specify that a folder is a project with the presence of a special file (such as
+.projectile with the =projectile= library) is useful.
+
+The code below will make emacs recognize a folder with a =.project= file as a project.
+#+begin_src elisp
+;; Taken from https://www.manueluberti.eu/emacs/2020/11/14/extending-project/
+(cl-defmethod project-root ((project (head local)))
+  (cdr project))
+
+(defun mu--project-files-in-directory (dir)
+  "Use `fd' to list files in DIR."
+  (let* ((default-directory dir)
+         (localdir (file-local-name (expand-file-name dir)))
+         (command (format "fd -t f -0 . %s" localdir)))
+    (project--remote-file-names
+     (sort (split-string (shell-command-to-string command) "\0" t)
+           #'string<))))
+
+(cl-defmethod project-files ((project (head local)) &optional dirs)
+  "Override `project-files' to use `fd' in local projects."
+  (mapcan #'mu--project-files-in-directory
+          (or dirs (list (project-root project)))))
+
+(defun mu-project-try-local (dir)
+  "Determine if DIR is a non-Git project.
+DIR must include a .project file to be considered a project."
+  (let ((root (locate-dominating-file dir ".project")))
+    (and root (cons 'local root))))
+
+(use-package project
+  :defer t
+  :config
+  (add-to-list 'project-find-functions 'mu-project-try-local)
+  )
+
+#+end_src
+
+* LSP                                                                   :Programming:
+General configuration to LSP.
+
+Configuration specific to a language should be in that language configuration heading
+
+#+begin_src elisp
+;; (use-package lsp-mode
+;;   :ensure t
+;;   :config
+;;   (setq lsp-file-watch-threshold 6000
+;;         lsp-enable-snippet t))
+
+;; Note that this must come before the use-package for LSP to have an effect
+(setq lsp-keymap-prefix "C-c l")
+
+(use-package lsp-mode
+  :ensure t
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (c++-mode . lsp)
+         (python-mode . lsp)
+         ;; if you want which-key integration
+         (lsp-mode . lsp-enable-which-key-integration))
+  :commands lsp
+  :config
+  (setq lsp-file-watch-threshold 6000
+        lsp-enable-snippet t)
+  )
+#+end_src
+
+* Consult-LSP
+#+begin_src elisp
+(use-package consult-lsp
+  :ensure t
+  :config
+  (consult-lsp-marginalia-mode)
+  :bind (
+         :map c++-mode-map (
+                            ("M-i" . consult-lsp-file-symbols)
+                            ("M-I" . consult-lsp-symbols)
+                            ))
+  )
+#+end_src
+
+* TODO DAP
+https://github.com/MatthewZMD/.emacs.d#dap
+* C++                                                               :CPP:Programming:
+** My functions
+#+begin_src elisp
+
+
+;; Change between .h and .cpp
+
+;; (defun change-between-h-cpp ()
+;;   "If the library eassist is loaded, call
+;;       eassist-switch-h-cpp. Otherwise, call the builtin
+;;       ff-find-other-file function"
+;;   (interactive)
+;;   (if (fboundp 'eassist-switch-h-cpp)
+;;       (eassist-switch-h-cpp)
+;;     (ff-find-other-file)))
+
+
+;; Compile Functions
+
+(defvar darlan-current-cmake-target nil)
+
+(defvar darlan-current-cmake-target-run-arguments nil)
+
+(defvar darlan-current-cmake-target-folder nil)
+
+(defvar darlan-cmake-use-ninja nil)
+
+(defvar darlan-build-dir "build")
+
+(defun darlan-get-project-root ()
+  "Get the current project root"
+  ;; (projectile-project-root)
+  (project-root (project-current))
+  )
+
+(defun darlan-get-make-or-ninja-compile-command ()
+  "Get the CMake generated makefile or ninja compile command"
+  (if darlan-cmake-use-ninja
+      "ninja "
+    (concat "make -k -j " (number-to-string (system-cores :logical)) " ")
+    )
+  )
+
+(defun darlan-save-and-compile-internal (target-name folder-name)
+  "Compile the target 'target-name' using the cmake generated Makefile"
+  (save-buffer 0)
+  ;; (compile (concat "make -k -j 8 " darlan-current-cmake-target))
+  (let ((make-command (concat "cd " (darlan-get-project-root) darlan-build-dir "/" folder-name" && " (darlan-get-make-or-ninja-compile-command))))
+    (compile (concat make-command target-name)))
+  )
+
+
+(defun darlan-save-and-compile (target-name-and-folder)
+  "Ask the target name then save and compile the target"
+  (interactive "sCompile TargetName: ")
+
+  (if (string-match " " target-name-and-folder)
+      (progn
+        (setq target-name-and-folder (split-string target-name-and-folder))
+
+        (setq target-name (car target-name-and-folder))
+        (setq folder-name (car (cdr target-name-and-folder)))
+        )
+    (progn
+      (setq target-name target-name-and-folder)
+      (setq folder-name ""))
+    )
+
+  (setq darlan-current-cmake-target target-name)
+  (setq darlan-current-cmake-target-folder folder-name)
+  (darlan-save-and-compile-last-target)
+  )
+
+
+(defun darlan-save-and-compile-last-target ( )
+  "Save and compile the last target"
+  (interactive)
+  (darlan-save-and-compile-internal darlan-current-cmake-target darlan-current-cmake-target-folder)
+  )
+
+(defun darlan-run-last-target ()
+  (interactive)
+  (let ((run-command (concat "cd " (darlan-get-project-root) darlan-build-dir "/bin && ./" darlan-current-cmake-target " " darlan-current-cmake-target-run-arguments)))
+    (compile run-command)
+    )
+  )
+
+(defun darlan-run-last-target-with-arguments (args)
+  "Ask for arguments to run the last target and then run it"
+  (interactive "sArguments: ")
+  (setq darlan-current-cmake-target-run-arguments args)
+  (darlan-run-last-target)
+  )
+
+;; (defun darlan-compile-and-run-last-target ()
+;;   (interactive)
+;;   (darlan-save-and-compile-last-target)
+;;   (while compilation-in-progress
+;;     (sleep-for 0 100)
+;;     )
+;;   (darlan-run-last-target)
+;;   )
+
+(defun darlan-get-cmake-this-file-target ()
+  ;; "Get the name of the compile target for the currently visited file"
+  (let ((target-name (darlan-replace-in-string (darlan-get-project-root) "" (buffer-file-name))))
+    (setq target-name (replace-regexp-in-string "\\.cpp\\|\\.h" ".o" target-name))
+    )
+  )
+
+
+;; Compile only the current file (prom a cmake based project)
+(defun darlan-save-and-compile-single-file ()
+  (interactive)
+  ;;(darlan-save-and-compile-internal (darlan-get-cmake-this-file-target))
+  (save-buffer 0)
+  (rtags-compile-file)
+  )
+
+
+(defun darlan-generate-documentation ( )
+  "Generate the documentation in a cmake based project using Doxygen.
+This assume that there is a 'doc' folder in the project root."
+  (interactive)
+  (let ((doxygen-command (concat "cd " (darlan-get-project-root) "docs && doxygen")))
+    (compile doxygen-command)
+    )
+  )
+
+
+(defun darlan-open-doxygen-generated-index ( )
+  "Open the index.html file generated by Doxygen for the cmake based project"
+  (interactive)
+  (let ((open-index-command (concat "firefox " (darlan-get-project-root) "docs/html/index.html")))
+    (start-process-shell-command
+     "browse"
+     "ProjectDocumentation"
+     open-index-command)
+    )
+  )
+
+
+#+end_src
+
+** General configuration
+#+begin_src elisp
+(use-package cc-mode
+  :defer t
+  :custom
+  (compilation-window-height 16)
+  :bind (:map c++-mode-map
+              ([M-f9] . darlan-save-and-compile) ;; Ask for the target name and compile it
+              ([f9] . darlan-save-and-compile-last-target)  ;; Recompile the last target
+              ([f10] . darlan-run-last-target)
+              ([M-f10] . darlan-run-last-target-with-arguments)
+              ([C-f9] . darlan-save-and-compile-single-file)  ;; Compile only the current source file
+              ([S-f9] . darlan-generate-documentation)  ;; Generate the doxygen documentation
+              ([C-S-f9] . darlan-open-doxygen-generated-index)
+              ;; Alternate between header and source. You could also use lsp-clangd-find-other-file instead
+              ("M-o" . ff-find-related-file)
+              )
+  :config
+  ;; If the indentation is wrong at some place, put the cursor there and use "C-c
+  ;; C-o" to find-out the offset and the name of the syntactical element under the
+  ;; cursor. Example: put the cursor in the "{" in a function definition and use
+  ;; "C-c C-o". Emacs will tell that the syntactical element is "defun-open". Now,
+  ;; see the help for the c-offsets-alist variable and look for defun-open to see
+  ;; what it is. Using this you can known how to adapt a style to your needs.
+  ;;
+  ;; Copied stroustrup style add add the "innamespace . 0"
+  (c-add-style "darcamo"
+               '("stroustrup"
+                 ;; (c-doc-comment-style . doxygen)
+                 ;;   (c-basic-offset . 4)
+                 ;;   (c-comment-only-line-offset . 0)
+                 ;;   (c-offsets-alist
+                 ;;    (statement-block-intro . +)
+                 ;;    (substatement-open . 0)
+                 ;;    (substatement-label . 0)
+                 ;;    (label . 0)
+                 ;;    (statement-cont . +)
+                 (innamespace . 0))
+               )
+  (push '(c-mode . "darcamo") c-default-style)
+  (push '(c++-mode . "darcamo") c-default-style)
+  )
+
+
+;; c-c++-lsp-enable-semantic-highlight nil
+#+end_src
+
+** CMake-mode
+#+begin_src elisp
+(use-package cmake-mode
+  :defer t
+  :ensure t
+  :bind ( :map cmake-mode-map
+          ([M-f9] . darlan-save-and-compile) ;; Ask for the target name and compile it
+          ([f9] . darlan-save-and-compile-last-target)  ;; Recompile the last target
+          ([f10] . darlan-run-last-target)
+          ([M-f10] . darlan-run-last-target-with-arguments)
+          ([C-f9] . darlan-save-and-compile-single-file)  ;; Compile only the current source file
+          ([S-f9] . darlan-generate-documentation)  ;; Generate the doxygen documentation
+          ([C-S-f9] . darlan-open-doxygen-generated-index)
+          )
+  )
+#+end_src
+
+** Ninja Mode
+#+begin_src elisp
+(use-package ninja-mode
+  :defer t
+  :ensure t)
+#+end_src
+
+** TODO Other packages to investigate                                  :Investigate:
+- [[https://github.com/plandes/flex-compile][flex-compile]]
+- [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
+* TODO Python                                                    :Programming:Python:
+* Latex                                                                       :Latex:
+** Some useful functions
+#+begin_src elisp
+;;;; Use the ac yasnippets acronym instead (keybinding is f5)
+;; (defun latex-skeleton-ac (acronym)
+;;   "Ask for an acronym and inserts \\ac{acronym}. You probably want to call latex-skeleton-acronym instead."
+;;   (interactive "MAcronym: ")
+;;   (insert "\\ac{" acronym "}"))
+
+;; (defun latex-skeleton-acronym ()
+;;   "Surround current word with \\ac{} if mark is active of prompts for an acronym and insert \ac{acronym}."
+;;   (interactive)
+;;   (let (pos1 pos2 acronym)
+;;     (if (and transient-mark-mode
+;;              mark-active)
+;;         (progn (setq pos1 (region-beginning) pos2 (region-end))
+;;                (setq acronym (buffer-substring pos1 pos2))
+;;                (delete-region pos1 pos2)
+;;                (goto-char pos1)
+;;                (insert "\\ac{" acronym "\}")
+;;                )
+;;       (latex-skeleton-ac (read-from-minibuffer "Acronym: "))
+;;       )))
+
+
+(defun latex-skeleton-math-left-right ( left-symbol right-symbol)
+  "Inserts \"\\left left-symbol \\right right-symbol\" and the cursor will be between \"\\left-symbol and \\right\"."
+  (let ((region "") pos)
+    (insert "\\left " left-symbol " ")
+    (setq pos (point))
+    (insert " " region " \\right " right-symbol)
+    (goto-char pos))
+  )
+
+(defun latex-skeleton-math-left-right-symbol ()
+  "Inserts \"\left left-symbol \right right-symbol\". If mark is active surround
+  the active region with it."
+  (interactive)
+  (let (left-symbol right-symbol pos1 pos2 region)
+    (setq left-symbol (read-from-minibuffer "Left Symbol: ")
+          right-symbol (read-from-minibuffer "Right Symbol: "))
+
+    (if (and transient-mark-mode
+             mark-active)
+        (progn (setq pos1 (region-beginning) pos2 (region-end))
+               (setq region (buffer-substring pos1 pos2))
+               (delete-region pos1 pos2)
+               (goto-char pos1)
+               (latex-skeleton-math-left-right left-symbol right-symbol)
+               (insert region)
+               )
+      (latex-skeleton-math-left-right left-symbol right-symbol))
+    ))
+
+
+
+
+
+;; Function to run latex on the master file
+(defun tex-all (arg)
+  "Compile the latex file (or its master).
+
+This will either run latex/build from spacemacs layer, or
+TeX-command-master (from auctex) with a 'Latex' argument."
+  (interactive "P")
+  (if (fboundp 'latex/build)
+      ;; If the function latex/build exist (it is defined in spacemacs LaTeX
+      ;; layer) then we use it to compile our latex file
+      (latex/build)
+    ;; If the function latex/build does not exist then we use standard Auctex
+    ;; functions and variables
+    (let ((TeX-command-force "Latex"))
+      ;;(TeX-save-document (TeX-master-file))
+      (basic-save-buffer)
+      (TeX-command-master arg)
+      )
+    )
+  )
+
+(defun my-latex-textcolor-red ()
+  "Surround current region with \textcolor{red}{ } if mark is active or prompts for a text and insert \textcolor{red}{acronym}."
+  (interactive)
+  (let (pos1 pos2 text)
+    (if (and transient-mark-mode
+             mark-active)
+        (my-latex-surround-textcolor-red (region-beginning) (region-end))
+      (insert "\\textcolor{red}{" (read-from-minibuffer "Text in red: ") "}")
+      )))
+
+(defun my-latex-surround-textcolor-red (beg end)
+  "Surround the region with \textcolor{red}{ }"
+  (interactive "r")
+  (save-restriction
+    (narrow-to-region beg end)
+    (goto-char (point-min))
+    (insert "\\textcolor{red}{")
+    (goto-char (point-max))
+    (insert "}")))
+
+;; Bound this to S-M-return
+(defun dar/LaTeX-insert-item-inverse-behavior ()
+  "Similar to LaTeX-insert-item, but reverse the behavior of the
+        LaTeX-beamer-item-overlay-flag variable. That is if
+        LaTeX-beamer-item-overlay-flag is t then LaTeX-insert-item will
+        ask for an overlay specifications, while
+        LaTeX-insert-item-inverse-behavior will not and vice-versa."
+  (interactive)
+  ;; We only want to change LaTeX-beamer-item-overlay-flag locally in the
+  ;; dar/LaTeX-insert-item-inverse-behavior function
+  (let (LaTeX-beamer-item-overlay-flag (not LaTeX-beamer-item-overlay-flag))
+    (LaTeX-insert-item))
+  )
+#+end_src
+
+** General config
+#+begin_src elisp
+(use-package tex
+  :defer t
+  :ensure auctex
+  :after latex
+  :bind (
+         :map LaTeX-mode-map
+         ;; ([f5] . latex-skeleton-acronym)
+         ([C-f5] . latex-skeleton-math-left-right-symbol)
+         ("<C-S-f5>" . my-latex-textcolor-red)
+         ([f9] . tex-all)
+         ;; Define C-f9 to the compile command. This is useful when you
+         ;; work with latex and Makefiles
+         ([C-f9] . compile)
+         ([f10] . TeX-view)
+         ([S-f10] . (lambda () (interactive) (ver-pdf-no-evince (TeX-master-file "pdf") (TeX-synctex-output-page))))
+         ;; ("\C-\M-n" . outline-next-visible-heading)
+         ;; ("\C-\M-p" . outline-previous-visible-heading)
+         ("<S-M-return>" . dar/LaTeX-insert-item-inverse-behavior)
+
+         ;; :config
+         ;; Enable key bindings (M-p and M-p) for navigation
+         ;; (highlight-symbol-nav-mode)
+         )
+  :custom
+  (TeX-master nil)
+  (TeX-auto-save t)
+  (TeX-parse-self t)
+
+  ;; Extra indentation for lines beginning with an item.
+  (LaTeX-item-indent 0)
+
+  (LaTeX-beamer-item-overlay-flag nil)
+
+  (TeX-view-program-selection
+   '(
+     ((output-dvi has-no-display-manager) "dvi2tty")
+     ((output-dvi style-pstricks) "dvips and gv")
+     (output-dvi "xdvi")
+     (output-pdf "PDF Tools")
+     (output-html "xdg-open")))
+  :init
+  ;; Add the .synctex.gz file to the list of files to be cleared by the
+  ;; "Clear All" command
+  (add-to-list 'LaTeX-clean-output-suffixes "\\.synctex\\.gz")
+
+  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+
+  ;; We add this here to make sure we only load the auctex-latexmk
+  ;; package after the tex package has been loaded
+  (use-package auctex-latexmk
+    :ensure t
+    :config
+    (auctex-latexmk-setup)
+    )
+
+  :hook
+  (LaTeX-mode . reftex-mode)
+  (LaTeX-mode . TeX-source-correlate-mode)
+  ;; Since I never use plain tex, whenever Emacs tries to use plain
+  ;; tex mode (because I opened a .tex file, for instance) it will
+  ;; just change to latex mode
+  (plain-TeX-mode . LaTeX-mode)
+  )
+
+(use-package indent-guide
+  :ensure t
+  :defer t
+  :hook
+  (LaTeX-mode . (lambda () (indent-guide-mode t)))
+  )
+
+;; ;; Minor-mode that highlights the symbol under point throughout the buffer
+;; (use-package highlight-symbol
+;;   :ensure t
+;;   :hook (LaTeX-mode . highlight-symbol-mode)
+;;   )
+#+end_src
+
+** Set some faces
+#+begin_src elisp
+;; ;; Define a face for unimportant latex commands in math
+;; ;; Taken from https://endlessparentheses.com/improving-latex-equations-with-font-lock.html
+;; (defface endless/unimportant-latex-face
+;;   '((t :height 0.5
+;;        :inherit font-lock-comment-face))
+;;   "Face used on less relevant math commands.")
+;;
+;; (font-lock-add-keywords
+;;  'latex-mode
+;;  `((,(rx (or (and "\\" (or (any ",.!;")
+;;                            (and (or "left" "right"
+;;                                     "big" "Big")
+;;                                 symbol-end)))
+;;              (any "_^")))
+;;     0 'endless/unimportant-latex-face prepend))
+;;  'end)
+
+
+
+(defface darcamo/latex-math-vector-or-matrix-face
+  '((t (:weight bold :inherit font-latex-math-face)))
+  "Face used on vectors and matrices in latex math (\\vtX, \\mtX, etc)")
+
+;; (defface darcamo/latex-math-blackboard-face
+;;   '((t (:family "MathJax_AMS" :foreground "yellow" :background "red" :inherit font-latex-math-face)))
+;;   "Face used on blackboard symbols in latex math (\\bbA, \\bbV, etc)")
+
+
+
+;; Font para definir uma face para Sets: MathJax_AMS -> Note que ela só funciona
+;; para letras maiúsculas
+
+;; Font para caligraphic: Mathjax_Caligraphic -> Note que ela só funciona
+;; para letras maiúsculas
+
+
+;; This works, but it will not fontify it they \vt? and \mt? commands are
+;; replaced by pretiffied versions
+;; (font-lock-add-keywords 'latex-mode
+;;                         '(("\\vt[A-Z]\\|\\mt[A-Z]" . 'darcamo/latex-math-vector-or-matrix-face)
+;;                           ))
+
+;; ;; Pegue de https://emacs.stackexchange.com/questions/34043/how-to-highlight-prettified-symbols/34059#34059
+;;
+;; This will fontify not only all \vt? and \mt? but also the prettified symbols
+;; that replace them
+(font-lock-add-keywords
+ 'latex-mode
+ '(
+   ("\\(\\\\vt[A-Z]\\|\\\\mt[A-Z]\\)" ;; Matcher
+    ;; MATCH-HIGHLIGHT
+    (0 ;; number of the subexpression of MATCHER to be highlighted
+     (when (funcall prettify-symbols-compose-predicate
+                      (match-beginning 0)
+                      (match-end 0)
+                      (match-string 0))
+         'darcamo/latex-math-vector-or-matrix-face)
+     ;; OVERRIDE argument of MATCH-HIGHLIGHT -> 'append' means existing
+     ;; fontification is merged with the new
+       append))
+   )
+ 'append)
+
+(font-lock-add-keywords
+ 'latex-mode
+ '(
+   ("\\(\\\\vtAlpha\\|\\\\vtBeta\\|\\\\vtTheta\\|\\\\vtEpsilon\\|\\\\vtSigma\\|\\\\vtDelta\\|\\\\vtTau\\|\\\\vtGamma\\|\\\\vtOne\\|\\\\vtZero\\)" ;; Matcher
+    ;; MATCH-HIGHLIGHT
+    (0 ;; number of the subexpression of MATCHER to be highlighted
+     (when (funcall prettify-symbols-compose-predicate
+                    (match-beginning 0)
+                    (match-end 0)
+                    (match-string 0))
+       'darcamo/latex-math-vector-or-matrix-face)
+     ;; OVERRIDE argument of MATCH-HIGHLIGHT -> 'append' means existing
+     ;; fontification is merged with the new
+     append))
+   )
+ 'append)
+#+end_src
+
+** Set some pretty symbols
+#+begin_src elisp
+(defun darcamo/add-vector-and-matrix-prettify-symbol-letter (s)
+  "This will call 'add-to-list' function to add a pretty symbol for '\\vtS and \\mtS'"
+  (interactive "P")
+  (add-to-list 'prettify-symbols-alist `(,(concat "\\vt" (capitalize s)) . ,(downcase s) ) )
+  (add-to-list 'prettify-symbols-alist `(,(concat "\\mt" (capitalize s)) . ,(capitalize s) ) )
+  )
+
+(defun darcamo/add-blackboard-prettify-symbol-math-field (s)
+  "This will call 'add-to-list' function to add a pretty symbol for '\\bbS"
+  (interactive "P")
+  ;; The name of most characters double-struck version is "MATHEMATICAL
+  ;; DOUBLE-STRUCK CAPITAL X", where "X" is the character. However, for some
+  ;; reason the unicode name for a few of them is in the form "DOUBLE-STRUCK
+  ;; CAPITAL X". The characters with this shorter name version are: C H N P Q R Z
+  (if (member s '("C" "H" "N" "P" "Q" "R" "Z") )
+      (add-to-list 'prettify-symbols-alist `(,(concat "\\bb" s) . ,(char-to-string (char-from-name (concat "DOUBLE-STRUCK CAPITAL " s)))))
+    (add-to-list 'prettify-symbols-alist `(,(concat "\\bb" s) . ,(char-to-string (char-from-name (concat "MATHEMATICAL DOUBLE-STRUCK CAPITAL " s)))))
+    ))
+
+(defun darcamo/add-vector-and-matrix-prettify-symbol-greek (name unicode-value)
+  "This will call 'add-to-list' function to add a pretty symbol for '\\vtName' with 'unicode-value'"
+  (interactive "P")
+  (add-to-list 'prettify-symbols-alist `(,(concat "\\vt" (capitalize name)) . ,unicode-value) )
+  )
+
+;; A list
+(defvar darcamo/latin-letters-list '("A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z" ))
+
+
+(setq LaTeX-mode-hook
+      (function (lambda ()
+                  (outline-minor-mode t)
+                  (setq ispell-filter "tex")
+
+                  ;; Set pretiffy symbols for \\vt? and \\mt? for all latin letters
+                  (mapc 'darcamo/add-vector-and-matrix-prettify-symbol-letter darcamo/latin-letters-list)
+                  (mapc 'darcamo/add-blackboard-prettify-symbol-math-field darcamo/latin-letters-list)
+
+                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "alpha" "α")
+                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "beta" "β")
+                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "theta" "θ")
+                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "epsilon" "ε")
+                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "sigma" "σ")
+                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "delta" "δ")
+                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "tau" "τ")
+                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "gamma" "γ")
+                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "one" "1")
+                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "zero" "0")
+
+                  (setq prettify-symbols-unprettify-at-point t)
+                  (prettify-symbols-mode)
+                  ))
+      )
+#+end_src
+
+** Beamer                                                                   :Beamer:
+#+begin_src elisp
+(define-derived-mode beamer-mode
+  LaTeX-mode "Beamer-Mode" "A derived mode from LaTeX-mode for latex buffers with beamer presentations."
+  (setq outline-regexp "[   ]*\\\\\\(appendix\\|documentstyle\\|documentclass\\|part\\|chapter\\|section\\|subsection\\|subsubsection\\|paragraph\\|subparagraph\\|begin{frame}\\|end{frame}\\)\\|^[^%\n]*\\\\begin *{document}\\|^[^%\n]*\\\\end *{document}")
+
+  (setq reftex-section-levels
+        '(("section" . 1) ("subsection" . 2) ("frametitle" . 3)))
+
+  ;; (TeX-PDF-mode 1)  ;; Turn on PDF mode.
+
+  (setq LaTeX-beamer-item-overlay-flag nil)
+  (reftex-mode 1)
+  (reftex-reset-mode)
+  )
+
+
+;; Add some beamer commands as font-lock keywords
+;; (font-lock-add-keywords 'tikz-mode
+;;                         '(("\\(\\\\\\(frametitle\\|framesubtitle\\)\\){" 1 font-lock-warning-face t)))
+
+;; A file called presentations.tex is automatically in beamer-mode
+(add-to-list 'auto-mode-alist '("presentation\\.tex" . beamer-mode))
+
+(define-skeleton beamer-skeleton
+  "Inserts a Latex beamer skeleton into current buffer.
+This only makes sense for empty buffers."
+  nil
+  "\\documentclass{beamer}
+% \\documentclass[draft,handout]{beamer}
+% \\documentclass[handout, notes=show/hide/only]{beamer}
+% \\usepackage[orientation=landscape,size=custom,width=16,height=9,scale=0.5,debug]{beamerposter}
+
+\\mode<presentation>
+{
+  \\usetheme{AnnArbor}
+%   Possible Themes:
+%   \"AnnArbor\" \"Antibes\" \"Bergen\" \"Berkeley\" \"Berlin\" \"Boadilla\"
+%   \"boxes\" \"CambridgeUS\" \"Copenhagen\" \"Darmstadt\" \"Dresden\"
+%   \"Frankfurt\" \"Goettingen\" \"Hannover\" \"Ilmenau\" \"JuanLesPins\"
+%   \"Luebeck\" \"Madrid\" \"Malmoe\" \"Marburg\" \"Montpellier\" \"PaloAlto\"
+%   \"Pittsburgh\" \"Rochester\" \"Singapore\" \"Szeged\" \"Warsaw\"
+%   \"default\"
+%
+%   Best Ones:
+%   AnnArbor or CambridgeUS, Dresden or Frankfurt or Singapore, Goettingen or Hannover or Marburg, JuanLesPins, Madrid, PaloAlto, Warsaw
+
+  \\setbeamercovered{transparent} % How uncovered text showld appear. Possible values are: invisible,
+                                 % transparent, dynamic, highly dynamic, still covered, still
+                                 % covered, again covered.
+%   \\usecolortheme{wolverine}
+%   \\usefonttheme{serif}
+%   \\useinnertheme{circles}
+%   \\useoutertheme{shadow}
+
+
+\\usepackage[english]{babel}
+%\\usepackage[latin1]{inputenc} % Use this if the file is encoded with windows encoding
+\\usepackage[utf8]{inputenc} % Use this if the file is encoded with utf-8
+\\usepackage{times}
+\\usepackage[T1]{fontenc}
+\\usepackage{amsmath} % Part of AMS-LaTeX
+% One of the good things of the amsmath package is the math enviroments matrix, pmatrix, bmatrix, Bmatrix, vmatrix and Vmatrix
+\\usepackage{graphicx}
+\\usepackage{pgf}
+%\\usepackage{tikz} % Create graphics in Latex
+%\\usepackage{listings} % Typeset source code for many languages
+
+% Pegue em http://www.guidodiepen.nl/2009/07/creating-latex-beamer-handouts-with-notes/
+%\\usepackage{handoutWithNotes}
+%\\pgfpagesuselayout{4 on 1 with notes}[a4paper,border shrink=5mm]
+
+% \\setbeameroption{show notes}
+% \\setbeameroption{show only notes}
+}
+
+\\title"
+  (setq v1 (skeleton-read "Short Title for the Presentation: " "[short title]"))" % [short title] (optional, use only with long paper titles)" \n
+  "{"(skeleton-read "Title for the Presentation: ")"}" \n \n
+  _ "%\\subtitle{Include Only If Paper Has a Subtitle} % (optional)" \n \n
+  "\\author%[Author, Another] % (Optional, use only with lots of authors)" \n
+  "{" (skeleton-read "Author(s) - Use \\and to separate: " "Darlan Cavalcante Moreira") "}" \n
+  "%{F.~Author\\inst{1} \\and S.~Another\\inst{2}}" \n
+  "% - Give the names in the same order as the appear in the paper." \n
+  "% - Use the \\inst{?} command only if the authors have different affiliation." \n \n
+  "\\institute%[Universities of Somewhere and Elsewhere] % (Short version: optional, but mostly needed)" \n
+  "{" (skeleton-read "Instituto: " "Universidade Federal do Ceará") "}" \n
+  "% {
+%   \\inst{1}
+%   Department of Computer Science\\\\
+%   University of Somewhere
+%   \\and
+%   \\inst{2}
+%   Department of Theoretical Philosophy\\\\
+%   University of Elsewhere}
+  % - Use the \\inst command only if there are several affiliations.
+  % - Keep it simple, no one is interested in your street address." \n
+  "\\date{" (skeleton-read "Date: " "\\today") "}" \n
+  "%\\date[CFP 2003] % (optional, should be abbreviation of conference name)
+   %{Conference on Fabulous Presentations, 2003}
+   % - Either use conference name or its abbreviation.
+   % - Not really informative to the audience, more for people (including
+   %   yourself) who are reading the slides online" \n \n \n
+  "% xxxxxxxxxx For \"PDF information catalog\", can be left out xxxxxxxxxxxxxxxxxxxx
+\\subject{Subject of the presentation}
+\\keywords{keyword1, kwyword2}
+
+% If you have a file called \"university-logo-filename.xxx\", where xxx
+% is a graphic format that can be processed by latex or pdflatex,
+% resp., then you can add a logo as follows:
+
+% \\pgfdeclareimage[height=0.5cm]{university-logo}{university-logo-filename}
+% \\logo{\\pgfuseimage{university-logo}}
+
+% this shows the outline at the beginning of every section,
+% highlighting the current section
+% \\AtBeginSection[]
+% {
+%   \\begin{frame}<beamer>{}
+%     \\frametitle{Outline}
+%     \\tableofcontents[currentsection]
+%   \\end{frame}
+% }
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command:
+% \\beamerdefaultoverlayspecification{<+->}
+% xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \n \n \n
+  "% xxxxxxxxxxxxxxx Presentation Structure xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+% Structuring a talk is a difficult task and the following structure
+% may not be suitable. Here are some rules that apply for this
+% solution:
+
+% - Exactly two or three sections (other than the summary).
+% - At *most* three subsections per section.
+% - Talk about 30s to 2min per frame. So there should be between about
+%   15 and 30 frames, all told.
+
+% - A conference audience is likely to know very little of what you
+%   are going to talk about. So *simplify*!
+% - In a 20min talk, getting the main ideas across is hard
+%   enough. Leave out details, even if it means being less precise than
+%   you think necessary.
+% - If you omit details that are vital to the proof/implementation,
+%   just say so once. Everybody will be happy with that.
+% xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \n \n \n
+  "% xxxxxxxxxxxxxxx Frame Options xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+% [plain] -> Use the \"plain\" option when you want a frame with just a picture or table without anything-else
+% [fragile] -> Use the \"fragile\" option when the verbatim environment or the \\verb command is used inside the frame
+% You must also use the fragile option if you use the lstlisting environment since it is similar to verbatim" \n \n \n
+  "% xxxxxxxxxxxxxxx Useful Tips xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+% Blocks are another nice way to make highlighted blocks of text (or anything).
+%
+% \\begin{block}{Simple block}
+%   bla bla bla
+% \\end{block}
+%
+% \\begin{exampleblock}{Example block}
+%   bla bla bla
+% \\end{exampleblock}
+%
+% \\begin{alertblock}{}
+%   bla bla bla
+% \\end{alertblock}
+%
+% Columns are for vertically organizing text.
+% The beamer screen is 128 mm $\\times$ 96 mm.
+% Two columns of 6cm appears to work well. Remember to make
+% allowance for margins around the stuff inside a column. Three
+% columns of 4cm for figures may work as well.
+%   \\begin{columns}[t] % try also others different of [t]
+%     \\begin{column}{6cm}
+%       Stuff inside the first column
+%     \\end{column}
+%     \\begin{column}{6cm}
+%       Stuff inside the second column
+%     \\end{column}
+%   \\end{columns}
+%
+% You can use externally launched movies with
+% \\href{run:default.avi}{click here to open the movie}
+%
+% Besides using overlays you can also emphasize using
+% \\item<1- | alert@1>
+% \\item<2- | alert@2> ...
+%
+% Overlays can also be used with blocks
+% \\begin{block}{Some block}<1->
+%   bla bla bla
+% \\end{block}
+% \\begin{block}{Some other block}<2->
+%   bla bla bla
+% \\end{bloc}
+%
+% Ofcourse overlays can also be used with images
+% \\pgfuseimage{imagem1}<1>
+% \\pgfuseimage{imagem2}<2>
+% \\pgfuseimage{imagem3}<3>
+%
+% Example using columns:
+% \\begin{columns}[t]
+%   \\begin{column}{5cm}
+%     \\pgfdeclareimage[width=5cm]{automato1}{automato1}
+%     \\pgfuseimage{automato1}<1>
+%     \\pgfdeclareimage[width=5cm]{automato2}{automato2}
+%     \\pgfuseimage{automato2}<2>
+%     \\pgfdeclareimage[width=5cm]{automato3}{automato3}
+%     \\pgfuseimage{automato3}<3>
+%     \\pgfdeclareimage[width=5cm]{automato4}{automato4}
+%     \\pgfuseimage{automato4}<4>
+%   \\end{column}
+%   \\begin{column}{5cm}
+%     \\begin{itemize}
+%     \\item <1- | alert@1> Reconhecimento inicia no estado $q_1$
+%     \\item <2- | alert@2> Transição para estado $q_2$
+%     \\item <3- | alert@3> L^e $0$ e fica no estado $q_2$
+%     \\item <4- | alert@4> Transição para o estado final $q_3$
+%     \\end{itemize}
+%     \\[\\xymatrix{
+%      *++[o][F-]{q_1} \\ar@(ul,ul)[] \\ar[r]^{1}
+%      \\ar[d]^{0} & *++[o][F=]{q_3} \\\\
+%      *++[o][F-]{q_2} \\ar[ur]_{1} \\ar@(dl,d)[]_{0} }\\]
+%   \\end{column}
+% \\end{columns}
+% xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \n \n \n
+  "\\begin{document}" \n \n
+  "% % xxxxxxxxxxxxxxxxxxxx Some tikz options xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+% % For every picture that defines or uses external nodes, you'll have to
+% % apply the 'remember picture' style. To avoid some typing, we'll apply
+% % the style to all pictures.
+% \\tikzstyle{every picture}+=[remember picture]
+
+% % By default all math in TikZ nodes are set in inline mode. Change this to
+% % displaystyle so that we don't get small fractions.
+% \\everymath{\\displaystyle}
+% % xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" \n \n \n
+  "% \\part{Part 1}
+
+% beamer makes the titlepage from info above: author, date, title, etc.
+\\begin{frame}
+  \\titlepage
+\\end{frame}
+
+% beamer makes the ToC from sections and subsections below...
+\\begin{frame}{Outline}
+%  \\frametitle{Outline} % Frame Title can be an option of the frame environment or called explicitaly with the \\frametitle command
+  \\tableofcontents%[part=1]
+% You might wish to add the option [pausesections]
+% There are also options such as currentsection, currentsubsection, etc.
+\\end{frame}
+
+% \\begin{frame}
+% \\frametitle{Outline}
+% \\tableofcontents[part=2]
+% \\end{frame}" \n \n \n
+  "\\section{Motivation}
+
+\\subsection{The Basic Problem That We Studied}
+
+\\begin{frame}{Make Titles Informative.}{Subtitles are optional.} % Use Uppercase Letters
+  % - A title should summarize the slide in an understandable fashion
+  % for anyone how does not follow everything on the slide itself.
+  % Frame transition effects
+  \\transboxin<1>
+%   \\transblindshorizontal
+%   \\transblindsvertical
+%   \\transboxin
+%   \\transboxout
+%   \\transdissolve
+%   \\transglitter
+%   \\transsplithorizontalin
+%   \\transsplithorizontalout
+%   \\transsplitverticalin
+%   \\transsplitverticalout
+%   \\transwipe
+
+  \\begin{itemize}
+  \\item Use \\texttt{itemize} a lot.
+  \\item Use very short sentences or short phrases.
+  \\item ação
+  \\end{itemize}
+\\end{frame}" \n \n \n
+  "\\begin{frame}{Make Titles Informative.}%[options] % A good option when using figures or tables is the \"plain\" option
+
+  You can create overlays\\dots
+  \\begin{itemize}
+  \\item using the \\texttt{pause} command:
+    \\begin{itemize}
+    \\item
+      First item.
+      \\pause
+    \\item
+      Second item.
+    \\end{itemize}
+  \\item
+    using overlay specifications:
+    \\begin{itemize}
+    \\item<3->
+      First item.
+    \\item<4->
+      Second item.
+      \\note[item]{Uma nota}<1>
+    \\end{itemize}
+  \\item
+    using the general \\texttt{uncover} command:
+    \\begin{itemize}
+      \\uncover<5->{\\item
+        First item.}
+      \\uncover<6->{\\item
+        Second item.}
+    \\end{itemize}
+  \\end{itemize}
+  \\note[item]{Outra nota}<1> % Without the overlay specification the note will be added in all slides of a frame. This usually is not what you want.
+\\end{frame}" \n \n \n
+  "\\subsection{Previous Work}
+
+\\begin{frame}{Make Titles Informative.}
+\\end{frame}
+
+\\begin{frame}{Make Titles Informative.}
+\\end{frame}" \n \n \n
+  "\\section{Our Results/Contribution}
+
+\\subsection{Main Results}
+
+\\begin{frame}{Make Titles Informative.}
+\\end{frame}
+
+\\begin{frame}{Make Titles Informative.}
+\\end{frame}
+
+\\begin{frame}{Make Titles Informative.}
+\\end{frame}
+
+
+\\subsection{Basic Ideas for Proofs/Implementation}
+
+\\begin{frame}{Make Titles Informative.}
+\\end{frame}
+
+\\begin{frame}{Make Titles Informative.}
+\\end{frame}
+
+\\begin{frame}{Make Titles Informative.}
+\\end{frame}" \n \n \n
+  "\\section*{Summary}
+
+\\begin{frame}{Summary}
+
+  % Keep the summary *very short*.
+  \\begin{itemize}
+  \\item
+    The \\alert{first main message} of your talk in one or two lines.
+  \\item
+    The \\alert{second main message} of your talk in one or two lines.
+  \\item
+    Perhaps a \\alert{third message}, but not more than that.
+  \\end{itemize}
+
+  % The following outlook is optional.
+  \\vskip0pt plus.5fill
+  \\begin{itemize}
+  \\item
+    Outlook
+    \\begin{itemize}
+    \\item
+      Something you haven't solved.
+    \\item
+      Something else you haven't solved.
+    \\end{itemize}
+  \\end{itemize}
+\\end{frame}" \n \n \n
+  "% All of the following is optional and typically not needed.
+\\appendix
+\\section<presentation>*{\\appendixname}
+\\subsection<presentation>*{For Further Reading}
+
+\\begin{frame}[allowframebreaks]
+  \\frametitle<presentation>{For Further Reading}
+
+  \\begin{thebibliography}{10}
+
+    \\beamertemplatebookbibitems
+    % Start with overview books.
+
+  \\bibitem{Author1990}
+    A.~Author.
+    \\newblock {\\em Handbook of Everything}.
+    \\newblock Some Press, 1990.
+
+    \\beamertemplatearticlebibitems
+    % Followed by interesting articles. Keep the list short.
+
+  \\bibitem{Someone2000}
+    S.~Someone.
+    \\newblock On this and that.
+    \\newblock {\\em Journal of This and That}, 2(1):50--100,
+    2000.
+  \\end{thebibliography}
+\\end{frame}
+
+\\end{document}" \n \n
+  (beamer-mode)
+  )
+#+end_src
+
+* Preview Latex (org-mode and programming modes)                      :Latex:Preview:
+Layer darcamo-preview-latex
+
+#+begin_src elisp
+(use-package org
+  :defer t
+  :init
+  ;; Muda a escala das fórmulas de latex geradas para o preview-latex e para o exporte para html
+  (setq org-format-latex-options (quote (:foreground default :background default :scale 1.7 :html-foreground "Black" :html-background "Transparent" :html-scale 1.7 :matchers ("begin" "$1" "$" "$$" "\\(" "\\["))))
+
+  ;; Change the default latex packages
+  ;; (setq org-latex-default-packages-alist
+  ;;       '(("AUTO" "inputenc" t)
+  ;;         ("T1" "fontenc" t)
+  ;;         ;; ("" "fixltx2e" nil)  ;; This package is not necessary anymore
+  ;;         ("" "graphicx" t)
+  ;;         ("" "longtable" nil)
+  ;;         ("" "float" nil)
+  ;;         ("" "wrapfig" nil)
+  ;;         ("" "soul" t)
+  ;;         ("" "textcomp" t)
+  ;;         ("" "marvosym" t)
+  ;;         ;; ("" "wasysym" t) ;; Removed, since it conflicts with something in
+  ;;         ;;                  ;; my MathDefinitions package.
+  ;;         ("" "MathDefinitions" t)  ;; My custom latex package. Latex must be
+  ;;         ;; able to find this package.
+  ;;         ("" "latexsym" t)
+  ;;         ("" "amssymb" t)
+  ;;         ("" "hyperref" nil)
+  ;;         ("" "tikz" nil)  ;; If tikz is enabled in latex fragments the
+  ;;         ;; equations will be rendered in black even when
+  ;;         ;; the Emacs background is dark
+  ;;         "\\tolerance=1000"))
+
+  (add-to-list 'org-latex-default-packages-alist '("" "MathDefinitions" t) t)
+  (add-to-list 'org-latex-default-packages-alist '("" "tikz" nil) t)
+
+  ;; Faz com que o commando \vec seja conhecido para o preview latex
+  (setq org-preview-latex-image-directory "~/tmp/ltxpng/")
+
+  :bind
+  (:map prog-mode-map
+        ([C-f5] . org-latex-preview)
+        :map org-mode-map
+        ([C-f5] . org-latex-preview)
+        )
+  )
+
+
+(use-package org-fragtog
+  :ensure t
+  :defer t
+  :hook (org-mode . org-fragtog-mode)
+  :hook (python-mode . org-fragtog-mode)
+  :hook (c++-mode . org-fragtog-mode)
+  )
+#+end_src
+
+* TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
+** Bibtex                                                                   :Bibtex:
+#+begin_src elisp
+(use-package bibtex
+  :defer t
+  :custom
+  (bibtex-comment-start "%")
+  :config
+  (setq bibtex-entry-format '(opts-or-alts required-fields numerical-fields whitespace realign last-comma unify-case braces sort-fields)
+        bibtex-comma-after-last-field t
+        )
+  (bibtex-set-dialect 'biblatex)
+  :hook
+  (bibtex-mode . (lambda () (darlan/set-up-outline-minor-mode "@")))
+  )
+#+end_src
+
+** TODO Bibtex-completions                                             :Investigate:
+** TODO Org-ref or citar                                  :Citar:Investigate:OrgRef:
+Note that =citar= was previously called =bibtex-actions=.
+** TODO Org-noter                                             :Investigate:OrgNoter:
+* TODO Sudo edit                                                        :Investigate:
+See sudo-edit package and maybe https://github.com/oantolin/embark/wiki/Additional-Actions
