@@ -223,9 +223,10 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   (setq enable-recursive-minibuffers t))
 #+end_src
 
-*** Extra packages: vertigo-mouse
+*** Extra packages: vertico-mouse
 #+begin_src elisp
-(use-package vertigo-mouse
+(use-package vertico-mouse
+  :after vertico
   :init
   (vertico-mouse-mode))
 #+end_src
