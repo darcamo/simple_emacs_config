@@ -2246,7 +2246,11 @@ reveal."
   (add-to-list 'org-export-backends 'odt)
 
   (with-eval-after-load 'use-package-core
+    (use-package org-contrib
+    :ensure t)
+  
     (use-package ox-extra
+      :after org-contrib
       :config
       (ox-extras-activate '(ignore-headlines))
       )
