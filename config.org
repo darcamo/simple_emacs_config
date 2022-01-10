@@ -1014,6 +1014,11 @@ of the file associated with the current buffer."
             )
           )
 
+;; Winner mode
+(use-package winner
+  :config
+  (winner-mode)
+  )
 
 ;; Add some visual indicator (pulse) where the cursor is with some movement commands
 ;; taken from https://karthinks.com/software/batteries-included-with-emacs/
