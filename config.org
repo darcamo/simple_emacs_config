@@ -439,7 +439,7 @@ Talvez o keybinding ~C-,~ seja bom pra ele
   ;; Optional customizations
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
-  (corfu-auto t)                 ;; Enable auto completion
+  ;; (corfu-auto t)                 ;; Enable auto completion
   ;; (corfu-commit-predicate nil)   ;; Do not commit selected candidates on next input
   ;; (corfu-quit-at-boundary t)     ;; Automatically quit at word boundary
   ;; (corfu-quit-no-match t)        ;; Automatically quit if there is no match
@@ -475,13 +475,13 @@ Talvez o keybinding ~C-,~ seja bom pra ele
 
 ;; https://github.com/jdtsmith/kind-icon
 ;; Add nice icons in corfu popup
-(use-package kind-icon
-  :ensure t
-  :after corfu
-  :custom
-  (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
-  :config
-  (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
+;; (use-package kind-icon
+;;   :ensure t
+;;   :after corfu
+;;   :custom
+;;   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
+;;   :config
+;;   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 
 #+end_src
 
