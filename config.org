@@ -497,6 +497,8 @@ https://github.com/MatthewZMD/.emacs.d#yasnippet-1
 #+begin_src elisp
 (use-package yasnippet
   :ensure t
+  :init
+  (yas-global-mode)
   )
 
 (use-package consult-yasnippet
