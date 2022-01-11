@@ -10,9 +10,30 @@ https://github.com/susam/emfy/blob/main/.emacs
 
 https://github.com/MatthewZMD/.emacs.d
 
+[cite:@tortosa2018; @victor_2019]
+
+https://www.rousette.org.uk/archives/emacs-from-scratch-again/
+
+post-command-hook antes do citar
+: (global-font-lock-mode-check-buffers global-eldoc-mode-check-buffers
+: corfu-global-mode-check-buffers yas-global-mode-check-buffers
+: global-page-break-lines-mode-check-buffers
+: global-git-gutter-mode-check-buffers global-anzu-mode-check-buffers
+: magit-auto-revert-mode-check-buffers transient--post-command-hook
+: sp--post-command-hook-handler winner-save-old-configurations
+: mode-local-post-major-mode-change)
+
+
+: (global-font-lock-mode-check-buffers global-eldoc-mode-check-buffers
+: corfu-global-mode-check-buffers yas-global-mode-check-buffers
+: global-page-break-lines-mode-check-buffers
+: global-git-gutter-mode-check-buffers global-anzu-mode-check-buffers
+: sp--post-command-hook-handler winner-save-old-configurations
+: mode-local-post-major-mode-change)
 
 My hand-crafted Emacs configuration
 
+[cite:@tortosa2018; @victor_2019; @gudmundson_1991; @yang08_sensor_placem_gauss_random_field;]
 
 init-time atual do emacs: ~1.6
 
@@ -115,7 +136,10 @@ The keybindinds all start with =C-x t=
   :ensure t
   :init (doom-modeline-mode 1))
 #+end_src
+** COMMENT Telephone Line
+Alternative modeline similar to powerline
 
+https://github.com/dbordak/telephone-line
 ** Dashboard                                                             :Dashboard:
 #+begin_src elisp
 (use-package dashboard
@@ -212,7 +236,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   ;; Do not allow the cursor in the minibuffer prompt
   (setq minibuffer-prompt-properties
         '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+  ;;(add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
 
   ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
   ;; Vertico commands are hidden in normal buffers.
@@ -2456,6 +2480,8 @@ reveal."
               ))
 #+end_src
 
+*** COMMENT ODT and docx export
+Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 ** Org useful functions
 #+begin_src elisp
 ;; Quick Access to projects
@@ -3167,9 +3193,8 @@ https://www.flycheck.org/en/latest/index.html
 
 ;; Use the nice icons from treemacs in dired buffers
 (use-package treemacs-icons-dired
-  :defer t
   :ensure t
-  :config
+  :init
   (treemacs-icons-dired-mode))
 
 (use-package dired-x
@@ -4333,6 +4358,16 @@ Layer darcamo-preview-latex
 #+end_src
 
 * TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
+** Native org-cite
+Set my default bibliography.
+You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
+#+begin_src elisp
+(use-package oc
+  :custom
+  (org-cite-global-bibliography '("~/Dropbox/org/references/articles.bib" "~/Dropbox/org/references/articles_without_notes.bib"))
+  )
+#+end_src
+
 ** Bibtex                                                                   :Bibtex:
 #+begin_src elisp
 (use-package bibtex
@@ -4350,8 +4385,62 @@ Layer darcamo-preview-latex
 #+end_src
 
 ** TODO Bibtex-completions                                             :Investigate:
+Used by org-roam-bibtex
+
 ** TODO Org-ref or citar                                  :Citar:Investigate:OrgRef:
 Note that =citar= was previously called =bibtex-actions=.
+
+Some useful keybindings
+|---------------+----------------------------------------------------------|
+| C-c b         | Insert a citation                                        |
+| C-d           | oc-citar-delete-citation                                 |
+| C-k           | oc-citar-kill-citation                                   |
+| C-M-f / C-M-b | Go forward/backward a citation (with multiple citations) |
+| S-<left>      | oc-citar-shift-reference-left                            |
+| S-<right>     | oc-citar-shift-reference-right                           |
+| M-p           | oc-citar-update-pre-suffix                               |
+|---------------+----------------------------------------------------------|
+| <mouse-1>     | citar-dwim                                               |
+| <mouse-3>     | embark-act                                               |
+|---------------+----------------------------------------------------------|
+
+
+#+begin_src elisp
+;; (use-package citar
+;;   :ensure t
+;;   :after oc
+;;   :custom
+;;   ;; (citar-bibliography '("~/Dropbox/org/references/articles.bib" "~/Dropbox/org/references/articles_without_notes.bib"))
+;;   (citar-bibliography org-cite-global-bibliography)
+;;   (org-cite-insert-processor 'citar)
+;;   (org-cite-follow-processor 'citar)
+;;   (org-cite-activate-processor 'citar)
+;;   :config
+;;   ;; use consult-completing-read for enhanced interface
+;;   (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
+;;   :bind (
+;;          ("C-c b" . citar-insert-citation)
+;;          :map minibuffer-local-map
+;;          ("M-b" . citar-insert-preset)
+;;          ;;:map org-mode-map :package org ("C-c b" . #'org-cite-insert)
+;;          )
+;;   )
+
+(use-package citar
+  :no-require
+  :custom
+  (org-cite-global-bibliography org-cite-global-bibliography)
+  (org-cite-insert-processor 'citar)
+  (org-cite-follow-processor 'citar)
+  (org-cite-activate-processor 'citar)
+  (citar-bibliography org-cite-global-bibliography)
+
+  (citar-select-multiple t)
+  ;; optional: org-cite-insert is also bound to C-c C-x C-@
+  :bind
+  (:map org-mode-map :package org ("C-c b" . #'org-cite-insert)))
+#+end_src
+
 ** TODO Org-noter                                             :Investigate:OrgNoter:
 * TODO Sudo edit                                                        :Investigate:
 See sudo-edit package and maybe https://github.com/oantolin/embark/wiki/Additional-Actions
