@@ -145,6 +145,11 @@ https://github.com/dbordak/telephone-line
 (use-package dashboard
   :ensure t
   :custom
+  ;; (dashboard-items '((recents  . 5)
+  ;;                    (bookmarks . 5)
+  ;;                    (projects . 5)
+  ;;                    (agenda . 5)
+  ;;                    (registers . 5)))
   (dashboard-set-heading-icons t)
   ;; Configure initial-buffer-choice to show Dashboard in frames
   ;; created with emacsclient -c as follows:
@@ -3299,7 +3304,6 @@ DIR must include a .project file to be considered a project."
   :config
   (add-to-list 'project-find-functions 'mu-project-try-local)
   )
-
 #+end_src
 
 * LSP                                                                   :Programming:
