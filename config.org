@@ -170,14 +170,13 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
          ("C-l" . backward-kill-sexp))
   )
 
+;; Quick keys for selecting a candidate using Avy-style
+(use-package vertico-quick
+  :bind (:map vertico-map
+              ("M-q" . vertico-quick-insert)
+              ("C-q" . vertico-quick-exit)
+              ))
 
-;; Note that you can also use C-M-f and C-M-b to move cursor between directories
-(use-package vertigo-directory
-  ;; Use C-l to delete parent directory when completing file/directory names
-  :bind (
-         :map vertico-map
-         ("C-l" . vertico-directory-up))
-  )
 
 ;; Optionally use the `orderless' completion style. See
 ;; `+orderless-dispatch' in the Consult wiki for an advanced Orderless style
