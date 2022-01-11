@@ -164,9 +164,10 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   (vertico-cycle t)
   :init
   (vertico-mode)
-  ;; :bind (:map vertico-map
-  ;; ("C-j" . vertico-next))
-  ;; backward-kill-word
+  :bind (
+         :map vertico-map
+         ;; Note that you can also use C-M-f and C-M-b to move cursor between directories
+         ("C-l" . backward-kill-sexp))
   )
 
 
@@ -2248,7 +2249,7 @@ reveal."
   (with-eval-after-load 'use-package-core
     (use-package org-contrib
     :ensure t)
-  
+
     (use-package ox-extra
       :after org-contrib
       :config
