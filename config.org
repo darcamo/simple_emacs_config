@@ -1263,6 +1263,7 @@ of the file associated with the current buffer."
 #+end_src
 
 * Version control
+** Magit                                                                     :Magit:
 #+begin_src elisp
 (use-package magit
   :ensure t
@@ -1270,6 +1271,13 @@ of the file associated with the current buffer."
   )
 #+end_src
 
+** Git timemachine
+#+begin_src elisp
+(use-package git-timemachine
+  :ensure t
+  :commands (git-timemachine)
+  )
+#+end_src
 * Emacs server
 #+begin_src elisp
 (require 'server)
