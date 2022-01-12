@@ -1200,7 +1200,7 @@ of the file associated with the current buffer."
   )
 #+end_src
 
-* TODO General Usability [/]                                                :General:
+* General Usability                                              :General:
 ** Configuration
 #+begin_src elisp
 (use-package conf-mode
@@ -1467,8 +1467,15 @@ of the file associated with the current buffer."
   )
 #+end_src
 
-** TODO Extra packages to investigate                                  :Investigate:
-- format-all OU emacs-reformatter
+** Find-file-at-point                                                         :ffap:
+Replace regular find-file and related functions with ffap versions
+#+begin_src elisp
+(use-package ffap
+  :init
+  (ffap-bindings)
+  )
+#+end_src
+
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src elisp
 ;; (setq scroll-step 1)
@@ -3784,6 +3791,23 @@ This assume that there is a 'doc' folder in the project root."
 (use-package ninja-mode
   :defer t
   :ensure t)
+#+end_src
+
+** Help find file at point and ff-find-related-file find include files
+#+begin_src elisp
+(use-package ffap
+  :defer t
+  :config
+  (add-to-list 'ffap-c++-path "~/git_files/cppsim/src")
+  (add-to-list 'ffap-c++-path "~/git_files/cppsim/tests")
+  )
+
+(use-package find-file
+  :defer t
+  :config
+  (add-to-list 'cc-search-directories "~/git_files/cppsim/src")
+  (add-to-list 'cc-search-directories "~/git_files/cppsim/tests")
+  )
 #+end_src
 
 ** TODO Other packages to investigate                                  :Investigate:
