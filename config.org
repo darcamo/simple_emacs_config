@@ -514,9 +514,6 @@ Talvez o keybinding ~C-,~ seja bom pra ele
 
 #+end_src
 
-** TODO Cape (optional)                                                       :Cape:
-https://github.com/minad/cape
-Add more complete-at-point functions
 ** TODO Yasnippets                                                      :Yasnippets:
 You still need to activate the minor mode
 
