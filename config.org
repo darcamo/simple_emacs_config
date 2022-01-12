@@ -3434,8 +3434,10 @@ https://www.flycheck.org/en/latest/index.html
 ;; Use the nice icons from treemacs in dired buffers
 (use-package treemacs-icons-dired
   :ensure t
-  :init
-  (treemacs-icons-dired-mode))
+  :commands treemacs-icons-dired-mode
+  :hook
+  (dired-mode . treemacs-icons-dired-mode)
+  )
 
 (use-package dired-x
   :bind (:map dired-mode-map
