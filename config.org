@@ -3371,15 +3371,28 @@ https://www.flycheck.org/en/latest/index.html
 #+begin_src elisp
 (use-package pdf-tools
   :ensure t
-  :init
+  :commands pdf-view-mode
+  ;; :config
   ;; First argument "t" means "Build the program (if necessary)
   ;; without asking first". The second argument "t" means "Don't
   ;; attempt to install system packages".
-  (pdf-tools-install t t)
+  ;; (pdf-tools-install t t)
+  :hook
+  (pdf-view-mode . pdf-tools-enable-minor-modes)
   )
 
+(add-to-list 'auto-mode-alist '("\\.pdf" . pdf-view-mode))
+  
 ;; (with-eval-after-load 'pdf-view
 ;;   (require 'pdf-continuous-scroll-mode))
+
+#+end_src
+
+** COMMENT Integration with org (create org-links)                                 :OrgMode:
+#+begin_src elisp
+(use-package org-pdftools
+  :ensure t
+  :hook (org-mode . org-pdftools-setup-link))
 #+end_src
 
 ** Keybindings                                                         :Keybindings:
@@ -3415,13 +3428,6 @@ https://www.flycheck.org/en/latest/index.html
          ("<M-down>" . (lambda () (interactive) (pdf-view-next-line-or-next-page 4)))
          )
   )
-#+end_src
-
-** Integration with org (create org-links)                                 :OrgMode:
-#+begin_src elisp
-(use-package org-pdftools
-  :ensure t
-  :hook (org-mode . org-pdftools-setup-link))
 #+end_src
 
 * Dired                                                                       :Dired:
