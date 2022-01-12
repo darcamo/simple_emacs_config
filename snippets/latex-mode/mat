@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : \mat{}
+#group: Math-mode
+#key: mat
+# --
+\mat{$1}

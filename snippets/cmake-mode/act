@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : ADD_CUSTOM_TARGET
+# contributor: Darlan Cavalcante Moreira
+# --
+add_custom_target(${1:Target Name} ${2:Command})
+$0

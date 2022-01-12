@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : arrow-left
+#group: Font-Awesome
+# --
+<i class="fa fa-arrow-left"></i>$0

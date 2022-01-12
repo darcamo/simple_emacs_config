@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name : ${PROJECT_SOURCE_DIR}
+# contributor: Darlan Cavalcante Moreira
+# --
+\${PROJECT_SOURCE_DIR}$0

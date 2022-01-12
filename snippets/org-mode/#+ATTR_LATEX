@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+# name: #+ATTR_LATEX
+# key: #al
+# --
+#+ATTR_LATEX: $0

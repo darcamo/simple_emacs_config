@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : \sum_{}^{}
+#key: \sum
+#group: Math-mode
+# --
+\sum_{$1}^{$2}

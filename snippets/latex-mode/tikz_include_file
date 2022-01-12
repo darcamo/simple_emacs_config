@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : Include a tikz graphic file with externalization
+#group: Tikz
+# --
+% To regenerate the graphic, run the command below (twice)
+%     pdflatex --jobname=$1-external main_tex_file_name.tex
+% Make sure that there is the line
+% \pgfrealjobname{main_tex_file_name} % No extension
+% in the preamble.
+\beginpgfgraphicnamed{$1-external}
+\input{${1:frametitle}}
+\endpgfgraphicnamed

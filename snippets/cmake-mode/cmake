@@ -1,0 +1,28 @@
+# -*- mode: snippet -*-
+#name : cmake Template
+# contributor: Darlan Cavalcante Moreira
+# --
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+
+# Project Name
+PROJECT (${1:Project Name})
+
+# Define a variable VERSION that you can use in cmake
+SET(VERSION 0.1)
+
+
+# configure a header file to pass some of the CMake settings
+# to the source code
+#configure_file (
+#  "\${PROJECT_SOURCE_DIR}/config.h.in"
+#  "\${PROJECT_BINARY_DIR}/config.h"
+#  )
+
+# add some subdirectory containing another CMakeLists.txt file
+# add_subdirectory(tests)
+
+# Add a library
+#add_library(LibraryName somefile.h somefile.cpp)
+
+# Add an excutable file
+#ADD_EXECUTABLE( main src/main )

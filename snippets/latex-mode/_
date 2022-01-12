@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : \frac{}{}
+#group: Math-mode
+#key: _
+# --
+_{$1} $0

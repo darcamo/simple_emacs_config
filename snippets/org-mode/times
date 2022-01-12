@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : \times
+#key: \t
+#group: Latex-Math
+# --
+\\times $0

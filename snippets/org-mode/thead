@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: thead
+# contributor: Darlan Cavalcante Moreira
+# --
+*{{{thead($1)}}}*$0

@@ -1,0 +1,30 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : class ... { ... }
+# --
+/**
+ * \brief ***** PUT CLASS DESCRIPTION HERE *****
+ *
+ * @author `(darlan/get-user-name-and-email)`
+ */
+class ${1:Name}
+{
+public:
+    /**
+     * @brief Class constructor.
+     */
+    ${1:$(yas/substr yas-text "[^: ]*")}($2);
+
+    /**
+     * @brief Virtual class destructor (polymorphism).
+     */
+    virtual ~${1:$(yas/substr yas-text "[^: ]*")}();
+
+protected:
+    $0
+
+private:
+    //Degenerate copy and assignment
+    ${1:$(yas/substr yas-text "[^: ]*")}(const ${1:$(yas/substr yas-text "[^: ]*")}&);
+    ${1:$(yas/substr yas-text "[^: ]*")}& operator=(const ${1:$(yas/substr yas-text "[^: ]*")}&);
+};

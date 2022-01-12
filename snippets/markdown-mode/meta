@@ -1,0 +1,18 @@
+# -*- mode: snippet -*-
+#name : meta
+# contributor: Darlan Cavalcante Moreira
+# --
+---
+title: $1
+author: ${2:Darlan Cavalcante Moreira}
+date: `(capitalize (format-time-string "%B %d, %Y"))`
+---
+
+<!-- bibliography: references.bib -->
+<!-- csl: ieee.csl -->
+<!-- Category: System Level -->
+<!-- Latex: -->
+<!-- tags: 5G, Energy Efficient, Ultra-Dense Networks, Channel Allocation -->
+
+
+$0

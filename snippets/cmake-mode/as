@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : ADD_SUBDIRECTORY
+# contributor: Darlan Cavalcante Moreira
+# --
+add_subdirectory(${1:Subdirectory})
+$0

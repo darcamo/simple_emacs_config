@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : widehat
+#key: \h
+#group: Latex-Math
+# --
+\widehat{$1} $0

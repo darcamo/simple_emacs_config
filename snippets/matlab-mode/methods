@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : methods
+#group: OOP
+# --
+methods
+    $0
+end

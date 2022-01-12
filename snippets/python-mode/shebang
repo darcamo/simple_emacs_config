@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: Darlan Cavalcante Moreira
+# name: shebang
+# --
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+

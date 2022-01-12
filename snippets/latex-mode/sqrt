@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : \sqrt{$1}
+#group: Math-mode
+#key: \sqrt
+# --
+\sqrt{$1}$0

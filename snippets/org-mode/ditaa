@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name: ditaa
+# contributor: Darlan Cavalcante Moreira
+# --
+#+begin_src ditaa :file ${1:Figure Name}.png :cache :cmdline -E
+$0
+#+end_src

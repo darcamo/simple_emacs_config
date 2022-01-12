@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : Put a red line
+#key: redline
+# --
+\noindent
+\textcolor{red}{\rule{\textwidth}{1mm}}

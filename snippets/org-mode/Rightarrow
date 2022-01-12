@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : right arrow
+#key: \Ra
+#group: Latex-Math
+# --
+\Rightarrow $0

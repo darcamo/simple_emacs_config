@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : Draw a line
+# --
+-- $1(${2:Coordinate}) ${3:;}

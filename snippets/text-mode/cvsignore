@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+#name : template for cvsignore (latex version)
+# --
+*.aux
+*.dvi
+*.log
+*.nav
+*.out
+*.snm
+*.toc
+*.idx
+*.ps
+*.bbl
+*.blg
+*_region_*
+auto
+$0

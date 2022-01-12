@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+#name : switch (expression) case ...
+# --
+switch (${1:Expression})
+{
+case ${2:Case 1}:
+    $0
+    break;
+case ${3:Case 2}:
+
+    break;
+default:
+    
+}

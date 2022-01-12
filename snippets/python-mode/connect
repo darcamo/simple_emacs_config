@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: Darlan Cavalcante Moreira
+# name: connect (specifying only the sender)
+# group: QT
+# --
+self.connect(self.${1:Sender Name}, QtCore.SIGNAL(${2:Signal Name}), self.${3:Method Name})
+

@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : properties
+#group: OOP
+# --
+properties
+    $0
+end

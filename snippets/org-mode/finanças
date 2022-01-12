@@ -1,0 +1,135 @@
+# -*- mode: snippet -*-
+#name : finaças
+# contributor: Darlan Cavalcante Moreira
+# --
+**** ${1:`(get-current-month)`} ${2:`(get-current-year)`}$0
+:PROPERTIES:
+:ID:       $1$2
+:END:
+***** Alimentação
+:PROPERTIES:
+:ID:       $1$2Alimentação
+:END:
+Gastos com Alimentação em dinheiro ou em conta corrente. Não inclui
+gastos com alimentação no cartão de crédito.
+#+NAME: Alimentacao$1$2
+|   | *Local* | *Data*  | *Débito (R\$)* | *Cartão (R\$)* |
+|---+-------+-------+--------------+--------------|
+|   | Nada  |       |         0.00 |         0.00 |
+|---+-------+-------+--------------+--------------|
+| # |       | *Total* |         0.00 |         0.00 |
+#+TBLFM: @3\$4=vsum(@2..@-1);%.2f::@3\$5=vsum(@2..@-1);%.2f
+
+***** Pagamento de contas
+:PROPERTIES:
+:ID:       $1$2Contas
+:END:
+Aqui entram fatura do cartão do mês passado, plano de saúde, Ateneu,
+etc..
+#+NAME: Contas$1$2
+|   | *Conta*         | *Data* | *Débito (R\$)* |  *Cartão (R\$)* |
+|---+---------------+------+--------------+---------------|
+|   | [[file:~/org/Financas.org::*Pagar Celular TIM][Celular]]       |      |         0.00 |          0.00 |
+|   | [[file:~/org/Financas.org::*Brisanet][Brisanet]]           |      |              |               |
+|   | [[file:~/org/Financas.org::*Unimed (Familia)][Unimed]]        |      |         0.00 |          0.00 |
+|   | [[file:~/org/Financas.org::*Condomínio][Condomínio]]    |      |              |               |
+|   | [[file:~/org/Financas.org::*Energia +Coelce+ Enel (Darlan)][Energia Enel]]  |      |              |               |
+|   | [[file:~/org/Financas.org::*Água e Esgoto Cagece][Cagece]]        |      |              |               |
+|   | [[file:~/org/Financas.org::*Pagar Cartão Nubank][Fatura Nubank]] |      |              |               |
+|   | [[file:~/org/Financas.org::*Pagar cartão de crédito (BB)][Fatura Cartão]] |      |              | xxxxxxxxxxxxx |
+|---+---------------+------+--------------+---------------|
+| # | *Total*         |      |         0.00 |          0.00 |
+#+TBLFM: @10\$4=vsum(@2\$4..@-1);%.2f::@10\$5=vsum(@2\$5..@-2);%.2f
+
+***** Entretenimento
+:PROPERTIES:
+:ID:       $1$2Entretenimento
+:END:
+#+NAME: Entretenimento$1$2
+|   | *Tipo de Gasto*  | *Data* | *Débito (R\$)* | *Cartão (R\$)* |
+|---+----------------+------+--------------+--------------|
+|   | Entretenimento |      |         0.00 |         0.00 |
+|---+----------------+------+--------------+--------------|
+| # | *Total*          |      |         0.00 |         0.00 |
+#+TBLFM: @3\$4=vsum(@2..@-1);%.2f::@3\$5=vsum(@2..@-1);%.2f
+
+***** Carro e Transporte
+:PROPERTIES:
+:ID:       $1$2Carro
+:END:
+#+NAME: Carro$1$2
+|   | *Tipo de Gasto* | *Data* | *Débito(R\$)* | *Cartão (R\$)* |
+|---+---------------+------+-------------+--------------|
+|   | Gasolina      |      |        0.00 |         0.00 |
+|   | Taxi          |      |        0.00 |         0.00 |
+|---+---------------+------+-------------+--------------|
+| # | *Total*         |      |        0.00 |         0.00 |
+#+TBLFM: @4\$4=vsum(@2..@-1);%.2f::@4\$5=vsum(@2..@-1);%.2f
+
+***** Diversos
+:PROPERTIES:
+:ID:       $1$2Diversos
+:END:
+Gastos diversos
+#+NAME: Diversos$1$2
+|   | *Tipo de Gasto* | *Data* | *Débito (R\$)* | *Cartão (R\$)* |
+|---+---------------+------+--------------+--------------|
+|   | Nada          |      |         0.00 |         0.00 |
+|---+---------------+------+--------------+--------------|
+| # | *Total*         |      |         0.00 |         0.00 |
+#+TBLFM: @3\$4=vsum(@2..@-1);%.2f::@3\$5=vsum(@2..@-1);%.2f
+
+***** Total de gastos                                                         :Total:
+:PROPERTIES:
+:ID:       $1$2GastosTotal
+:END:
+Aqui é colocado o total de cada uma das tabelas anteriores e quaisquer
+outros gastos que não entraram nessas tabelas.
+        
+#+NAME: Gastos$1$2
+|   | *Tipo de Gasto*          | *Débito (R\$)* | *Cartão (R\$)* |
+|---+------------------------+--------------+--------------|
+| # | Entretenimento         |              |              |
+| # | Contas                 |              |              |
+| # | Alimentação            |              |              |
+| # | Carro                  |              |              |
+| # | Diversos               |              |              |
+|---+------------------------+--------------+--------------|
+| # | *Total*                  |              |              |
+| # | Total + Crédito (Nov.) |              |              |
+#+TBLFM: @2\$3=remote(Entretenimento$1$2,@>\$4);%.2f::@2\$4=remote(Entretenimento$1$2,@>\$5);%.2f::@3\$3=remote(Contas$1$2,@>\$4);%.2f::@3\$4=remote(Contas$1$2,@>\$5);%.2f::@4\$3=remote(Alimentacao$1$2,@>\$4);%.2f::@4\$4=remote(Alimentacao$1$2,@>\$5);%.2f::@5\$3=remote(Carro$1$2,@>\$4);%.2f::@5\$4=remote(Carro$1$2,@>\$5);%.2f::@6\$3=remote(Diversos$1$2,@>\$4);%.2f::@6\$4=remote(Diversos$1$2,@>\$5);%.2f::@7\$3=vsum(@2..@-1);%.2f::@7\$4=vsum(@2..@-1);%.2f::@8\$3=@-1\$3+@-1\$4;%.2f
+Obs.: A fórmula Total + Crédito diz quanto gastei em $1 incluindo o
+gasto do cartão de crédito (sem incluir o gasto em dólares no cartão)
+
+#+BEGIN_SRC gnuplot :var data=Gastos$1$2[1:-3] :var soma=Gastos$1$2[9,2] :results silent :exports none
+  reset
+  set key off
+  set title "Gastos de $1 $2"
+  set xtics nomirror rotate by -10
+  plot data using 3:xticlabels(2) with histograms
+  set label "Máximo Individual: %.2f",GPVAL_Y2_MAX at graph 0.03, graph 0.93
+  set label "Total: %.2f",soma at graph 0.03, graph 0.88 textcolor rgbcolor "red"
+  replot
+#+END_SRC
+
+***** Gastos no cartão de crédito
+:PROPERTIES:
+:ID:       $1$2Cartão
+:END:
+Gastos no cartão de crédito serão contabilizados nos gastos do mês que
+vem quando a fatura for paga e não nesse mês. Mas a tabela de gastos
+totais também tem o total+cartão para saber quanto gastei nesse mês.
+Mude a constante *DolarParaReal* para o valor que vier na fatura quando
+recebê-la.
+#+CAPTION: Compras usando o cartão de crédito em $1 $2
+#+NAME: CartaoDeCredito$1$2
+|    | *Data*     | *Compra*                           | *Valor (R\$)* | *Valor (\$)* |
+|----+----------+----------------------------------+-------------+------------|
+|    | 24/12/09 | nada                             |        0.00 |       0.00 |
+|----+----------+----------------------------------+-------------+------------|
+| \$ |          | DolarParaReal=1.718              |             |            |
+| #  |          | *Total em cada moeda*              |        0.00 |       0.00 |
+| #  |          | *Total em cada moeda (em reais)*   |        0.00 |       0.00 |
+|----+----------+----------------------------------+-------------+------------|
+| #  |          | *Soma dos gastos (valor em reais)* |        0.00 |            |
+#+TBLFM: @4\$4=vsum(@2..@-1);%.2f::@4\$5=vsum(@2..@-1);%.2f::@5\$4=@4\$4;%.2f::@5\$5=@4\$5*\$DolarParaReal;%.2f::@6\$4=@-1\$4+@-1\$5;%.2f

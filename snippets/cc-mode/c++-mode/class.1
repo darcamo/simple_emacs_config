@@ -1,0 +1,44 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : #ifdef ... class ... { ... }
+# --
+#ifndef ${1:`(upcase (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))`_H}
+#define $1
+
+/**
+ * \brief ***** PUT CLASS DESCRIPTION HERE *****
+ *
+ * @author `(darlan/get-user-name-and-email)`
+ */
+class ${2:ClassName}
+{
+public:
+    /**
+     * @brief Class constructor.
+     */
+    ${2:$(yas/substr yas-text "[^: ]*")}($3);
+
+    /**
+     * @brief Virtual class destructor (polymorphism).
+     */
+    virtual ~${2:$(yas/substr yas-text "[^: ]*")}();
+
+protected:
+    $0
+
+private:
+    //Degenerate copy and assignment
+    ${2:$(yas/substr yas-text "[^: ]*")}(const ${2:$(yas/substr yas-text "[^: ]*")}&);
+    ${2:$(yas/substr yas-text "[^: ]*")}& operator=(const ${2:$(yas/substr yas-text "[^: ]*")}&);
+};
+
+#endif // endif $1
+
+
+#include "`(file-name-nondirectory (buffer-file-name))`"
+
+$2::$2(${3:$(yas/substr yas-text "[^=]*")})
+{}
+
+$2::~$2()
+{}

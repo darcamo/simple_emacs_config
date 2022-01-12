@@ -1,0 +1,53 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : Qt Class (hand coded)
+#group: Qt
+#Description: Qt Class
+# --
+#ifndef ${1:`(upcase (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))`_H}
+#define $1
+
+/**
+ * \brief ***** PUT CLASS DESCRIPTION HERE *****
+ *
+ * @author `(darlan/get-user-name-and-email)`
+ */
+class ${2:ClassName} : public ${3:$$(yas/choose-value '("QMainWindow" "QWidget" "QDialog"))}
+{
+    Q_OBJECT
+
+public:
+    ${2:$(yas/substr text "[^: ]*")}(QWidget *parent = 0);
+
+signals:
+    // The signal argument can be anything depending on what you want to send
+    void someSignal(const QString &str, Qt::CaseSensitivity cs);
+
+private slots:
+    void doSomething();
+    $0
+
+provate:
+    // Regular Class atributes
+    // QLabel *label;
+};
+
+#endif // endif $1
+
+// if we include QtGui there is no need to include every class used:
+// QString, QFileDialog, etc
+#include <QtGui>
+#include "`(file-name-nondirectory (buffer-file-name))`"
+
+$2::$2(QWidget *parent) : $3(parent)
+{
+    setupUi(this); // this sets up GUI
+
+    // signals/slots mechanism in action
+    //connect( somePushButton, SIGNAL( clicked() ), this, SLOT( doSomething() ) ); 
+}
+
+void $2::doSomething()
+{
+    // do something
+}

@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: Darlan Cavalcante Moreira
+# name: connect (specifying only the sender)
+# group: Qt
+# --
+QObject::connect(${1:Sender Name}, SIGNAL(${2:Signal Name}), ${3:Method Name});
+

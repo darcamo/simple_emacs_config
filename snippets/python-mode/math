@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# contributor: Darlan Cavalcante Moreira
+# name: Sphinx Math Snippet
+# group: Sphinx
+# key: :m
+# --
+:math:\`$1\`$0

@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : circle (radius)
+# --
+circle (${1:radius}) ${2:;}

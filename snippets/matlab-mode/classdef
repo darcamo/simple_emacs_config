@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : classdef (with properties and methods)
+#group: OOP
+# --
+classdef `(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))`
+    % Property definitions
+    properties
+        $0
+    end
+
+    % Method definitions
+    methods
+        
+    end
+end

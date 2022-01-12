@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# contributor: Darlan Cavalcante Moreira
+# name: qtmain
+# group: QT
+# --
+from PyQt4 import QtGui, QtCore
+import sys
+
+if __name__ == '__main__':
+    app = QtGui.QApplication(sys.argv)
+    main = ${1:MainWindow}($2)
+    main.show()
+    sys.exit(app.exec_())
+    

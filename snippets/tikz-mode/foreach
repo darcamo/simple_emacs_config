@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : foreach (com um parâmetro)
+# --
+\\foreach \\${1:Nome da variavel} in {${2:valores}} 
+{
+  $0
+}

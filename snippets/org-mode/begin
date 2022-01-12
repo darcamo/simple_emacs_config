@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : begin environment
+#key: \beg
+#group: Latex-Math
+# --
+\begin{$1}
+$0
+\end{$1}

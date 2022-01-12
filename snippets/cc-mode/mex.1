@@ -1,0 +1,41 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : MEX Function (variable number of input arguments)
+# --
+void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
+{
+    /* All variables must be declared in the beginning of the mexFunction */
+    /* VARIABLES HERE */
+    $0
+
+    /* Check if the number of input arguments is correct */
+    if (nrhs > ${1:Maximum number of input arguments})
+    {
+        char errorString[40];
+        sprintf(errorString, "Too many input arguments: %d", nrhs);
+        mexErrMsgTxt(errorString);
+    }
+    else
+        if(nrhs < ${2:Minimum number of input arguments})
+        {
+            char errorString[40];
+            sprintf(errorString, "Too few input arguments: %d", nrhs);
+            mexErrMsgTxt(errorString);
+        }
+        else
+        {
+            /* SET THE DEFAULT INPUT ARGUMENTS HERE */
+
+        }
+
+/* Check if MATLAB the number of output arguments is valid */
+    if (nlhs > ${3:Number of Output Arguments})
+    {
+        char errorString[40];
+        sprintf(errorString, "Too many output arguments: %d", nrhs);
+        mexErrMsgTxt(errorString);
+    }
+
+    /* REST OF THE CODE HERE */
+
+}

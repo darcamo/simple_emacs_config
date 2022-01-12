@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : pgfdeclarelayers
+# --
+% Declare the layers in the figure
+\\pgfdeclarelayer{${1:background}}
+\\pgfdeclarelayer{${2:foreground}}
+\\pgfsetlayers{$1,main,$2}

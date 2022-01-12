@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : ^x
+#group: Math-mode
+#key: ^
+# --
+^{$1}$0

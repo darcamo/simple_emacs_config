@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+# contributor: Darlan Cavalcante Moreira
+# --
+CMAKE_MINIMUM_REQUIRED(VERSION 2.6)
+$0

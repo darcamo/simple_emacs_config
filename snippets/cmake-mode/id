@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : INCLUDE_DIRECTORIES
+# contributor: Darlan Cavalcante Moreira
+# --
+include_directories(${1:Directory})
+$0

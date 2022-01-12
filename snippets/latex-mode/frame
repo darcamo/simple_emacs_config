@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : \begin{frame} ... \end{frame}
+# --
+%%%%%%%%%%%%%%%%%%%% Frame `(make-string (- fill-column 27) ?\%)`
+\begin{frame}
+  \frametitle{${1:frametitle}}
+
+  $0
+\end{frame}
+%%%%%%%%%%%%%%%%%%%% End Frame `(make-string (- fill-column 31) ?\%)`

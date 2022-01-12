@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor: Darlan Cavalcante Moreira
+# name: apf (adds the parent folder to the python path)
+# --
+cmd_folder = os.path.dirname(os.path.abspath(__file__))
+if cmd_folder not in sys.path:
+    # Add the parent folder to the beggining of the path
+    sys.path.insert(0, cmd_folder)

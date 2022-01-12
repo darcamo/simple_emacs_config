@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+# name: #+ATTR_HTML
+# key: #ah
+# --
+#+ATTR_HTML: $0

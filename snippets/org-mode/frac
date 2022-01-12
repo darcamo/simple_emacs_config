@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : Fraction
+#key: \f
+#group: Latex-Math
+# --
+\\frac{$0}{}

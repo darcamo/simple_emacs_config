@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : SET_TARGET_PROPERTIES
+# contributor: Darlan Cavalcante Moreira
+# --
+set_target_properties(${1:Target Name} PROPERTIES ${2:Property Name} ${3:Property Value})
+$0

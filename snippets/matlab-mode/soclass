@@ -1,0 +1,35 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : soclass (with properties and methods)
+#group: OOP
+# --
+classdef `(file-name-nondirectory (file-name-sans-extension (buffer-file-name)))` < matlab.System
+    properties 
+        $0
+    end
+
+    methods
+        % Constructor for the System object
+%         % Constructor for the System object
+%         function obj = SoTest(varargin)
+%         % setProperties(obj, nargin, varargin{:});
+%         end
+    end
+
+    methods (Access = protected)
+        function y = stepImpl(~,x)
+            y = x + 1;
+        end
+
+        function setupImpl(obj, x)
+        % setupImpl(obj,input1,input2,...) -> sets up a System object using one or
+        % more of the stepImpl input specifications. The number and order of
+        % inputs must match the number and order of inputs defined in the
+        % stepImpl method. You pass the inputs into setupImpl to use the
+        % specifications, such as size and data types in the one-time
+        % calculations.
+                
+        end
+
+    end
+end

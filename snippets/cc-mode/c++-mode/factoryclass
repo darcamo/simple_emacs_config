@@ -1,0 +1,77 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : #ifdef ... Factory class ... { ... }
+# --
+#ifndef ${1:`(upcase (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))`_H}
+#define $1
+
+#include "bloc/factorybase.h"
+
+/// \addtogroup Factories
+//@{
+
+/**
+ * \brief Factory class to create a ${2:Block Class} object.
+ *
+ * \see FactoryBase
+ * @author `(darlan/get-user-name-and-email)`
+ */
+class $2Factory : FactoryBase
+{
+public:
+    /** 
+     * @brief Used by the BlocManager to create a new BlocPtr pointing to a
+     * $2 from an TiXmlElement (from the TinyXML library) object.
+     * 
+     * @param parametersXml Pointer to a TiXmlElement object with the
+     * configuration for the $2.
+     * 
+     * @return Smart pointer to the newly created $2 object.
+     * @throw CannotCreateBlockException If \a parametersXml is not valid.
+     * @see BlocManager
+     */
+    static BlocPtr create(TiXmlElement const*  parametersXml);
+
+private:
+    /// @brief Only static functions will be used for the Factory classes.
+    $2Factory();
+};
+
+//@}
+
+#endif // endif $1
+
+$0
+#include "bloc/`(file-name-nondirectory (buffer-file-name))`"
+#include "bloc/autoregisterbloc.h"
+#include "bloc/${2:$(downcase text)}.h"
+#include "exceptions/cannotcreateblockexception.h"
+#include "tinyxml.h"
+
+// This macro will automatically add the function $2Factory::create
+// in the global dictionary (with the key $2) used by the
+// BlocManager.
+ADD_BLOC_TO_GLOBAL_DICTIONARY("$2",&$2Factory::create);
+
+BlocPtr $2Factory::create(TiXmlElement const* parametersXml)
+{
+    // Get the settings TiXmlElement for the block. See the documentation
+    // of FactoryBase::getSettings for details.
+    // Note: this function will throw a "CannotCreateBlockException"
+    // exception if parametersXml is not appropriate for a $2.
+    TiXmlElement const* settings = FactoryBase::getSettings(parametersXml, "$2", "Name");
+
+    
+    // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+    // Get the configuration parameters specific to the $2 class
+    // from the settings TiXmlElement.
+    int NbInput;
+    if ( settings->QueryIntAttribute("NbInput",&NbInput) != TIXML_SUCCESS )
+    {
+        throw CannotCreateBlockException("$2", "Could not find attribute \"NbInput\" in the input XML file.");
+    }
+    
+    // Everything was Ok and we have all we need to create the $2 object
+    return BlocPtr(new $2(/*INPUT ARGUMENTS*/));
+    // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+}

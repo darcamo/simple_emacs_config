@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+#name : today
+# --
+`(capitalize (format-time-string "%B %d, %Y"))`

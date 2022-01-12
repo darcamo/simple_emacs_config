@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : Tikz set style
+#group: Tikz
+#key: tikzs
+# --
+\tikzset{${1:style name}/.style={${2:style options}}}
+$0

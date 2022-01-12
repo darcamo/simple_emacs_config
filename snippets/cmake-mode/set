@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+# name : SET(VAR_NAME Value CACHE TYPE DESCRIPTION)
+# contributor: Darlan Cavalcante Moreira
+# key: set
+# --
+set(${1:Variable Name} ${2:Value} CACHE ${3:TYPE?$(yas/choose-value '("FILEPATH" "PATH" "STRING" "BOOL" "INTERNAL"))} "${4:Description}")
+$0

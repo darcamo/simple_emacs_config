@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name : try
+# contributor : joaotavora
+# --
+try
+{
+    $0
+}
+catch (${1:Exception})
+{
+    // Some Exception occurred
+}

@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : \begin{figure}  ... \end{figure}
+# --
+\begin{figure}[!h]
+  \centering
+  $0
+  \caption{${1:Figure Caption}}
+  \label{fig:${1:$(replace-regexp-in-string " " "_" text)}}
+\end{figure}

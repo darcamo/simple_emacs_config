@@ -1,0 +1,49 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : Qt Class with the Qt Designer
+#group: Qt
+#Description: Qt Class when using the Qt Designer
+# --
+#ifndef ${1:`(upcase (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))`_H}
+#define $1
+
+// Name of the .ui file with the Form description defining the $5 class
+#include "ui_${4:NAME_OF_THE_DOT_UI_FILE}.h"
+
+/**
+ * \brief ***** PUT CLASS DESCRIPTION HERE *****
+ *
+ * @author `(darlan/get-user-name-and-email)`
+ */
+class ${2:ClassName} : public ${3:$$(yas/choose-value '("QMainWindow" "QWidget" "QDialog"))}, private Ui::${5:Form Class Name}
+{
+    Q_OBJECT
+
+public:
+    ${2:$(yas/substr text "[^: ]*")}(QWidget *parent = 0);
+
+public slots:
+    void doSomething();
+    $0
+    
+};
+
+#endif // endif $1
+
+// if we include QtGui there is no need to include every class used:
+// QString, QFileDialog, etc
+#include <QtGui>
+#include "`(file-name-nondirectory (buffer-file-name))`"
+
+$2::$2(QWidget *parent) : $3(parent)
+{
+    setupUi(this); // this sets up GUI
+
+    // signals/slots mechanism in action
+    //connect( somePushButton, SIGNAL( clicked() ), this, SLOT( doSomething() ) ); 
+}
+
+void $2::doSomething()
+{
+    // do something
+}

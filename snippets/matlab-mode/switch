@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : switch
+# --
+switch ${1:switch_expression}
+   case ${2:case_expression}
+      $0
+   case ${3:case_expression}
+      
+   otherwise
+      % default case
+end

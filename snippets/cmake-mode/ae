@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : ADD_EXECUTABLE
+# contributor: Darlan Cavalcante Moreira
+# --
+add_executable(${1:Executable name} ${2:Files})
+$0

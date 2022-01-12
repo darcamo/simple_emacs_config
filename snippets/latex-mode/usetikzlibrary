@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : \usetikzlibrary{...}
+#group: Tikz
+#key: tikzl
+# --
+\usetikzlibrary{$1}$0

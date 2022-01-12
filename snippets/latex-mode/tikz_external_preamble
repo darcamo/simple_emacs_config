@@ -1,0 +1,54 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : Tikz and pgfplots preamble with externalization
+#group: Tikz
+# --
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%% Include packages for TIKZ and PGFPLOTS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% THE GRAPHICS AND PLOTS IN THIS PAPER RE CREATED WITH THE EXCELENT TIKZ
+% AND PGFPLOTS PACKAGES.
+
+% IF YOU COMMENT THE LINE BELOW THE EXTERNAL GRAPHICS WILL BE USED
+%\usepackage{tikz} % Comment or uncomment the line as desired
+
+
+%%%%% HOW TO GENERATE EXTENAL GRAPHICS
+% For this, you need the packages tikz and pgfplots.
+\usepackage{tikz}
+% Uncomment the line above and run the command.
+%     pdflatex --jobname=graphicfile-name newdynamicsv2.tex
+% twice for each graphic, where the graphicfile-name is the argument of the
+% beginpgfgraphicnamed command. If you are on Linux the Makefile in the
+% same folder as this .tex can be used to generate all graphics easily.
+%%%%%
+
+%%%%%
+% This block of code include some tikz libraries and the pgfplots package
+% if the tikz package is loaded. Otherwise, the commands
+% beginpgfgraphicnamed and endpgfgraphicnamed are defined to simple include
+% the external graphics. See the "Externalizing Graphics" section in the
+% TIKZ manual" for more info.
+\ifx\tikzset\undefined
+    % If the tikz package is not included, we define the commands
+    % beginpgfgraphicnamed and endpgfgraphicnamed to include the external files
+    \long\def\beginpgfgraphicnamed#1#2\endpgfgraphicnamed{\includegraphics{#1}}
+\else
+    % The line below is used for externalizing graphics. (See tikz manual)
+    \pgfrealjobname{`(file-name-sans-extension (file-name-nondirectory (buffer-file-name)))`} %  % THIS MUST BE THE NAME OF MAIN FILE WITHOUT EXTENSION
+    \usetikzlibrary{shadows}
+    \usetikzlibrary{positioning}
+    \usetikzlibrary{fit}
+    \usetikzlibrary{shapes}
+    \usetikzlibrary{backgrounds}
+    \usetikzlibrary{shadows}
+
+    %%%%% pgfplots is used to plot directly from latex (data read from a file)
+    \usepackage{pgfplots} % Based on pgf/tikz
+    \pgfplotsset{compat=newest}
+\fi % End of "if tikz was loaded"
+%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+

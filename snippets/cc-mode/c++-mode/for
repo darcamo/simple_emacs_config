@@ -1,0 +1,8 @@
+# name: for (auto value: sequence) { ... }
+# key: fors
+# description: Range based for loop in C++11
+# --
+for (auto ${1:value} : ${2:sequence})
+{
+    $0
+}

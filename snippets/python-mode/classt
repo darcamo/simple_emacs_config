@@ -1,0 +1,14 @@
+# -*- mode: snippet -*-
+# contributor: Darlan Cavalcante Moreira
+# name: TestCase subclass
+# group: Tests
+# --
+# TODO: finish implementation
+class ${1:ClassName}TestCase(unittest.TestCase):
+    def setUp(self):
+        """Called before each test."""
+        pass
+
+    def test_some_method(self):
+        pass
+        $0

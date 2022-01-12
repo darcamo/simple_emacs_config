@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#name : Comment title block
+# --
+`(darlan/get-comment-block-start)` ${1:$(make-string (- fill-column (current-column)) ?x)}`(darlan/get-comment-block-end)`
+`(darlan/get-comment-block-start)` xxxxxxxxxxxxxxx ${1:Text} ${1:$(make-string (- fill-column (current-column)) ?x)}`(darlan/get-comment-block-end)`
+`(darlan/get-comment-block-start)` ${1:$(make-string (- fill-column (current-column)) ?x)}`(darlan/get-comment-block-end)`
+$0

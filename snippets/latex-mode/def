@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : def (sem parâmetro)
+# --
+\\def\\${1:Nome do Macro}{${2:Macro}}

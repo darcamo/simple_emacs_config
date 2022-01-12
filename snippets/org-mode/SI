@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: {{{SI(number,unit)}}}
+# contributor: Darlan Cavalcante Moreira
+# --
+{{{SI(${1:number},${2:unit})}}}$0

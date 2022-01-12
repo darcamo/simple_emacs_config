@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+# contributor: Darlan Cavalcante Moreira
+# name: lambda (complete lambda expression in C++11)
+# See lambda definition in http://msdn.microsoft.com/en-us/library/dd293603.aspx
+# --
+auto func = [${1:Capture Clause?$(yas/choose-value '("&" "" "="))}] (${2:args}) ${4:-> Return type} {${3:commands}};

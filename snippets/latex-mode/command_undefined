@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : IF Command Undedined THEN ... ELSE ...
+# --
+\ifx\\${1:Latex Command}\undefined
+${2:Some Latex code}
+\else
+${3:More Latex code}
+\fi
+$0

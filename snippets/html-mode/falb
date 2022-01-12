@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : lightbulb
+#group: Font-Awesome
+# --
+<i class="fa fa-lightbulb-o"></i>$0

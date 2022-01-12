@@ -1,0 +1,13 @@
+# -*- mode: snippet -*-
+# name: tryelse
+# key: try
+# --
+try:
+    $2
+    pass
+except ${1:Exception} as e:
+    $3
+    pass
+else:
+    $0
+    pass

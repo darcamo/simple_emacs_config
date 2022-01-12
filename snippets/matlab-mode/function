@@ -1,0 +1,26 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : function
+# --
+function [${3:Output arguments}] = ${1:Function Name}(${2:Input Arguments})
+% DESCRIPTION [$3] = $1(x, plottype)
+%  CDF plot of the input matrix for each
+%  column separately. By use of a log scale 
+%  the higher part of the input is highlighted.
+% INPUT
+%  x --         a real matrix (no Nans or Infs)
+%  plottype --  String describing the plot, e.g. 'r*'
+%               plots red stars.
+% OUTPUT
+%  only the plot
+% REQUIRES
+%  Put other m-file names that this one depends on here
+% SEE ALSO
+%  put related functions here
+% TRY 
+%  cdfplothigh(randn(10000,1))
+
+% Author:
+%   `(darlan/get-user-name-and-email)`
+% Last change:
+%   $Id: $

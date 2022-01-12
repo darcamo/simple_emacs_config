@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+#name : file
+# contributor: Darlan Cavalcante Moreira
+# --
+file(
+  GLOB
+  ${1:Variable Name}
+  ${2:Regular Expressions}
+  )
+$0

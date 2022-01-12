@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# contributor: Mads D. Kristensen 
+# name: try
+# --
+try:
+    $0
+    pass
+except ${1:Exception} as e:
+    pass

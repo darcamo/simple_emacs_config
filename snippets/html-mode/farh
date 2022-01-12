@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : hand-o-right
+#group: Font-Awesome
+# --
+<i class="fa fa-hand-o-right"></i>$0

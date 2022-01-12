@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : \overleftarrow{$1}
+#group: Math-mode
+#key: \ola
+# --
+\overleftarrow{$1}$0

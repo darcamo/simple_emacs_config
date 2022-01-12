@@ -1,0 +1,11 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : copyright
+# --
+/********************************************************
+*   FILE: `(buffer-name)`
+*   AUTHOR: `(darlan/get-user-name-and-email)`
+*   Decription :
+*       ${1:main module}
+*
+********************************************************/

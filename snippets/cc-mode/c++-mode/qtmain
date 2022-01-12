@@ -1,0 +1,17 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : main for Qt Application
+#group: Qt
+# --
+#include <QApplication>
+
+#include "${2:myqtapp}.h"
+
+int main(int argc, char *argv[])
+{
+    QApplication app(argc, argv);
+    ${1:myQtApp} *dialog = new $1;
+
+    dialog->show();
+    return app.exec();
+}

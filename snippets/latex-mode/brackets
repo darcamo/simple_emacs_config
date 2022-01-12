@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : \left [ ... \right ]
+#group: Math-mode
+#key: []
+# --
+\left [ $0 \right ]
