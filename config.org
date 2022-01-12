@@ -1200,7 +1200,7 @@ of the file associated with the current buffer."
   )
 #+end_src
 
-* General Usability                                              :General:
+* General Usability                                                         :General:
 ** Configuration
 #+begin_src elisp
 (use-package conf-mode
@@ -3813,7 +3813,111 @@ This assume that there is a 'doc' folder in the project root."
 ** TODO Other packages to investigate                                  :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
-* TODO Python                                                    :Programming:Python:
+* Python                                                         :Programming:Python:
+** Helper functions
+#+begin_src elisp
+
+;; Pegue em http://wwwx.cs.unc.edu/~gb/wp/blog/2008/03/15/running-python-from-within-emacs/
+;; Com essa função você pode rodar um script python usando o compile buffer
+;; (make-local-variable 'py-master-file)
+(defun my-python-compile ()
+  "Use compile to run python programs. If the py-master-file variable is set, run that file. If not, run the file associated with the current buffer."
+  (interactive)
+  (save-buffer)
+  (setq python-command-with-options "python -W ignore ")
+  (if ; If the variable py-master-file exists we are using python-mode.el
+      (boundp 'py-master-file)
+      (if ; In that case, we will run the file pointed by py-master-file or
+                                        ; the file associated with the current buffer
+          (eq py-master-file nil)
+          (compile (concat python-command-with-options (buffer-file-name)) nil)
+        (compile (concat python-command-with-options py-master-file) nil)
+        )
+    ;; If py-master-file does not exist we are using the default python.el
+    ;; from emacs and we will run the file associated with the current
+    ;; buffer
+    (compile (concat python-command-with-options (buffer-file-name)) nil)
+    ))
+
+
+;; Debug helpers
+
+(defun python--add-debug-highlight ()
+  "Adds a highlighter for use by `python--pdb-breakpoint-string'"
+  (highlight-lines-matching-regexp "## DEBUG ##\\s-*$" 'hi-red-b)
+  )
+  
+(defvar python--pdb-breakpoint-string "breakpoint()  ## DEBUG ##"
+  "Python breakpoint string used by `python-insert-breakpoint'")
+
+(defun python-insert-breakpoint ()
+  "Inserts a python breakpoint using `pdb'"
+  (interactive)
+  (back-to-indentation)
+  ;; this preserves the correct indentation in case the line above
+  ;; point is a nested block
+  (split-line)
+  (insert python--pdb-breakpoint-string))
+
+;; (defadvice compile (before ad-compile-smart activate)
+;;   "Advises `compile' so it sets the argument COMINT to t
+;; if breakpoints are present in `python-mode' files"
+;;   (when (derived-mode-p major-mode 'python-mode)
+;;     (save-excursion
+;;       (save-match-data
+;;         (goto-char (point-min))
+;;         (if (re-search-forward (concat "^\\s-*" python--pdb-breakpoint-string "$")
+;;                                (point-max) t)
+;;             ;; set COMINT argument to `t'.
+;;             (ad-set-arg 1 t))))))
+
+;; ;; Add breakpoints in pudb
+;; (setq pudb-bp-file (expand-file-name "~/.config/pudb/saved-breakpoints-2.7"))
+;; (defun pudb-add-breakpoint ()
+;;   (interactive)
+;;   (append-to-file
+;;    (concat "b " buffer-file-name ":"
+;;            (nth 1 (split-string (what-line))) "\n")
+;;    nil pudb-bp-file))
+#+end_src
+
+** Configuration and keybindings
+#+begin_src elisp
+(use-package python
+  :bind (:map python-mode-map
+         ;; Add breakpoint with pudb
+         ([C-f8] . python-insert-breakpoint)
+         ;; ([C-S-f8] . pudb-add-breakpoint)
+    
+         ;; Run a python file
+         ([f9] . my-python-compile)
+         ([S-f9] . kill-compilation)
+
+         )
+  :hook
+  (python-mode . python--add-debug-highlight)
+  )
+#+end_src
+
+** Anaconda support
+#+begin_src elisp
+(use-package conda
+  :ensure t
+  :defer t
+  :commands (conda-env-list conda-env-activate conda-env-deactivate)
+  :config
+  (setq conda-anaconda-home (expand-file-name "~/miniconda3"))
+  (setq conda-env-home-directory (expand-file-name "~/miniconda3"))
+  ;; (setq conda-env-location "/home/darlan/miniconda3/envs")
+  ;; if you want interactive shell support, include:
+  (conda-env-initialize-interactive-shells)
+  ;; if you want eshell support, include:
+  (conda-env-initialize-eshell)
+  ;; if you want auto-activation (see below for details), include:
+  (conda-env-autoactivate-mode t)
+  )
+#+end_src
+
 * Latex                                                                       :Latex:
 ** Some useful functions
 #+begin_src elisp
