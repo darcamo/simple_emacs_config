@@ -4456,3 +4456,10 @@ Some useful keybindings
 ** TODO Org-noter                                             :Investigate:OrgNoter:
 * TODO Sudo edit                                                        :Investigate:
 See sudo-edit package and maybe https://github.com/oantolin/embark/wiki/Additional-Actions
+* Dockerfile-mode
+#+begin_src elisp
+(use-package dockerfile-mode
+  :ensure t
+  :defer t
+  )
+#+end_src
