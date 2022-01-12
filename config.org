@@ -1688,21 +1688,23 @@ of the file associated with the current buffer."
                                    'org-metadown
                                  'drag-stuff-down))))
 
-              ;; If cursor is in a headline or in a list item, use default org-mode
-              ;; function, otherwise use drag-stuff function
+              ;; If cursor is in a headline, list item, or in a table,
+              ;; use default org-mode function, otherwise use
+              ;; drag-stuff function
               ("<M-right>" . (lambda ()
                                (interactive)
                                (call-interactively
-                                (if (or (org-at-heading-p) (org-at-item-p) )
+                                (if (or (org-at-heading-p) (org-at-item-p) (org-at-table-p))
                                     'org-metaright
                                   'drag-stuff-right))))
 
-              ;; If cursor is in a headline or in a list item, use default org-mode
-              ;; function, otherwise use drag-stuff function
+              ;; If cursor is in a headline, list item, or in a table,
+              ;; use default org-mode function, otherwise use
+              ;; drag-stuff function
               ("<M-left>" . (lambda ()
                               (interactive)
                               (call-interactively
-                               (if (or (org-at-heading-p) (org-at-item-p) )
+                               (if (or (org-at-heading-p) (org-at-item-p) (org-at-table-p))
                                    'org-metaleft
                                  'drag-stuff-left))))
               ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
