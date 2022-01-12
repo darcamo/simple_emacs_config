@@ -3111,7 +3111,7 @@ Useful keybindings:
 (use-package ansi-color
   :defer t
   :commands ansi-color-apply-on-region
-  :init
+  :config
   (defun colorize-compilation-buffer ()
     (toggle-read-only)
     (ansi-color-apply-on-region compilation-filter-start (point))
@@ -4365,7 +4365,7 @@ Layer darcamo-preview-latex
 
 (use-package org-fragtog
   :ensure t
-  :defer t
+  :commands (org-fragtog-mode)
   :hook (org-mode . org-fragtog-mode)
   :hook (python-mode . org-fragtog-mode)
   :hook (c++-mode . org-fragtog-mode)
