@@ -709,7 +709,7 @@ https://github.com/MatthewZMD/.emacs.d#yasnippet-1
 (use-package yasnippet-snippets
   :ensure t
   :after yasnippet)
-  
+
 (use-package consult-yasnippet
   :ensure t
   :commands consult-yasnippet
@@ -740,7 +740,7 @@ https://github.com/MatthewZMD/.emacs.d#yasnippet-1
   (string-trim comment-end)
   )
 
-
+
 ;; Get user name and e-mail address
 (defun darlan/get-user-name-and-email ()
   "Get the user full name and e-mail address from the variables
@@ -3112,7 +3112,12 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
                                 ;;  :unnarrowed t)
                                 ))
   :init
-  (org-roam-db-autosync-mode)
+  ;; Note that this is commented out to avoid slowing down Emacs
+  ;; initialization. Instead, a dir-loca-variable (for org-mode
+  ;; buffers) in my roam directory will turn on
+  ;; org-roam-db-autosync-mode whenever I open a org-roam note.
+  ;;
+  ;; (org-roam-db-autosync-mode)
 
   (add-to-list 'display-buffer-alist
                '("\\*org-roam\\*"
@@ -3382,7 +3387,7 @@ https://www.flycheck.org/en/latest/index.html
   )
 
 (add-to-list 'auto-mode-alist '("\\.pdf" . pdf-view-mode))
-  
+
 ;; (with-eval-after-load 'pdf-view
 ;;   (require 'pdf-continuous-scroll-mode))
 
@@ -3824,7 +3829,7 @@ This assume that there is a 'doc' folder in the project root."
 * Python                                                         :Programming:Python:
 ** Helper functions
 #+begin_src elisp
-
+
 ;; Pegue em http://wwwx.cs.unc.edu/~gb/wp/blog/2008/03/15/running-python-from-within-emacs/
 ;; Com essa função você pode rodar um script python usando o compile buffer
 ;; (make-local-variable 'py-master-file)
@@ -3847,14 +3852,14 @@ This assume that there is a 'doc' folder in the project root."
     (compile (concat python-command-with-options (buffer-file-name)) nil)
     ))
 
-
+
 ;; Debug helpers
 
 (defun python--add-debug-highlight ()
   "Adds a highlighter for use by `python--pdb-breakpoint-string'"
   (highlight-lines-matching-regexp "## DEBUG ##\\s-*$" 'hi-red-b)
   )
-  
+
 (defvar python--pdb-breakpoint-string "breakpoint()  ## DEBUG ##"
   "Python breakpoint string used by `python-insert-breakpoint'")
 
@@ -3896,7 +3901,7 @@ This assume that there is a 'doc' folder in the project root."
          ;; Add breakpoint with pudb
          ([C-f8] . python-insert-breakpoint)
          ;; ([C-S-f8] . pudb-add-breakpoint)
-    
+
          ;; Run a python file
          ([f9] . my-python-compile)
          ([S-f9] . kill-compilation)
