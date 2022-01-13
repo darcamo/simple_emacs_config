@@ -66,6 +66,8 @@ Good themes:
 (set-face-foreground 'isearch "#eee")
 (set-face-background 'lazy-highlight "#960")
 (set-face-foreground 'lazy-highlight "#ccc")
+(set-face-foreground 'org-todo "tomato")
+
 ;; (set-face-foreground 'font-lock-comment-face "#fc0")
 
 (set-face-attribute 'default nil :family "JetBrains Mono" :height 120)
