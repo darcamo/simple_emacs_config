@@ -10,30 +10,10 @@ https://github.com/susam/emfy/blob/main/.emacs
 
 https://github.com/MatthewZMD/.emacs.d
 
-[cite:@tortosa2018; @victor_2019]
-
 https://www.rousette.org.uk/archives/emacs-from-scratch-again/
 
-post-command-hook antes do citar
-: (global-font-lock-mode-check-buffers global-eldoc-mode-check-buffers
-: corfu-global-mode-check-buffers yas-global-mode-check-buffers
-: global-page-break-lines-mode-check-buffers
-: global-git-gutter-mode-check-buffers global-anzu-mode-check-buffers
-: magit-auto-revert-mode-check-buffers transient--post-command-hook
-: sp--post-command-hook-handler winner-save-old-configurations
-: mode-local-post-major-mode-change)
-
-
-: (global-font-lock-mode-check-buffers global-eldoc-mode-check-buffers
-: corfu-global-mode-check-buffers yas-global-mode-check-buffers
-: global-page-break-lines-mode-check-buffers
-: global-git-gutter-mode-check-buffers global-anzu-mode-check-buffers
-: sp--post-command-hook-handler winner-save-old-configurations
-: mode-local-post-major-mode-change)
 
 My hand-crafted Emacs configuration
-
-[cite:@tortosa2018; @victor_2019; @gudmundson_1991; @yang08_sensor_placem_gauss_random_field;]
 
 init-time atual do emacs: ~1.6
 
@@ -2100,18 +2080,18 @@ Replace regular find-file and related functions with ffap versions
      (search category-keep)
      )
    )
+  )
 
-  :config
-  ;; (use-package org-inlinetask)
-  (use-package org-indent
-    :diminish org-indent-mode
-    :commands org-indent-mode
-    :defer t
-    )
+(use-package org-indent
+  :diminish org-indent-mode
+  :commands org-indent-mode
+  :defer t
+  :hook
+  (org-mode . org-indent-mode)
   )
 
 
-  (use-package org-tempo
+(use-package org-tempo
   :defer t
   :commands (org-tempo-setup org-tempo-complete-tag)
   :hook
@@ -3257,6 +3237,7 @@ notes. The code below has a nicer function that you can use instead
 (use-package outline
   :diminish outline-minor-mode
   :defer t
+  :commands outline-minor-mode
   :bind (:map outline-minor-mode-map
               ("C-M-n" . outline-next-visible-heading)
               ("C-M-p" . outline-previous-visible-heading)
@@ -3371,6 +3352,7 @@ https://www.flycheck.org/en/latest/index.html
 #+begin_src elisp
 (use-package flycheck
   :ensure t
+  :commands flycheck-mode
   ;; :init
   ;;(global-flycheck-mode)
   :hook
@@ -3407,7 +3389,7 @@ https://www.flycheck.org/en/latest/index.html
 
 #+end_src
 
-** COMMENT Integration with org (create org-links)                                 :OrgMode:
+** COMMENT Integration with org (create org-links)                         :OrgMode:
 #+begin_src elisp
 (use-package org-pdftools
   :ensure t
@@ -3911,6 +3893,7 @@ This assume that there is a 'doc' folder in the project root."
 ** Configuration and keybindings
 #+begin_src elisp
 (use-package python
+  :defer t
   :bind (:map python-mode-map
          ;; Add breakpoint with pudb
          ([C-f8] . python-insert-breakpoint)
@@ -4750,6 +4733,8 @@ Set my default bibliography.
 You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
 #+begin_src elisp
 (use-package oc
+  :defer t
+  :commands org-cite-insert
   :custom
   (org-cite-global-bibliography '("~/Dropbox/org/references/articles.bib" "~/Dropbox/org/references/articles_without_notes.bib"))
   )
@@ -4761,16 +4746,16 @@ You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
   :defer t
   :custom
   (bibtex-comment-start "%")
+  (bibtex-entry-format '(opts-or-alts required-fields numerical-fields whitespace realign last-comma unify-case braces sort-fields))
+  (bibtex-comma-after-last-field t)
   :config
-  (setq bibtex-entry-format '(opts-or-alts required-fields numerical-fields whitespace realign last-comma unify-case braces sort-fields)
-        bibtex-comma-after-last-field t
-        )
   (bibtex-set-dialect 'biblatex)
   :hook
   (bibtex-mode . (lambda () (darlan/set-up-outline-minor-mode "@")))
   )
 #+end_src
 
+** TODO Biblio
 ** TODO Bibtex-completions                                             :Investigate:
 Used by org-roam-bibtex
 
