@@ -1650,98 +1650,74 @@ Replace regular find-file and related functions with ffap versions
 ** General
 *** Config
 #+begin_src elisp
-(use-package org-mode
+(use-package org
   :mode
   ;; Usa o org-mode para arquivos README
   ("README$" . org-mode)
   ;; Usa o org-mode para arquivos com extensão
   ("\.org_archive$" . org-mode)
-  :init
+  :custom
   ;; Enable org-indent-mode by default
-  (setq org-startup-indented t)
+  (org-startup-indented t)
 
   ;; When tags are added, sort them alfabetically. However, always put
   ;; the "ATTACH" tag at the end
-  (setq org-tags-sort-function (lambda (x y)
-                                 (if (string= "attach" (downcase x))
-                                     nil
-                                   (if (string= "attach" (downcase y))
-                                       t
-                                     (string< x y)))))
+  (org-tags-sort-function (lambda (x y)
+                            (if (string= "attach" (downcase x))
+                                nil
+                              (if (string= "attach" (downcase y))
+                                  t
+                                (string< x y)))))
 
-  (setq org-attach-use-inheritance t
+  (org-attach-use-inheritance t)
 
-        org-link-frame-setup '((vm . vm-visit-folder-other-frame)
-                               (vm-imap . vm-visit-imap-folder-other-frame)
-                               (gnus . org-gnus-no-new-news)
-                               (file . find-file)
-                               (wl . wl-other-frame))
-        org-preview-latex-default-process 'dvisvgm
-        org-hide-emphasis-markers t  ;; font-lock should hide the emphasis markers
-        org-image-actual-width '(600)
-        )
+  (org-link-frame-setup '((vm . vm-visit-folder-other-frame)
+                          (vm-imap . vm-visit-imap-folder-other-frame)
+                          (gnus . org-gnus-no-new-news)
+                          (file . find-file)
+                          (wl . wl-other-frame)))
+  (org-preview-latex-default-process 'dvisvgm)
+  (org-hide-emphasis-markers t)  ;; font-lock should hide the emphasis markers
+  (org-image-actual-width '(600))
+
 
   ;; T0D0 Keywords and colors
-  (setq org-todo-keywords
-        '((sequence "TODO(t)" "WAIT(w!)"  "|" "DONE(d!)" "DELE(e!)")
-          (sequence "|" "CANC(c!)")
-          (sequence "STARTED" "|")
-          (sequence "CYCLIC" "|")
-          (sequence "PROJ" "SOMEDAY" "|" "FINALIZADO(!)" "CANC(!)")
-          (sequence "|" "FINALIZADO(!)") ; Para compras na internet após receber o produto e qualificar
-          ;; (sequence "TODO(t) STARTED WAIT(w@/!) | PUBLISHED(p) REJECTED(r@/!)")
-          ))
-
-
-  ;; Allow unicode non-breaking space before and after org-mode emphasis
-  ;;
-  ;; By default it is not allowed and something like "/text/ bla" the "text" would
-  ;; not be in italics. Here we change org-emphasis-regexp-components to allow " "
-  ;; before and after org-mode emphasis.
-  ;; See this question https://stackoverflow.com/questions/1218238/how-to-make-part-of-a-word-bold-in-org-mode
-  (setcar org-emphasis-regexp-components "-[:space:]('\"{ ")
-  (setcar (nthcdr 1 org-emphasis-regexp-components) "-[:space:].,:!?;'\")}\\[ ")
-  (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+  (org-todo-keywords
+   '((sequence "TODO(t)" "WAIT(w!)"  "|" "DONE(d!)" "DELE(e!)")
+     (sequence "|" "CANC(c!)")
+     (sequence "STARTED" "|")
+     (sequence "CYCLIC" "|")
+     (sequence "PROJ" "SOMEDAY" "|" "FINALIZADO(!)" "CANC(!)")
+     (sequence "|" "FINALIZADO(!)") ; Para compras na internet após receber o produto e qualificar
+     ;; (sequence "TODO(t) STARTED WAIT(w@/!) | PUBLISHED(p) REJECTED(r@/!)")
+     ))
 
   ;; General
-  (setq org-directory "~/org")
+  (org-directory "~/org")
 
   ;; Change C-a and C-e behaviour in org-mode
-  (setq org-special-ctrl-a/e t)
-
-  ;; To follow links with RET, rather than a 2 key combo
-  ;; (setq org-return-follows-link t)
-
-  ;; ;; Empty lines finish the list
-  ;; (setq org-list-empty-line-terminates-plain-lists nil)
-
-  ;; Number of empty lines needed to keep an empty line between collapsed
-  ;; trees. If the number is negative, and the number of empty lines is at least
-  ;; -N, all empty lines are shown.
-  ;; (setq org-cycle-separator-lines -2)
+  (org-special-ctrl-a/e t)
 
   ;; Indica se uma linha em branco deve ser inserida antes de um heading, mas não
   ;; antes de uma lista. O ideal é usar auto, mas parece não funcionar direito
-  (setq org-blank-before-new-entry
-        '((heading . auto) (plain-list-item . nil)))
+  (org-blank-before-new-entry
+   '((heading . auto) (plain-list-item . nil)))
 
   ;; tell org-mode to use the default system programn to open open office documents
-  (setq org-file-apps (quote (
-                              (auto-mode . emacs)
-                              (directory . emacs)
-                              ("\\.mm\\'" . default)
-                              ("\\.x?html?\\'" . default)
-                              ("pdf" . "evince %s")
-                              ("\\.pdf::\\([0-9]+\\)\\'" . "evince -p %1 %s")  ;; Link containing a specific page
-                              ("\\.od[s|p|t]" . default)
-                              ("xmind" . "xmind-zen %s")
-                              )))
+  (org-file-apps (quote (
+                         (auto-mode . emacs)
+                         (directory . emacs)
+                         ("\\.mm\\'" . default)
+                         ("\\.x?html?\\'" . default)
+                         ("pdf" . "evince %s")
+                         ("\\.pdf::\\([0-9]+\\)\\'" . "evince -p %1 %s")  ;; Link containing a specific page
+                         ("\\.od[s|p|t]" . default)
+                         ("xmind" . "xmind-zen %s")
+                         )))
 
   ;; When editing source code (with C-c ') Show edit buffer in the
   ;; current window, keeping all other windows.
-  (setq org-src-window-setup 'current-window)
-
-  ;; (setq org-archive-default-command 'org-archive-to-archive-sibling)
+  (org-src-window-setup 'current-window)
 
   ;; The column to which tags should be indented in a headline. If this
   ;; number is positive, it specifies the column.  If it is negative, it
@@ -1751,47 +1727,39 @@ Replace regular find-file and related functions with ffap versions
   ;; We use the value -85 here because in org-mode we set the value of fill-column
   ;; to 90. Then we need 3 characters for the ellipsis and a bit more because the
   ;; "ATTACH" tag uses a larger font size.
-  (setq org-tags-column -85)
+  (org-tags-column -85)
 
   ;; Disallow editing invisible parts (folded headlines) to avoid accidental
   ;; modifications.
-  (setq org-catch-invisible-edits 'error)
+  (org-catch-invisible-edits 'error)
 
   ;; Non-nil means single character alphabetical bullets are allowed.
-  (setq org-list-allow-alphabetical t)
+  (org-list-allow-alphabetical t)
 
   ;; Logging
   ;; insert state change notes and time stamps into a drawer called LOGBOOK
-  (setq org-log-into-drawer t)
+  (org-log-into-drawer t)
 
   ;; Properties
   ;; Set global properties such that you do not need a line such as
   ;; #+PROPERTY: Effort_ALL 0 0:10 0:20 0:30 1:00 2:00 3:00 4:00 8:00
   ;; in the beginning of each org file.
-  (setq org-global-properties
-        '(("Effort_ALL". "0 0:10 0:20 0:30 1:00 1:30 2:00 3:00 4:00 5:00 6:00 7:00 8:00")))
+  (org-global-properties
+   '(("Effort_ALL". "0 0:10 0:20 0:30 1:00 1:30 2:00 3:00 4:00 5:00 6:00 7:00 8:00")))
 
   ;; Persistent Tags
-  (setq org-tag-persistent-alist
-        '(
-          ("Tarcísio" . ?t) ("Charles" . ?c) ("Igor" . ?i) ("Yuri" . ?y) ("Gabor" . ?G) ("ignore" . ?I) ("Ericsson" . ?e)
-          (:startgroup . nil) ("Home" . ?h) ("GTEL" . ?g) (:endgroup . nil) ("Doutorado" . ?d) ("noexport" . ?n)
-          ("Errands" . ?E) (:startgroup . nil) ("Someday" . ?s) ("NextActions" . ?N) (:endgroup . nil) ("crypt" . ?C) ("Projeto" . ?p) ("Leituras" . ?l)
-          ))
+  (org-tag-persistent-alist
+   '(
+     ("Tarcísio" . ?t) ("Charles" . ?c) ("Igor" . ?i) ("Yuri" . ?y) ("Gabor" . ?G) ("ignore" . ?I) ("Ericsson" . ?e)
+     (:startgroup . nil) ("Home" . ?h) ("GTEL" . ?g) (:endgroup . nil) ("Doutorado" . ?d) ("noexport" . ?n)
+     ("Errands" . ?E) (:startgroup . nil) ("Someday" . ?s) ("NextActions" . ?N) (:endgroup . nil) ("crypt" . ?C) ("Projeto" . ?p) ("Leituras" . ?l)
+     ))
 
   ;; Speed Commands
   ;; Enable speed-commands
   ;; Non-nil means, activate single letter commands at beginning of a headline.
   ;; Press "?" in the beginning of a headline to see the available commands.
-  (setq org-use-speed-commands t)
-
-  (add-to-list 'org-speed-commands
-               '("d" org-decrypt-entry))
-  (add-to-list 'org-modules 'org-tempo t)  ;; org-tempo add completions for "<KEY" to create blocks. See
-  (add-to-list 'org-modules 'org-inlinetask t)  ;; org-tempo add completions for "<KEY" to create blocks. See
-  ;; Only the headline with the tag is a project. Any children are part of the
-  ;; project and not project themselves.
-  (add-to-list 'org-tags-exclude-from-inheritance "Projeto")
+  (org-use-speed-commands t)
 
   ;; Stuck Projects
   ;; Let's assume that you, in your own way of using Org mode, identify
@@ -1805,14 +1773,39 @@ Replace regular find-file and related functions with ffap versions
   ;; eligible projects with a tags/todo match1 ‘+ProjTasks/-MAYBE-DONE’, and
   ;; then check for TODO, NEXT, ProjInfo, and IGNORE in the subtree to identify
   ;; projects that are not stuck. The correct customization for this is
-  (setq org-stuck-projects
-        '("+Projeto-Someday/-MAYBE-DONE-FINALIZADO-CANC" ("NEXT" "TODO" "STARTED") ("ProjInfo")
-          "\\<IGNORE\\>"))
+  (org-stuck-projects
+   '("+Projeto-Someday/-MAYBE-DONE-FINALIZADO-CANC" ("NEXT" "TODO" "STARTED") ("ProjInfo")
+     "\\<IGNORE\\>"))
 
   ;; Org-bibtex
-  (setq org-bibtex-prefix "BIB_")
-  (setq org-bibtex-export-arbitrary-fields t)
+  (org-bibtex-prefix "BIB_")
+  (org-bibtex-export-arbitrary-fields t)
   ;; (setq org-bibtex-autogen-keys)
+  :init
+
+
+
+  ;; Allow unicode non-breaking space before and after org-mode emphasis
+  ;;
+  ;; By default it is not allowed and something like "/text/ bla" the "text" would
+  ;; not be in italics. Here we change org-emphasis-regexp-components to allow " "
+  ;; before and after org-mode emphasis.
+  ;; See this question https://stackoverflow.com/questions/1218238/how-to-make-part-of-a-word-bold-in-org-mode
+  (setcar org-emphasis-regexp-components "-[:space:]('\"{ ")
+  (setcar (nthcdr 1 org-emphasis-regexp-components) "-[:space:].,:!?;'\")}\\[ ")
+  (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
+
+
+
+
+  (add-to-list 'org-speed-commands
+               '("d" org-decrypt-entry))
+  ;; (add-to-list 'org-modules 'org-tempo t)  ;; org-tempo add completions for "<KEY" to create blocks. See
+  ;; (add-to-list 'org-modules 'org-inlinetask t)  ;; org-tempo add completions for "<KEY" to create blocks. See
+
+  ;; Only the headline with the tag is a project. Any children are part of the
+  ;; project and not project themselves.
+  (add-to-list 'org-tags-exclude-from-inheritance "Projeto")
 
   :hook
   (org-mode . (lambda () (setq fill-column 90)))
@@ -2109,10 +2102,21 @@ Replace regular find-file and related functions with ffap versions
    )
 
   :config
-  (use-package org-tempo)
-  (use-package org-inlinetask)
+  ;; (use-package org-inlinetask)
   (use-package org-indent
-  :diminish org-indent-mode)
+    :diminish org-indent-mode
+    :commands org-indent-mode
+    :defer t
+    )
+  )
+
+
+  (use-package org-tempo
+  :defer t
+  :commands (org-tempo-setup org-tempo-complete-tag)
+  :hook
+  (org-mode . org-tempo-setup)
+  (org-tab-before-tab-emulation . org-tempo-complete-tag)
   )
 
 
@@ -2514,19 +2518,19 @@ reveal."
   ;; Org Default Backends
   (add-to-list 'org-export-backends 'md)
   (add-to-list 'org-export-backends 'odt)
+  )
 
-  (with-eval-after-load 'use-package-core
-    (use-package org-contrib
-    :ensure t)
 
-    (use-package ox-extra
-      :after org-contrib
-      :config
-      (ox-extras-activate '(ignore-headlines))
-      )
-
-    ;; (use-package ox-beamer)
-    )
+(use-package ox-extra
+  :ensure org-contrib  ;; ox-extra is part of the org-contrib package
+  :ensure org-contrib
+  :commands ox-extras-activate
+  ;; NOTE: To avoid loading this package during emacs startup, the
+  ;; ox-extras-activate function will be called in
+  ;; org-export-before-processing
+  ;;
+  ;; :config
+  ;; (ox-extras-activate '(ignore-headlines))
   )
 
 (use-package ox
@@ -2534,7 +2538,11 @@ reveal."
   :config
   (add-to-list 'org-export-filter-body-functions 'darlan/replace-unicode-non-break-space-org-filter)
   (add-to-list 'org-export-filter-special-block-functions 'darlan/replace-notes-environment)
-  (setq org-export-with-broken-links 'mark)
+  :custom
+  (org-export-with-broken-links  'mark)
+  :hook
+  (org-export-before-processing . (lambda (arg) (ox-extras-activate '(ignore-headlines))))
+
   )
 
 
