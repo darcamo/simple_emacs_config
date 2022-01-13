@@ -1464,6 +1464,19 @@ Replace regular find-file and related functions with ffap versions
   )
 #+end_src
 
+*** Disable ffap bindings in dired-mode buffers                             :Dired:
+Getting the file name at point is problematic in dired buffers, since it requires me to
+delete the text in order to use the completion system to open a file.
+#+begin_src elisp
+(use-package dired
+  ;; :custom
+  ;; (dired-at-point-require-prefix t)
+  :bind (:map dired-mode-map
+              ("C-x C-f" . ido-find-file)
+              )
+  )
+#+end_src
+
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src elisp
 ;; (setq scroll-step 1)
