@@ -1465,6 +1465,12 @@ of the file associated with the current buffer."
   (global-set-key [remap query-replace] 'anzu-query-replace)
   (global-set-key [remap query-replace-regexp] 'anzu-query-replace-regexp)
   )
+
+(use-package lorem-ipsum
+  :ensure t
+  :commands (Lorem-ipsum-insert-list Lorem-ipsum-insert-sentences Lorem-ipsum-insert-paragraphs)
+  )
+
 #+end_src
 
 ** Find-file-at-point                                                         :ffap:
