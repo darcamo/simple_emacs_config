@@ -3428,6 +3428,7 @@ https://www.flycheck.org/en/latest/index.html
   ;;(global-flycheck-mode)
   :hook
   (prog-mode . flycheck-mode)
+  (LaTeX-mode . flycheck-mode)
   )
 #+end_src
 
