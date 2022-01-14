@@ -15,7 +15,7 @@ https://www.rousette.org.uk/archives/emacs-from-scratch-again/
 
 My hand-crafted Emacs configuration
 
-init-time atual do emacs: ~1.6
+init-time atual do emacs: ~1.2
 
 Activate use-package report -> call the command ~use-package-report~. Ideally, you want
 packages that were not used yet to be only "initialized" and only after they have been
@@ -2984,7 +2984,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   )
 #+end_src
 
-** Appearance
+** Appearance (face and prettify-symbols)                               :Appearance:
 #+begin_src elisp
 (use-package org-faces
   :custom
@@ -2996,8 +2996,8 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   ;; ellipsis easily
   (org-ellipsis 'org-column)
 
-  ;; Faces of some tags (ATTACH tag)
-  (org-tag-faces '(("ATTACH" :inherit org-done :box nil :underline t :height 1.2)))
+  ;; ;; Faces of some tags (ATTACH tag)
+  ;; (org-tag-faces '(("ATTACH" :inherit org-done :box nil :underline t :height 1.2)))
 
   :config
   ;; By default both org-code and org-vertavim faces just inherit from the shadow
@@ -3052,6 +3052,31 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
                 ))
   ;; Enable visual-line-mode in all org-mode buffers
   ;; (org-mode . visual-line-mode)
+  )
+#+end_src
+
+** SVG tag mode
+#+begin_src elisp
+(use-package svg-tag-mode
+  :ensure t
+  :custom
+  (svg-tag-tags
+          ; ATTACH
+      '((":\\(ATTACH\\):" . ((lambda (tag)
+                         ;; (svg-tag-make "ATTACH" :font-family "DejaVu Sans" :face 'org-agenda-structure :font-size 13 :margin 1 :padding 3 :alignment 0.5)
+                         ;; (svg-lib-tag "ATTACH" (svg-lib-style svg-lib-style-default
+                         ;; :foreground "gold"
+                         ;; :font-family "Arial"
+                         ;; :font-size 15
+                         ;; :margin 1
+                         ;; :padding 3
+                         ;; :alignment 0.5))
+                         (svg-lib-icon "paperclip" nil :margin 3 :foreground "gold")
+                         )))
+
+        ))
+  :hook
+  (org-mode . svg-tag-mode)
   )
 #+end_src
 
