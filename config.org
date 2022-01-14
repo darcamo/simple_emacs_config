@@ -3073,18 +3073,37 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   :ensure t
   :custom
   (svg-tag-tags
-          ; ATTACH
-      '((":\\(ATTACH\\):" . ((lambda (tag)
-                         ;; (svg-tag-make "ATTACH" :font-family "DejaVu Sans" :face 'org-agenda-structure :font-size 13 :margin 1 :padding 3 :alignment 0.5)
-                         ;; (svg-lib-tag "ATTACH" (svg-lib-style svg-lib-style-default
-                         ;; :foreground "gold"
-                         ;; :font-family "Arial"
-                         ;; :font-size 15
-                         ;; :margin 1
-                         ;; :padding 3
-                         ;; :alignment 0.5))
-                         (svg-lib-icon "paperclip" nil :margin 3 :foreground "gold")
-                         )))
+                                        ; ATTACH
+      '(
+        (":\\(ATTACH\\):" . ((lambda (tag)
+                               ;; (svg-tag-make "ATTACH" :font-family "DejaVu Sans" :face 'org-agenda-structure :font-size 13 :margin 1 :padding 3 :alignment 0.5)
+                               ;; (svg-lib-tag "ATTACH" (svg-lib-style svg-lib-style-default
+                               ;; :foreground "gold"
+                               ;; :font-family "Arial"
+                               ;; :font-size 15
+                               ;; :margin 1
+                               ;; :padding 3
+                               ;; :alignment 0.5))
+
+                               ;; See the svg-lib-icon-collections variable
+                               (svg-lib-icon "paperclip" nil :margin 3 :foreground "gold")
+                               )))
+        ;; Icon names can be searched in https://materialdesignicons.com/
+        ("#\\+TITLE:" . ((lambda (tag) (svg-lib-button "format-title" "TITLE" nil :padding 3))))
+        ("#\\+AUTHOR:" . ((lambda (tag) (svg-lib-button "account" "AUTHOR" nil :padding 2))))
+        ("#\\+DATE:" . ((lambda (tag) (svg-lib-button "calendar" "DATE" nil :padding 4))))
+        ("#\\+PROPERTY:" . ((lambda (tag) (svg-lib-button "cog" "PROPERTY" nil :padding 0 :foreground "gray40"))))
+        ("#\\+CATEGORY:" . ((lambda (tag) (svg-lib-button "notebook" "CATEGORY" nil :padding 0 :foreground "gray40"))))
+        ("#\\+OPTIONS:" . ((lambda (tag) (svg-lib-button "cog" "OPTIONS" nil :padding 1 :foreground "gray40"))))
+        ("#\\+COLUMNS:" . ((lambda (tag) (svg-lib-button "format-columns" "COLUMNS" nil :padding 1 :foreground "gray40"))))
+        ("#\\+STARTUP:" . ((lambda (tag) (svg-lib-button "wrench-clock" "STARTUP" nil :padding 1 :foreground "gray40"))))
+        ;; Attribute of include blocks (figures, tables, src, etc)
+        ("#\\+NAME:" . ((lambda (tag) (svg-lib-button "label" "NAME" nil :font-family "DejaVu Sans" :padding 4))))
+        ("#\\+CAPTION:" . ((lambda (tag) (svg-lib-button "tooltip" "CAPTION" nil :font-family "DejaVu Sans"))))
+        ;;("#\\+CAPTION:" . ((lambda (tag) (svg-tag-make "CAPTION" :font-family "DejaVu Sans" :font-size 12))))
+        ;;("#\\+HEADER:" . ((lambda (tag) (svg-lib-button "format-header-pound" "HEADER" nil :padding 0))))
+        ("#\\+ATTR_LATEX:" . ((lambda (tag) (svg-lib-button "cog" "LATEX" nil :padding 3))))
+        ("#\\+ATTR_HTML:" . ((lambda (tag) (svg-lib-button "cog" "HTML" nil :padding 4))))
 
         ))
   :hook
