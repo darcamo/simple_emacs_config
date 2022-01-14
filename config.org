@@ -3518,6 +3518,18 @@ https://www.flycheck.org/en/latest/index.html
   (dired-mode . treemacs-icons-dired-mode)
   )
 
+;; (use-package all-the-icons-dired
+;;   :ensure t
+;;   :commands all-the-icons-dired-mode
+;;   :hook
+;;   (dired-mode . all-the-icons-dired-mode)
+;;   :custom
+;;   (all-the-icons-color-icons nil)
+;;   ;; (all-the-icons-dired-monochrome t)
+;;   ;; :config
+;;   ;; (set-face-attribute 'all-the-icons-dired-dir-face nil :foreground "gold")
+;;   )
+
 (use-package dired-x
   :bind (:map dired-mode-map
   ("C-x M-o" . dired-omit-mode))
