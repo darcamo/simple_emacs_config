@@ -3828,20 +3828,12 @@ This assume that there is a 'doc' folder in the project root."
   ;; see the help for the c-offsets-alist variable and look for defun-open to see
   ;; what it is. Using this you can known how to adapt a style to your needs.
   ;;
-  ;; Copied stroustrup style add add the "innamespace . 0"
+  ;; For my style, use "stroustrup" style as a base and change the value of
+  ;; "innamespace" to zero in the c-offsets-alist. This means that we don't get
+  ;; indentation inside a namespace.
   (c-add-style "darcamo"
                '("stroustrup"
-                 ;; (c-doc-comment-style . doxygen)
-                 ;;   (c-basic-offset . 4)
-                 ;;   (c-comment-only-line-offset . 0)
-                 ;;   (c-offsets-alist
-                 ;;    (statement-block-intro . +)
-                 ;;    (substatement-open . 0)
-                 ;;    (substatement-label . 0)
-                 ;;    (label . 0)
-                 ;;    (statement-cont . +)
-                 (innamespace . 0))
-               )
+                 (c-offsets-alist . ((innamespace . [0])))))
   (push '(c-mode . "darcamo") c-default-style)
   (push '(c++-mode . "darcamo") c-default-style)
   )
