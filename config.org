@@ -417,7 +417,11 @@ Talvez o keybinding ~C-,~ seja bom pra ele
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
    ("C-;" . embark-dwim)        ;; good alternative: M-.
-   ("C-h B" . embark-bindings)) ;; alternative for `describe-bindings'
+   ("C-h B" . embark-bindings)
+   :map embark-file-map
+   ;; Add sudo-edit as an action for files
+   ("s" . sudo-edit)
+   ) ;; alternative for `describe-bindings'
 
   :init
 
@@ -1474,6 +1478,14 @@ delete the text in order to use the completion system to open a file.
   :bind (:map dired-mode-map
               ("C-x C-f" . ido-find-file)
               )
+  )
+#+end_src
+
+** sudo-edit
+#+begin_src elisp
+(use-package sudo-edit
+  :ensure t
+  :commands sudo-edit
   )
 #+end_src
 
