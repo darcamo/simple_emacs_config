@@ -4892,6 +4892,236 @@ Some useful keybindings
 ** TODO Org-noter                                             :Investigate:OrgNoter:
 * TODO Sudo edit                                                        :Investigate:
 See sudo-edit package and maybe https://github.com/oantolin/embark/wiki/Additional-Actions
+* Mail with mu4e                                                          :Mail:mu4e:
+Note: =C-c C-p= in message mode takes a screenshot and attach to the e-mail
+
+Emacs now supports oauth2 authentication. See
+https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuration_for_office_365/
+** Common email config and some helper functions                               :epa:
+#+begin_src elisp
+;; The my-define-mail-variables function just define some variables
+;; that are used in the rest of the mu4e configuration
+(autoload 'my-define-mail-variables (concat user-emacs-directory "common-mail-config.el.gpg"))
+#+end_src
+
+** Mail configuration not specific to mu4e
+#+begin_src elisp
+(use-package message
+  :after mu4e
+  :custom
+  (message-send-mail-function 'smtpmail-send-it)
+  (message-sendmail-f-is-evil t)
+  )
+
+(use-package smtpmail
+  :after mu4e
+  :custom
+  ;; (message-send-mail-function 'smtpmail-send-it)
+  ;; (message-sendmail-f-is-evil t)
+  (smtpmail-smtp-server "smtp.gmail.com")
+  (smtpmail-smtp-service 465)
+  (smtpmail-stream-type 'ssl)
+  ;; force smtpmail to send credentials over on the first attempt when
+  ;; communicating with the SMTP server(s)
+  (smtpmail-servers-requiring-authorization "gmail")
+  :config
+  (my-define-mail-variables)
+
+  (setq smtpmail-smtp-user my-personal-smtpmail-smtp-user)
+  (setq user-mail-address my-personal-user-mail-address)
+  (setq user-full-name my-user-full-name)
+  )
+#+end_src
+
+** Configuration
+#+begin_src elisp
+(use-package mu4e
+  :ensure nil  ;; mu4e is not found in melpa -> you need to install the "mu" system package
+  :commands (mu4e mu4e-user-agent mu4e~compose-mail)
+  :custom
+  ;; Appearance
+  (mu4e-use-fancy-chars t)
+  (mu4e-headers-draft-mark     '("D" . "⚒"))  ; draft
+  (mu4e-headers-seen-mark      '("S" . "☑"))  ; seen
+  (mu4e-headers-unseen-mark    '("u" . "☐"))  ; unseen
+  (mu4e-headers-unread-mark    '("u" . "☐"))  ; unread
+  (mu4e-headers-flagged-mark   '("F" .  "⋆")) ; flagged ⚵
+  (mu4e-headers-new-mark       '("N" .  "✱")) ; new
+  (mu4e-headers-replied-mark   '("R" . "↵"))  ; replied
+  (mu4e-headers-passed-mark    '("P" . "⇉"))  ; passed
+  (mu4e-headers-encrypted-mark '("x" . "🔑"))  ; encrypted ⚷
+  (mu4e-headers-signed-mark    '("s" . "✍")) ; signed
+  (mu4e-headers-trashed-mark   '("T" . "⏚")) ; Trashed
+  (mu4e-headers-attach-mark    '("a" . "📎")) ;; attach ⚓
+
+  ;; Hide the "Indexing..." messages (they interfere with the minibuffer)
+  (mu4e-hide-index-messages t)
+
+  ;; Determines what mu4e does with sent messages. Since we use gmail, which
+  ;; already stores the sent messages, we set this to 'delete so that we do
+  ;; not get a duplicated message
+  (mu4e-sent-messages-behavior 'delete)
+
+  ;; start with the first (default) context;
+  ;; default is to ask-if-none (ask when there's no context yet, and none match)
+  (mu4e-context-policy 'pick-first)
+
+  ;; compose with the current context if no context matches;
+  ;; default is to ask
+  ;; (mu4e-compose-context-policy nil)
+
+  ;; allow for updating mail using 'U' in the main view:
+  (mu4e-get-mail-command "mbsync all")
+
+  ;;rename files when moving
+  ;;NEEDED FOR MBSYNC
+  (mu4e-change-filenames-when-moving t)
+
+  ;; Don't change to next message when scrolling at the end of a message
+  (mu4e-view-scroll-to-next nil)
+
+  ;; Whether to base the body display on the html-version.
+  (mu4e-view-prefer-html t)
+
+  ;; Bookmarks -> access with 'j' + letter
+  (mu4e-maildir-shortcuts
+   '(("/gmail/Inbox"               . ?i)
+     ("/gmail/[Gmail].E-mails enviados"   . ?e)
+     ("/gmail/[Gmail].Lixeira"       . ?l)
+     ;; ("/gmail/[Gmail].Todos os e-mails"    . ?t)
+     ("/gtel/Inbox"               . ?I)
+     ("/gtel/[Gmail].E-mails enviados"   . ?E)
+     ("/gtel/[Gmail].Lixeira"       . ?L)
+     ;; ("/gtel/[Gmail].Todos os e-mails"    . ?T)
+     ;; ("/gtel/ResearchGate"       . ?r)
+     ("/gtel/Call of Papers"       . ?c)
+     ;; ("/gmail/Stanford"       . ?s)
+     ))
+
+  (mu4e-user-mailing-lists '(
+                             ("todos.gtel.ufc.br" . "GTEL-Todos")
+                             ("numpy-discussion.python.org" . "Numpy")
+                             ("numpy-discussion.scipy.org" . "Numpy")
+                             ("ipython-dev.python.org" . "IPython")
+                             ("ipython-dev.scipy.org" . "IPython")
+                             ("dea-ufv.listas.ufv.br" . "Graça Freitas")
+                             ("moradoresparccezanne.googlegroups.com" . "Parc Cezanne")
+                             ("grupogestorparccezanne.googlegroups.com" . "Grupo Gestor"))
+                           )
+
+  ;; Remove unwanted contacts
+  (mu4e-contact-process-function 'my-mu4e-contact-processor)
+
+  :config
+  (my-define-mail-variables)
+
+  ;; Note that setting this variable is here, instead of the ":custom"
+  ;; section because it needs to call the make-mu4e-context function,
+  ;; which is provided by mu4e
+  (setq mu4e-contexts
+        `( ,(make-mu4e-context
+             :name "Pessoal"
+             :enter-func (lambda () (mu4e-message "Entering Pessoal context"))
+             :leave-func (lambda () (mu4e-message "Leaving Pessoal context"))
+             ;; we match based on the contact-fields of the message
+             :match-func (lambda (msg)
+                           (when msg
+                             (mu4e-message-contact-field-matches msg
+                                                                 '(:to :cc :bcc) my-personal-user-mail-address)))
+             :vars `((user-mail-address  . ,my-personal-user-mail-address)
+                     (user-full-name     . ,my-user-full-name)
+                     (smtpmail-smtp-user . ,my-personal-smtpmail-smtp-user)
+                     (mu4e-sent-folder   . "/gmail/[Gmail].E-mails enviados")
+                     (mu4e-drafts-folder . "/gmail/[Gmail].Rascunhos")
+                     (mu4e-trash-folder  . "/gmail/[Gmail].Lixeira")
+                     (message-signature-file . "~/.signature")
+                     ;; ( mu4e-compose-signature .
+                     ;;   (concat
+                     ;;     "Alice Derleth\n"
+                     ;;     "Lauttasaari, Finland\n"))
+                     ))
+           ,(make-mu4e-context
+             :name "Trabalho"
+             :enter-func (lambda () (mu4e-message "Switch to the Work context"))
+             :leave-func (lambda () (mu4e-message "Leaving Work context"))
+             :match-func (lambda (msg)
+                           (when msg
+                             (mu4e-message-contact-field-matches msg
+                                                                 '(:to :cc :bcc) my-work-user-mail-address)))
+             :vars `((user-mail-address  . ,my-work-user-mail-address)
+                     (user-full-name     . ,my-user-full-name)
+                     (smtpmail-smtp-user . ,my-work-smtpmail-smtp-user)
+                     (mu4e-sent-folder   . "/gtel/[Gmail].E-mails enviados")
+                     (mu4e-drafts-folder . "/gtel/[Gmail].Rascunhos")
+                     (mu4e-trash-folder  . "/gtel/[Gmail].Lixeira")
+                     (message-signature-file . "~/.signature_gtel")
+                     ))
+           ))
+
+  ;; Set the mail-user-agent to the mu4e-user-agent.
+  ;; With this if you type the usual keybinding "C-x m" emacs will use the
+  ;; mu4e:compose mode
+  (if (boundp 'mail-user-agent)
+      (setq mail-user-agent 'mu4e-user-agent))
+
+  ;; Actions
+  (add-to-list 'mu4e-view-actions
+               '("View in Browser" . mu4e-action-view-in-browser) t)
+
+  ;; (add-to-list 'mu4e-view-actions
+  ;;              '("wxidget" . mu4e-action-view-with-xwidget) t)
+
+  ;; Bookmarks -> access with 'b' + letter
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Big messages" :query "size:5M..500M" :key ?b))
+
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Gmail Inbox (unread)" :query "maildir:/gmail/Inbox flag:unread" :key ?i))
+
+  (add-to-list 'mu4e-bookmarks
+               '(:name "GTEL Inbox (unread)" :query "maildir:/gtel/Inbox flag:unread" :key ?I))
+
+  ;; (add-to-list 'mu4e-bookmarks
+  ;;              '(:name "IPython (unread)" :query "maildir:/gmail/Newsletter.IPython flag:unread NOT flag:trashed" :key ?p))
+
+  ;; (add-to-list 'mu4e-bookmarks
+  ;;              '(:name "Numpy and Scipy (unread)" :query "list:numpy-discussion.* flag:unread NOT flag:trashed" :key ?n))
+
+  (add-to-list 'mu4e-bookmarks
+               '(:name "From Medium (unread)" :query "from:\"medium.com\" flag:unread NOT flag:trashed" :key ?m))
+
+  (add-to-list 'mu4e-bookmarks
+               '(:name "From Facebook (unread)" :query "from:\"facebook\" flag:unread NOT flag:trashed" :key ?f))
+
+  (add-to-list 'mu4e-bookmarks
+               '(:name "From Empiricus (unread)" :query "empiricus flag:unread NOT flag:trashed" :key ?e))
+
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Graça Freitas (unread)" :query "list:dea-ufv.listas.ufv.br flag:unread NOT flag:trashed" :key ?g))
+
+  ;; (add-to-list 'mu4e-bookmarks
+  ;;              '(:name "Org-Mode (unread)" :query "list:emacs-orgmode.gnu.org flag:unread NOT flag:trashed" :key ?o))
+
+  ;; Note that mu4e already comes with a bookmark for unread messages. We
+  ;; replaced it just to add the condition of not being a GMAIL trash folder
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Unread messages" :query "flag:unread AND NOT flag:trashed AND NOT maildir:/gtel/[Gmail].Lixeira AND NOT maildir:/Gmail/[Gmail].Lixeira" :key ?u))
+
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Importantes (de um ano pra cá)" :query "flag:flagged NOT flag:trashed date:1y.." :key ?s))
+
+  (add-to-list 'mu4e-bookmarks
+               '(:name "Importantes (todas)" :query "flag:flagged NOT flag:trashed" :key ?S))
+
+  :bind ( :map mu4e-view-attachments-header-keymap
+          ("C-c C-o" . mu4e~view-open-attach-from-binding)
+          ("C-c C-s" . mu4e~view-save-attach-from-binding)
+          )
+  )
+#+end_src
+
+** TODO org-msg
+
 * Dockerfile-mode
 #+begin_src elisp
 (use-package dockerfile-mode
