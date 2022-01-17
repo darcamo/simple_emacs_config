@@ -3856,6 +3856,11 @@ This assume that there is a 'doc' folder in the project root."
   (c-add-style "darcamo"
                '("stroustrup"
                  (c-offsets-alist . ((innamespace . [0])))))
+  (setq-default c-doc-comment-style
+                  '((java-mode . javadoc)
+                    (pike-mode . autodoc)
+                    (c-mode    . doxygen)
+                    (c++-mode  . doxygen)))
   (push '(c-mode . "darcamo") c-default-style)
   (push '(c++-mode . "darcamo") c-default-style)
   )
