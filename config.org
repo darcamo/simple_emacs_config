@@ -1526,7 +1526,10 @@ Use the ~world-clock~ command to see the times
 You can open links by clicking or with the =C-c RET= keybinding.
 
 #+begin_src elisp
-(global-goto-address-mode 1)
+;; global-goto-address-mode is only available since Emacs28
+(when (fboundp 'global-goto-address-mode)
+  (global-goto-address-mode 1)
+  )
 #+end_src
 
 * Scrolling and mouse                                               :Mouse:Scrolling:
