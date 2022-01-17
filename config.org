@@ -3441,18 +3441,23 @@ Useful keybindings:
 
 ** Handle ansi colors in compilation buffer                            :Compilation:
 #+begin_src elisp
-(use-package ansi-color
-  :defer t
-  :commands ansi-color-apply-on-region
-  :config
-  (defun colorize-compilation-buffer ()
-    (toggle-read-only)
-    (ansi-color-apply-on-region compilation-filter-start (point))
-    (toggle-read-only))
+(use-package emacs
+:hook
+(compilation-filter . ansi-color-compilation-filter)
+)
 
-  :hook
-  (compilation-filter . colorize-compilation-buffer)
-  )
+;; (use-package ansi-color
+;;   :defer t
+;;   :commands ansi-color-apply-on-region
+;;   :config
+;;   (defun colorize-compilation-buffer ()
+;;     (toggle-read-only)
+;;     (ansi-color-apply-on-region compilation-filter-start (point))
+;;     (toggle-read-only))
+
+;;   :hook
+;;   (compilation-filter . colorize-compilation-buffer)
+;;   )
 #+end_src
 
 ** Flycheck                                                               :Flycheck:
