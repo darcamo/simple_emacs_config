@@ -1503,6 +1503,23 @@ delete the text in order to use the completion system to open a file.
   )
 #+end_src
 
+** World clock
+Use the ~world-clock~ command to see the times
+#+begin_src elisp
+(use-package emacs
+  :ensure t
+  :custom
+  (zoneinfo-style-world-list '(
+                               ("America/Fortaleza" "Fortaleza")
+                               ("America/New_York" "New York")
+                               ("Europe/London" "London")
+                               ("Europe/Paris" "Paris")
+                               ("CET" "Stockholm")
+                               ("Australia/Sydney" "Sydney")))
+  )
+
+#+end_src
+
 ** Address Mode: Buttonize URLs and e-mail addresses
 You can open links by clicking or with the =C-c RET= keybinding.
 
