@@ -1503,6 +1503,13 @@ delete the text in order to use the completion system to open a file.
   )
 #+end_src
 
+** Address Mode: Buttonize URLs and e-mail addresses
+You can open links by clicking or with the =C-c RET= keybinding.
+
+#+begin_src elisp
+(global-goto-address-mode 1)
+#+end_src
+
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src elisp
 ;; (setq scroll-step 1)
