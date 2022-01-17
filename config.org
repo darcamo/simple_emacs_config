@@ -96,7 +96,17 @@ Good themes:
 ** Enable tab-bar-mode                                                      :TabBar:
 Alternate between tabs with C-<tab>
 #+begin_src elisp
+(use-package tab-bar
+:init
 (tab-bar-mode)
+:custom
+;; Only show tabs if there is more than one tab
+(tab-bar-show 1)
+:config
+;; Use the foreground and background colors of the highlight face for the active bar
+(set-face-attribute 'tab-bar-tab nil :foreground nil :background nil :inherit 'highlight)
+;; (set-face-attribute 'tab-bar-tab nil :box t)
+)
 #+end_src
 
 The keybindinds all start with =C-x t=
