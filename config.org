@@ -655,7 +655,9 @@ Code to define many acronymms that I use
   ;; Turn on abbrev-mode by default on all major modes
   (abbrev-mode t)
   :config
-  (read-abbrev-file "~/.abbrev_defs")
+  (when (file-exists-p "~/.abbrev_defs")
+    (read-abbrev-file "~/.abbrev_defs")
+    )
   )
 #+end_src
 
