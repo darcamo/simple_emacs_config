@@ -4037,7 +4037,7 @@ This assume that there is a 'doc' folder in the project root."
   )
 #+end_src
 
-** Anaconda support
+** Anaconda support                                                       :Anaconda:
 #+begin_src elisp
 (use-package conda
   :ensure t
@@ -4053,6 +4053,21 @@ This assume that there is a 'doc' folder in the project root."
   (conda-env-initialize-eshell)
   ;; if you want auto-activation (see below for details), include:
   (conda-env-autoactivate-mode t)
+  )
+#+end_src
+
+** pyvenv: Virtual Environment
+#+begin_src elisp
+;; Call pyvenv-activate and specify the folder with the virtual environment
+(use-package pyvenv
+  :ensure t
+  :commands (pyvenv-activate pyvenv-workon pyvenv-mode pyvenv-tracking-mode)
+  :custom
+  (pyvenv-workon "~/miniconda3/envs/")
+  ;; :init
+  ;; (pyvenv-mode 1)
+  ;; (pyvenv-tracking-mode 1)
+  ;; (setenv "WORKON_HOME" "~/miniconda3/envs/")
   )
 #+end_src
 
