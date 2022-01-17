@@ -1845,11 +1845,11 @@ You can open links by clicking or with the =C-c RET= keybinding.
   (setcar (nthcdr 1 org-emphasis-regexp-components) "-[:space:].,:!?;'\")}\\[ ")
   (org-set-emph-re 'org-emphasis-regexp-components org-emphasis-regexp-components)
 
-
-
-
-  (add-to-list 'org-speed-commands
-               '("d" org-decrypt-entry))
+  (when (boundp 'org-speed-commands)
+    (add-to-list 'org-speed-commands
+                 '("d" org-decrypt-entry))
+    )
+  
   ;; (add-to-list 'org-modules 'org-tempo t)  ;; org-tempo add completions for "<KEY" to create blocks. See
   ;; (add-to-list 'org-modules 'org-inlinetask t)  ;; org-tempo add completions for "<KEY" to create blocks. See
 
