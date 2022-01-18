@@ -5194,6 +5194,16 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
   )
 #+end_src
 
+** Extra packages
+*** mu4e-column-faces
+This package makes mu4e much more beautiful
+#+begin_src elisp
+(use-package mu4e-column-faces
+  :ensure t
+  :after mu4e
+  :config (mu4e-column-faces-mode)
+  )
+#+end_src
 ** TODO org-msg
 
 * Dockerfile-mode
