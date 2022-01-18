@@ -1932,61 +1932,64 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+begin_src elisp
 ;; Local Keybinding
 (use-package org
-  :bind (:map org-mode-map
-              ([C-M-return] . org-meta-return)
-              ([f8] . org-toggle-link-display)
-              ([S-f8] . org-toggle-inline-images)
-              ([C-f8] . darcamo/org-toggle-emphasis)
+  :bind (
+         ;; Map "C-c l" globally to org-store-link
+         ("C-c l" . org-store-link)
+         :map org-mode-map
+         ([C-M-return] . org-meta-return)
+         ([f8] . org-toggle-link-display)
+         ([S-f8] . org-toggle-inline-images)
+         ([C-f8] . darcamo/org-toggle-emphasis)
 
-              ;; This will open a PDF file with the same name of the org-mode file
-              ;; Useful when you are exporting the org-mode buffer to PDF
-              ([f10] . (lambda () (interactive) (find-file (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
-              ([S-f10] . (lambda () (interactive) (find-file (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".html"))))
-              ([S-f10] . (lambda () (interactive) (ver-pdf-no-evince (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
-              ([C-f10] . (lambda () (interactive) (browse-url (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".html"))))
-              ("M-q" . my-org-fill-paragraph)
-              ("M-Q" . my-org-unfill-paragraph)
+         ;; This will open a PDF file with the same name of the org-mode file
+         ;; Useful when you are exporting the org-mode buffer to PDF
+         ([f10] . (lambda () (interactive) (find-file (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
+         ([S-f10] . (lambda () (interactive) (find-file (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".html"))))
+         ([S-f10] . (lambda () (interactive) (ver-pdf-no-evince (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
+         ([C-f10] . (lambda () (interactive) (browse-url (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".html"))))
+         ("M-q" . my-org-fill-paragraph)
+         ("M-Q" . my-org-unfill-paragraph)
 
-              ;; xxxxx Enable Drag-stuff when not in an org-mode heading xxxxxxxxxxxxxxxxx
-              ;; If cursor is in a headline or in a list item, use default org-mode
-              ;; function, otherwise use drag-stuff function
-              ("<M-up>" . (lambda ()
-                            (interactive)
-                            (call-interactively
-                             (if (or (org-at-heading-p) (org-at-item-p) )
-                                 'org-metaup
-                               'drag-stuff-up))))
+         ;; xxxxx Enable Drag-stuff when not in an org-mode heading xxxxxxxxxxxxxxxxx
+         ;; If cursor is in a headline or in a list item, use default org-mode
+         ;; function, otherwise use drag-stuff function
+         ("<M-up>" . (lambda ()
+                       (interactive)
+                       (call-interactively
+                        (if (or (org-at-heading-p) (org-at-item-p) )
+                            'org-metaup
+                          'drag-stuff-up))))
 
-              ;; If cursor is in a headline or in a list item, use default org-mode
-              ;; function, otherwise use drag-stuff function
-              ("<M-down>" . (lambda ()
-                              (interactive)
-                              (call-interactively
-                               (if (or (org-at-heading-p) (org-at-item-p) )
-                                   'org-metadown
-                                 'drag-stuff-down))))
+         ;; If cursor is in a headline or in a list item, use default org-mode
+         ;; function, otherwise use drag-stuff function
+         ("<M-down>" . (lambda ()
+                         (interactive)
+                         (call-interactively
+                          (if (or (org-at-heading-p) (org-at-item-p) )
+                              'org-metadown
+                            'drag-stuff-down))))
 
-              ;; If cursor is in a headline, list item, or in a table,
-              ;; use default org-mode function, otherwise use
-              ;; drag-stuff function
-              ("<M-right>" . (lambda ()
-                               (interactive)
-                               (call-interactively
-                                (if (or (org-at-heading-p) (org-at-item-p) (org-at-table-p))
-                                    'org-metaright
-                                  'drag-stuff-right))))
+         ;; If cursor is in a headline, list item, or in a table,
+         ;; use default org-mode function, otherwise use
+         ;; drag-stuff function
+         ("<M-right>" . (lambda ()
+                          (interactive)
+                          (call-interactively
+                           (if (or (org-at-heading-p) (org-at-item-p) (org-at-table-p))
+                               'org-metaright
+                             'drag-stuff-right))))
 
-              ;; If cursor is in a headline, list item, or in a table,
-              ;; use default org-mode function, otherwise use
-              ;; drag-stuff function
-              ("<M-left>" . (lambda ()
-                              (interactive)
-                              (call-interactively
-                               (if (or (org-at-heading-p) (org-at-item-p) (org-at-table-p))
-                                   'org-metaleft
-                                 'drag-stuff-left))))
-              ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-              )
+         ;; If cursor is in a headline, list item, or in a table,
+         ;; use default org-mode function, otherwise use
+         ;; drag-stuff function
+         ("<M-left>" . (lambda ()
+                         (interactive)
+                         (call-interactively
+                          (if (or (org-at-heading-p) (org-at-item-p) (org-at-table-p))
+                              'org-metaleft
+                            'drag-stuff-left))))
+         ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+         )
   )
 #+end_src
 
@@ -3690,7 +3693,7 @@ Configuration specific to a language should be in that language configuration he
 ;;         lsp-enable-snippet t))
 
 ;; Note that this must come before the use-package for LSP to have an effect
-(setq lsp-keymap-prefix "C-c l")
+(setq lsp-keymap-prefix "C-c C-l")
 
 (use-package lsp-mode
   :ensure t
