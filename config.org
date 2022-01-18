@@ -3116,7 +3116,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   )
 #+end_src
 
-** SVG tag mode
+** COMMENT SVG tag mode
 #+begin_src elisp
 (use-package svg-tag-mode
   :ensure t
