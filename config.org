@@ -422,8 +422,11 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
   - Filter the groups with "g", "i", "l" and "o"
 
 ** Embark                                                       :Keybindings:Embark:
-Talvez o keybinding ~C-,~ seja bom pra ele
+Note: During a prefix key (e.g. =C-x=, =C-c=, etc) you can use =C-h= to see all possible
+completions for that prefix key. This is nicer than which key because you can use search.
 
+Note: If you use =C-u= before calling ~embark-act~, then the session will be kept after the
+action is performed (you will still be in the minibuffer)
 #+begin_src elisp
 (use-package embark
   :ensure t
@@ -438,8 +441,8 @@ Talvez o keybinding ~C-,~ seja bom pra ele
    ) ;; alternative for `describe-bindings'
 
   :init
-
-  ;; Optionally replace the key help with a completing-read interface
+  ;; Replace the key help with a completing-read interface -> type
+  ;; "C-h" after a prefix key to see completions
   (setq prefix-help-command #'embark-prefix-help-command)
 
   :config
@@ -1222,6 +1225,7 @@ of the file associated with the current buffer."
   (tab-width 4)
   (indent-tabs-mode nil)
 
+  (recentf-max-saved-items 100)
   :init
   ;; Enable recentf-mode to save recent files
   ;; With this minor-mode emacs will save recent files when it exits
@@ -1497,7 +1501,7 @@ delete the text in order to use the completion system to open a file.
   )
 #+end_src
 
-** sudo-edit
+** sudo-edit                                                                  :sudo:
 #+begin_src elisp
 (use-package sudo-edit
   :ensure t
@@ -1849,7 +1853,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
     (add-to-list 'org-speed-commands
                  '("d" org-decrypt-entry))
     )
-  
+
   ;; (add-to-list 'org-modules 'org-tempo t)  ;; org-tempo add completions for "<KEY" to create blocks. See
   ;; (add-to-list 'org-modules 'org-inlinetask t)  ;; org-tempo add completions for "<KEY" to create blocks. See
 
