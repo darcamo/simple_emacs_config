@@ -2512,12 +2512,13 @@ You can open links by clicking or with the =C-c RET= keybinding.
   (org-crypt-disable-auto-save t)
 
   :config
-  ;; Automatically encrypts everything that has the tag "crypt"
-  ;; when you save the file
-  (org-crypt-use-before-save-magic)
   ;; (setq org-tags-exclude-from-inheritance (quote ("crypt" "Projeto")))
   (add-to-list 'org-tags-exclude-from-inheritance "crypt")
   ;; darcamo@gmail.com (see in the seahorse program)
+  :init
+  ;; Automatically encrypts everything that has the tag "crypt"
+  ;; when you save the file
+  (org-crypt-use-before-save-magic)
   )
 #+end_src
 
