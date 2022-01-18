@@ -2429,7 +2429,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 (add-hook 'org-capture-after-finalize-hook 'my-org-capture-other-frame-cleanup)
 #+end_src
 
-** Clock
+** Clock In/Out
 *** Functions
 #+begin_src elisp
 ;; General Configuration
@@ -3200,9 +3200,9 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   :custom
   (org-roam-directory "/home/darlan/org/org-roam-notes/")
   (org-roam-db-location (concat user-emacs-directory ".cache/org-roam.db"))
-  (org-roam-graph-exclude-matcher "index.org")
+  ;;(org-roam-graph-exclude-matcher "index.org")
   (org-roam-graph-extra-config '(("rankdir" . "LR")))
-  (org-roam-node-display-template (concat (propertize "${backlinkscount:6}" 'face 'org-document-info-keyword) "${title:75} " (propertize "${tags}" 'face 'org-tag)))
+  (org-roam-node-display-template (concat (propertize "${backlinkscount:6}" 'face 'org-checkbox) "${title:80} " (propertize "${tags}" 'face 'org-tag)))
 
   ;; Since headlines with ATTACH will have an ID, org-roam would consider them as
   ;; nodes. This exclude all headlines with the ATTACH tag from the Org-roam
