@@ -337,7 +337,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
          ("M-s L" . consult-line-multi)           ;; needed by consult-line to detect isearch
 
          ;; Keybindings only in org-mode
-         :map org-mode-map (("M-i" . consult-org-heading))
+         :map org-mode-map (("M-i" . consult-outline))
          )
 
   ;; Enable automatic preview at point in the *Completions* buffer. This is
