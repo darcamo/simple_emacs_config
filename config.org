@@ -1205,7 +1205,7 @@ of the file associated with the current buffer."
   )
 #+end_src
 
-* General Usability                                                         :General:
+* General Usability                                       :General:Usability:Utility:
 ** Configuration
 #+begin_src elisp
 (use-package conf-mode
@@ -1477,6 +1477,35 @@ of the file associated with the current buffer."
   :commands (Lorem-ipsum-insert-list Lorem-ipsum-insert-sentences Lorem-ipsum-insert-paragraphs)
   )
 
+#+end_src
+
+** ace window: Easily jump to any window with "C-x o"                          :Ace:
+Replace the standard ~other-window~ (=C-x o=) function with ace-window.
+
+Note that with a prefix argument (=C-u=) ace-window swaps to current and the other window.
+With *two* prefix arguments (=C-u C-u=) it deletes the other window instead.
+
+You can also start by calling ace-window and then decide to switch the action to delete or
+swap etc. By default the bindings are:
+x - delete window
+m - swap windows
+M - move window
+c - copy window
+j - select buffer
+n - select the previous window
+u - select buffer in the other window
+c - split window fairly, either vertically or horizontally
+v - split window vertically
+b - split window horizontally
+o - maximize current window
+? - show these command bindings
+
+#+begin_src elisp
+(use-package ace-window
+  :ensure t
+  :bind
+  ([remap other-window] . ace-window)
+  )
 #+end_src
 
 ** Find-file-at-point                                                         :ffap:
