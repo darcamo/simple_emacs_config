@@ -440,6 +440,14 @@ action is performed (you will still be in the minibuffer)
    ("s" . sudo-edit)
    ) ;; alternative for `describe-bindings'
 
+  ;; :custom
+  ;; ;; Instead of the popup with actions when embark is activated, use
+  ;; ;; completions to choose the action.
+  ;; ;;
+  ;; ;; NOTE: In the completions, if you type "@" you can then use the
+  ;; ;; keybinding of the action
+  ;; (embark-prompter 'embark-completing-read-prompter)
+
   :init
   ;; Replace the key help with a completing-read interface -> type
   ;; "C-h" after a prefix key to see completions
