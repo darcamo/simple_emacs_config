@@ -3741,9 +3741,11 @@ Configuration specific to a language should be in that language configuration he
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp
-  :config
-  (setq lsp-file-watch-threshold 6000
-        lsp-enable-snippet t)
+  :custom
+  (lsp-file-watch-threshold 6000)
+  (lsp-enable-snippet t)
+  ;; See https://emacs-lsp.github.io/lsp-mode/page/performance/#performance
+  (read-process-output-max (* 1024 1024)) ;; 1mb
   )
 #+end_src
 
@@ -4114,6 +4116,38 @@ This assume that there is a 'doc' folder in the project root."
   ;; (pyvenv-tracking-mode 1)
   ;; (setenv "WORKON_HOME" "~/miniconda3/envs/")
   )
+#+end_src
+
+** COMMENT lsp-python
+#+begin_src elisp
+;; (use-package lsp-python-ms
+;;   :ensure t
+;;   :init (setq lsp-python-ms-auto-install-server t)
+;;   :hook (python-mode . (lambda ()
+;;                          (require 'lsp-python-ms)
+;;                          (lsp))))  ; or lsp-deferred
+
+;; (use-package lsp-jedi
+;;   :ensure t
+;;   :config
+;;   (with-eval-after-load "lsp-mode"
+;;     (add-to-list 'lsp-disabled-clients 'pyls)
+;;     (add-to-list 'lsp-enabled-clients 'jedi)))
+
+(use-package lsp-pyright
+  :ensure t
+  :hook (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp))))  ; or lsp-deferred
+
+
+(use-package lsp-pyright
+  :ensure t
+  :config
+  (with-eval-after-load "lsp-mode"
+    (add-to-list 'lsp-disabled-clients 'pyls)
+    (add-to-list 'lsp-enabled-clients 'pyright)))
+
 #+end_src
 
 * Latex                                                                       :Latex:
