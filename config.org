@@ -5055,20 +5055,29 @@ Emacs now supports oauth2 authentication. See
 https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuration_for_office_365/
 ** Wrapper for the mu4e command that creates a tab for it
 #+begin_src elisp
-(defun my-mu4e (arg)
-  "Switches to a tab named 'E-mail', or create it, if it does not exist"
-  (interactive "P")
+;; Advice mu4e command to start mu4e in an "E-Mail" tab
+(advice-add
+ 'mu4e    ; function to be advised
+ :before            ; advice runs first
+ (lambda (&rest r)
+   (let ((tab-name "E-Mail"))
+     (if (tab-bar--tab-index-by-name tab-name)
+         (tab-bar-select-tab-by-name tab-name)  ;; Switch to the tab
+       ;; If the tab was not found, create a new one with the proper name
+       (tab-new -100)
+       (tab-rename tab-name)
+       ))))
 
-  (let ((tab-name "E-Mail"))
-    (if (tab-bar--tab-index-by-name tab-name)
-        (tab-bar-select-tab-by-name tab-name)
-
-      ;; Não encontrei tab
-      (tab-new -100)
-      (tab-rename tab-name)
-      (mu4e)
-      ))
-  )
+;; Advice mu4e-quit command to close the "E-mail" tab
+(advice-add
+ 'mu4e-quit
+ :after
+ (lambda ()
+   (let ((tab-name "E-Mail"))
+     (when (tab-bar--tab-index-by-name tab-name)
+       (tab-bar-select-tab-by-name tab-name)  ;; Switch to the tab ...
+       (tab-bar-close-tab)  ;; and kill it
+       ))))
 #+end_src
 
 ** Common email config and some helper functions                               :epa:
