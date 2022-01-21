@@ -3100,8 +3100,9 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   ;; ellipsis easily
   (org-ellipsis 'org-column)
 
-  ;; ;; Faces of some tags (ATTACH tag)
-  ;; (org-tag-faces '(("ATTACH" :inherit org-done :box nil :underline t :height 1.2)))
+  ;; Faces of some tags (ATTACH tag)
+  ;;(org-tag-faces '(("ATTACH" :inherit org-done :box nil :underline t :height 1.2)))
+  (org-tag-faces '(("ATTACH" :inherit org-done :foreground "gold")))
 
   :config
   ;; By default both org-code and org-vertavim faces just inherit from the shadow
