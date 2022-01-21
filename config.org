@@ -152,6 +152,10 @@ https://github.com/dbordak/telephone-line
                      (projects . 5)
                      (agenda . 5)))
   (dashboard-set-heading-icons t)
+
+  (dashboard-match-agenda-entry "GTEL")
+  (dashboard-agenda-release-buffers t)
+
   ;; Configure initial-buffer-choice to show Dashboard in frames
   ;; created with emacsclient -c as follows:
   (initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
