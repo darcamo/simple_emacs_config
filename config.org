@@ -5123,20 +5123,6 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
   :commands (mu4e mu4e-user-agent mu4e~compose-mail)
   :custom
   ;; Appearance
-  (mu4e-use-fancy-chars t)
-  (mu4e-headers-draft-mark     '("D" . "⚒"))  ; draft
-  (mu4e-headers-seen-mark      '("S" . "☑"))  ; seen
-  (mu4e-headers-unseen-mark    '("u" . "☐"))  ; unseen
-  (mu4e-headers-unread-mark    '("u" . "☐"))  ; unread
-  (mu4e-headers-flagged-mark   '("F" .  "⋆")) ; flagged ⚵
-  (mu4e-headers-new-mark       '("N" .  "✱")) ; new
-  (mu4e-headers-replied-mark   '("R" . "↵"))  ; replied
-  (mu4e-headers-passed-mark    '("P" . "⇉"))  ; passed
-  (mu4e-headers-encrypted-mark '("x" . "🔑"))  ; encrypted ⚷
-  (mu4e-headers-signed-mark    '("s" . "✍")) ; signed
-  (mu4e-headers-trashed-mark   '("T" . "⏚")) ; Trashed
-  (mu4e-headers-attach-mark    '("a" . "📎")) ;; attach ⚓
-
   ;; Hide the "Indexing..." messages (they interfere with the minibuffer)
   (mu4e-hide-index-messages t)
 
@@ -5197,6 +5183,22 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 
   :config
   (my-define-mail-variables)
+
+  ;; Appearance -> There are not "customizable" variables and that is
+  ;; why they are here instead of in the ":custom" section
+  (setq mu4e-use-fancy-chars t
+        mu4e-headers-draft-mark     '("D" . "⚒")  ; draft
+        mu4e-headers-seen-mark      '("S" . "☑")  ; seen
+        mu4e-headers-unseen-mark    '("u" . "☐")  ; unseen
+        mu4e-headers-unread-mark    '("u" . "☐")  ; unread
+        mu4e-headers-flagged-mark   '("F" .  "⋆") ; flagged ⚵
+        mu4e-headers-new-mark       '("N" .  "✱") ; new
+        mu4e-headers-replied-mark   '("R" . "↵")  ; replied
+        mu4e-headers-passed-mark    '("P" . "⇉")  ; passed
+        mu4e-headers-encrypted-mark '("x" . "🔑")  ; encrypted ⚷
+        mu4e-headers-signed-mark    '("s" . "✍") ; signed
+        mu4e-headers-trashed-mark   '("T" . "🗑") ; Trashed
+        mu4e-headers-attach-mark    '("a" . "📎")) ;; attach ⚓
 
   ;; Note that setting this variable is here, instead of the ":custom"
   ;; section because it needs to call the make-mu4e-context function,
@@ -5276,8 +5278,8 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
   (add-to-list 'mu4e-bookmarks
                '(:name "From Facebook (unread)" :query "from:\"facebook\" flag:unread NOT flag:trashed" :key ?f))
 
-  (add-to-list 'mu4e-bookmarks
-               '(:name "From Empiricus (unread)" :query "empiricus flag:unread NOT flag:trashed" :key ?e))
+  ;; (add-to-list 'mu4e-bookmarks
+  ;;              '(:name "From Empiricus (unread)" :query "empiricus flag:unread NOT flag:trashed" :key ?e))
 
   (add-to-list 'mu4e-bookmarks
                '(:name "Graça Freitas (unread)" :query "list:dea-ufv.listas.ufv.br flag:unread NOT flag:trashed" :key ?g))
@@ -5287,8 +5289,8 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 
   ;; Note that mu4e already comes with a bookmark for unread messages. We
   ;; replaced it just to add the condition of not being a GMAIL trash folder
-  (add-to-list 'mu4e-bookmarks
-               '(:name "Unread messages" :query "flag:unread AND NOT flag:trashed AND NOT maildir:/gtel/[Gmail].Lixeira AND NOT maildir:/Gmail/[Gmail].Lixeira" :key ?u))
+  ;; (add-to-list 'mu4e-bookmarks
+  ;;              '(:name "Unread messages" :query "flag:unread AND NOT flag:trashed AND NOT maildir:/gtel/[Gmail].Lixeira AND NOT maildir:/Gmail/[Gmail].Lixeira" :key ?u))
 
   (add-to-list 'mu4e-bookmarks
                '(:name "Importantes (de um ano pra cá)" :query "flag:flagged NOT flag:trashed date:1y.." :key ?s))
