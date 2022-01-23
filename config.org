@@ -3519,6 +3519,23 @@ Useful keybindings:
 ;;   )
 #+end_src
 
+** Size of the compile window
+#+begin_src elisp
+(use-package emacs
+  :custom
+  (compilation-window-height 16)
+  )
+#+end_src
+
+** Compilation buffer always at the bottom
+#+begin_src elisp
+;; display-buffer-at-bottom
+(add-to-list 'display-buffer-alist
+               '("\\*compilation\\*"
+                 (display-buffer-at-bottom)
+                 ))
+#+end_src
+
 ** Flycheck                                                               :Flycheck:
 https://www.flycheck.org/en/latest/index.html
 
@@ -3923,8 +3940,6 @@ This assume that there is a 'doc' folder in the project root."
 #+begin_src elisp
 (use-package cc-mode
   :defer t
-  :custom
-  (compilation-window-height 16)
   :bind (:map c++-mode-map
               ([M-f9] . darlan-save-and-compile) ;; Ask for the target name and compile it
               ([f9] . darlan-save-and-compile-last-target)  ;; Recompile the last target
