@@ -1327,6 +1327,13 @@ of the file associated with the current buffer."
   (prog-mode . rainbow-delimiters-mode)
   )
 #+end_src
+** Ediff: use single frame
+#+begin_src elisp
+(use-package emacs
+  :custom
+  (ediff-window-setup-function 'ediff-setup-windows-plain)
+)
+#+end_src
 
 ** Keybindigns                                                         :Keybindings:
 #+begin_src elisp
