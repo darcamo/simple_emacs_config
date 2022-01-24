@@ -4030,6 +4030,15 @@ This assume that there is a 'doc' folder in the project root."
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
 * Python                                                         :Programming:Python:
+Olhar esse link: https://gist.github.com/Nathan-Furnal/07413de07b9ac08340a5d33b541e9a6b
+
+Ver pacote poetry: https://github.com/galaunay/poetry.el
+Ver pacote numpydoc: https://github.com/douglasdavis/numpydoc.el
+Ver pacote yapfify (caso não consiga formatar com o LSP)
+Ver pacote python-coverage
+
+Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7/comment/hr2q2xc/?utm_source=share&utm_medium=web2x&context=3
+
 ** Helper functions
 #+begin_src elisp
 
@@ -4150,7 +4159,7 @@ This assume that there is a 'doc' folder in the project root."
   )
 #+end_src
 
-** COMMENT lsp-python
+** lsp-python
 #+begin_src elisp
 ;; (use-package lsp-python-ms
 ;;   :ensure t
@@ -4166,11 +4175,11 @@ This assume that there is a 'doc' folder in the project root."
 ;;     (add-to-list 'lsp-disabled-clients 'pyls)
 ;;     (add-to-list 'lsp-enabled-clients 'jedi)))
 
-(use-package lsp-pyright
-  :ensure t
-  :hook (python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp))))  ; or lsp-deferred
+;; (use-package lsp-pyright
+;;   :ensure t
+;;   :hook (python-mode . (lambda ()
+;;                           (require 'lsp-pyright)
+;;                           (lsp))))  ; or lsp-deferred
 
 
 (use-package lsp-pyright
