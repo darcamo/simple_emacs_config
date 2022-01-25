@@ -5099,10 +5099,14 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 
 (defun mu4e-close-tab ()
   (let ((tab-name "E-Mail"))
-     (when (tab-bar--tab-index-by-name tab-name)
-       (tab-bar-select-tab-by-name tab-name)  ;; Switch to the tab ...
-       (tab-bar-close-tab)  ;; and kill it
-       )))
+    ;; Only if there is a tab for e-mail and the killed buffer is
+    ;; mu4e-main-buffer-name
+    (when (and
+           (tab-bar--tab-index-by-name tab-name)
+           (equal (buffer-name) mu4e-main-buffer-name))
+      (tab-bar-select-tab-by-name tab-name)  ;; Switch to the tab ...
+      (tab-bar-close-tab)  ;; and kill it
+      )))
 
 (add-hook 'kill-buffer-hook    #'mu4e-close-tab)
 
