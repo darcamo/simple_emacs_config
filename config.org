@@ -1984,6 +1984,11 @@ You can open links by clicking or with the =C-c RET= keybinding.
 *** Keybindings                                                       :Keybindings:
 #+begin_src elisp
 ;; Local Keybinding
+(defun my-org-at-citation-p ()
+  "docstring"
+  (not (null (citar-org-key-at-point)))
+  )
+
 (use-package org
   :bind (
          ;; Map "C-c l" globally to org-store-link
@@ -2028,7 +2033,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
          ("<M-right>" . (lambda ()
                           (interactive)
                           (call-interactively
-                           (if (or (org-at-heading-p) (org-at-item-p) (org-at-table-p))
+                           (if (or (org-at-heading-p) (org-at-item-p) (org-at-table-p) (my-org-at-citation-p))
                                'org-metaright
                              'drag-stuff-right))))
 
@@ -2038,7 +2043,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
          ("<M-left>" . (lambda ()
                          (interactive)
                          (call-interactively
-                          (if (or (org-at-heading-p) (org-at-item-p) (org-at-table-p))
+                          (if (or (org-at-heading-p) (org-at-item-p) (org-at-table-p) (my-org-at-citation-p))
                               'org-metaleft
                             'drag-stuff-left))))
          ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
