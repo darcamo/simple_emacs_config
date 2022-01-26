@@ -4991,16 +4991,14 @@ Layer darcamo-preview-latex
 #+end_src
 
 * TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
-** Native org-cite
+** Set my default bibliograph folder and files (used by native org-cite)
 Set my default bibliography.
 You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
 #+begin_src elisp
-(use-package oc
-  :defer t
-  :commands org-cite-insert
-  :custom
-  (org-cite-global-bibliography '("~/Dropbox/org/references/articles.bib" "~/Dropbox/org/references/articles_without_notes.bib"))
-  )
+;; Base folder for my global bib files. There is also a pdfs folder
+;; inside with PDF files for the entries in the bib files.
+(setq my-references-folder "~/Dropbox/org/references")
+(setq org-cite-global-bibliography (f-glob "article*\.bib" my-references-folder))
 #+end_src
 
 ** Bibtex                                                                   :Bibtex:
@@ -5018,18 +5016,57 @@ You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
   )
 #+end_src
 
-** TODO Biblio
+** COMMENT Biblio
+An extensible Emacs package for browsing and fetching references.
+
+Quick start: =M-x biblio-lookup=. Each source can also be accessed independently:
+
+- =M-x crossref-lookup= to query CrossRef
+- =M-x arxiv-lookup= to query arXiv
+- =M-x dblp-lookup= to query DBLP
+- =M-x hal-lookup= to query HAL
+- =M-x ieee-lookup= to query IEEE Xplore
+- =M-x doi-insert= to insert a BibTeX record by DOI
+- =M-x dissemin-lookup= to show information about the open access status of a particular DOI
+
+These commands work together: for example, =crossref-lookup= displays a list of results in
+=biblio-selection-mode=. In that mode, use:
+
+- =RET= to visit the corresponding web page
+- =c= or =M-w= to copy the BibTeX record of the current entry
+- =i= or =C-y= to insert the BibTeX record of the current entry
+- =x= to =run= an extended action, such as fetching a Dissemin record
+- =C= and =I= do the same as c and i, but additionally close the search window.
+
+
+#+begin_src elisp
+(use-package biblio
+  :ensure t
+  :commands (biblio-lookup biblio-hal-lookup biblio-dblp-lookup
+             biblio-ieee-lookup biblio-arxiv-lookup
+             biblio-crossref-lookup biblio-dissemin-lookup)
+  )
+#+end_src
+
 ** TODO Bibtex-completions                                             :Investigate:
 Used by org-roam-bibtex
 
-** TODO Org-ref or citar                                  :Citar:Investigate:OrgRef:
+** TODO Org-ref or citar [0/1]                            :Citar:Investigate:OrgRef:
+NOTE:
+- citar uses two caches to speed up library display; one for the global bibliography, and
+  another for local files specific to a buffer. This is great for performance, but means
+  the data can become stale if you modify it.
+- The ~citar-refresh~ command will reload the caches, and you can call this manually. You
+  can also call any of the citar commands with a prefix argument: =C-u M-x
+  citar-insert-key.=
+
 Note that =citar= was previously called =bibtex-actions=.
 
 Some useful keybindings
 |---------------+----------------------------------------------------------|
 | C-c b         | Insert a citation                                        |
-| C-d           | oc-citar-delete-citation                                 |
-| C-k           | oc-citar-kill-citation                                   |
+| C-d           | citar-org-delete-citation                                |
+| C-k           | citar-org-kill-citation -> put citation in the killring   |
 | C-M-f / C-M-b | Go forward/backward a citation (with multiple citations) |
 | S-<left>      | oc-citar-shift-reference-left                            |
 | S-<right>     | oc-citar-shift-reference-right                           |
@@ -5039,42 +5076,49 @@ Some useful keybindings
 | <mouse-3>     | embark-act                                               |
 |---------------+----------------------------------------------------------|
 
-
 #+begin_src elisp
-;; (use-package citar
-;;   :ensure t
-;;   :after oc
-;;   :custom
-;;   ;; (citar-bibliography '("~/Dropbox/org/references/articles.bib" "~/Dropbox/org/references/articles_without_notes.bib"))
-;;   (citar-bibliography org-cite-global-bibliography)
-;;   (org-cite-insert-processor 'citar)
-;;   (org-cite-follow-processor 'citar)
-;;   (org-cite-activate-processor 'citar)
-;;   :config
-;;   ;; use consult-completing-read for enhanced interface
-;;   (advice-add #'completing-read-multiple :override #'consult-completing-read-multiple)
-;;   :bind (
-;;          ("C-c b" . citar-insert-citation)
-;;          :map minibuffer-local-map
-;;          ("M-b" . citar-insert-preset)
-;;          ;;:map org-mode-map :package org ("C-c b" . #'org-cite-insert)
-;;          )
-;;   )
-
 (use-package citar
+  :ensure t
   :no-require
   :custom
-  (org-cite-global-bibliography org-cite-global-bibliography)
+  ;; Use citar when the org-cite-insert command is called
   (org-cite-insert-processor 'citar)
+  ;; Use citar to handle "clicking on a reference"
   (org-cite-follow-processor 'citar)
+  ;; Hangle activating a citation with citar -> besides regular
+  ;; org-cite activation, such as seting the face, this will also
+  ;; enable a keymap to manipulate the reference(s) at point.
   (org-cite-activate-processor 'citar)
+
+  ;; Make citar point to the same bibliography as org-cite
   (citar-bibliography org-cite-global-bibliography)
 
+  ;; Tell citar the folders with my PDF files for entries in my bib
+  ;; files. The names of the PDFs are "<KEY>.pdf", where "<KEY>" is
+  ;; the bibtex key of the entry.
+  (citar-library-paths `(,(concat my-references-folder "/pdfs")))
+
   (citar-select-multiple t)
+
+  ;; ;; Set default action when clicking on an entry (as well as when
+  ;; ;; using embark-dwim) to open the entry in the bib file
+  ;; (citar-default-action 'citar-open-entry)
+
+  ;; use all-the-icons to indicate entries with 'file', 'note' and 'link'.
+  (citar-symbols
+   `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
+     (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
+     (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " ")))
+  (citar-symbol-separator " ")
+
+
   ;; optional: org-cite-insert is also bound to C-c C-x C-@
   :bind
   (:map org-mode-map :package org ("C-c b" . #'org-cite-insert)))
 #+end_src
+
+*** TODO Configure note support in citar (integrated with org-roam)
+https://github.com/bdarcus/citar#notes
 
 ** TODO Org-noter                                             :Investigate:OrgNoter:
 * TODO Sudo edit                                                        :Investigate:
