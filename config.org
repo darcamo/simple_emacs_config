@@ -2287,8 +2287,8 @@ You can open links by clicking or with the =C-c RET= keybinding.
   (org-super-agenda-mode)
 
   ;; Customise some of the org-agenda faces
-  (set-face-attribute 'org-agenda-date nil :height 1.5 :foreground "Orange")
-  (set-face-attribute 'org-agenda-date-today nil :foreground "Gold")
+  ;; (set-face-attribute 'org-agenda-date nil :height 1.5 :foreground "Orange")
+  (set-face-attribute 'org-agenda-date-today nil :height 1.5 :inherit 'org-agenda-date)
   )
 
 
