@@ -1,0 +1,4 @@
+* TODO %^{Tarefa}
+  %i%?
+  Adicionado em: %U
+  %a

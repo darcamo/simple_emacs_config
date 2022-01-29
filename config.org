@@ -647,8 +647,7 @@ Code to define many acronymms that I use
   :ensure t
   :defer t
   :config
-  ;; The dash library provides the "-keep" function and is installed by the
-  ;; spacemacs-bootstrap layer
+  ;; The dash library provides the "-keep" function
   (define-abbrev-table 'my-latex-mode-abbrev-table
     (append
      (-keep (lambda (elem) (if (nth 3 elem) (list (concat "a" (nth 0 elem)) (concat "\\ac{" (nth 1 elem) "}")))) my-acronym-list)
@@ -2086,27 +2085,27 @@ You can open links by clicking or with the =C-c RET= keybinding.
   ;; /home/darlan/Org-mode-dev/Icons_For_Category
   ;; ~/.emacs.d/Icons_For_Org-Mode_Category
   (org-agenda-category-icon-alist
-   '(
+   `(
                                         ;("Papers" "/home/darlan/Programas_Locais/Emacs-trunk/etc/images/print.xpm" nil nil :ascent center)
      ("Papers" "/usr/share/icons/Humanity/mimes/24/application-pdf.svg" nil nil :ascent  center)
-     ("Doutorado" "~/.spacemacs.d/Icons_For_Org-Mode_Category/registry-book.svg" nil nil :ascent  center)
-     ("Book" "~/.spacemacs.d/Icons_For_Org-Mode_Category/registry-book.svg" nil nil :ascent  center)
-     ("Carro" "~/.spacemacs.d/Icons_For_Org-Mode_Category/car.svg" nil nil :ascent  center)
-     ("Escrever" "~/.spacemacs.d/Icons_For_Org-Mode_Category/write.svg" nil nil :ascent  center)
-     ("Estudos" "~/.spacemacs.d/Icons_For_Org-Mode_Category/estudos.svg" nil nil :ascent  center)
-     ("gtd" "~/.spacemacs.d/Icons_For_Org-Mode_Category/gtd.svg" nil nil :ascent  center)
-     ("Supelec\\|Francês" "~/.spacemacs.d/Icons_For_Org-Mode_Category/Flag_of_France.svg" nil nil :ascent  center)
-     ("Refile" "~/.spacemacs.d/Icons_For_Org-Mode_Category/refile.svg" nil nil :ascent  center)
-     ("IAB\\|GTEL\\|NAIVE\\|UFC.32\\|UFC.35\\|UFC.42" "~/.spacemacs.d/Icons_For_Org-Mode_Category/gtel.svg" nil nil :ascent  center)
-     ("Patent" "~/.spacemacs.d/Icons_For_Org-Mode_Category/gtel25x25.png" nil nil :ascent  center)
-     ("Projeto" "~/.spacemacs.d/Icons_For_Org-Mode_Category/project.svg" nil nil :ascent  center)
-     ("Cíclicas" "~/.spacemacs.d/Icons_For_Org-Mode_Category/recycle.svg" nil nil :ascent center)
-     ("Compras\\|Finanças" "~/.spacemacs.d/Icons_For_Org-Mode_Category/gold_coins.svg" nil nil :ascent center)
-     ("Someday" "~/.spacemacs.d/Icons_For_Org-Mode_Category/Global_thinking.svg" nil nil :ascent center)
-     ("Stanford" "~/.spacemacs.d/Icons_For_Org-Mode_Category/graduate.svg" nil nil :ascent center)
-     ("Notas" "~/.spacemacs.d/Icons_For_Org-Mode_Category/notes.svg" nil nil :ascent center)
-     ("References" "~/.spacemacs.d/Icons_For_Org-Mode_Category/estudos.svg" nil nil :ascent  center)
-     ("Eventos" "~/.spacemacs.d/Icons_For_Org-Mode_Category/event.svg" nil nil :ascent  center)
+     ("Doutorado" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/registry-book.svg") nil nil :ascent  center)
+     ("Book" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/registry-book.svg") nil nil :ascent  center)
+     ("Carro" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/car.svg") nil nil :ascent  center)
+     ("Escrever" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/write.svg") nil nil :ascent  center)
+     ("Estudos" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/estudos.svg") nil nil :ascent  center)
+     ("gtd" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gtd.svg") nil nil :ascent  center)
+     ("Supelec\\|Francês" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/Flag_of_France.svg") nil nil :ascent  center)
+     ("Refile" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/refile.svg") nil nil :ascent  center)
+     ("IAB\\|GTEL\\|NAIVE\\|UFC.32\\|UFC.35\\|UFC.42" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gtel.svg") nil nil :ascent  center)
+     ("Patent" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gtel25x25.png") nil nil :ascent  center)
+     ("Projeto" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/project.svg") nil nil :ascent  center)
+     ("Cíclicas" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/recycle.svg") nil nil :ascent center)
+     ("Compras\\|Finanças" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gold_coins.svg") nil nil :ascent center)
+     ("Someday" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/Global_thinking.svg") nil nil :ascent center)
+     ("Stanford" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/graduate.svg") nil nil :ascent center)
+     ("Notas" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/notes.svg") nil nil :ascent center)
+     ("References" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/estudos.svg") nil nil :ascent  center)
+     ("Eventos" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/event.svg") nil nil :ascent  center)
      ))
 
   ;; General
@@ -2300,7 +2299,6 @@ You can open links by clicking or with the =C-c RET= keybinding.
   :after org-super-agenda
   :bind (:map org-super-agenda-header-map
               ;; Enable origami-mode in org-agenda
-              ;; Note that origami package is installed by the spacemacs-editing layer
               ("<tab>" . origami-toggle-node)
               ;; ("C-M-p" . origami-previous-fold)
               ;; ("C-M-n" . origami-next-fold)
@@ -2391,19 +2389,19 @@ You can open links by clicking or with the =C-c RET= keybinding.
           ("t" "Adiciona nova tarefa")
           ("tt" "Nova Tarefa rápida (refile depois)" entry
            (file+headline "refile.org" "Inbox")
-           (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
+           (file ,(concat user-emacs-directory "org-mode-setup/new_task.org")))
           ("ta" "Tarefa do Atlântico" entry
            (file+headline "atlantico.org" "Lista de Tarefas")
-           (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
+           (file ,(concat user-emacs-directory "org-mode-setup/new_task.org")))
           ("tp" "Tarefa do Projeto IAB" entry
            (file+headline "ufc49-IAB.org" "Lista de Tarefas do Projeto")
-           (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
+           (file ,(concat user-emacs-directory "org-mode-setup/new_task.org")))
           ("td" "Tarefa do Doutorado" entry
            (file+headline "doutorado.org" "Lista de Tarefas")
-           (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
+           (file ,(concat user-emacs-directory "org-mode-setup/new_task.org")))
           ("tc" "Tarefa dentro do clock atual" entry
            (clock)
-           (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
+           (file ,(concat user-emacs-directory "org-mode-setup/new_task.org")))
           ;; xxxxx End Capture a new tasks xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
           ;;
           ;; xxxxx Start Capture new notes xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
@@ -3286,40 +3284,40 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 
   (org-roam-capture-templates '(
                                 ("d" "default" plain "Criado em %u\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n\n")
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n\n")
                                  :unnarrowed t :immediate-finish t)
                                 ("e" "De um E-mail" plain "Criado em %u\n\nE-mail-original: %a\nEnviado por %:from em %:date\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n")
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n")
                                  :unnarrowed t)
                                 ("i" "IAB" plain "Criado em %u\n\n- Links :: [[id:0878fa71-2454-4d2d-a63f-8327a8a70681][IAB]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :GTEL:IAB:5G:")
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :GTEL:IAB:5G:")
                                  :unnarrowed t :immediate-finish t)
                                  ("a" "Atlântico" plain "Criado em %u\n\n- Links :: [[id:0a6e477a-8a22-4fe1-8e09-1f94a5626516][Atlântico]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :Atlantico:")
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Atlantico:")
                                  :unnarrowed t :immediate-finish t)
                                 ("D" "Doutorado" plain "Criado em %u\n\n- Links :: [[id:685ce449-937c-4977-9bbc-6177273c8c49][Doutorado]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :Doutorado:")
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Doutorado:")
                                  :unnarrowed t :immediate-finish t)
                                  ("c" "Conhecimentos gerais" plain "Criado em %u\n\n- Links :: [[id:0c2e1ffb-fa6e-4907-a7dc-30574bca2f43][Conhecimentos Gerais e lembrestes diversos]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n")
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n")
                                  :unnarrowed t :immediate-finish t)
                                  ("p" "Programação")
                                  ("pp" "Python" plain "Criado em %u\n\n- Links :: [[id:0cd3f915-9476-43b8-a17c-f113f912a2ae][Python]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :Programação:Python:")
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Programação:Python:")
                                  :unnarrowed t :immediate-finish t)
                                  ("pc" "C++" plain "Criado em %u\n\n- Links :: [[id:a0967201-ec8d-4061-a27d-81590c840bff][C++]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :Programação:CPP:")
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Programação:CPP:")
                                  :unnarrowed t :immediate-finish t)
                                  ("pe" "Emacs Lisp" plain "Criado em %u\n\n- Links :: [[id:4f5b688f-6f4e-4f21-b466-7674e30be51c][Emacs Lisp]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :Elisp:Emacs:Programação:")
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Elisp:Emacs:Programação:")
                                  :unnarrowed t :immediate-finish t)
 
                                  ("P" "Pessoas")
                                  ("Pa" "Atlântico" plain "Criado em %u\n\n- Links :: [[id:0a6e477a-8a22-4fe1-8e09-1f94a5626516][Atlântico]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :pessoas:Atlantico:")
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :pessoas:Atlantico:")
                                  :unnarrowed t :immediate-finish t)
                                  ("Pe" "Ericsson" plain "Criado em %u\n\n- Links :: [[id:77acdf6f-19a5-43b0-912f-64616f6aa28b][Pessoas da Ericsson]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :pessoas:Ericsson:GTEL:")
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :pessoas:Ericsson:GTEL:")
                                  :unnarrowed t :immediate-finish t)
                                 ))
   :init
@@ -5334,11 +5332,11 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
   ;; why they are here instead of in the ":custom" section
   (setq mu4e-use-fancy-chars t
         mu4e-headers-draft-mark     '("D" . "⚒")  ; draft
-        mu4e-headers-seen-mark      '("S" . "☑")  ; seen
+        mu4e-headers-seen-mark      '("S" . "🗹")  ; seen
         mu4e-headers-unseen-mark    '("u" . "☐")  ; unseen
         mu4e-headers-unread-mark    '("u" . "☐")  ; unread
-        mu4e-headers-flagged-mark   '("F" .  "⋆") ; flagged ⚵
-        mu4e-headers-new-mark       '("N" .  "✱") ; new
+        mu4e-headers-flagged-mark   '("F" .  "🚩") ; flagged ⚵ ⚑
+        mu4e-headers-new-mark       '("N" .  "📫") ; new
         mu4e-headers-replied-mark   '("R" . "↵")  ; replied
         mu4e-headers-passed-mark    '("P" . "⇉")  ; passed
         mu4e-headers-encrypted-mark '("x" . "🔑")  ; encrypted ⚷
