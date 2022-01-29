@@ -2392,6 +2392,9 @@ You can open links by clicking or with the =C-c RET= keybinding.
           ("tt" "Nova Tarefa rápida (refile depois)" entry
            (file+headline "refile.org" "Inbox")
            (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
+          ("ta" "Tarefa do Atlântico" entry
+           (file+headline "atlantico.org" "Lista de Tarefas")
+           (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
           ("tp" "Tarefa do Projeto IAB" entry
            (file+headline "ufc49-IAB.org" "Lista de Tarefas do Projeto")
            (file "~/.spacemacs.d/org-mode-setup/new_task.org"))
@@ -2944,9 +2947,14 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   (find-file "~/org/ufc46-NAIVE.org")
   )
 
-(defun my-find-iab-org-heading nil
+(defun my-find-ufc49-iab-org-heading nil
   (interactive)
   (find-file "~/org/ufc49-IAB.org")
+  )
+
+(defun my-find-atlantico-org-heading nil
+  (interactive)
+  (find-file "~/org/atlantico.org")
   )
 
 (defun my-find-financas-org-heading nil
@@ -3012,10 +3020,10 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   (my-find-org-heading "Calendário")
   )
 
-(defun my-find-gtelbook-org-heading nil
-  (interactive)
-  (org-id-goto "LivroGTEL2013")
-  )
+;; (defun my-find-gtelbook-org-heading nil
+;;   (interactive)
+;;   (org-id-goto "LivroGTEL2013")
+;;   )
 
 
 
