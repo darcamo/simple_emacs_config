@@ -3292,9 +3292,27 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
                                 ("D" "Doutorado" plain "Criado em %u\n\n- Links :: [[id:685ce449-937c-4977-9bbc-6177273c8c49][Doutorado]]\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :Doutorado:")
                                  :unnarrowed t :immediate-finish t)
-                                ;; ("i" "IAB" plain "Criado em %u\n\n%?" :if-new
-                                ;;  (file+name "%<%Y%m%d%H%M%S>-${slug}" "#+TITLE: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :GTEL:IAB:5G:\n\n- Links :: hahaha\n\n")
-                                ;;  :unnarrowed t)
+                                 ("c" "Conhecimentos gerais" plain "Criado em %u\n\n- Links :: [[id:0c2e1ffb-fa6e-4907-a7dc-30574bca2f43][Conhecimentos Gerais e lembrestes diversos]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n")
+                                 :unnarrowed t :immediate-finish t)
+                                 ("p" "Programação")
+                                 ("pp" "Python" plain "Criado em %u\n\n- Links :: [[id:0cd3f915-9476-43b8-a17c-f113f912a2ae][Python]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :Programação:Python:")
+                                 :unnarrowed t :immediate-finish t)
+                                 ("pc" "C++" plain "Criado em %u\n\n- Links :: [[id:a0967201-ec8d-4061-a27d-81590c840bff][C++]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :Programação:CPP:")
+                                 :unnarrowed t :immediate-finish t)
+                                 ("pe" "Emacs Lisp" plain "Criado em %u\n\n- Links :: [[id:4f5b688f-6f4e-4f21-b466-7674e30be51c][Emacs Lisp]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :Elisp:Emacs:Programação:")
+                                 :unnarrowed t :immediate-finish t)
+
+                                 ("P" "Pessoas")
+                                 ("Pa" "Atlântico" plain "Criado em %u\n\n- Links :: [[id:0a6e477a-8a22-4fe1-8e09-1f94a5626516][Atlântico]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :pessoas:Atlantico:")
+                                 :unnarrowed t :immediate-finish t)
+                                 ("Pe" "Ericsson" plain "Criado em %u\n\n- Links :: [[id:77acdf6f-19a5-43b0-912f-64616f6aa28b][Pessoas da Ericsson]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: ~/.spacemacs.d/org-mode-setup/org-roam-setup.org\n#+filetags: :pessoas:Ericsson:GTEL:")
+                                 :unnarrowed t :immediate-finish t)
                                 ))
   :init
   ;; Note that this is commented out to avoid slowing down Emacs
