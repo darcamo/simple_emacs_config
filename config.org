@@ -3305,7 +3305,11 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   :bind (([f6] . org-roam-node-find)
          ("C-c n f" . org-roam-node-find)
          ("C-c n l" . org-roam-buffer-toggle)
-         ("C-c n i" . org-roam-node-insert))
+         ("C-c n i" . org-roam-node-insert)
+         ("C-c n c" . org-roam-capture)
+         ("C-c n j" . org-roam-dailies-capture-today)
+         ("C-c n t a" . org-roam-tag-add)
+         ("C-c n t r" . org-roam-tag-remove))
   :config
   ;; Define an acessor for the number of backlinks to a note -> we
   ;; will use this in org-roam-node-display-template
