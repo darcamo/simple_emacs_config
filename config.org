@@ -132,6 +132,7 @@ The keybindinds all start with =C-x t=
   :ensure t
   :init (doom-modeline-mode 1))
 #+end_src
+
 ** COMMENT Telephone Line
 Alternative modeline similar to powerline
 
@@ -1327,6 +1328,7 @@ of the file associated with the current buffer."
   (prog-mode . rainbow-delimiters-mode)
   )
 #+end_src
+
 ** Ediff: use single frame
 #+begin_src elisp
 (use-package emacs
@@ -1621,6 +1623,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
   :commands (git-timemachine)
   )
 #+end_src
+
 * Emacs server
 #+begin_src elisp
 (require 'server)
@@ -5184,6 +5187,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 ;;        (tab-bar-close-tab)  ;; and kill it
 ;;        ))))
 #+end_src
+
 ** Common email config and some helper functions                               :epa:
 #+begin_src elisp
 ;; The my-define-mail-variables function just define some variables
@@ -5419,6 +5423,7 @@ This package makes mu4e much more beautiful
   :config (mu4e-column-faces-mode)
   )
 #+end_src
+
 ** TODO org-msg
 
 * Dockerfile-mode
