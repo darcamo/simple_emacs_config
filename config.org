@@ -4228,10 +4228,10 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 
 (use-package lsp-pyright
   :ensure t
+  :after lsp
   :config
-  (with-eval-after-load "lsp-mode"
-    (add-to-list 'lsp-disabled-clients 'pyls)
-    (add-to-list 'lsp-enabled-clients 'pyright)))
+  (add-to-list 'lsp-disabled-clients 'pyls)
+  (add-to-list 'lsp-enabled-clients 'pyright))
 
 #+end_src
 
