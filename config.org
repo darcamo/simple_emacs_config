@@ -3339,7 +3339,8 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
          ("C-c n l" . org-roam-buffer-toggle)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
-         ("C-c n j" . org-roam-dailies-capture-today)
+         ;; ("C-c n j" . org-roam-dailies-capture-today)
+         ("C-c n j" . org-roam-dailies-find-today)
          ("C-c n t a" . org-roam-tag-add)
          ("C-c n t r" . org-roam-tag-remove))
   :config
