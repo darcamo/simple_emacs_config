@@ -1261,16 +1261,21 @@ of the file associated with the current buffer."
       `(("." . ,(expand-file-name "~/tmp/emacs/auto-save/"))))
 ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-
+;; Note that if page-break-lines is enabled in org-mode buffers it
+;; breaks the org-roam buffer for some reason. Therefore, only enabled
+;; it in programming modes
 (use-package page-break-lines
   :ensure t
-  :init
-  (global-page-break-lines-mode)
-  (add-to-list 'page-break-lines-modes 'c++-mode)
-  (add-to-list 'page-break-lines-modes 'python-mode)
-  (add-to-list 'page-break-lines-modes 'org-mode)
+  ;; :config
+  ;; ;;(global-page-break-lines-mode)
+  ;; (add-to-list 'page-break-lines-modes 'c++-mode)
+  ;; (add-to-list 'page-break-lines-modes 'python-mode)
+  ;; (add-to-list 'page-break-lines-modes 'org-mode)
   :custom
   (page-break-lines-lighter "")
+  :hook
+  ;; (org-mode . page-break-lines-mode)
+  (prog-mode . page-break-lines-mode)
   )
 
 ;; Indicate in the (right) fringe which lines were wrapped by visual-line-mode
