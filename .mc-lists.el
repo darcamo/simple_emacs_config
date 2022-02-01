@@ -5,7 +5,10 @@
       '(
         forward-sexp
         kill-region
+        org-beginning-of-line
+        org-emphasize
         org-self-insert-command
+        org-yank
         ))
 
 (setq mc/cmds-to-run-once
