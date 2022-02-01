@@ -5169,8 +5169,6 @@ Some useful keybindings
 https://github.com/bdarcus/citar#notes
 
 ** TODO Org-noter                                             :Investigate:OrgNoter:
-* TODO Sudo edit                                                        :Investigate:
-See sudo-edit package and maybe https://github.com/oantolin/embark/wiki/Additional-Actions
 * Mail with mu4e                                                          :Mail:mu4e:
 Note: =C-c C-p= in message mode takes a screenshot and attach to the e-mail
 
