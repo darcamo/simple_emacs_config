@@ -2100,7 +2100,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
      ("Patent" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gtel25x25.png") nil nil :ascent  center)
      ("Projeto" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/project.svg") nil nil :ascent  center)
      ("Cíclicas" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/recycle.svg") nil nil :ascent center)
-     ("Compras\\|Finanças" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gold_coins.svg") nil nil :ascent center)
+     ("Compras\\|Finanças" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/finances.svg") nil nil :ascent center)
      ("Someday" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/Global_thinking.svg") nil nil :ascent center)
      ("Stanford" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/graduate.svg") nil nil :ascent center)
      ("Notas" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/notes.svg") nil nil :ascent center)
@@ -3127,7 +3127,10 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 
   ;; Faces of some tags (ATTACH tag)
   ;;(org-tag-faces '(("ATTACH" :inherit org-done :box nil :underline t :height 1.2)))
-  (org-tag-faces '(("ATTACH" :inherit org-done :foreground "gold")))
+  (org-tag-faces '(
+                   ("ATTACH" :inherit org-done :foreground "Gold")
+                   ("REFILE" :inherit org-done :foreground "LimeGreen")
+                   ))
 
   :config
   ;; By default both org-code and org-vertavim faces just inherit from the shadow
