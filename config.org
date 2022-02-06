@@ -3283,7 +3283,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   ;; size after ":" indicates what is shown, but anything after that
   ;; size can still be matched during completion even if it is not
   ;; shown.
-  (org-roam-node-display-template (concat (propertize "${backlinkscount:6}" 'face 'org-checkbox) "${title:60} " (propertize "${tags:*}" 'face 'org-tag) (propertize "${id:8} " 'face 'org-tag)))
+  (org-roam-node-display-template (concat (propertize "${backlinkscount:6}" 'face 'org-checkbox) "${title:60} " (propertize "${id:8} " 'face 'org-tag) (propertize "${tags:*}" 'face 'org-tag)))
 
   ;; Since headlines with ATTACH will have an ID, org-roam would consider them as
   ;; nodes. This exclude all headlines with the ATTACH tag from the Org-roam
