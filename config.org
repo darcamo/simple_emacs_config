@@ -3306,6 +3306,9 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
                                 ("D" "Doutorado" plain "Criado em %u\n\n- Links :: [[id:685ce449-937c-4977-9bbc-6177273c8c49][Doutorado]]\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Doutorado:")
                                  :unnarrowed t :immediate-finish t)
+                                 ("l" "Literature" plain "Criado em %u\n\n- Links :: [[id:84fd39bd-cc24-41cb-a173-b23a0c72ebd8][Leituras de papers e outros documentos]]\n\nPDF: <Add PDF Link here>\nBib Entry: <Add bib entry link here>\n\nDon't forget to add a ROAM_REFS property%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Literature:")
+                                 :unnarrowed t :immediate-finish t)
                                  ("c" "Conhecimentos gerais" plain "Criado em %u\n\n- Links :: [[id:0c2e1ffb-fa6e-4907-a7dc-30574bca2f43][Conhecimentos Gerais e lembrestes diversos]]\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n")
                                  :unnarrowed t :immediate-finish t)
