@@ -3267,6 +3267,52 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   )
 #+end_src
 
+* org-remark
+Org-remark lets you highlight and annotate any text file with using Org mode.
+
+Note that the text file being highlighted can be any text file (including source code).
+
+See https://github.com/nobiot/org-remark
+
+This package is not in melpa yet.
+
+#+begin_src elisp
+(use-package org-remark
+  :ensure t
+  :custom
+  ;; The default pens do not work well with dark background and I'll define my own pens
+  (org-remark-create-default-pen-set nil)
+  :bind ( ;; :map org-mode-map
+         ("C-c h m" . org-remark-mark)
+         ("C-c h o" . org-remark-open)
+         ("C-c h v" . org-remark-view)
+         ("C-c h c" . org-remark-change)
+         ("C-c h r" . org-remark-remove) ;; Remove the highlight
+         ("C-c h d" . org-remark-delete) ;; Remove the highlight and delete any note
+         ("C-c h n" . org-remark-next)
+         ("C-c h p" . org-remark-prev)
+         :map org-remark-pen-map
+         ("M-n" . org-remark-next)
+         ("M-p" . org-remark-prev)
+         )
+  :config
+  (setq org-remark-notes-file-path 'org-remark-notes-file-name-function)
+  ;; Change color of the default pen (only the default pen seems to have a corresponding face)
+  (set-face-background 'org-remark-highlighter "yellow")
+  (set-face-foreground 'org-remark-highlighter "#000")
+
+  ;; Define an "important" pen
+  (org-remark-create "important"
+                     '(:background "OrangeRed")
+                     '(CATEGORY "important"))
+  (org-remark-create "review"
+                     '(:background "LightGreen" :foreground "black")
+                     '(CATEGORY "review"))
+  :init
+  (org-remark-global-tracking-mode)
+  )
+#+end_src
+
 * TODO Org-roam                                                             :OrgRoam:
 ** Configuration
 #+begin_src elisp
