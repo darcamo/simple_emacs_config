@@ -24,7 +24,20 @@
 (require 'package)
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
-        '("melpa" . "https://melpa.org/packages/"))
+             '("melpa" . "https://melpa.org/packages/"))
+
+;; Add the gnu-devel repository -> some packages are not available in
+;; regular melpa, but might be available in gnu-devel.
+(add-to-list 'package-archives
+             '("gnu-devel" . "https://elpa.gnu.org/devel/") :append)
+;; We want the priority of gnu-devel to be below the other
+;; repositories, such that it is only used for packages that are not
+;; available elsewhere
+(setq package-archive-priorities '(("melpa" . 50)
+                                   ("gnu" . 40)
+                                   ("nongnu" . 50)
+                                   ("gnu-devel" . 10)
+                                   ))
 (package-initialize)
 
 ;; Initialize use-package
