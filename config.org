@@ -3413,6 +3413,11 @@ This package is not in melpa yet.
                                   :and (= type "id")]
                          (org-roam-node-id node)))))
       (format "[%d]" count)))
+
+  :hook
+  ;; Add a draft tag to all new notes. The idea is that I should
+  ;; remove the draft tag after the note is good enough
+  (org-roam-capture-new-node . (lambda () (org-roam-tag-add '("draft"))))
   )
 
 
