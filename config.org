@@ -5524,6 +5524,15 @@ This package makes mu4e much more beautiful
 
 ** TODO org-msg
 
+* pacote nov: Ler epub no emacs                                          :epub:ebook:
+#+begin_src elisp
+(use-package nov
+  :ensure t
+  :mode
+  ("\\epub" . nov-mode)
+  )
+#+end_src
+
 * Dockerfile-mode
 #+begin_src elisp
 (use-package dockerfile-mode
