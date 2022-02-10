@@ -3377,6 +3377,10 @@ This package is not in melpa yet.
                                  ("Pe" "Ericsson" plain "Criado em %u\n\n- Links :: [[id:77acdf6f-19a5-43b0-912f-64616f6aa28b][Pessoas da Ericsson]]\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :pessoas:Ericsson:GTEL:")
                                  :unnarrowed t :immediate-finish t)
+
+                                 ("f" "Filhos" plain "Criado em %u\n\n- Links :: [[id:70177ece-325d-49cc-9419-810001aa5fb5][Filhos]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :filhos:")
+                                 :unnarrowed t :immediate-finish t)
                                 ))
   :init
   ;; Note that this is commented out to avoid slowing down Emacs
