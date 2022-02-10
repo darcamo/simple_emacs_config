@@ -5533,6 +5533,69 @@ This package makes mu4e much more beautiful
   )
 #+end_src
 
+* calibredb                                                           :calibre:ebook:
+Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
+("=R=" to remove the filter), "=f=" to filter ("=r=" to remove filter), "=RET=" to open an ebook,
+=".=" to open dired, "=o=" to sort, etc. You can access a transient menu with "=?=", which shown
+all of these keybindings.
+
+See more in https://github.com/chenyanming/calibredb.el
+
+- TIP: In the calibredb-search buffer, try pressing =TAB= or =S-TAB=.
+- TIP: Any book with a "favorite" tag has a star before its name.
+- TIP: Any book with a "highlight" tag is highlighted
+- TIP: Any book with a "archive" tag is "archived" (grayed out)
+- TIP: See the several "calibredb-set-metadata-*" commands to easily edit a single
+  metadata field
+- TIP: In the calibredb-search buffer you can click in several places to perform the corresponding filtering
+  * the favorit icon
+  * an author name
+  * a file format
+  * a tag
+- TIP: To add a file to the library use =calibredb-add=
+  - After that use "=s f=" to fetch the metadata.
+
+** configuration
+#+begin_src elisp
+(use-package calibredb
+  :ensure t
+  :custom
+  (calibredb-root-dir (expand-file-name "~/Dropbox/Calibre Library"))
+  (calibredb-format-all-the-icons t)
+  (calibredb-comment-width 0)  ;; Set comment width to 0 in order to hide it
+  (calibredb-title-width 60)
+  (calibredb-author-width 25)
+  (calibredb-virtual-library-alist '(("Light Novels" . "Light Novel")
+                                     ("Programming" . "Programming")
+                                     ("Machine Learning" . "Machine Learning")
+                                     ("Engineering" . "Engineering")
+                                     ))
+  :bind
+  (([S-f6] . calibredb))
+  )
+#+end_src
+
+** Open in a dedicated tab
+#+begin_src elisp
+(add-to-list 'display-buffer-alist
+             '("calibredb"
+               (display-buffer-in-tab)
+               (tab-name . "CalibreDB")
+               ))
+
+(defun calibredb-close-tab ()
+  (let ((tab-name "CalibreDB"))
+    ;; Only if there is a tab for e-mail and the killed buffer is
+    ;; mu4e-main-buffer-name
+    (when (and
+           (tab-bar--tab-index-by-name tab-name)
+           (equal (buffer-name) "*calibredb-search*"))
+      (tab-bar-select-tab-by-name tab-name)  ;; Switch to the tab ...
+      (tab-bar-close-tab)  ;; and kill it
+      )))
+
+(add-hook 'kill-buffer-hook    #'calibredb-close-tab)
+#+end_src
 * Dockerfile-mode
 #+begin_src elisp
 (use-package dockerfile-mode
