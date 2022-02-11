@@ -2105,6 +2105,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
      ("IAB\\|GTEL\\|NAIVE\\|UFC.32\\|UFC.35\\|UFC.42" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gtel.svg") nil nil :ascent  center)
      ("Patent" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gtel25x25.png") nil nil :ascent  center)
      ("Projeto" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/project.svg") nil nil :ascent  center)
+     ("Atlântico" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/atlantico.svg") nil nil :ascent center)
      ("Cíclicas" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/recycle.svg") nil nil :ascent center)
      ("Compras\\|Finanças" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/finances.svg") nil nil :ascent center)
      ("Someday" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/Global_thinking.svg") nil nil :ascent center)
