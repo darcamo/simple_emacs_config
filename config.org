@@ -283,6 +283,17 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   (marginalia-mode))
 #+end_src
 
+** all-the-icons-completion                                            :AllTheIcons:
+#+begin_src elisp
+(use-package all-the-icons-completion
+:ensure t
+:config
+(all-the-icons-completion-mode)
+;; (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
+;; :hook
+;; (marginalia-mode . all-the-icons-completion-marginalia-setup)
+)
+#+end_src
 ** Consult                                                     :Keybindings:Consult:
 
 Use "M-x" e digite "^consult" para ver os diversos comandos.
@@ -3195,6 +3206,14 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   )
 #+end_src
 
+** all-the-icons-ibuffer                                               :AllTheIcons:
+#+begin_src elisp
+(use-package all-the-icons-ibuffer
+:ensure t
+:config
+(all-the-icons-ibuffer-mode 1)
+)
+#+end_src
 ** COMMENT SVG tag mode
 #+begin_src elisp
 (use-package svg-tag-mode
@@ -3743,31 +3762,13 @@ https://www.flycheck.org/en/latest/index.html
 #+end_src
 
 * Dired                                                                       :Dired:
+
+** Configuration
 #+begin_src elisp
 ;; (use-package dired-git
 ;; :ensure t
 ;; :config (add-hook 'dired-mode-hook 'dired-git-mode)
 ;; )
-
-;; Use the nice icons from treemacs in dired buffers
-(use-package treemacs-icons-dired
-  :ensure t
-  :commands treemacs-icons-dired-mode
-  :hook
-  (dired-mode . treemacs-icons-dired-mode)
-  )
-
-;; (use-package all-the-icons-dired
-;;   :ensure t
-;;   :commands all-the-icons-dired-mode
-;;   :hook
-;;   (dired-mode . all-the-icons-dired-mode)
-;;   :custom
-;;   (all-the-icons-color-icons nil)
-;;   ;; (all-the-icons-dired-monochrome t)
-;;   ;; :config
-;;   ;; (set-face-attribute 'all-the-icons-dired-dir-face nil :foreground "gold")
-;;   )
 
 (use-package dired-x
   :bind (:map dired-mode-map
@@ -3816,6 +3817,28 @@ https://www.flycheck.org/en/latest/index.html
   )
 #+end_src
 
+** Icons in dired                                                      :AllTheIcons:
+#+begin_src elisp
+;; ;; Use the nice icons from treemacs in dired buffers
+;; (use-package treemacs-icons-dired
+;;   :ensure t
+;;   :commands treemacs-icons-dired-mode
+;;   :hook
+;;   (dired-mode . treemacs-icons-dired-mode)
+;;   )
+
+(use-package all-the-icons-dired
+  :ensure t
+  :commands all-the-icons-dired-mode
+  :hook
+  (dired-mode . all-the-icons-dired-mode)
+  :custom
+  (all-the-icons-color-icons t)
+  ;; (all-the-icons-dired-monochrome t)
+  ;; :config
+  ;; (set-face-attribute 'all-the-icons-dired-dir-face nil :foreground "gold")
+  )
+#+end_src
 * Project                                                                   :Project:
 Emacs already has a notion of a "project" with native =project.el=
 
@@ -5164,7 +5187,7 @@ These commands work together: for example, =crossref-lookup= displays a list of 
 ** TODO Bibtex-completions                                             :Investigate:
 Used by org-roam-bibtex
 
-** TODO Org-ref or citar [0/1]                            :Citar:Investigate:OrgRef:
+** TODO Org-ref or citar [0/1]                :AllTheIcons:Citar:Investigate:OrgRef:
 NOTE:
 - citar uses two caches to speed up library display; one for the global bibliography, and
   another for local files specific to a buffer. This is great for performance, but means
@@ -5538,7 +5561,7 @@ This package makes mu4e much more beautiful
   )
 #+end_src
 
-* calibredb                                                           :calibre:ebook:
+* calibredb                                                   :Calibre:calibre:ebook:
 Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
 ("=R=" to remove the filter), "=f=" to filter ("=r=" to remove filter), "=RET=" to open an ebook,
 =".=" to open dired, "=o=" to sort, etc. You can access a transient menu with "=?=", which shown
@@ -5560,7 +5583,7 @@ See more in https://github.com/chenyanming/calibredb.el
 - TIP: To add a file to the library use =calibredb-add=
   - After that use "=s f=" to fetch the metadata.
 
-** configuration
+** configuration                                                       :AllTheIcons:
 #+begin_src elisp
 (use-package calibredb
   :ensure t
@@ -5601,7 +5624,7 @@ See more in https://github.com/chenyanming/calibredb.el
 
 (add-hook 'kill-buffer-hook    #'calibredb-close-tab)
 #+end_src
-* Dockerfile-mode
+* Dockerfile-mode                                                            :Docker:
 #+begin_src elisp
 (use-package dockerfile-mode
   :ensure t
