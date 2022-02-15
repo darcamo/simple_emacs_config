@@ -3,10 +3,13 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        delete-horizontal-space
         forward-sexp
         kill-region
         org-beginning-of-line
         org-emphasize
+        org-end-of-line
+        org-force-self-insert
         org-self-insert-command
         org-yank
         ))
