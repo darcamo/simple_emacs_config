@@ -3646,7 +3646,9 @@ Useful keybindings:
 
 (setq feriados-nacionais-moveis
       `((holiday-easter-etc 0 "Feriado de Páscoa")
-        (holiday-easter-etc -47 "Feriado de Carnaval")
+        (holiday-easter-etc -48 "Feriado de Carnaval (segunda)")
+        (holiday-easter-etc -47 "Feriado de Carnaval (terça)") ;; terça
+        (holiday-easter-etc -46 "Quarta-feira de cinzas") ;; terça
         (holiday-easter-etc -2 "Feriado da Sexta-feira Santa - Paixão de Cristo")
         ;;(holiday-easter-etc 49 "Feriado de Pentecostes")
         ;;(holiday-easter-etc 56 "Feriado do Domingo da Santíssima Trindade")
