@@ -151,10 +151,12 @@ https://github.com/dbordak/telephone-line
   (dashboard-items '((recents  . 5)
                      (bookmarks . 5)
                      (projects . 5)
-                     (agenda . 5)))
+                     (agenda . 8)))
   (dashboard-set-heading-icons t)
 
-  (dashboard-match-agenda-entry "GTEL")
+  ;; Note that this is not a regexp, but a "tag match"
+  ;; See https://orgmode.org/manual/Matching-tags-and-properties.html
+  (dashboard-match-agenda-entry "Atlântico-habit|GTEL")
   (dashboard-agenda-release-buffers t)
 
   ;; Configure initial-buffer-choice to show Dashboard in frames
