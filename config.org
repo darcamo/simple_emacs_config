@@ -3319,6 +3319,24 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   )
 #+end_src
 
+** org-journal
+Default prefix is =C-c C-=
+   This prefix key is used for:
+   - ‘org-journal-next-entry’ (key "f")
+   - ‘org-journal-previous-entry’ (key "b")
+   - ‘org-journal-new-entry’ (key "j")
+   - ‘org-journal-search’ (key "s")
+
+#+begin_src elisp
+(use-package org-journal
+  :ensure t
+  :custom
+  (org-journal-dir "~/org/journal/")
+  :bind (:map org-mode-map
+  ("C-c C-j" . org-journal-new-entry)
+  )
+  )
+#+end_src
 * org-remark
 Org-remark lets you highlight and annotate any text file with using Org mode.
 
