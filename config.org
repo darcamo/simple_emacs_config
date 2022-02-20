@@ -2420,6 +2420,8 @@ You can open links by clicking or with the =C-c RET= keybinding.
 ** Capture                                                                 :Capture:
 *** Config
 #+begin_src elisp
+(setq my-financas-table-line-template "| | %^{Nome do gasto} | %^u | %^{Valor no débito} | %^{Valor no cartão} |")
+
 (use-package org-capture
   :defer t
   :bind (("C-c c" . org-capture))
@@ -2459,29 +2461,34 @@ You can open links by clicking or with the =C-c RET= keybinding.
           ("f" "Adiciona novo gasto")
           ("fa" "Gasto com alimentação" table-line
            (id ,(get-me-an-org-id-for-the-month "Alimentação"))
-           "%(concat \"|\" mytemplatevalue)"
+           ,my-financas-table-line-template
            :table-line-pos "II-1"
-           :immediate-finish t)
+           :immediate-finish t
+           :jump-to-captured t)
           ("fc" "Gasto com contas" table-line
            (id ,(get-me-an-org-id-for-the-month "Contas"))
-           "%(concat \"|\" mytemplatevalue)"
+           ,my-financas-table-line-template
            :table-line-pos "II-1"
-           :immediate-finish t)
+           :immediate-finish t
+           :jump-to-captured t)
           ("ft" "Gasto com o carro ou transporte" table-line
            (id ,(get-me-an-org-id-for-the-month "Carro"))
-           "%(concat \"|\" mytemplatevalue)"
+           ,my-financas-table-line-template
            :table-line-pos "II-1"
-           :immediate-finish t)
+           :immediate-finish t
+           :jump-to-captured t)
           ("fe" "Gasto com Entretenimento" table-line
            (id ,(get-me-an-org-id-for-the-month "Entretenimento"))
-           "%(concat \"|\" mytemplatevalue)"
+           ,my-financas-table-line-template
            :table-line-pos "II-1"
-           :immediate-finish t)
+           :immediate-finish t
+           :jump-to-captured t)
           ("fd" "Gasto diversos" table-line
            (id ,(get-me-an-org-id-for-the-month "Diversos"))
-           "%(concat \"|\" mytemplatevalue)"
+           ,my-financas-table-line-template
            :table-line-pos "II-1"
-           :immediate-finish t)
+           :immediate-finish t
+           :jump-to-captured t)
           ;; xxxxx End Capture expenses data created with tasker xxxxxxxxxxxx
           ))
   )
