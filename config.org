@@ -3413,43 +3413,52 @@ This package is not in melpa yet.
                                 ("e" "De um E-mail" plain "Criado em %u\n\nE-mail-original: %a\nEnviado por %:from em %:date\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n")
                                  :unnarrowed t)
-                                ("i" "IAB" plain "Criado em %u\n\n- Links :: [[id:0878fa71-2454-4d2d-a63f-8327a8a70681][IAB]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :GTEL:IAB:5G:")
-                                 :unnarrowed t :immediate-finish t)
-                                 ("a" "Atlântico" plain "Criado em %u\n\n- Links :: [[id:0a6e477a-8a22-4fe1-8e09-1f94a5626516][Atlântico]]\n\n%?" :if-new
+                                ("a" "Atlântico" plain "Criado em %u\n\n- Links :: [[id:0a6e477a-8a22-4fe1-8e09-1f94a5626516][Atlântico]]\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Atlantico:")
+                                 :unnarrowed t :immediate-finish t)
+                                ("t" "Teradici" plain "Criado em %u\n\n- Links :: [[id:1140ec0c-b2d2-4566-aa8f-7748201241d5][Teradici]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Atlantico:Teradici:HP:")
                                  :unnarrowed t :immediate-finish t)
                                 ("D" "Doutorado" plain "Criado em %u\n\n- Links :: [[id:685ce449-937c-4977-9bbc-6177273c8c49][Doutorado]]\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Doutorado:")
                                  :unnarrowed t :immediate-finish t)
-                                 ("l" "Literature" plain "Criado em %u\n\n- Links :: [[id:84fd39bd-cc24-41cb-a173-b23a0c72ebd8][Leituras de papers e outros documentos]]\n\nPDF: <Add PDF Link here>\nBib Entry: <Add bib entry link here>\n\nDon't forget to add a ROAM_REFS property%?" :if-new
+                                ("l" "Literature" plain "Criado em %u\n\n- Links :: [[id:84fd39bd-cc24-41cb-a173-b23a0c72ebd8][Leituras de papers e outros documentos]]\n\nPDF: <Add PDF Link here>\nBib Entry: <Add bib entry link here>\n\nDon't forget to add a ROAM_REFS property%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Literature:")
                                  :unnarrowed t :immediate-finish t)
-                                 ("c" "Conhecimentos gerais" plain "Criado em %u\n\n- Links :: [[id:0c2e1ffb-fa6e-4907-a7dc-30574bca2f43][Conhecimentos Gerais e lembrestes diversos]]\n\n%?" :if-new
+                                ("c" "Conhecimentos gerais" plain "Criado em %u\n\n- Links :: [[id:0c2e1ffb-fa6e-4907-a7dc-30574bca2f43][Conhecimentos Gerais e lembrestes diversos]]\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n")
                                  :unnarrowed t :immediate-finish t)
-                                 ("p" "Programação")
-                                 ("pp" "Python" plain "Criado em %u\n\n- Links :: [[id:0cd3f915-9476-43b8-a17c-f113f912a2ae][Python]]\n\n%?" :if-new
+                                ("f" "Filhos" plain "Criado em %u\n\n- Links :: [[id:70177ece-325d-49cc-9419-810001aa5fb5][Filhos]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :filhos:")
+                                 :unnarrowed t :immediate-finish t)
+
+                                 ("G" "Garantias e notas fiscais" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n%?" :target (node "9a56dad9-505c-40c9-a910-ec20fa017e2e"))
+
+                                ("g" "GTEL")
+                                ("gg" "GTEL" plain "Criado em %u\n\n- Links :: [[id:ae896e12-b884-4de9-84ba-5b794b5878d5][GTEL]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :GTEL:IAB:5G:")
+                                 :unnarrowed t :immediate-finish t)
+                                ("gi" "IAB" plain "Criado em %u\n\n- Links :: [[id:0878fa71-2454-4d2d-a63f-8327a8a70681][IAB]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :GTEL:IAB:5G:")
+                                 :unnarrowed t :immediate-finish t)
+
+                                ("p" "Programação")
+                                ("pp" "Python" plain "Criado em %u\n\n- Links :: [[id:0cd3f915-9476-43b8-a17c-f113f912a2ae][Python]]\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Programação:Python:")
                                  :unnarrowed t :immediate-finish t)
-                                 ("pc" "C++" plain "Criado em %u\n\n- Links :: [[id:a0967201-ec8d-4061-a27d-81590c840bff][C++]]\n\n%?" :if-new
+                                ("pc" "C++" plain "Criado em %u\n\n- Links :: [[id:a0967201-ec8d-4061-a27d-81590c840bff][C++]]\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Programação:CPP:")
                                  :unnarrowed t :immediate-finish t)
-                                 ("pe" "Emacs Lisp" plain "Criado em %u\n\n- Links :: [[id:4f5b688f-6f4e-4f21-b466-7674e30be51c][Emacs Lisp]]\n\n%?" :if-new
+                                ("pe" "Emacs Lisp" plain "Criado em %u\n\n- Links :: [[id:4f5b688f-6f4e-4f21-b466-7674e30be51c][Emacs Lisp]]\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Elisp:Emacs:Programação:")
                                  :unnarrowed t :immediate-finish t)
 
-                                 ("P" "Pessoas")
-                                 ("Pa" "Atlântico" plain "Criado em %u\n\n- Links :: [[id:0a6e477a-8a22-4fe1-8e09-1f94a5626516][Atlântico]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :pessoas:Atlantico:")
-                                 :unnarrowed t :immediate-finish t)
-                                 ("Pe" "Ericsson" plain "Criado em %u\n\n- Links :: [[id:77acdf6f-19a5-43b0-912f-64616f6aa28b][Pessoas da Ericsson]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :pessoas:Ericsson:GTEL:")
-                                 :unnarrowed t :immediate-finish t)
-
-                                 ("f" "Filhos" plain "Criado em %u\n\n- Links :: [[id:70177ece-325d-49cc-9419-810001aa5fb5][Filhos]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :filhos:")
-                                 :unnarrowed t :immediate-finish t)
+                                ("P" "Pessoas")
+                                ("Pp" "geral" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "10f28a11-1a4f-4385-af25-1f0335293527"))
+                                ("Pa" "Atlantico" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "9beb52e5-65df-458f-8ea4-88eb5dc2ee97"))
+                                ("Pt" "Teradici" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "6d6ac5f9-0ae3-4c93-aebc-caf212e3fc5d"))
+                                ("Pe" "Ericsson" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "77acdf6f-19a5-43b0-912f-64616f6aa28b"))
+                                ("Pg" "GTEL" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "b1011fcd-ebb7-48e1-abbd-6ab5d74ac83f"))
                                 ))
   :init
   ;; Note that this is commented out to avoid slowing down Emacs
