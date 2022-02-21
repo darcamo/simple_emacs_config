@@ -20,12 +20,12 @@ init-time atual do emacs: ~1.2
 Activate use-package report -> call the command ~use-package-report~. Ideally, you want
 packages that were not used yet to be only "initialized" and only after they have been
 used for the first time they should be "configured".
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq use-package-compute-statistics t)
 #+end_src
 
 * Safe local variables
-#+begin_src elisp
+#+begin_src emacs-lisp
 (put 'helm-make-build-dir 'safe-local-variable 'stringp)
 (put 'projectile-project-compilation-cmd 'safe-local-variable 'stringp)
 (put 'projectile-project-run-cmd 'safe-local-variable 'stringp)
@@ -52,7 +52,7 @@ Good themes:
 - doom oceanic next
 - material dark
 - doom tomorrow night
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package doom-themes
   :ensure t
   :config
@@ -74,7 +74,7 @@ Good themes:
 #+end_src
 
 ** Customize user interface
-#+begin_src elisp
+#+begin_src emacs-lisp
 (menu-bar-mode 0)
 ;; (when (display-graphic-p)
   (tool-bar-mode 0)
@@ -86,7 +86,7 @@ Good themes:
 #+end_src
 
 ** Customize apearance
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; Show stray whitespace.
 ;; (setq-default show-trailing-whitespace t)
 (setq-default indicate-empty-lines t)
@@ -95,7 +95,7 @@ Good themes:
 
 ** Enable tab-bar-mode                                                      :TabBar:
 Alternate between tabs with C-<tab>
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package tab-bar
 :init
 (tab-bar-mode)
@@ -127,7 +127,7 @@ The keybindinds all start with =C-x t=
 | p     | project-other-tab-command  |
 | r     | tab-rename                 |
 ** Doom Modeline
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1))
@@ -138,7 +138,7 @@ Alternative modeline similar to powerline
 
 https://github.com/dbordak/telephone-line
 ** Dashboard                                                             :Dashboard:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package dashboard
   :ensure t
   :custom
@@ -169,7 +169,7 @@ https://github.com/dbordak/telephone-line
 
 * Completion framework [0/2]                                             :Completion:
 ** COMMENT Ido Mode                                                        :IdoMode:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (ido-mode 1)
 (ido-everywhere)
 (setq ido-enable-flex-matching t)
@@ -179,7 +179,7 @@ https://github.com/dbordak/telephone-line
 ** Vertico and orderless                                         :Orderless:Vertico:
 Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 *** Basic configuration
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; We want case-insensitive filenames, since we will use vertigo to
 ;; filter filenames anyway
 (setq read-file-name-completion-ignore-case t)
@@ -261,7 +261,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 #+end_src
 
 *** Extra packages: vertico-mouse
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package vertico-mouse
   :after vertico
   :init
@@ -269,7 +269,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 #+end_src
 
 ** Marginalia                                                           :Marginalia:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package marginalia
   :ensure t
   ;; Either bind `marginalia-cycle` globally or only in the minibuffer
@@ -286,7 +286,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 #+end_src
 
 ** all-the-icons-completion                                            :AllTheIcons:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package all-the-icons-completion
 :ensure t
 :config
@@ -304,7 +304,7 @@ Nota: Alguns comandos possuem múltiplos grupos. Vc pode filtrar para um grupo e
 usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer (b)", "file
 (f)" e "bookmark" (m). Digitar "f SPC" vai limitar o completion a apenas arquivos.
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package consult
   :ensure t
   :bind (
@@ -430,7 +430,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
 #+end_src
 
 ** Consult-dir                                                             :Consult:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package consult-dir
   :ensure t
   :bind (("C-x C-d" . consult-dir)
@@ -441,7 +441,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
 #+end_src
 
 ** COMMENT Consult-project
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package consult-project
   :straight (consult-project :type git :host github :repo "Qkessler/consult-project")
   :bind
@@ -458,7 +458,7 @@ completions for that prefix key. This is nicer than which key because you can us
 
 Note: If you use =C-u= before calling ~embark-act~, then the session will be kept after the
 action is performed (you will still be in the minibuffer)
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package embark
   :ensure t
 
@@ -504,7 +504,7 @@ action is performed (you will still be in the minibuffer)
 #+end_src
 
 ** Corfu                                                                     :Corfu:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package corfu
   :ensure t
   ;; Optional customizations
@@ -558,7 +558,7 @@ action is performed (you will still be in the minibuffer)
 
 ** Acronyms                                                         :Acronym:abbrev:
 Code to define many acronymms that I use
-#+begin_src elisp
+#+begin_src emacs-lisp
 
 ;; For each entry, the first element will be the expansion trigger, while the
 ;; second element is the expansion. Third element indicates if a plural
@@ -703,7 +703,7 @@ Code to define many acronymms that I use
 #+end_src
 
 ** Fill with comment
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; Fill with comment
 (defun fill-with-comment(&optional character)
   "Insert as many comment characters as necessary to go untill
@@ -742,7 +742,7 @@ Code to define many acronymms that I use
 Veja aqui
 https://github.com/MatthewZMD/.emacs.d#yasnippet-1
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package yasnippet
   :ensure t
   :init
@@ -760,7 +760,7 @@ https://github.com/MatthewZMD/.emacs.d#yasnippet-1
 #+end_src
 
 *** Some helper functions used in my snippets
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; This method is used in the 'comment' yasnippets template
 (defun darlan/get-comment-block-start ()
   "Insert the correct comment start string for a block comment.
@@ -800,7 +800,7 @@ https://github.com/MatthewZMD/.emacs.d#yasnippet-1
 * Company-mode                                                              :Company:
 Tente o corfu-mode primeiro
 * darcamo function
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; From https://stackoverflow.com/a/4717026/1102805
 ;; This is also in https://www.emacswiki.org/emacs/CopyingWholeLines
 (defun duplicate-line-or-region (&optional n)
@@ -1245,7 +1245,7 @@ of the file associated with the current buffer."
 
 * General Usability                                       :General:Usability:Utility:
 ** Configuration
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package conf-mode
   :ensure nil
   :mode
@@ -1355,7 +1355,7 @@ of the file associated with the current buffer."
 #+end_src
 
 ** Ediff: use single frame
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package emacs
   :custom
   (ediff-window-setup-function 'ediff-setup-windows-plain)
@@ -1363,7 +1363,7 @@ of the file associated with the current buffer."
 #+end_src
 
 ** Keybindigns                                                         :Keybindings:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package emacs
   :bind (
          ([f2] . delete-window)
@@ -1396,7 +1396,7 @@ of the file associated with the current buffer."
 #+end_src
 
 ** Extra packages                                                      :Keybindings:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package diminish
  :ensure t)
 
@@ -1552,7 +1552,7 @@ b - split window horizontally
 o - maximize current window
 ? - show these command bindings
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package ace-window
   :ensure t
   :bind
@@ -1562,7 +1562,7 @@ o - maximize current window
 
 ** Find-file-at-point                                                         :ffap:
 Replace regular find-file and related functions with ffap versions
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package ffap
   :init
   (ffap-bindings)
@@ -1572,7 +1572,7 @@ Replace regular find-file and related functions with ffap versions
 *** Disable ffap bindings in dired-mode buffers                             :Dired:
 Getting the file name at point is problematic in dired buffers, since it requires me to
 delete the text in order to use the completion system to open a file.
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package dired
   ;; :custom
   ;; (dired-at-point-require-prefix t)
@@ -1583,7 +1583,7 @@ delete the text in order to use the completion system to open a file.
 #+end_src
 
 ** sudo-edit                                                                  :sudo:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package sudo-edit
   :ensure t
   :commands sudo-edit
@@ -1592,7 +1592,7 @@ delete the text in order to use the completion system to open a file.
 
 ** World clock
 Use the ~world-clock~ command to see the times
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package emacs
   :ensure t
   :custom
@@ -1610,7 +1610,7 @@ Use the ~world-clock~ command to see the times
 ** Address Mode: Buttonize URLs and e-mail addresses
 You can open links by clicking or with the =C-c RET= keybinding.
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; global-goto-address-mode is only available since Emacs28
 (when (fboundp 'global-goto-address-mode)
   (global-goto-address-mode 1)
@@ -1618,7 +1618,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 * Scrolling and mouse                                               :Mouse:Scrolling:
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; (setq scroll-step 1)
 ;; (setq scroll-margin 1)
 (setq scroll-conservatively 101)
@@ -1635,7 +1635,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 
 * Version control
 ** Magit                                                                     :Magit:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package magit
   :ensure t
   :bind ("C-x g" . magit-status)
@@ -1643,7 +1643,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 ** Git timemachine
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package git-timemachine
   :ensure t
   :commands (git-timemachine)
@@ -1651,7 +1651,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 ** Blamer
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package blamer
   :ensure t
   :bind (("s-i" . blamer-show-commit-info))
@@ -1673,7 +1673,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
   )
 #+end_src
 * Emacs server
-#+begin_src elisp
+#+begin_src emacs-lisp
 (require 'server)
 (unless (server-running-p)
   (server-start))
@@ -1681,7 +1681,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 
 * Spell checking                                                      :SpellChecking:
 ** Config
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; find aspell and hunspell automatically
 (cond
  ;; try hunspell at first
@@ -1719,7 +1719,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 ** Functions
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; lookup-word-definition
 ;; Dicionário do babylon
 ;; http://online.babylon.com/cgi-bin/trans.cgi?layout=uol.txt&lang=ptg&word=WORD
@@ -1782,7 +1782,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 ** Keybindings                                                         :Keybindings:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package emacs
   :bind (
          ([f7] . ispell)
@@ -1807,7 +1807,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 * Org-mode                                                                  :OrgMode:
 ** General
 *** Config
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org
   :mode
   ;; Usa o org-mode para arquivos README
@@ -1986,7 +1986,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 *** Functions
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; Used in a speed comamnd
 (defun ded/org-show-next-heading-tidily ()
   "Show next entry, keeping other entries closed."
@@ -2041,7 +2041,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 *** Keybindings                                                       :Keybindings:
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; Local Keybinding
 (defun my-org-at-citation-p ()
   "docstring"
@@ -2112,7 +2112,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 
 ** Agenda                                                                   :Agenda:
 *** Config
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; My agenda super-agenda groups -> Used in my custom command to show the agenda
 (setq my-agenda-org-super-agenda-groups '(
                                           (:name "Tarefas Concluídas"
@@ -2367,7 +2367,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 ** Attach
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org-attach
   ;; The "attach" link type that I defined in my main gtd file uses the
   ;; org-attach-expand function.
@@ -2385,7 +2385,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 ** Babel                                                                     :Babel:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org
   :defer t
   :custom
@@ -2435,7 +2435,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 
 ** Capture                                                                 :Capture:
 *** Config
-#+begin_src elisp
+#+begin_src emacs-lisp
 (setq my-financas-table-line-template "| | %^{Nome do gasto} | %^u | %^{Valor no débito} | %^{Valor no cartão} |")
 
 (use-package org-capture
@@ -2511,7 +2511,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 *** Function to capture in other frame
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; Função que peguei na lista do org-mode
 ;; [[wl:%25Newsletter/Org-Mode!#877ha9nfgy.fsf@ginnungagap.bsc.es][Email from Lluís: {O} org-capture-other-frame]]
 ;; #########################################################################
@@ -2558,7 +2558,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 
 ** Clock In/Out
 *** Functions
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; General Configuration
 (defun my-clock-change-state (state)
   "If state is 'CYCLIC' return 'CYCLIC'. If it is any other todo keyword return
@@ -2591,7 +2591,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 *** Config
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org-clock
   :custom
   ;; Change task state to STARTED when clocking in
@@ -2618,7 +2618,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+end_src
 
 ** Crypt
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org-crypt
   :commands (org-decrypt-entry org-decrypt-entries org-encrypt-entry org-encrypt-entries)
   :custom
@@ -2651,7 +2651,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 
 ** Export
 *** Filter functions used in export
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; Use unicode character for non-breaking space in org-mode
 ;;
 ;; In org-mode one must use `\nbsp{}` to represent a non-breaking space. This is
@@ -2697,7 +2697,7 @@ reveal."
 #+end_src
 
 *** Config
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org
   :config
   ;; Org Default Backends
@@ -2747,7 +2747,7 @@ reveal."
 #+end_src
 
 *** Latex templates
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package ox-latex
   :defer t
   :config
@@ -2849,7 +2849,7 @@ reveal."
 #+end_src
 
 *** COMMENT Org publish projects
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package ox-publish
   :defer t
   :custom
@@ -2882,7 +2882,7 @@ reveal."
 #+end_src
 
 *** Functions
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; Orgtbl Translator function for the GitHub-Flavored-Markdown(GFM)
 ;; Taken from https://gist.github.com/yryozo/5807243
 (defun orgtbl-to-gfm (table params)
@@ -2910,7 +2910,7 @@ reveal."
 #+end_src
 
 *** Keybindings                                                       :Keybindings:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org
   :defer t
   :bind (:map org-mode-map
@@ -2921,7 +2921,7 @@ reveal."
 *** COMMENT ODT and docx export
 Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 ** Org useful functions
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; Quick Access to projects
 (defun my-find-org-heading (projectName)
   (let (heading org-indirect-buffer-display)
@@ -3170,7 +3170,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 #+end_src
 
 ** Keybindings                                                         :Keybindings:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org
   :defer t
   :bind
@@ -3179,7 +3179,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 #+end_src
 
 ** Appearance (face and prettify-symbols)                               :Appearance:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org-faces
   :custom
   ;; Set to "t" to hide leading stars in org files by default
@@ -3273,7 +3273,7 @@ Try addapting the example below
         ))
 #+end_example
 ** all-the-icons-ibuffer                                               :AllTheIcons:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package all-the-icons-ibuffer
 :ensure t
 :config
@@ -3281,7 +3281,7 @@ Try addapting the example below
 )
 #+end_src
 ** COMMENT SVG tag mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package svg-tag-mode
   :ensure t
   :custom
@@ -3325,7 +3325,7 @@ Try addapting the example below
 #+end_src
 
 ** Extra packages for org-mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; The org-bullets package replaces all headline markers with
 ;; different Unicode bullets
 ;; (use-package org-bullets
@@ -3362,7 +3362,7 @@ Default prefix is =C-c C-=
    - ‘org-journal-new-entry’ (key "j")
    - ‘org-journal-search’ (key "s")
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org-journal
   :ensure t
   :custom
@@ -3381,7 +3381,7 @@ See https://github.com/nobiot/org-remark
 
 This package is not in melpa yet.
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org-remark
   :ensure t
   :custom
@@ -3420,7 +3420,7 @@ This package is not in melpa yet.
 
 * TODO Org-roam                                                             :OrgRoam:
 ** Configuration
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org-roam
   :ensure t
   :defer t
@@ -3552,7 +3552,7 @@ This package is not in melpa yet.
 ** Clearner backlinks buffer
 The code below will replace a function in org-roam such that only the start of a file is
 shown in the backlink buffer
-#+begin_src elisp
+#+begin_src emacs-lisp
 (defun org-roam-preview-get-contents (file pt)
   "Get preview content for FILE at PT."
   (save-excursion
@@ -3569,7 +3569,7 @@ shown in the backlink buffer
 ** Search roam notes with ripgrep
 You can already use ~consult-ripgrep~ from the notes folder or from a note to search in all
 notes. The code below has a nicer function that you can use instead
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; taken from https://org-roam.discourse.group/t/using-consult-ripgrep-with-org-roam-for-searching-notes/1226
 (defun bms/org-roam-rg-search ()
   "Search org-roam directory using consult-ripgrep. With live-preview."
@@ -3585,7 +3585,7 @@ notes. The code below has a nicer function that you can use instead
 #+end_src
 
 ** COMMENT Org-roam-bibtex
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org-roam-bibtex
   :ensure t
   :after org-roam
@@ -3611,7 +3611,7 @@ notes. The code below has a nicer function that you can use instead
 *Note*: If IDs are not known and you need to search all org-roam files for IDs, run the
 ~my/org-id-update-org-roam-files~ function.
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (defun my/org-id-update-all-org-roam-files ()
   "Update Org-ID locations for all Org-roam files."
   (interactive)
@@ -3624,7 +3624,7 @@ notes. The code below has a nicer function that you can use instead
 #+end_src
 
 ** Org-roam UI
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org-roam-ui
   :ensure t
   :after org-roam
@@ -3642,7 +3642,7 @@ https://github.com/publicimageltd/delve
 Currently it is not in melpa yet
 
 * Outline
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package outline
   :diminish outline-minor-mode
   :defer t
@@ -3677,7 +3677,7 @@ Useful keybindings:
 | M-= | count days in region    |
 | S   | calendar-sunrise-sunset |
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package emacs
   :custom
   (calendar-mark-holidays-flag nil)
@@ -3729,7 +3729,7 @@ Useful keybindings:
 
 * General Programming (not including any specific language)             :Programming:
 ** Some pretty symbols
-#+begin_src elisp
+#+begin_src emacs-lisp
 (add-hook
  'prog-mode-hook
  (lambda ()
@@ -3742,7 +3742,7 @@ Useful keybindings:
 #+end_src
 
 ** Handle ansi colors in compilation buffer                            :Compilation:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package emacs
 :hook
 (compilation-filter . ansi-color-compilation-filter)
@@ -3763,7 +3763,7 @@ Useful keybindings:
 #+end_src
 
 ** Size of the compile window
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package emacs
   :custom
   (compilation-window-height 16)
@@ -3771,7 +3771,7 @@ Useful keybindings:
 #+end_src
 
 ** Compilation buffer always at the bottom
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; display-buffer-at-bottom
 (add-to-list 'display-buffer-alist
                '("\\*compilation\\*"
@@ -3782,7 +3782,7 @@ Useful keybindings:
 ** Flycheck                                                               :Flycheck:
 https://www.flycheck.org/en/latest/index.html
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package flycheck
   :ensure t
   :commands flycheck-mode
@@ -3795,7 +3795,7 @@ https://www.flycheck.org/en/latest/index.html
 #+end_src
 
 * YAML                                                                         :YAML:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package yaml-mode
   :ensure t
   :defer t)
@@ -3803,7 +3803,7 @@ https://www.flycheck.org/en/latest/index.html
 
 * PDF                                                                           :PDF:
 ** PDF-tools package
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package pdf-tools
   :ensure t
   :commands pdf-view-mode
@@ -3824,14 +3824,14 @@ https://www.flycheck.org/en/latest/index.html
 #+end_src
 
 ** COMMENT Integration with org (create org-links)                         :OrgMode:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org-pdftools
   :ensure t
   :hook (org-mode . org-pdftools-setup-link))
 #+end_src
 
 ** Keybindings                                                         :Keybindings:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package pdf-view
   :defer t
   :bind (
@@ -3868,7 +3868,7 @@ https://www.flycheck.org/en/latest/index.html
 * Dired                                                                       :Dired:
 
 ** Configuration
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; (use-package dired-git
 ;; :ensure t
 ;; :config (add-hook 'dired-mode-hook 'dired-git-mode)
@@ -3922,7 +3922,7 @@ https://www.flycheck.org/en/latest/index.html
 #+end_src
 
 ** Icons in dired                                                      :AllTheIcons:
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; ;; Use the nice icons from treemacs in dired buffers
 ;; (use-package treemacs-icons-dired
 ;;   :ensure t
@@ -3960,7 +3960,7 @@ specify that a folder is a project with the presence of a special file (such as
 .projectile with the =projectile= library) is useful.
 
 The code below will make emacs recognize a folder with a =.project= file as a project.
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; Taken from https://www.manueluberti.eu/emacs/2020/11/14/extending-project/
 (cl-defmethod project-root ((project (head local)))
   (cdr project))
@@ -3997,7 +3997,7 @@ General configuration to LSP.
 
 Configuration specific to a language should be in that language configuration heading
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; (use-package lsp-mode
 ;;   :ensure t
 ;;   :config
@@ -4024,7 +4024,7 @@ Configuration specific to a language should be in that language configuration he
 #+end_src
 
 * Consult-LSP
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package consult-lsp
   :ensure t
   :config
@@ -4041,7 +4041,7 @@ Configuration specific to a language should be in that language configuration he
 https://github.com/MatthewZMD/.emacs.d#dap
 * C++                                                               :CPP:Programming:
 ** My functions
-#+begin_src elisp
+#+begin_src emacs-lisp
 
 
 ;; Change between .h and .cpp
@@ -4184,7 +4184,7 @@ This assume that there is a 'doc' folder in the project root."
 #+end_src
 
 ** General configuration
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package cc-mode
   :defer t
   :bind (:map c++-mode-map
@@ -4226,7 +4226,7 @@ This assume that there is a 'doc' folder in the project root."
 #+end_src
 
 ** CMake-mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package cmake-mode
   :defer t
   :ensure t
@@ -4243,14 +4243,14 @@ This assume that there is a 'doc' folder in the project root."
 #+end_src
 
 ** Ninja Mode
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package ninja-mode
   :defer t
   :ensure t)
 #+end_src
 
 ** Help find file at point and ff-find-related-file find include files
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package ffap
   :defer t
   :config
@@ -4280,7 +4280,7 @@ Ver pacote python-coverage
 Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7/comment/hr2q2xc/?utm_source=share&utm_medium=web2x&context=3
 
 ** Helper functions
-#+begin_src elisp
+#+begin_src emacs-lisp
 
 ;; Pegue em http://wwwx.cs.unc.edu/~gb/wp/blog/2008/03/15/running-python-from-within-emacs/
 ;; Com essa função você pode rodar um script python usando o compile buffer
@@ -4347,7 +4347,7 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 #+end_src
 
 ** Configuration and keybindings
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package python
   :defer t
   :bind (:map python-mode-map
@@ -4366,7 +4366,7 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 #+end_src
 
 ** Anaconda support                                                       :Anaconda:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package conda
   :ensure t
   :defer t
@@ -4385,7 +4385,7 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 #+end_src
 
 ** pyvenv: Virtual Environment
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; Call pyvenv-activate and specify the folder with the virtual environment
 (use-package pyvenv
   :ensure t
@@ -4400,7 +4400,7 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 #+end_src
 
 ** lsp-python
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; (use-package lsp-python-ms
 ;;   :ensure t
 ;;   :init (setq lsp-python-ms-auto-install-server t)
@@ -4433,7 +4433,7 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 
 * Latex                                                                       :Latex:
 ** Some useful functions
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;;;; Use the ac yasnippets acronym instead (keybinding is f5)
 ;; (defun latex-skeleton-ac (acronym)
 ;;   "Ask for an acronym and inserts \\ac{acronym}. You probably want to call latex-skeleton-acronym instead."
@@ -4546,7 +4546,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
 #+end_src
 
 ** General config
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package tex
   :defer t
   :ensure auctex
@@ -4626,7 +4626,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
 #+end_src
 
 ** Set some faces
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; ;; Define a face for unimportant latex commands in math
 ;; ;; Taken from https://endlessparentheses.com/improving-latex-equations-with-font-lock.html
 ;; (defface endless/unimportant-latex-face
@@ -4709,7 +4709,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
 #+end_src
 
 ** Set some pretty symbols
-#+begin_src elisp
+#+begin_src emacs-lisp
 (defun darcamo/add-vector-and-matrix-prettify-symbol-letter (s)
   "This will call 'add-to-list' function to add a pretty symbol for '\\vtS and \\mtS'"
   (interactive "P")
@@ -4766,7 +4766,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
 #+end_src
 
 ** Beamer                                                                   :Beamer:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (define-derived-mode beamer-mode
   LaTeX-mode "Beamer-Mode" "A derived mode from LaTeX-mode for latex buffers with beamer presentations."
   (setq outline-regexp "[   ]*\\\\\\(appendix\\|documentstyle\\|documentclass\\|part\\|chapter\\|section\\|subsection\\|subsubsection\\|paragraph\\|subparagraph\\|begin{frame}\\|end{frame}\\)\\|^[^%\n]*\\\\begin *{document}\\|^[^%\n]*\\\\end *{document}")
@@ -5175,7 +5175,7 @@ This only makes sense for empty buffers."
 * Preview Latex (org-mode and programming modes)                      :Latex:Preview:
 Layer darcamo-preview-latex
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package org
   :defer t
   :init
@@ -5236,7 +5236,7 @@ Veja a nota [[file:~/org/org-roam-notes/20210305171627-leituras_de_papers_e_outr
 ** Set my default bibliograph folder and files (used by native org-cite)
 Set my default bibliography.
 You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; Base folder for my global bib files. There is also a pdfs folder
 ;; inside with PDF files for the entries in the bib files.
 (setq my-references-folder "~/Dropbox/org/references")
@@ -5244,7 +5244,7 @@ You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
 #+end_src
 
 ** Bibtex                                                                   :Bibtex:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package bibtex
   :defer t
   :custom
@@ -5281,7 +5281,7 @@ These commands work together: for example, =crossref-lookup= displays a list of 
 - =C= and =I= do the same as c and i, but additionally close the search window.
 
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package biblio
   :ensure t
   :commands (biblio-lookup biblio-hal-lookup biblio-dblp-lookup
@@ -5318,7 +5318,7 @@ Some useful keybindings
 | <mouse-3>     | embark-act                                               |
 |---------------+----------------------------------------------------------|
 
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package citar
   :ensure t
   :no-require
@@ -5369,7 +5369,7 @@ Note: =C-c C-p= in message mode takes a screenshot and attach to the e-mail
 Emacs now supports oauth2 authentication. See
 https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuration_for_office_365/
 ** Make mu4e start in a dedicated tab which is closed and mu4e exits
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; mu4e uses switch-to-buffer internally and it is only affected by
 ;; display-buffer-alist if switch-to-buffer-obey-display-actions is
 ;; set to t
@@ -5421,14 +5421,14 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 #+end_src
 
 ** Common email config and some helper functions                               :epa:
-#+begin_src elisp
+#+begin_src emacs-lisp
 ;; The my-define-mail-variables function just define some variables
 ;; that are used in the rest of the mu4e configuration
 (autoload 'my-define-mail-variables (concat user-emacs-directory "common-mail-config.el.gpg"))
 #+end_src
 
 ** Mail configuration not specific to mu4e
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package message
   :after mu4e
   :custom
@@ -5457,7 +5457,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 #+end_src
 
 ** Configuration
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package mu4e
   :ensure nil  ;; mu4e is not found in melpa -> you need to install the "mu" system package
   :commands (mu4e mu4e-user-agent mu4e~compose-mail)
@@ -5648,7 +5648,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 ** Extra packages
 *** mu4e-column-faces
 This package makes mu4e much more beautiful
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package mu4e-column-faces
   :ensure t
   :after mu4e
@@ -5659,7 +5659,7 @@ This package makes mu4e much more beautiful
 ** TODO org-msg
 
 * pacote nov: Ler epub no emacs                                          :epub:ebook:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package nov
   :ensure t
   :mode
@@ -5690,7 +5690,7 @@ See more in https://github.com/chenyanming/calibredb.el
   - After that use "=s f=" to fetch the metadata.
 
 ** configuration                                                       :AllTheIcons:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package calibredb
   :ensure t
   :custom
@@ -5710,7 +5710,7 @@ See more in https://github.com/chenyanming/calibredb.el
 #+end_src
 
 ** Open in a dedicated tab
-#+begin_src elisp
+#+begin_src emacs-lisp
 (add-to-list 'display-buffer-alist
              '("calibredb"
                (display-buffer-in-tab)
@@ -5731,7 +5731,7 @@ See more in https://github.com/chenyanming/calibredb.el
 (add-hook 'kill-buffer-hook    #'calibredb-close-tab)
 #+end_src
 * Dockerfile-mode                                                            :Docker:
-#+begin_src elisp
+#+begin_src emacs-lisp
 (use-package dockerfile-mode
   :ensure t
   :defer t
