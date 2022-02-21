@@ -3249,6 +3249,21 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   )
 #+end_src
 
+** Specific faces for TODO keywords
+https://www.i3s.unice.fr/~malapert/emacs_orgmode.html
+
+Try addapting the example below
+#+begin_example
+(setq org-todo-keyword-faces
+      '(("IDEA" . (:foreground "GoldenRod" :weight bold))
+        ("NEXT" . (:foreground "IndianRed1" :weight bold))
+        ("STARTED" . (:foreground "OrangeRed" :weight bold))
+        ("WAITING" . (:foreground "coral" :weight bold))
+        ("CANCELED" . (:foreground "LimeGreen" :weight bold))
+        ("DELEGATED" . (:foreground "LimeGreen" :weight bold))
+        ("SOMEDAY" . (:foreground "LimeGreen" :weight bold))
+        ))
+#+end_example
 ** all-the-icons-ibuffer                                               :AllTheIcons:
 #+begin_src elisp
 (use-package all-the-icons-ibuffer
