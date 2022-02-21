@@ -3186,7 +3186,11 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   ;;(org-tag-faces '(("ATTACH" :inherit org-done :box nil :underline t :height 1.2)))
   (org-tag-faces '(
                    ("ATTACH" :inherit org-done :foreground "Gold")
-                   ("REFILE" :inherit org-done :foreground "LimeGreen")
+                   ("REFILE" :inherit org-done :foreground "SandyBrown")
+                   ("GTEL" :inherit org-done :foreground "LimeGreen")
+                   ("Atlântico" :inherit org-done :foreground "DeepSkyBlue")
+                   ("NextActions" :inherit org-done :foreground "OrangeRed")
+                   ("habit" :inherit org-done :foreground "HotPink")
                    ))
 
   :config
