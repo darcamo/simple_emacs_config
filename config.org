@@ -3632,6 +3632,15 @@ notes. The code below has a nicer function that you can use instead
   )
 #+end_src
 
+** Delve
+It provides tools to collect, inspect and edit Org Roam Nodes in a separate application
+buffer.
+
+See in
+https://github.com/publicimageltd/delve
+
+Currently it is not in melpa yet
+
 * Outline
 #+begin_src elisp
 (use-package outline
@@ -5222,6 +5231,8 @@ Layer darcamo-preview-latex
 #+end_src
 
 * TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
+Veja a nota [[file:~/org/org-roam-notes/20210305171627-leituras_de_papers_e_outros_documentos.org][Leituras de papers e outros documentos]]
+
 ** Set my default bibliograph folder and files (used by native org-cite)
 Set my default bibliography.
 You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
