@@ -440,6 +440,14 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
          ))
 #+end_src
 
+** COMMENT Consult-project
+#+begin_src elisp
+(use-package consult-project
+  :straight (consult-project :type git :host github :repo "Qkessler/consult-project")
+  :bind
+  (("M-s p" . consult-project))
+  )
+#+end_src
 ** Other useful consult commands                                           :Consult:
 - consult-minor-mode-men
   - Filter the groups with "g", "i", "l" and "o"
