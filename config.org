@@ -1900,9 +1900,17 @@ You can open links by clicking or with the =C-c RET= keybinding.
   ;; Persistent Tags
   (org-tag-persistent-alist
    '(
-     ("Tarcísio" . ?t) ("Charles" . ?c) ("Igor" . ?i) ("Yuri" . ?y) ("Gabor" . ?G) ("ignore" . ?I) ("Ericsson" . ?e)
-     (:startgroup . nil) ("Home" . ?h) ("GTEL" . ?g) (:endgroup . nil) ("Doutorado" . ?d) ("noexport" . ?n)
-     ("Errands" . ?E) (:startgroup . nil) ("Someday" . ?s) ("NextActions" . ?N) (:endgroup . nil) ("crypt" . ?C) ("Projeto" . ?p) ("Leituras" . ?l)
+     ("Tarcísio" . ?T) ("Charles" . ?c) ("Igor" . ?i) ("Yuri" . ?y) ("Gabor" . ?G) ("ignore" . ?I) ("Ericsson" . ?e)
+     ("Doutorado" . ?d) ("noexport" . ?N) ("Errands" . ?E) ("crypt" . ?C) ("Projeto" . ?p) ("Leituras" . ?l)
+
+     ;; An exclusive group with either Home or Trabalho. Trabalho is a
+     ;; group tag that matches both "Atlântico" and "GTEL"
+     (:startgroup . nil) ("Home" . ?h)
+     (:startgrouptag) ("Trabalho" . ?t) (:grouptags) ("Atlântico" . ?a) ("GTEL" . ?g) (:endgrouptag)
+     (:endgroup . nil)
+
+     (:startgroup . nil) ("Someday" . ?s) ("NextActions" . ?n) (:endgroup . nil)
+     ;; (:startgrouptag) ("Trabalho") (:grouptags) ("Atlântico") ("GTEL") (:endgrouptag)
      ))
 
   ;; Speed Commands
