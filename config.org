@@ -747,6 +747,9 @@ https://github.com/MatthewZMD/.emacs.d#yasnippet-1
   :ensure t
   :init
   (yas-global-mode)
+  :bind (:map yas-minor-mode-map
+  ("C-c &" . nil) ;; Disable all keybindings with "C-c &" prefix (conflict with org-mode)
+  )
   )
 
 (use-package yasnippet-snippets
