@@ -1914,7 +1914,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
      ;; An exclusive group with either Home or Trabalho. Trabalho is a
      ;; group tag that matches both "Atlântico" and "GTEL"
      (:startgroup . nil) ("Home" . ?h)
-     (:startgrouptag) ("Trabalho" . ?t) (:grouptags) ("Atlântico" . ?a) ("GTEL" . ?g) (:endgrouptag)
+     (:startgrouptag) ("Trabalho" . ?t) (:grouptags) ("Atlântico" . ?a) ("GTEL" . ?g) ("Teradici") (:endgrouptag)
      (:endgroup . nil)
 
      (:startgroup . nil) ("Someday" . ?s) ("NextActions" . ?n) (:endgroup . nil)
