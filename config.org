@@ -4043,125 +4043,135 @@ Configuration specific to a language should be in that language configuration he
 * TODO DAP
 https://github.com/MatthewZMD/.emacs.d#dap
 * C++                                                               :CPP:Programming:
-** My functions
+** My Functionf for compiling
 #+begin_src emacs-lisp
 
-
-;; Change between .h and .cpp
-
-;; (defun change-between-h-cpp ()
-;;   "If the library eassist is loaded, call
-;;       eassist-switch-h-cpp. Otherwise, call the builtin
-;;       ff-find-other-file function"
-;;   (interactive)
-;;   (if (fboundp 'eassist-switch-h-cpp)
-;;       (eassist-switch-h-cpp)
-;;     (ff-find-other-file)))
-
-
-;; Compile Functions
-
-(defvar darlan-current-cmake-target nil)
-
-(defvar darlan-current-cmake-target-run-arguments nil)
-
-(defvar darlan-current-cmake-target-folder nil)
-
-(defvar darlan-cmake-use-ninja nil)
+;;; Code:
 
 (defvar darlan-build-dir "build")
+(defvar darlan-current-cmake-target nil)
+(defvar darlan-current-cmake-target-run-arguments nil)
 
-(defun darlan-get-project-root ()
-  "Get the current project root"
-  ;; (projectile-project-root)
+(defun darlan-get-project-root-folder ()
+  "Get the current project root using Emacs built-in project."
   (project-root (project-current))
   )
 
-(defun darlan-get-make-or-ninja-compile-command ()
-  "Get the CMake generated makefile or ninja compile command"
-  (if darlan-cmake-use-ninja
-      "ninja "
-    (concat "make -k -j " (number-to-string (system-cores :logical)) " ")
+(defun darlan-get-build-folder ()
+  "Get the project build folder.
+
+This is just the project folder concatenated with
+'darlan-build-dir', or 'nil' if not in a project"
+  (let ((project-root-folder (darlan-get-project-root-folder)))
+    (when project-root-folder
+      (file-name-concat project-root-folder darlan-build-dir)
+      )))
+
+(defun darlan-get-bin-folder ()
+  "Get the folder with the targets binaries."
+  (file-name-concat (darlan-get-build-folder) "bin")
+  )
+
+(defun darlan-get-compile-command (target-name)
+  "Get the command to compile target TARGET-NAME."
+  (concat "cmake --build . --target " target-name)
+  )
+
+
+(defun darlan-get-json-index-filename ()
+  "Get the name of the json file with the targets.
+
+This file is created by CMake's File API."
+
+  (elt (f-glob "codemodel-v2*json" (file-name-concat (darlan-get-build-folder) ".cmake/api/v1/reply/")) 0)
+  )
+
+
+(defun darlan-get-cmake-targets-from-json-index-file (json-index-filename)
+  "Get a list of tartget names from the json file with name JSON-INDEX-FILENAME."
+  (let (cmake-configurations cmake-configuration-0 cmake-targets)
+    ;; Get the list of configurations in the json file (this is a vector)
+    ;; In my case I'll only have one, since I don't use a multi-config generator
+    (setq cmake-configurations (alist-get 'configurations (json-read-file json-index-filename)))
+
+    ;; Get the first configuration
+    (setq cmake-configuration-0 (elt cmake-configurations 0))
+
+    ;; From that configuration we get the vector of targets
+    (setq cmake-targets (alist-get 'targets cmake-configuration-0))
+
+    ;; Then all we need is to get the name of each target and we will
+    ;; have our vector of target names
+    (mapcar (lambda (target) (alist-get 'name target)) cmake-targets)
     )
   )
 
-(defun darlan-save-and-compile-internal (target-name folder-name)
-  "Compile the target 'target-name' using the cmake generated Makefile"
+
+(defun darlan-save-and-compile ()
+  "Ask for a target name and compile it.
+
+A list of target names is obtained from the project using CMake's
+file API and completion is used to chose the desired target. If
+that is not possible, ask for the target name without
+completions."
+
+  (interactive)
+  (let (list-of-targets
+        chosen-target-name
+        (json-filename (darlan-get-json-index-filename)))
+    (if json-filename
+        (progn (setq list-of-targets (darlan-get-cmake-targets-from-json-index-file json-filename))
+               (setq chosen-target-name (completing-read "Target Name" list-of-targets))
+               (darlan-save-and-compile-internal chosen-target-name))
+      ;; (message "Could not find list of targets")
+      (command-execute 'darlan-save-and-compile-no-completion)
+      )
+    )
+  )
+
+
+(defun darlan-save-and-compile-no-completion (target-name)
+  "Ask for a target name TARGET-NAME and compile it."
+  (interactive "sTarget name: ")
+  (darlan-save-and-compile-internal target-name)
+  )
+
+
+(defun darlan-save-and-compile-internal (target-name)
+  "Save the buffer and compile TARGET-NAME."
   (save-buffer 0)
-  ;; (compile (concat "make -k -j 8 " darlan-current-cmake-target))
-  (let ((make-command (concat "cd " (darlan-get-project-root) darlan-build-dir "/" folder-name" && " (darlan-get-make-or-ninja-compile-command))))
-    (compile (concat make-command target-name)))
-  )
-
-
-(defun darlan-save-and-compile (target-name-and-folder)
-  "Ask the target name then save and compile the target"
-  (interactive "sCompile TargetName: ")
-
-  (if (string-match " " target-name-and-folder)
-      (progn
-        (setq target-name-and-folder (split-string target-name-and-folder))
-
-        (setq target-name (car target-name-and-folder))
-        (setq folder-name (car (cdr target-name-and-folder)))
-        )
-    (progn
-      (setq target-name target-name-and-folder)
-      (setq folder-name ""))
-    )
-
   (setq darlan-current-cmake-target target-name)
-  (setq darlan-current-cmake-target-folder folder-name)
-  (darlan-save-and-compile-last-target)
-  )
+  (let ((compile-command (concat "cd " (darlan-get-build-folder) " && " (darlan-get-compile-command target-name))))
+    (compile compile-command)
+    ))
 
 
 (defun darlan-save-and-compile-last-target ( )
-  "Save and compile the last target"
+  "Recompile the last target that was compiled."
   (interactive)
-  (darlan-save-and-compile-internal darlan-current-cmake-target darlan-current-cmake-target-folder)
+  (darlan-save-and-compile-internal darlan-current-cmake-target)
   )
 
+
 (defun darlan-run-last-target ()
+  "Run the last compiled target."
   (interactive)
-  (let ((run-command (concat "cd " (darlan-get-project-root) darlan-build-dir "/bin && ./" darlan-current-cmake-target " " darlan-current-cmake-target-run-arguments)))
+  (let ((run-command (concat "cd " (darlan-get-bin-folder) " && ./" darlan-current-cmake-target " " darlan-current-cmake-target-run-arguments)))
     (compile run-command)
     )
   )
 
-(defun darlan-run-last-target-with-arguments (args)
-  "Ask for arguments to run the last target and then run it"
+
+(defun darlan-run-last-target-with-arguments (run-arguments)
+  "Run the last compiled target passing RUN-ARGUMENTS as arguments."
   (interactive "sArguments: ")
-  (setq darlan-current-cmake-target-run-arguments args)
+  (setq darlan-current-cmake-target-run-arguments run-arguments)
   (darlan-run-last-target)
   )
+#+end_src
 
-;; (defun darlan-compile-and-run-last-target ()
-;;   (interactive)
-;;   (darlan-save-and-compile-last-target)
-;;   (while compilation-in-progress
-;;     (sleep-for 0 100)
-;;     )
-;;   (darlan-run-last-target)
-;;   )
-
-(defun darlan-get-cmake-this-file-target ()
-  ;; "Get the name of the compile target for the currently visited file"
-  (let ((target-name (darlan-replace-in-string (darlan-get-project-root) "" (buffer-file-name))))
-    (setq target-name (replace-regexp-in-string "\\.cpp\\|\\.h" ".o" target-name))
-    )
-  )
-
-
-;; Compile only the current file (prom a cmake based project)
-(defun darlan-save-and-compile-single-file ()
-  (interactive)
-  ;;(darlan-save-and-compile-internal (darlan-get-cmake-this-file-target))
-  (save-buffer 0)
-  (rtags-compile-file)
-  )
-
-
+** My functions for doxygen
+#+begin_src emacs-lisp
 (defun darlan-generate-documentation ( )
   "Generate the documentation in a cmake based project using Doxygen.
 This assume that there is a 'doc' folder in the project root."
@@ -4170,7 +4180,6 @@ This assume that there is a 'doc' folder in the project root."
     (compile doxygen-command)
     )
   )
-
 
 (defun darlan-open-doxygen-generated-index ( )
   "Open the index.html file generated by Doxygen for the cmake based project"
@@ -4182,10 +4191,7 @@ This assume that there is a 'doc' folder in the project root."
      open-index-command)
     )
   )
-
-
 #+end_src
-
 ** General configuration
 #+begin_src emacs-lisp
 (use-package cc-mode
