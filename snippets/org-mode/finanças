@@ -36,10 +36,10 @@ etc..
 |   | [[file:~/org/Financas.org::*Energia +Coelce+ Enel (Darlan)][Energia Enel]]  |      |              |               |
 |   | [[file:~/org/Financas.org::*Água e Esgoto Cagece][Cagece]]        |      |              |               |
 |   | [[file:~/org/Financas.org::*Pagar Cartão Nubank][Fatura Nubank]] |      |              |               |
-|   | [[file:~/org/Financas.org::*Pagar cartão de crédito (BB)][Fatura Cartão]] |      |              | xxxxxxxxxxxxx |
+|   | [[file:~/org/Financas.org::*Pagar cartão de crédito (BB)][Fatura Cartão]] |      |              |               |
 |---+---------------+------+--------------+---------------|
 | # | *Total*         |      |         0.00 |          0.00 |
-#+TBLFM: @10\$4=vsum(@2\$4..@-1);%.2f::@10\$5=vsum(@2\$5..@-2);%.2f
+#+TBLFM: @10\$4=vsum(@2\$4..@-1);%.2f::@10\$5=vsum(@2\$5..@-1);%.2f
 
 ***** Entretenimento
 :PROPERTIES:
@@ -85,7 +85,7 @@ Gastos diversos
 :END:
 Aqui é colocado o total de cada uma das tabelas anteriores e quaisquer
 outros gastos que não entraram nessas tabelas.
-        
+
 #+NAME: Gastos$1$2
 |   | *Tipo de Gasto*          | *Débito (R\$)* | *Cartão (R\$)* |
 |---+------------------------+--------------+--------------|
