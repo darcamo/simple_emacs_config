@@ -12,13 +12,14 @@
 (defun startup/revert-file-name-handler-alist ()
   (setq file-name-handler-alist startup/file-name-handler-alist))
 
+
 (defun startup/reset-gc ()
   (setq gc-cons-threshold 800000
     gc-cons-percentage 0.1))
 
 (add-hook 'emacs-startup-hook 'startup/revert-file-name-handler-alist)
 (add-hook 'emacs-startup-hook 'startup/reset-gc)
-;;
+
 
 ;; Initialize melpa repo
 (require 'package)
@@ -44,6 +45,11 @@
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
   (package-install 'use-package))
+
+
+;; Any local package is put in the "local" folder in my emacs-directory
+(add-to-list 'load-path (file-name-concat user-emacs-directory "local"))
+
 
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name (concat user-emacs-directory "config.org")))
