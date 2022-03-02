@@ -4070,11 +4070,17 @@ https://github.com/MatthewZMD/.emacs.d#dap
   "Get the project build folder.
 
 This is just the project folder concatenated with
-'cmake-integration-build-dir', or 'nil' if not in a project"
+'cmake-integration-build-dir' (when presets are not used) or with
+the binaryDir field of the preset. It returns 'nil' if not in a
+project."
   (let ((project-root-folder (cmake-integration-get-project-root-folder)))
     (when project-root-folder
-      (file-name-concat project-root-folder cmake-integration-build-dir)
-      )))
+      (if cmake-integration-last-configure-preset
+          (s-replace "${sourceDir}/" (cmake-integration-get-project-root-folder) (cmake-integration-get-binaryDir cmake-integration-last-configure-preset))
+        (file-name-concat project-root-folder cmake-integration-build-dir)
+        )
+      )
+    ))
 
 
 (defun cmake-integration-get-bin-folder ()
@@ -4180,8 +4186,6 @@ and getting one of the configure presets in it."
     ;;
     ;; TODO: Use "displayName" field (if available) as the preset key
     ;;
-    ;; TODO: If a preset does not have a "binaryDir" field, check the
-    ;; "inherits" field for a parent preset.
     (mapcar (lambda (preset) (cons (alist-get 'name preset) preset))
             ;; We will read both the system and the user preset files to find configure presets there
             (append
@@ -4325,6 +4329,36 @@ completions."
   (setq cmake-integration-current-target-run-arguments run-arguments)
   (cmake-integration-run-last-target)
   )
+
+
+(defun cmake-integration-get-parent-preset-name (preset)
+  "Get the name in the 'inherits' field of the preset PRESET."
+  (alist-get 'inherits preset)
+  )
+
+
+(defun cmake-integration-get-parent-preset (preset)
+  "docstring"
+  (alist-get
+   (cmake-integration-get-parent-preset-name preset)
+   (cmake-integration-get-cmake-configure-presets)
+   nil nil 'equal)
+  )
+
+
+(defun cmake-integration-get-binaryDir (preset)
+  "Get the binaryDir field of a preset PRESET.
+
+If not available, get the binaryDir or a parent preset."
+  (when preset
+    (let (binary-dir)
+      (setq binary-dir (alist-get 'binaryDir preset))
+      (unless binary-dir
+        (setq binary-dir (cmake-integration-get-binaryDir (cmake-integration-get-parent-preset preset)))
+        )
+      binary-dir
+      ))
+  )
 #+end_src
 
 #+begin_src emacs-lisp :noweb yes :tangle (file-name-concat user-emacs-directory "local" "cmake-integration.el")
@@ -4333,7 +4367,7 @@ completions."
 ;; Author: Darlan Cavalcante Moreira
 ;; Maintainer: Darlan Cavalcante Moreira
 ;; Version: 0.1
-;; Package-Requires: ((emacs "27.0") f json)
+;; Package-Requires: ((emacs "28.1") f s json)
 ;; Homepage: homepage
 ;; Keywords: keywords
 
