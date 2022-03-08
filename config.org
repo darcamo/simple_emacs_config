@@ -4482,13 +4482,13 @@ This assume that there is a 'doc' folder in the project root."
   :defer t
   :ensure t
   :bind ( :map cmake-mode-map
-          ([M-f9] . darlan-save-and-compile) ;; Ask for the target name and compile it
-          ([f9] . darlan-save-and-compile-last-target)  ;; Recompile the last target
-          ([f10] . darlan-run-last-target)
-          ([M-f10] . darlan-run-last-target-with-arguments)
-          ([C-f9] . darlan-save-and-compile-single-file)  ;; Compile only the current source file
-          ([S-f9] . darlan-generate-documentation)  ;; Generate the doxygen documentation
-          ([C-S-f9] . darlan-open-doxygen-generated-index)
+          ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
+          ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
+          ([f10] . cmake-integration-run-last-target)
+          ([M-f10] . cmake-integration-run-last-target-with-arguments)
+          ([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
+          ([S-f9] . cmake-integration-generate-documentation)  ;; Generate the doxygen documentation
+          ([C-S-f9] . cmake-integration-open-doxygen-generated-index)
           )
   )
 #+end_src
@@ -4517,6 +4517,22 @@ This assume that there is a 'doc' folder in the project root."
   )
 #+end_src
 
+** QML Mode
+#+begin_src emacs-lisp
+(use-package qml-mode
+  :ensure t
+  :defer t
+  :bind ( :map qml-mode-map
+          ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
+          ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
+          ([f10] . cmake-integration-run-last-target)
+          ([M-f10] . cmake-integration-run-last-target-with-arguments)
+          ([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
+          ([S-f9] . cmake-integration-generate-documentation)  ;; Generate the doxygen documentation
+          ([C-S-f9] . cmake-integration-open-doxygen-generated-index)
+          )
+  )
+#+end_src
 ** TODO Other packages to investigate                                  :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
