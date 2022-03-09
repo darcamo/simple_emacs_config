@@ -4043,8 +4043,12 @@ Configuration specific to a language should be in that language configuration he
 * TODO DAP
 https://github.com/MatthewZMD/.emacs.d#dap
 * C++                                                               :CPP:Programming:
-
 ** My functions to configure, compile and run C++
+TODO: Add support to conan
+- Add a mapping from "configure preset" to "conan profile"
+- Run conan from the build folder of the chosen configure preset
+- Save extra arguments to be passed to conan in a variable
+- Conan must run before cmake, but after the folder is created
 
 #+NAME: cmake-integration
 #+begin_src emacs-lisp :tangle no
@@ -4052,7 +4056,7 @@ https://github.com/MatthewZMD/.emacs.d#dap
 (require 'f)
 
 ;; TODO: Change this to a custom variable
-(defvar cmake-integration-build-dir "build" "The build folder to use when no presets are used")
+(defvar cmake-integration-build-dir nil "The build folder to use when no presets are used. If this is nil, then using presets is required")
 
 (defvar cmake-integration-current-target "all")
 (defvar cmake-integration-current-target-run-arguments "")
@@ -4076,8 +4080,17 @@ project."
   (let ((project-root-folder (cmake-integration-get-project-root-folder)))
     (when project-root-folder
       (if cmake-integration-last-configure-preset
+          ;; We have a configure preset -> let's use build folder pointed by it
           (s-replace "${sourceDir}/" (cmake-integration-get-project-root-folder) (cmake-integration-get-binaryDir cmake-integration-last-configure-preset))
-        (file-name-concat project-root-folder cmake-integration-build-dir)
+
+        ;; We don't have a configure preset
+        (if cmake-integration-build-dir
+            ;; If cmake-integration-build-dir is set, we can use it as the project
+            (file-name-concat project-root-folder cmake-integration-build-dir)
+          ;; If we do not have cmake-integration-build-dir set (it is
+          ;; nil) throw an error asking the user to select a preset
+          (error "Please call `cmake-integration-cmake-configure-with-preset` first and select a \"configure preset\", or set \"cmake-integration-build-dir\" to be the build folder")
+          )
         )
       )
     ))
@@ -4107,6 +4120,7 @@ project."
   )
 
 
+;; TODO: Check the "artifacts" in the target json file to get the executable path
 (defun cmake-integration-get-compile-command (target-name)
   "Get the command to compile target TARGET-NAME."
   (if cmake-integration-last-configure-preset
@@ -4218,7 +4232,6 @@ choose one of them (with completion) and CMake is configured with
 the chosen preset."
   ;; TODO: Pass a predicate function to completing-read that remove any preset with "hidden" value of true
   (interactive)
-  (cmake-integration-create-empty-codemodel-file)
   (let ((all-presets (cmake-integration-get-cmake-configure-presets))
         choice ;; this will be the preset "displayName" (if available) of the preset "name"
         )
