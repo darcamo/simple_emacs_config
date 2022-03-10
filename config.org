@@ -4050,15 +4050,19 @@ TODO: Add support to conan
 - Save extra arguments to be passed to conan in a variable
 - Conan must run before cmake, but after the folder is created
 
+
+TODO: Only show the target names with ~cmake-integration-save-and-compile~ if there is more
+than one target.
+
 #+NAME: cmake-integration
 #+begin_src emacs-lisp :tangle no
 (require 'project)
 (require 'f)
 
 ;; TODO: Change this to a custom variable
-(defvar cmake-integration-build-dir nil "The build folder to use when no presets are used. If this is nil, then using presets is required")
+(defvar cmake-integration-build-dir "build" "The build folder to use when no presets are used. If this is nil, then using presets is required")
 
-(defvar cmake-integration-current-target "all")
+(defvar cmake-integration-current-target-name nil)
 (defvar cmake-integration-current-target-run-arguments "")
 
 (defvar cmake-integration-last-configure-preset nil)
@@ -4096,12 +4100,6 @@ project."
     ))
 
 
-(defun cmake-integration-get-bin-folder ()
-  "Get the folder with the targets binaries."
-  (file-name-concat (cmake-integration-get-build-folder) "bin")
-  )
-
-
 (defun cmake-integration-get-query-folder ()
   "Get the query folder for our codemodel-v2 file with CMake's file API."
   (file-name-concat (cmake-integration-get-build-folder) ".cmake/api/v1/query/client-emacs")
@@ -4129,7 +4127,7 @@ project."
     )
   )
 
-(defun cmake-integration-get-json-index-filename ()
+(defun cmake-integration-get-codemodel-reply-json-filename ()
   "Get the name of the json file with the targets.
 
 This file is created by CMake's File API."
@@ -4166,14 +4164,24 @@ and getting one of the configure presets in it."
   )
 
 
-(defun cmake-integration-get-cmake-targets-from-json-index-file (json-index-filename)
-  "Get a list of tartget names from the json file with name JSON-INDEX-FILENAME."
+(defun cmake-integration-get-cmake-targets-from-codemodel-json-file (&optional json-filename)
+  "Get a list of tartget names from the json file with name JSON-FILENAME.
+
+If JSON-FILENAME is not provided, use the value obtained with
+'cmake-integration-get-codemodel-reply-json-filename'."
+
+  ;; If json-filename was not provided, get it from
+  ;; 'cmake-integration-get-codemodel-reply-json-filename'.
+  (unless json-filename
+    (setq json-filename (cmake-integration-get-codemodel-reply-json-filename))
+    )
+
   (let (cmake-configurations cmake-configuration-0 cmake-targets)
     ;; Get the list of configurations in the json file (this is a vector)
     ;; In my case I'll only have one, since I don't use a multi-config generator
-    (setq cmake-configurations (alist-get 'configurations (json-read-file json-index-filename)))
+    (setq cmake-configurations (alist-get 'configurations (json-read-file json-filename)))
 
-    ;; Get the first configuration
+    ;; Get the first configuration (we are assuming there is only one)
     (setq cmake-configuration-0 (elt cmake-configurations 0))
 
     ;; From that configuration we get the vector of targets
@@ -4181,7 +4189,11 @@ and getting one of the configure presets in it."
 
     ;; Then all we need is to get the name of each target and we will
     ;; have our vector of target names
-    (mapcar (lambda (target) (alist-get 'name target)) cmake-targets)
+    (mapcar (lambda (target) (let ((target-name (alist-get 'name target)))
+                          (cons target-name target)
+                          ))
+            cmake-targets)
+    ;; (mapcar (lambda (target) (alist-get 'name target)) cmake-targets)
     )
   )
 
@@ -4269,10 +4281,61 @@ the chosen preset."
   )
 
 
+(defun cmake-integration-get-target-executable-filename (&optional target-name)
+  "Get the executable filename for the target TARGET-NAME.
+
+The name is relative to the build folder. This is usually either
+just <target-name>, or bin/<target-name>.
+
+Throws an error if the target is not an executable.
+
+If TARGET-NAME is not provided use the last target (saved in a
+'cmake-integration-current-target-name')."
+
+  (unless target-name
+    (setq target-name cmake-integration-current-target-name)
+    )
+
+  ;; The 'target' variable inside the 'let' has the data from the
+  ;; codemodel json file for TARGET-NAME. This data is an alist and
+  ;; includes a 'jsonFile' field, which has the name of another json
+  ;; file with more data about the target. We read this json file and
+  ;; save the data in the 'target-data' variable. From there we can
+  ;; get the executable name from its 'artifacts' field.
+  (let ((target (alist-get target-name (cmake-integration-get-cmake-targets-from-codemodel-json-file) nil nil 'equal))
+        target-json-file
+        target-data
+        target-artifacts
+        )
+
+    ;;
+    (unless target
+      (error "Unknown target '%s'" target-name)
+      )
+
+    (setq target-json-file
+          (file-name-concat (cmake-integration-get-reply-folder) (alist-get 'jsonFile target))
+          )
+
+    (setq target-data (json-read-file target-json-file))
+
+    (unless (equal (alist-get 'type target-data) "EXECUTABLE")
+      (error "Target '%s' is not an executable" target-name)
+      )
+
+    ;; Note that target-artifacts is a vector, but with a single
+    ;; element in our case
+    (setq target-artifacts (alist-get 'artifacts target-data))
+    ;; We assume the vector has just one element
+    (alist-get 'path (elt target-artifacts 0))
+    )
+  )
+
+
 (defun cmake-integration--save-and-compile (target-name)
   "Save the buffer and compile TARGET-NAME."
   (save-buffer 0)
-  (setq cmake-integration-current-target target-name)
+  (setq cmake-integration-current-target-name target-name)
   (let ((compile-command (cmake-integration-get-compile-command target-name)))
     (compile compile-command)
     ))
@@ -4290,11 +4353,11 @@ completions."
   (interactive)
   (let (list-of-targets
         chosen-target-name
-        (json-filename (cmake-integration-get-json-index-filename)))
+        (json-filename (cmake-integration-get-codemodel-reply-json-filename)))
     (if json-filename
         ;; The list of targets include all targets found in the json file, as well as the "all" target
         (progn (setq list-of-targets (append
-                                      (cmake-integration-get-cmake-targets-from-json-index-file json-filename)
+                                      (cmake-integration-get-cmake-targets-from-codemodel-json-file json-filename)
                                       '("all")
                                       ))
                (setq chosen-target-name (completing-read "Target Name: " list-of-targets))
@@ -4318,7 +4381,20 @@ completions."
 (defun cmake-integration-save-and-compile-last-target ( )
   "Recompile the last target that was compiled."
   (interactive)
-  (cmake-integration--save-and-compile cmake-integration-current-target)
+  (if cmake-integration-current-target-name
+      (cmake-integration--save-and-compile cmake-integration-current-target-name)
+    (cmake-integration--save-and-compile "all")
+    ))
+
+
+(defun cmake-integration--run-last-target-without-preset ()
+  "Run the last compiled target -> used when no configure preset is selected."
+  (let ((run-command (format "cd %s && ./%s %s"
+                             (file-name-concat (cmake-integration-get-build-folder) "bin")
+                             cmake-integration-current-target-name
+                             cmake-integration-current-target-run-arguments)))
+    (compile run-command)
+    )
   )
 
 
@@ -4326,10 +4402,28 @@ completions."
 (defun cmake-integration-run-last-target ()
   "Run the last compiled target."
   (interactive)
-  (let ((run-command (format "cd %s && ./%s %s"
-                             (cmake-integration-get-bin-folder)
-                             cmake-integration-current-target
-                             cmake-integration-current-target-run-arguments)))
+  (let (run-command)
+    (if cmake-integration-last-configure-preset
+        ;; We have a configure preset
+        (let* ((executable-filename (cmake-integration-get-target-executable-filename))
+               (target-bin-folder (file-name-directory executable-filename))
+               (target-executable-name (file-name-nondirectory executable-filename)))
+
+          (setq run-command (format "cd %s && ./%s %s"
+                                    (file-name-concat (cmake-integration-get-build-folder) target-bin-folder )
+                                    target-executable-name
+                                    cmake-integration-current-target-run-arguments))
+          )
+
+      ;; We do not have a configure preset
+      ;; Assume the executable is <build-folder>/bin/<target_name>
+      (setq run-command (format "cd %s && ./%s %s"
+                                (file-name-concat (cmake-integration-get-build-folder) "bin")
+                                cmake-integration-current-target-name
+                                cmake-integration-current-target-run-arguments))
+      )
+
+    ;; Run the target
     (compile run-command)
     )
   )
