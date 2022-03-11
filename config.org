@@ -987,29 +987,20 @@ With negative N, comment out original line and use the absolute value."
                                   ))
   )
 
-(defun get-filemanager-fullpath ()
-  "Return the path to nautilus, if installed, or to pcmanfm. If
- neither is installed, return nil."
-  (setq filemanager (executable-find "nautilus"))
-  (if (equal filemanager nil)
-      (setq filemanager (executable-find "pcmanfm")))
-  filemanager
-  )
-
 ;; Browse Directory
 (defun browse-dir (dir-as-string)
   (start-process-shell-command
    "browse"
    "*scratch*"
    ;; Trocar nautilus por pcmanfm para o lxde
-   (concat (get-filemanager-fullpath) " " (concat "\"" (expand-file-name dir-as-string) "\""))))
+   (concat "xdg-open " (expand-file-name dir-as-string))))
 
 ;; Use essa para abrir links sftp com o nautilus, como sftp://darlan@ssh.gtel.ufc.br/home/gtels0/projetos/ufc32
 (defun browse-dir-sftp (dir-as-string)
   (start-process-shell-command
    "browse"
    "*scratch*"
-   (concat (get-filemanager-fullpath) " --no-desktop " dir-as-string)))
+   (concat "nautilus --no-desktop " dir-as-string)))
 
 (defun browse-default-dir ()
   "Open Nautilus in the default directory, which is the directory
