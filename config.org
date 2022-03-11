@@ -31,8 +31,6 @@ used for the first time they should be "configured".
 (put 'projectile-project-run-cmd 'safe-local-variable 'stringp)
 (put 'user-mail-address 'safe-local-variable 'stringp)
 (put 'reftex-default-bibliography 'safe-local-variable 'darlan/list-of-strings-p)
-(put 'darlan-cmake-use-ninja 'safe-local-variable 'booleanp)
-(put 'darlan-build-dir 'safe-local-variable 'stringp)
 (put 'abbrev-file-name 'safe-local-variable 'stringp)
 (put 'TeX-master 'safe-local-variable 'stringp)
 (put 'ispell-skip-html 'safe-local-variable 'booleanp)
@@ -4325,13 +4323,16 @@ If TARGET-NAME is not provided use the last target (saved in a
   )
 
 
-(defun cmake-integration--save-and-compile (target-name)
+    ;;;###autoload
+(defun cmake-integration-save-and-compile-no-completion (target-name)
   "Save the buffer and compile TARGET-NAME."
-  (save-buffer 0)
+  (interactive "sTarget name: ")
+    (save-buffer 0)
   (setq cmake-integration-current-target-name target-name)
   (let ((compile-command (cmake-integration-get-compile-command target-name)))
     (compile compile-command)
-    ))
+    )
+  )
 
 
 ;;;###autoload
@@ -4354,7 +4355,7 @@ completions."
                                       '("all")
                                       ))
                (setq chosen-target-name (completing-read "Target Name: " list-of-targets))
-               (cmake-integration--save-and-compile chosen-target-name))
+               (cmake-integration-save-and-compile-no-completion chosen-target-name))
       ;; (message "Could not find list of targets")
       (command-execute 'cmake-integration-save-and-compile-no-completion)
       )
@@ -4363,20 +4364,12 @@ completions."
 
 
 ;;;###autoload
-(defun cmake-integration-save-and-compile-no-completion (target-name)
-  "Ask for a target name TARGET-NAME and compile it."
-  (interactive "sTarget name: ")
-  (cmake-integration--save-and-compile target-name)
-  )
-
-
-;;;###autoload
 (defun cmake-integration-save-and-compile-last-target ( )
   "Recompile the last target that was compiled."
   (interactive)
   (if cmake-integration-current-target-name
-      (cmake-integration--save-and-compile cmake-integration-current-target-name)
-    (cmake-integration--save-and-compile "all")
+      (cmake-integration-save-and-compile-no-completion cmake-integration-current-target-name)
+    (cmake-integration-save-and-compile-no-completion "all")
     ))
 
 
