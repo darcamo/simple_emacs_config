@@ -993,7 +993,7 @@ With negative N, comment out original line and use the absolute value."
    ;; Trocar nautilus por pcmanfm para o lxde
    (concat "xdg-open " (expand-file-name dir-as-string))))
 
-;; Use essa para abrir links sftp com o nautilus, como sftp://darlan@ssh.gtel.ufc.br/home/gtels0/projetos/ufc32
+;; Use essa para abrir links sftp com o nautilus, como sftp://darlan@<server>/home/blabla
 (defun browse-dir-sftp (dir-as-string)
   (start-process-shell-command
    "browse"
@@ -1596,7 +1596,9 @@ Use the ~world-clock~ command to see the times
                                ("Europe/London" "London")
                                ("Europe/Paris" "Paris")
                                ("CET" "Stockholm")
-                               ("Australia/Sydney" "Sydney")))
+                               ("Australia/Sydney" "Sydney")
+                               ("America/Vancouver" "Vancouver")
+                               ))
   )
 
 #+end_src
@@ -1902,7 +1904,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
   ;; Persistent Tags
   (org-tag-persistent-alist
    '(
-     ("Tarcísio" . ?T) ("Charles" . ?c) ("Igor" . ?i) ("Yuri" . ?y) ("Gabor" . ?G) ("ignore" . ?I) ("Ericsson" . ?e)
+     ("ignore" . ?I)
      ("Doutorado" . ?d) ("noexport" . ?N) ("Errands" . ?E) ("crypt" . ?C) ("Projeto" . ?p) ("Leituras" . ?l)
 
      ;; An exclusive group with either Home or Trabalho. Trabalho is a
@@ -1912,7 +1914,6 @@ You can open links by clicking or with the =C-c RET= keybinding.
      (:endgroup . nil)
 
      (:startgroup . nil) ("Someday" . ?s) ("NextActions" . ?n) (:endgroup . nil)
-     ;; (:startgrouptag) ("Trabalho") (:grouptags) ("Atlântico") ("GTEL") (:endgrouptag)
      ))
 
   ;; Speed Commands
@@ -2133,11 +2134,9 @@ You can open links by clicking or with the =C-c RET= keybinding.
   :bind ("C-c a" . org-agenda)
   :custom
   ;; Category Icons
-  ;; /home/darlan/Org-mode-dev/Icons_For_Category
   ;; ~/.emacs.d/Icons_For_Org-Mode_Category
   (org-agenda-category-icon-alist
    `(
-                                        ;("Papers" "/home/darlan/Programas_Locais/Emacs-trunk/etc/images/print.xpm" nil nil :ascent center)
      ("Papers" "/usr/share/icons/Humanity/mimes/24/application-pdf.svg" nil nil :ascent  center)
      ("Doutorado" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/registry-book.svg") nil nil :ascent  center)
      ("Book" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/registry-book.svg") nil nil :ascent  center)
@@ -2145,7 +2144,6 @@ You can open links by clicking or with the =C-c RET= keybinding.
      ("Escrever" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/write.svg") nil nil :ascent  center)
      ("Estudos" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/estudos.svg") nil nil :ascent  center)
      ("gtd" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gtd.svg") nil nil :ascent  center)
-     ("Supelec\\|Francês" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/Flag_of_France.svg") nil nil :ascent  center)
      ("Refile" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/refile.svg") nil nil :ascent  center)
      ("IAB\\|GTEL\\|NAIVE\\|UFC.32\\|UFC.35\\|UFC.42" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gtel.svg") nil nil :ascent  center)
      ("Patent" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gtel25x25.png") nil nil :ascent  center)
@@ -2219,22 +2217,6 @@ You can open links by clicking or with the =C-c RET= keybinding.
                                                                      (org-agenda-filter-preset '("-NextActions" "-Finanças"))
                                                                      ))
 
-     ;; ("c" "Clock" tags-todo "CLOCK")
-     ;; ("E" "NextActions" tags-todo "NextActions")
-     ;; ("N" . "Procura em notas.org")
-     ;; ("Nw" search ""
-     ;;  ((org-agenda-files '("~/org/notas.org"))
-     ;;   (org-agenda-text-search-extra-files nil)))
-     ;; ("Nt" tags ""
-     ;;  ((org-agenda-files '("~/org/notas.org"))
-     ;;   (org-agenda-text-search-extra-files nil)))
-     ;; ("w" . "Procura na Wiki no org")
-     ;; ("ww" search ""
-     ;;  ((org-agenda-files '("~/org/OrgWiki/"))
-     ;;   (org-agenda-text-search-extra-files '("~/org/notas.org"))))
-     ;; ("wt" tags ""
-     ;;  ((org-agenda-files '("~/org/OrgWiki/"))
-     ;;   (org-agenda-text-search-extra-files '("~/org/notas.org"))))
      ("d" "Upcoming deadlines" agenda ""
       ((org-agenda-time-grid nil)
        (org-deadline-warning-days 365)
@@ -3044,12 +3026,6 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   (my-find-org-heading "Calendário")
   )
 
-;; (defun my-find-gtelbook-org-heading nil
-;;   (interactive)
-;;   (org-id-goto "LivroGTEL2013")
-;;   )
-
-
 
 ;; Functions to surround some text with an org-mode macro for red color
 ;; You need the org-macros.setup file or to manyally add the macro below to your org-mode file
@@ -3386,7 +3362,7 @@ This package is not in melpa yet.
   :ensure t
   :defer t
   :custom
-  (org-roam-directory "/home/darlan/org/org-roam-notes/")
+  (org-roam-directory "~/org/org-roam-notes/")
   (org-roam-db-location (concat user-emacs-directory ".cache/org-roam.db"))
   ;;(org-roam-graph-exclude-matcher "index.org")
   (org-roam-graph-extra-config '(("rankdir" . "LR")))
@@ -4593,6 +4569,7 @@ This assume that there is a 'doc' folder in the project root."
           )
   )
 #+end_src
+
 ** TODO Other packages to investigate                                  :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
@@ -4701,7 +4678,6 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   :config
   (setq conda-anaconda-home (expand-file-name "~/miniconda3"))
   (setq conda-env-home-directory (expand-file-name "~/miniconda3"))
-  ;; (setq conda-env-location "/home/darlan/miniconda3/envs")
   ;; if you want interactive shell support, include:
   (conda-env-initialize-interactive-shells)
   ;; if you want eshell support, include:
@@ -4761,28 +4737,6 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 * Latex                                                                       :Latex:
 ** Some useful functions
 #+begin_src emacs-lisp
-;;;; Use the ac yasnippets acronym instead (keybinding is f5)
-;; (defun latex-skeleton-ac (acronym)
-;;   "Ask for an acronym and inserts \\ac{acronym}. You probably want to call latex-skeleton-acronym instead."
-;;   (interactive "MAcronym: ")
-;;   (insert "\\ac{" acronym "}"))
-
-;; (defun latex-skeleton-acronym ()
-;;   "Surround current word with \\ac{} if mark is active of prompts for an acronym and insert \ac{acronym}."
-;;   (interactive)
-;;   (let (pos1 pos2 acronym)
-;;     (if (and transient-mark-mode
-;;              mark-active)
-;;         (progn (setq pos1 (region-beginning) pos2 (region-end))
-;;                (setq acronym (buffer-substring pos1 pos2))
-;;                (delete-region pos1 pos2)
-;;                (goto-char pos1)
-;;                (insert "\\ac{" acronym "\}")
-;;                )
-;;       (latex-skeleton-ac (read-from-minibuffer "Acronym: "))
-;;       )))
-
-
 (defun latex-skeleton-math-left-right ( left-symbol right-symbol)
   "Inserts \"\\left left-symbol \\right right-symbol\" and the cursor will be between \"\\left-symbol and \\right\"."
   (let ((region "") pos)
@@ -4811,9 +4765,6 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
                )
       (latex-skeleton-math-left-right left-symbol right-symbol))
     ))
-
-
-
 
 
 ;; Function to run latex on the master file
@@ -5841,8 +5792,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
                              ("ipython-dev.python.org" . "IPython")
                              ("ipython-dev.scipy.org" . "IPython")
                              ("dea-ufv.listas.ufv.br" . "Graça Freitas")
-                             ("moradoresparccezanne.googlegroups.com" . "Parc Cezanne")
-                             ("grupogestorparccezanne.googlegroups.com" . "Grupo Gestor"))
+                             )
                            )
 
   ;; Remove unwanted contacts
@@ -5887,10 +5837,6 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
                      (mu4e-drafts-folder . "/gmail/[Gmail].Rascunhos")
                      (mu4e-trash-folder  . "/gmail/[Gmail].Lixeira")
                      (message-signature-file . "~/.signature")
-                     ;; ( mu4e-compose-signature .
-                     ;;   (concat
-                     ;;     "Alice Derleth\n"
-                     ;;     "Lauttasaari, Finland\n"))
                      ))
            ,(make-mu4e-context
              :name "Trabalho"
