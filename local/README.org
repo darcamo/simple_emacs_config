@@ -1,0 +1,4 @@
+
+
+Folder where I place elisp files that I manually downloaded or that I created (before they
+have a better place to stay).
