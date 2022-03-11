@@ -3233,9 +3233,9 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 
   :hook
   (org-mode . (lambda ()
-                (add-to-list 'prettify-symbols-alist '("<->" . "⬌"))
-                (add-to-list 'prettify-symbols-alist '("->" . "➜"))
-                (add-to-list 'prettify-symbols-alist '("<-" . "⬅"))
+                (add-to-list 'prettify-symbols-alist '("<->" . "↔"))
+                (add-to-list 'prettify-symbols-alist '("->" . "→"))
+                (add-to-list 'prettify-symbols-alist '("<-" . "←"))
                 (add-to-list 'prettify-symbols-alist '("[ ]" . "☐"))
                 (add-to-list 'prettify-symbols-alist '("[X]" . "☑"))
                 (add-to-list 'prettify-symbols-alist '("[-]" . "❍"))
