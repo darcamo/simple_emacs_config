@@ -4218,8 +4218,8 @@ the chosen preset."
 (defun cmake-integration-get-target-executable-filename (&optional target-name)
   "Get the executable filename for the target TARGET-NAME.
 
-The name is relative to the build folder. This is usually either
-just <target-name>, or bin/<target-name>.
+The name is relative to the build folder. This is usually
+something like just <target-name>, or bin/<target-name>.
 
 Throws an error if the target is not an executable.
 
@@ -4244,7 +4244,11 @@ If TARGET-NAME is not provided use the last target (saved in a
 
     ;;
     (unless target
-      (error "Unknown target '%s'" target-name)
+      (if (equal target-name "all")
+          (error "Target 'all' is not a valid executable target")
+        (error "Unknown target '%s'" target-name)
+        )
+
       )
 
     (setq target-json-file
@@ -4270,7 +4274,7 @@ If TARGET-NAME is not provided use the last target (saved in a
 (defun cmake-integration-save-and-compile-no-completion (target-name)
   "Save the buffer and compile TARGET-NAME."
   (interactive "sTarget name: ")
-    (save-buffer 0)
+  (save-buffer 0)
   (setq cmake-integration-current-target-name target-name)
   (let ((compile-command (cmake-integration-get-compile-command target-name)))
     (compile compile-command)
@@ -4316,39 +4320,19 @@ completions."
     ))
 
 
-(defun cmake-integration--run-last-target-without-preset ()
-  "Run the last compiled target -> used when no configure preset is selected."
-  (let ((run-command (format "cd %s && ./%s %s"
-                             (file-name-concat (cmake-integration-get-build-folder) "bin")
-                             cmake-integration-current-target-name
-                             cmake-integration-current-target-run-arguments)))
-    (compile run-command)
-    )
-  )
-
-
 ;;;###autoload
 (defun cmake-integration-run-last-target ()
   "Run the last compiled target."
   (interactive)
   (let (run-command)
-    (if cmake-integration-last-configure-preset
-        ;; We have a configure preset
-        (let* ((executable-filename (cmake-integration-get-target-executable-filename))
-               (target-bin-folder (file-name-directory executable-filename))
-               (target-executable-name (file-name-nondirectory executable-filename)))
+    ;; We have a configure preset
+    (let* ((executable-filename (cmake-integration-get-target-executable-filename))
+           (target-bin-folder (file-name-directory executable-filename))
+           (target-executable-name (file-name-nondirectory executable-filename)))
 
-          (setq run-command (format "cd %s && ./%s %s"
-                                    (file-name-concat (cmake-integration-get-build-folder) target-bin-folder )
-                                    target-executable-name
-                                    cmake-integration-current-target-run-arguments))
-          )
-
-      ;; We do not have a configure preset
-      ;; Assume the executable is <build-folder>/bin/<target_name>
       (setq run-command (format "cd %s && ./%s %s"
-                                (file-name-concat (cmake-integration-get-build-folder) "bin")
-                                cmake-integration-current-target-name
+                                (file-name-concat (cmake-integration-get-build-folder) target-bin-folder )
+                                target-executable-name
                                 cmake-integration-current-target-run-arguments))
       )
 
