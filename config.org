@@ -3443,6 +3443,10 @@ This package is not in melpa yet.
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :filhos:")
                                  :unnarrowed t :immediate-finish t)
 
+                                ("q" "Qt and QML" plain "Criado em %u\n\n- Links :: [[id:0742709f-7604-47e8-bd2e-0489fd1864fe][QML]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Programação:Qml:Qt:")
+                                 :unnarrowed t :immediate-finish t)
+
                                  ("G" "Garantias e notas fiscais" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n%?" :target (node "9a56dad9-505c-40c9-a910-ec20fa017e2e"))
 
                                 ("g" "GTEL")
