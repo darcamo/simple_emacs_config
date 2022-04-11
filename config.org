@@ -4337,6 +4337,23 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 
 #+end_src
 
+* Lisp
+#+begin_src emacs-lisp
+(use-package emacs
+  :bind (:map emacs-lisp-mode-map
+              ;; Run all defined tests
+              ([f9] . (lambda () (interactive) (ert t)))
+              ;; Eval buffer and run all defined tests
+              ([C-f9] . (lambda () (interactive) (eval-buffer) (ert t)))
+              ;; delete all tests before evaluating the buffer and running all tests
+              ([C-S-f9] . (lambda () (interactive) (ert-delete-all-tests) (eval-buffer) (ert t)))
+              ;; Ask for which test to run
+              ([M-f9] . ert)
+              )
+  :custom
+  (flycheck-emacs-lisp-load-path 'inherit))
+#+end_src
+
 * Latex                                                                       :Latex:
 ** Some useful functions
 #+begin_src emacs-lisp
