@@ -2027,7 +2027,7 @@ In particular, these modes are supported:
   (if (save-excursion (end-of-line) (outline-invisible-p))
       (progn (org-show-entry) (show-children))
     (outline-next-heading)
-    (unless (and (bolp) (org-on-heading-p))
+    (unless (and (bolp) (org-at-heading-p))
       (org-up-heading-safe)
       (hide-subtree)
       (error "Boundary reached"))
@@ -2042,7 +2042,7 @@ In particular, these modes are supported:
   "Show previous entry, keeping other entries closed."
   (let ((pos (point)))
     (outline-previous-heading)
-    (unless (and (< (point) pos) (bolp) (org-on-heading-p))
+    (unless (and (< (point) pos) (bolp) (org-at-heading-p))
       (goto-char pos)
       (hide-subtree)
       (error "Boundary reached"))
