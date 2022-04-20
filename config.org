@@ -4039,6 +4039,7 @@ TODO: Add support to conan
               ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
               ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
               ([f10] . cmake-integration-run-last-target)
+              ([C-f10] . cmake-integration-debug-last-target)
               ([M-f10] . cmake-integration-run-last-target-with-arguments)
               ([M-f8] . cmake-integration-cmake-configure-with-preset)
               ([f8] . cmake-integration-cmake-reconfigure)
