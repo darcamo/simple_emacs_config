@@ -1481,6 +1481,7 @@ of the file associated with the current buffer."
   ;; Add help-mode to rainbow-html-colors-major-mode-list such that HTML colors are also colored
   (add-to-list 'rainbow-html-colors-major-mode-list 'help-mode)
   (add-to-list 'rainbow-html-colors-major-mode-list 'org-mode)
+  (add-to-list 'rainbow-html-colors-major-mode-list 'qml-mode)
   )
 
 
