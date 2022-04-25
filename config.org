@@ -3891,6 +3891,7 @@ https://www.flycheck.org/en/latest/index.html
   (add-to-list 'dired-omit-extensions ".bak")
   (add-to-list 'dired-omit-extensions ".tramp_history")
   (add-to-list 'dired-omit-extensions ".python_history")
+  (add-to-list 'dired-omit-extensions "qmlc")
   (setq dired-omit-files (concat dired-omit-files "\\|^.idea"))
   (setq dired-omit-files (concat dired-omit-files "\\|^.ipynb_checkpoints"))
   (setq dired-omit-files (concat dired-omit-files "\\|^.cache"))
