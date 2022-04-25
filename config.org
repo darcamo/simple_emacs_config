@@ -3742,11 +3742,12 @@ Useful keybindings:
 ;;   )
 #+end_src
 
-** Size of the compile window
+** Size of the compile window and scroll it down as output appears
 #+begin_src emacs-lisp
 (use-package emacs
   :custom
   (compilation-window-height 16)
+  (compilation-scroll-output t)
   )
 #+end_src
 
