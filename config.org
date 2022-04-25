@@ -4146,7 +4146,8 @@ This assume that there is a 'doc' folder in the project root."
   )
 #+end_src
 
-** QML Mode
+** QML
+*** QML-Mode package
 #+begin_src emacs-lisp
 (use-package qml-mode
   :ensure t
@@ -4160,9 +4161,18 @@ This assume that there is a 'doc' folder in the project root."
           ([S-f9] . cmake-integration-generate-documentation)  ;; Generate the doxygen documentation
           ([C-S-f9] . cmake-integration-open-doxygen-generated-index)
           )
+  :hook
+  (qml-mode . (lambda () (setq comment-start "// ") (setq comment-end "")))
   )
 #+end_src
-
+*** Detect filename in compilation-mode for qmltestrunner errors
+#+begin_src emacs-lisp
+(add-to-list 'compilation-error-regexp-alist
+             ;; Error: mpi.F90, line 116: Implicit type for MPI_COMM_WORLD in MPI_MOD_INIT
+             ;;        detected at MPI_M@<end-of-statement>
+             ;; [f95 terminated - errors found by pass 1]
+             '("Loc: \\[\\(.*\\)(\\([0-9]*\\))" 1 2))
+#+end_src
 ** TODO Other packages to investigate                                  :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
