@@ -4043,6 +4043,8 @@ TODO: Add support to conan
               ([M-f8] . cmake-integration-cmake-configure-with-preset)
               ([f8] . cmake-integration-cmake-reconfigure)
               )
+  :custom
+  (cmake-integration-include-subproject-targets-during-completion nil)
   )
 #+end_src
 
