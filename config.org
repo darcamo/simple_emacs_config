@@ -4195,6 +4195,11 @@ This assume that there is a 'doc' folder in the project root."
                '("Loc: \\[\\(.*\\)(\\([0-9]*\\))" 1 2))
   )
 #+end_src
+** Conan package manager
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("conanfile\\.txt" . conf-mode))
+#+end_src
+
 ** TODO Other packages to investigate                                  :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
