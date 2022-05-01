@@ -4690,6 +4690,24 @@ TeX-command-master (from auctex) with a 'Latex' argument."
       )
 #+end_src
 
+** LSP
+#+begin_src emacs-lisp
+(use-package lsp-latex
+  ;; NOTE: You need to install texlab for LSP to work with latex
+  :ensure t
+  :hook (latex-mode . lsp)
+  :hook (LaTeX-mode . lsp)
+  :bind (
+         :map LaTeX-mode-map
+         ;; By default C-M-i is bound to TeX-complete-symbol, but
+         ;; since we are using LSP let's change to complete-symbol to
+         ;; use the completion from LSP
+         ("C-M-i" . complete-symbol))
+  )
+#+end_src
+
+** TODO Tectonic
+Investigate the use of lsp and latex with the [[https://github.com/tectonic-typesetting/tectonic][Tectonic]] engine
 ** Beamer                                                                   :Beamer:
 #+begin_src emacs-lisp
 (define-derived-mode beamer-mode
