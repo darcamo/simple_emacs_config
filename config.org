@@ -4059,7 +4059,7 @@ TODO: Add support to conan
         )
   :custom
   (cmake-integration-include-subproject-targets-during-completion nil)
-  )
+  (cmake-integration-hide-utility-targets-during-completion t))
 #+end_src
 
 ** My functions for doxygen
