@@ -3995,6 +3995,7 @@ Configuration specific to a language should be in that language configuration he
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (c++-mode . lsp)
          (python-mode . lsp)
+         (cmake-mode . lsp)
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp
@@ -4037,24 +4038,25 @@ TODO: Add support to conan
  )
 
 (use-package cmake-integration
-  :bind (:map c++-mode-map
-              ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
-              ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
-              ([f10] . cmake-integration-run-last-target)
-              ([C-f10] . cmake-integration-debug-last-target)
-              ([M-f10] . cmake-integration-run-last-target-with-arguments)
-              ([M-f8] . cmake-integration-cmake-configure-with-preset)
-              ([f8] . cmake-integration-cmake-reconfigure)
-              )
+  :bind
+  (:map c++-mode-map
+        ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
+        ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
+        ([f10] . cmake-integration-run-last-target)
+        ([C-f10] . cmake-integration-debug-last-target)
+        ([M-f10] . cmake-integration-run-last-target-with-arguments)
+        ([M-f8] . cmake-integration-cmake-configure-with-preset)
+        ([f8] . cmake-integration-cmake-reconfigure)
+        )
   (:map dired-mode-map
-              ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
-              ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
-              ([f10] . cmake-integration-run-last-target)
-              ([C-f10] . cmake-integration-debug-last-target)
-              ([M-f10] . cmake-integration-run-last-target-with-arguments)
-              ([M-f8] . cmake-integration-cmake-configure-with-preset)
-              ([f8] . cmake-integration-cmake-reconfigure)
-              )
+        ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
+        ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
+        ([f10] . cmake-integration-run-last-target)
+        ([C-f10] . cmake-integration-debug-last-target)
+        ([M-f10] . cmake-integration-run-last-target-with-arguments)
+        ([M-f8] . cmake-integration-cmake-configure-with-preset)
+        ([f8] . cmake-integration-cmake-reconfigure)
+        )
   :custom
   (cmake-integration-include-subproject-targets-during-completion nil)
   )
@@ -4128,10 +4130,13 @@ This assume that there is a 'doc' folder in the project root."
           ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
           ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
           ([f10] . cmake-integration-run-last-target)
+          ([C-f10] . cmake-integration-debug-last-target)
           ([M-f10] . cmake-integration-run-last-target-with-arguments)
-          ([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
-          ([S-f9] . cmake-integration-generate-documentation)  ;; Generate the doxygen documentation
-          ([C-S-f9] . cmake-integration-open-doxygen-generated-index)
+          ([M-f8] . cmake-integration-cmake-configure-with-preset)
+          ([f8] . cmake-integration-cmake-reconfigure)
+          ;;([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
+          ;;([S-f9] . cmake-integration-generate-documentation)  ;; Generate the doxygen documentation
+          ;;([C-S-f9] . cmake-integration-open-doxygen-generated-index)
           )
   )
 #+end_src
