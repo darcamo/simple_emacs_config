@@ -4093,6 +4093,7 @@ This assume that there is a 'doc' folder in the project root."
               ([C-S-f9] . darlan-open-doxygen-generated-index)
               ;; Alternate between header and source. You could also use lsp-clangd-find-other-file instead
               ("M-o" . ff-find-related-file)
+              ("M-S-o" . lsp-clangd-find-other-file)
               )
   :config
   ;; If the indentation is wrong at some place, put the cursor there and use "C-c
