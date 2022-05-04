@@ -4021,8 +4021,109 @@ Configuration specific to a language should be in that language configuration he
   )
 #+end_src
 
-* TODO DAP
-https://github.com/MatthewZMD/.emacs.d#dap
+* dap-mode -> Debugger Adapter Protocol
+For c++ see [[*Dap-debug][Dap-debug]]
+
+Commands you should know to use dap-mode (see more [[https://emacs-lsp.github.io/dap-mode/page/features/][here]])
+| *Command*                              | *Description*                               |
+|--------------------------------------+-------------------------------------------|
+| dap-debug-edit-template              | Edit the debug template (call this first) |
+|--------------------------------------+-------------------------------------------|
+| dap-debug                            |                                           |
+| dap-disconnect                       | kill a running debug session              |
+| dap-delete-session                   | kill and delete a running debug session   |
+|--------------------------------------+-------------------------------------------|
+| dap-next                             |                                           |
+| dap-continue                         |                                           |
+| dap-step-in                          |                                           |
+| dap-step-out                         |                                           |
+|--------------------------------------+-------------------------------------------|
+| dap-eval                             |                                           |
+| dap-eval-region                      |                                           |
+|--------------------------------------+-------------------------------------------|
+| dap-breakpoint-toggle (-add/-delete) |                                           |
+| dap-ui-breakpoints-list              |                                           |
+|--------------------------------------+-------------------------------------------|
+| dap-ui-show-many-windows             |                                           |
+| dap-ui-hide-many-windows             |                                           |
+|--------------------------------------+-------------------------------------------|
+
+** TODO Check support for launch.json
+https://emacs-lsp.github.io/dap-mode/page/features/#launchjson-support
+
+** Common configuration for dap-mode
+#+begin_src emacs-lisp
+(use-package dap-mode
+  ;; :defer t
+  :commands (dap-debug dap-debug-edit-template)
+  :config
+  (dap-mode 1)
+
+  ;; Show the many windows when debug start and close them when debug stop
+  (dap-auto-configure-mode)
+
+  ;; The modes below are optional
+  (dap-ui-mode 1)
+  ;; enables mouse hover support
+  (dap-tooltip-mode 1)
+  ;; use tooltips for mouse hover
+  ;; if it is not enabled `dap-mode' will use the minibuffer.
+  (tooltip-mode 1)
+  ;; displays floating panel with debug buttons
+  ;; requies emacs 26+
+  (dap-ui-controls-mode 1)
+
+  ;; (dap-ui-breakpoints-mode 1)
+  ;; (dap-ui-repl-mode 1)
+
+  ;; :bind
+  ;; (:map dap-mode-map
+  ;;       (("<f12>" . dap-debug)
+  ;;        ("<f8>" . dap-continue)
+  ;;        ("<f9>" . dap-next)
+  ;;        ("<M-f11>" . dap-step-in)
+  ;;        ("C-M-<f11>" . dap-step-out)
+  ;;        ("<f7>" . dap-breakpoint-toggle)))
+  )
+#+end_src
+
+** COMMENT Define a minor-mode that is activated when dap is running (useful to set keybindings)
+Taken from https://emacs-lsp.github.io/dap-mode/page/how-to/
+#+begin_src emacs-lisp
+(define-minor-mode +dap-running-session-mode
+  "A mode for adding keybindings to running sessions"
+  nil
+  nil
+  (make-sparse-keymap)
+  ;; (evil-normalize-keymaps) ;; if you use evil, this is necessary to update the keymaps
+
+  ;; The following code adds to the dap-terminated-hook
+  ;; so that this minor mode will be deactivated when the debugger finishes
+  (when +dap-running-session-mode
+    (let ((session-at-creation (dap--cur-active-session-or-die)))
+      (add-hook 'dap-terminated-hook
+                (lambda (session)
+                  (when (eq session session-at-creation)
+                    (+dap-running-session-mode -1)))))))
+
+;; Activate this minor mode when dap is initialized
+(add-hook 'dap-session-created-hook '+dap-running-session-mode)
+
+;; Activate this minor mode when hitting a breakpoint in another file
+(add-hook 'dap-stopped-hook '+dap-running-session-mode)
+
+;; Activate this minor mode when stepping into code in another file
+(add-hook 'dap-stack-frame-changed-hook (lambda (session)
+                                          (when (dap--session-running session)
+                                            (+dap-running-session-mode 1))))
+#+end_src
+
+Set a buffer to read-only when this minor mode is active
+#+begin_src emacs-lisp
+(add-hook '+dap-running-session-mode-hook 'read-only-mode)
+
+#+end_src
+
 * C++                                                               :CPP:Programming:
 ** My functions to configure, compile and run C++
 TODO: Add support to conan
@@ -4200,6 +4301,25 @@ This assume that there is a 'doc' folder in the project root."
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("conanfile\\.txt" . conf-mode))
 #+end_src
+** Dap-debug
+There are two alternatives for using dap-debug with c++:
+- [[https://emacs-lsp.github.io/dap-mode/page/configuration/#lldb][LLDB]] -> use ~(require 'dap-lldb)~
+- [[https://emacs-lsp.github.io/dap-mode/page/configuration/#vscode-cpptools][vscode-cpptools]] -> use ~(require 'dap-cpptools)~
+- [[https://emacs-lsp.github.io/dap-mode/page/configuration/#native-debug-gdblldb][Native Debug (GDB/LLDB)]] -> use ~(require 'dap-gdb-lldb)~
+
+
+Here we use the configuration for dap-cpptools. The nice thing about it is that it
+provides a function that install the dependencies for us. This, all we need to do to use
+it is running ~dap-debug-edit-template~ to configure the template before running ~dap-debug~.
+#+begin_src emacs-lisp
+(use-package dap-cpptools
+  :after dap-mode
+  :config
+  (dap-cpptools-setup)
+  )
+#+end_src
+
+To use the debugger, run ~dap-debug-edit-template~, edit the template and evaluate it.
 
 ** TODO Other packages to investigate                                  :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
