@@ -525,7 +525,7 @@ action is performed (you will still be in the minibuffer)
   ;; Recommended: Enable Corfu globally.
   ;; This is recommended since dabbrev can be used globally (M-/).
   :init
-  (corfu-global-mode))
+  (global-corfu-mode))
 
 ;; A few more useful configurations...
 (use-package emacs
@@ -3813,6 +3813,7 @@ https://www.flycheck.org/en/latest/index.html
 #+end_src
 
 ** Keybindings                                                         :Keybindings:
+TODO: Use the new [[https://github.com/dalanicolai/image-roll.el][image-roll]] package instead of pdf-continuous-scroll
 #+begin_src emacs-lisp
 (use-package pdf-view
   :defer t
@@ -4160,7 +4161,8 @@ TODO: Add support to conan
         )
   :custom
   (cmake-integration-include-subproject-targets-during-completion nil)
-  (cmake-integration-hide-utility-targets-during-completion t))
+  (cmake-integration-hide-utility-targets-during-completion t)
+  (cmake-integration-generator "Ninja"))
 #+end_src
 
 ** My functions for doxygen
@@ -4237,8 +4239,6 @@ This assume that there is a 'doc' folder in the project root."
           ([M-f8] . cmake-integration-cmake-configure-with-preset)
           ([f8] . cmake-integration-cmake-reconfigure)
           ;;([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
-          ;;([S-f9] . cmake-integration-generate-documentation)  ;; Generate the doxygen documentation
-          ;;([C-S-f9] . cmake-integration-open-doxygen-generated-index)
           )
   )
 #+end_src
@@ -4279,8 +4279,6 @@ This assume that there is a 'doc' folder in the project root."
           ([f10] . cmake-integration-run-last-target)
           ([M-f10] . cmake-integration-run-last-target-with-arguments)
           ([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
-          ([S-f9] . cmake-integration-generate-documentation)  ;; Generate the doxygen documentation
-          ([C-S-f9] . cmake-integration-open-doxygen-generated-index)
           )
   :hook
   (qml-mode . (lambda () (setq comment-start "// ") (setq comment-end "")))
