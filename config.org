@@ -800,6 +800,14 @@ https://github.com/MatthewZMD/.emacs.d#yasnippet-1
 
 * Company-mode                                                              :Company:
 Tente o corfu-mode primeiro
+* Set the default browser for browse-url
+#+begin_src emacs-lisp
+(use-package emacs
+  :config
+  (setq browse-url-browser-function 'browse-url-chrome)
+  )
+#+end_src
+
 * darcamo function
 #+begin_src emacs-lisp
 ;; From https://stackoverflow.com/a/4717026/1102805
