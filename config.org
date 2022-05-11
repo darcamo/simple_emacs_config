@@ -4621,13 +4621,13 @@ TeX-command-master (from auctex) with a 'Latex' argument."
 
   (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
 
-  ;; We add this here to make sure we only load the auctex-latexmk
-  ;; package after the tex package has been loaded
-  (use-package auctex-latexmk
-    :ensure t
-    :config
-    (auctex-latexmk-setup)
-    )
+  ;; ;; We add this here to make sure we only load the auctex-latexmk
+  ;; ;; package after the tex package has been loaded
+  ;; (use-package auctex-latexmk
+  ;;   :ensure t
+  ;;   :config
+  ;;   (auctex-latexmk-setup)
+  ;;   )
 
   :hook
   (LaTeX-mode . reftex-mode)
