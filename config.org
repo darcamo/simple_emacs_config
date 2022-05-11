@@ -4592,6 +4592,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
          ;; ("\C-\M-n" . outline-next-visible-heading)
          ;; ("\C-\M-p" . outline-previous-visible-heading)
          ("<S-M-return>" . dar/LaTeX-insert-item-inverse-behavior)
+         ("C-M-l" . TeX-recenter-output-buffer)
 
          ;; :config
          ;; Enable key bindings (M-p and M-p) for navigation
