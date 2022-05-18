@@ -4840,6 +4840,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
 #+begin_src emacs-lisp
 (use-package lsp-latex
   ;; NOTE: You need to install texlab for LSP to work with latex
+  :after latex
   :ensure t
   :hook (latex-mode . lsp)
   :hook (LaTeX-mode . lsp)
