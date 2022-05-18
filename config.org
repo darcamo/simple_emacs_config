@@ -1376,7 +1376,7 @@ of the file associated with the current buffer."
          ([S-f11] . browse-default-dir-in-emacs)
          ([C-S-f11] . gnome-terminal-default-dir)
          ("C-z" . eshell)
-         ("M-z" . ansi-term)
+         ("M-z" . (lambda () (interactive) (ansi-term "/bin/zsh")))
          ("C-c o" . other-frame) ; When there are multiple frames, change to another frame
          ("C-c r" . revert-buffer)
          ("C-x C-b" . ibuffer)
