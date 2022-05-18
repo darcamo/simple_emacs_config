@@ -4483,6 +4483,49 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   (flycheck-emacs-lisp-load-path 'inherit))
 #+end_src
 
+* PCoIP log-file mode
+#+begin_src emacs-lisp
+(defface pcoip-log-date-face '((t (:inherit org-macro)))
+  "Face used for LVL0."
+  :group 'pcoip-log-faces)
+
+(defface pcoip-log-LVL0-face '((t (:inherit error)))
+  "Face used for LVL0."
+  :group 'pcoip-log-faces)
+
+(defface pcoip-log-LVL1-face '((t (:inherit warning)))
+  "Face used for LVL1."
+  :group 'pcoip-log-faces)
+
+(defface pcoip-log-LVL2-face '((t (:inherit success)))
+  "Face used for LVL2."
+  :group 'pcoip-log-faces)
+
+(defface pcoip-log-LVL3-face '((t (:inherit font-lock-comment-face)))
+  "Face used for LVL3."
+  :group 'pcoip-log-faces)
+
+(defconst pcoip-log-font-lock-lvl:x
+  '(
+    ("^.*? " . 'pcoip-log-date-face) ;; Everything up to the first space is the date
+    ("LVL:0.*" . 'pcoip-log-LVL0-face)
+    ("LVL:1.*" . 'pcoip-log-LVL1-face)
+    ("LVL:2.*" . 'pcoip-log-LVL2-face)
+    ("LVL:3.*" . 'pcoip-log-LVL3-face)
+    ;; ("COMMON" . 'bold)
+    )
+  "Highlighting for pcoip log files." )
+
+
+(define-derived-mode pcoip-log-mode
+  text-mode "pcoip-log-mode" "A major-mode for viewing PCoIP log files."
+  ;; (setq outline-regexp "[   ]*\\\\\\(appendix\\|documentstyle\\|documentclass\\|part\\|chapter\\|section\\|subsection\\|subsubsection\\|paragraph\\|subparagraph\\|begin{frame}\\|end{frame}\\)\\|^[^%\n]*\\\\begin *{document}\\|^[^%\n]*\\\\end *{document}")
+
+  (setq font-lock-defaults '(pcoip-log-font-lock-lvl:x))
+  )
+
+(add-to-list 'auto-mode-alist (cons (concat "^/tmp/Teradici/" (getenv "USER") "/PCoIPClient/logs/" ) 'pcoip-log-mode))
+#+end_src
 * Latex                                                                       :Latex:
 ** Some useful functions
 #+begin_src emacs-lisp
