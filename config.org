@@ -4485,7 +4485,7 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 
 * PCoIP log-file mode
 #+begin_src emacs-lisp
-(defface pcoip-log-date-face '((t (:inherit org-macro)))
+(defface pcoip-log-date-face '((t (:inherit font-lock-builtin-face))) ;; org-macro
   "Face used for LVL0."
   :group 'pcoip-log-faces)
 
@@ -4505,13 +4505,19 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   "Face used for LVL3."
   :group 'pcoip-log-faces)
 
-(defconst pcoip-log-font-lock-lvl:x
-  '(
+(defconst pcoip-log-lvl0-re "\\(LVL:0\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "regexp for LVL0")
+(defconst pcoip-log-lvl1-re "\\(LVL:1\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "regexp for LVL0")
+(defconst pcoip-log-lvl2-re "\\(LVL:2\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "regexp for LVL0")
+(defconst pcoip-log-lvl3-re "\\(LVL:3\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "regexp for LVL0")
+
+(defconst pcoip-log-font-lock-keywords
+  `(
     ("^.*? " . 'pcoip-log-date-face) ;; Everything up to the first space is the date
-    ("LVL:0.*" . 'pcoip-log-LVL0-face)
-    ("LVL:1.*" . 'pcoip-log-LVL1-face)
-    ("LVL:2.*" . 'pcoip-log-LVL2-face)
-    ("LVL:3.*" . 'pcoip-log-LVL3-face)
+    (,pcoip-log-lvl0-re (1 'pcoip-log-LVL0-face) (2 'font-lock-type-face) (3 'bold) (4 'pcoip-log-LVL0-face))
+    (,pcoip-log-lvl1-re (1 'pcoip-log-LVL1-face) (2 'font-lock-type-face) (3 'bold) (4 'pcoip-log-LVL1-face))
+    (,pcoip-log-lvl2-re (1 'pcoip-log-LVL2-face) (2 'font-lock-type-face) (3 'bold) (4 'pcoip-log-LVL2-face))
+    (,pcoip-log-lvl3-re (1 'pcoip-log-LVL3-face) (2 'font-lock-type-face) (3 'bold) (4 'pcoip-log-LVL3-face))
+
     ;; ("COMMON" . 'bold)
     )
   "Highlighting for pcoip log files." )
@@ -4521,11 +4527,10 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   text-mode "pcoip-log-mode" "A major-mode for viewing PCoIP log files."
   ;; (setq outline-regexp "[   ]*\\\\\\(appendix\\|documentstyle\\|documentclass\\|part\\|chapter\\|section\\|subsection\\|subsubsection\\|paragraph\\|subparagraph\\|begin{frame}\\|end{frame}\\)\\|^[^%\n]*\\\\begin *{document}\\|^[^%\n]*\\\\end *{document}")
 
-  (setq font-lock-defaults '(pcoip-log-font-lock-lvl:x))
-  )
+  (setq font-lock-defaults '(pcoip-log-font-lock-keywords)))
+
 
 (add-to-list 'auto-mode-alist (cons (concat "^/tmp/Teradici/" (getenv "USER") "/PCoIPClient/logs/" ) 'pcoip-log-mode))
-
 
 ;; Activate view-mode in
 (add-hook #'pcoip-log-mode-hook #'view-mode)
