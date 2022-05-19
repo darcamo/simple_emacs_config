@@ -4525,7 +4525,62 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   )
 
 (add-to-list 'auto-mode-alist (cons (concat "^/tmp/Teradici/" (getenv "USER") "/PCoIPClient/logs/" ) 'pcoip-log-mode))
+
+
+;; Activate view-mode in
+(add-hook #'pcoip-log-mode-hook #'view-mode)
+(add-hook #'pcoip-log-mode-hook #'read-only-mode)
+
+
+;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+;; Copy content of a buffer visiting a file to a new buffer unrelated to the file
+;; https://stackoverflow.com/questions/39330176/how-to-clone-duplicate-contents-of-file-visiting-buffer-in-emacs
+;; (defun my-copy-buffer ()
+;;   (interactive)
+;;   (get-buffer-create "NEWBUF")
+;;   (copy-to-buffer "NEWBUF" (point-min) (point-max)))
+
+
+;; Links interessantes:
+;; https://emacs.stackexchange.com/questions/46822/how-show-filter-only-text-lines-with-all-uppercase-chars
+;; https://emacs.stackexchange.com/questions/58970/filter-the-content-read-from-file
+
 #+end_src
+
+TIPS:
+- Use occur from isearch to filter the log
+- If you want to modify the file to only show some lines use =M-x keep-lines something\|somethingelse=
+  - You can use =flush-lines= to delete matching lines instead of keeping them
+- Use ~highlight-regexp~ to highlight something in the log
+
+
+Check =logview= package
+- Acho que o formato do timetamp é ISO-8601 -> veja [[https://stackoverflow.com/questions/8405087/what-is-this-date-format-2011-08-12t201746-384z][aqui]]
+
+Great blog post
+https://writequit.org/articles/working-with-logs-in-emacs.html
+
+#+begin_src emacs-lisp
+(use-package logview
+  :config
+  ;; (add-to-list 'logview-additional-level-mappings
+  ;;            '(("PCoIP-Levels"
+  ;;               (error "LVL:0")
+  ;;               (warning "LVL:1")
+  ;;               (information "LVL:2")
+  ;;               (debug "LVL:3")
+  ;;               (trace "LVL:4")
+  ;;               (aliases)))
+  ;;            )
+
+  ;; (add-to-list 'logview-additional-timestamp-formats
+  ;;              '(("PCoIP-Timestamp"
+  ;;                 (regexp . "[0-9]+-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\.[0-9][0-9][0-9]Z")))
+  ;;              )
+  )
+#+end_src
+
+
 * Latex                                                                       :Latex:
 ** Some useful functions
 #+begin_src emacs-lisp
