@@ -4485,69 +4485,20 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 
 * PCoIP log-file mode
 #+begin_src emacs-lisp
-(defface pcoip-log-date-face '((t (:inherit font-lock-builtin-face))) ;; org-macro
-  "Face used for LVL0."
-  :group 'pcoip-log-faces)
+;; You need to have the package already installed somewhere where Emacs can find it
+(use-package pcoip-log-mode
+  :commands pcoip-log-mode
+  :hook
+  (pcoip-log-mode . view-mode)
+  (pcoip-log-mode . read-only-mode)
+  (pcoip-log-mode . auto-revert-tail-mode)
+  (pcoip-log-mode . (lambda () (add-to-list 'prettify-symbols-alist '("00000000-0000-0000-0000-000000000000" . "※"))
+                      (prettify-symbols-mode)))
+  :init
+  (add-to-list 'auto-mode-alist (cons (concat "^/tmp/Teradici/" (getenv "USER") "/PCoIPClient/logs/" ) 'pcoip-log-mode)))
+#+end_src
 
-(defface pcoip-log-LVL0-face '((t (:inherit error)))
-  "Face used for LVL0."
-  :group 'pcoip-log-faces)
-
-(defface pcoip-log-LVL1-face '((t (:inherit warning)))
-  "Face used for LVL1."
-  :group 'pcoip-log-faces)
-
-(defface pcoip-log-LVL2-face '((t (:inherit success)))
-  "Face used for LVL2."
-  :group 'pcoip-log-faces)
-
-(defface pcoip-log-LVL3-face '((t (:inherit font-lock-comment-face)))
-  "Face used for LVL3."
-  :group 'pcoip-log-faces)
-
-(defconst pcoip-log-lvl0-re "\\(LVL:0\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "Regexp for LVL0.")
-(defconst pcoip-log-lvl1-re "\\(LVL:1\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "Regexp for LVL1.")
-(defconst pcoip-log-lvl2-re "\\(LVL:2\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "Regexp for LVL2.")
-(defconst pcoip-log-lvl3-re "\\(LVL:3\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "Regexp for LVL3.")
-;; For now we only capture 00000000-0000-0000-0000-000000000000
-(defconst pcoip-log-session-log-id-re "00000000-0000-0000-0000-000000000000" "Regexp for log session Id.")
-
-(defconst pcoip-log-font-lock-keywords
-  `(
-    ("^.*? " . 'pcoip-log-date-face) ;; Everything up to the first space is the date
-    (,pcoip-log-lvl0-re (1 'pcoip-log-LVL0-face) (2 'font-lock-type-face) (3 'bold) (4 'pcoip-log-LVL0-face))
-    (,pcoip-log-lvl1-re (1 'pcoip-log-LVL1-face) (2 'font-lock-type-face) (3 'bold) (4 'pcoip-log-LVL1-face))
-    (,pcoip-log-lvl2-re (1 'pcoip-log-LVL2-face) (2 'font-lock-type-face) (3 'bold) (4 'pcoip-log-LVL2-face))
-    (,pcoip-log-lvl3-re (1 'pcoip-log-LVL3-face) (2 'font-lock-type-face) (3 'bold) (4 'pcoip-log-LVL3-face))
-    (,pcoip-log-session-log-id-re . 'font-lock-comment-face)
-
-    ;; ("COMMON" . 'bold)
-    )
-  "Highlighting for pcoip log files." )
-
-
-(define-derived-mode pcoip-log-mode
-  text-mode "pcoip-log-mode" "A major-mode for viewing PCoIP log files."
-  ;; (setq outline-regexp "[   ]*\\\\\\(appendix\\|documentstyle\\|documentclass\\|part\\|chapter\\|section\\|subsection\\|subsubsection\\|paragraph\\|subparagraph\\|begin{frame}\\|end{frame}\\)\\|^[^%\n]*\\\\begin *{document}\\|^[^%\n]*\\\\end *{document}")
-
-  (setq font-lock-defaults '(pcoip-log-font-lock-keywords)))
-
-
-(add-to-list 'auto-mode-alist (cons (concat "^/tmp/Teradici/" (getenv "USER") "/PCoIPClient/logs/" ) 'pcoip-log-mode))
-
-;; Activate view-mode in
-(add-hook #'pcoip-log-mode-hook #'view-mode)
-(add-hook #'pcoip-log-mode-hook #'read-only-mode)
-(add-hook #'pcoip-log-mode-hook #'auto-revert-tail-mode)
-
-;; Prettify the "00000000-0000-0000-0000-000000000000" part as a single "0"
-(add-hook #'pcoip-log-mode-hook '(lambda ()
-                                   (add-to-list 'prettify-symbols-alist '("00000000-0000-0000-0000-000000000000" . "※"))
-                                   (prettify-symbols-mode)))
-
-
-
-
+#+begin_src emacs-lisp
 ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ;; Copy content of a buffer visiting a file to a new buffer unrelated to the file
 ;; https://stackoverflow.com/questions/39330176/how-to-clone-duplicate-contents-of-file-visiting-buffer-in-emacs
