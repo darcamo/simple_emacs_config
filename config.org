@@ -4505,10 +4505,12 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   "Face used for LVL3."
   :group 'pcoip-log-faces)
 
-(defconst pcoip-log-lvl0-re "\\(LVL:0\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "regexp for LVL0")
-(defconst pcoip-log-lvl1-re "\\(LVL:1\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "regexp for LVL0")
-(defconst pcoip-log-lvl2-re "\\(LVL:2\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "regexp for LVL0")
-(defconst pcoip-log-lvl3-re "\\(LVL:3\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "regexp for LVL0")
+(defconst pcoip-log-lvl0-re "\\(LVL:0\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "Regexp for LVL0.")
+(defconst pcoip-log-lvl1-re "\\(LVL:1\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "Regexp for LVL1.")
+(defconst pcoip-log-lvl2-re "\\(LVL:2\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "Regexp for LVL2.")
+(defconst pcoip-log-lvl3-re "\\(LVL:3\\) \\(RC: +[0-9]\\|RC:-[0-9]+\\) +\\([A-Z_]+\\)\\(.*\\)" "Regexp for LVL3.")
+;; For now we only capture 00000000-0000-0000-0000-000000000000
+(defconst pcoip-log-session-log-id-re "00000000-0000-0000-0000-000000000000" "Regexp for log session Id.")
 
 (defconst pcoip-log-font-lock-keywords
   `(
@@ -4517,6 +4519,7 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
     (,pcoip-log-lvl1-re (1 'pcoip-log-LVL1-face) (2 'font-lock-type-face) (3 'bold) (4 'pcoip-log-LVL1-face))
     (,pcoip-log-lvl2-re (1 'pcoip-log-LVL2-face) (2 'font-lock-type-face) (3 'bold) (4 'pcoip-log-LVL2-face))
     (,pcoip-log-lvl3-re (1 'pcoip-log-LVL3-face) (2 'font-lock-type-face) (3 'bold) (4 'pcoip-log-LVL3-face))
+    (,pcoip-log-session-log-id-re . 'font-lock-comment-face)
 
     ;; ("COMMON" . 'bold)
     )
@@ -4535,6 +4538,14 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 ;; Activate view-mode in
 (add-hook #'pcoip-log-mode-hook #'view-mode)
 (add-hook #'pcoip-log-mode-hook #'read-only-mode)
+(add-hook #'pcoip-log-mode-hook #'auto-revert-tail-mode)
+
+;; Prettify the "00000000-0000-0000-0000-000000000000" part as a single "0"
+(add-hook #'pcoip-log-mode-hook '(lambda ()
+                                   (add-to-list 'prettify-symbols-alist '("00000000-0000-0000-0000-000000000000" . "※"))
+                                   (prettify-symbols-mode)))
+
+
 
 
 ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
