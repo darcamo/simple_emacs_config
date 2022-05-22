@@ -1661,6 +1661,17 @@ In particular, these modes are supported:
 | vc-dir-mode         | first interesting file  | last interesting file      |
 |---------------------+-------------------------+----------------------------|
 
+** auto-insert
+#+begin_src emacs-lisp
+(use-package autoinsert
+  :custom
+  (auto-insert-directory (concat user-emacs-directory "auto-insert"))
+  :config
+  (add-to-list 'auto-insert-alist
+               (cons '(cmake-mode "Basic CMakeLists template")
+                     "CMakeLists.txt")))
+#+end_src
+
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src emacs-lisp
 ;; (setq scroll-step 1)
