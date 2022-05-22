@@ -1669,7 +1669,11 @@ In particular, these modes are supported:
   :config
   (add-to-list 'auto-insert-alist
                (cons '(cmake-mode "Basic CMakeLists template")
-                     "CMakeLists.txt")))
+                     "CMakeLists.txt"))
+  (add-to-list 'auto-insert-alist
+               (cons '("conanfile.txt" "Basic conanfile template")
+                     "conanfile.txt"))
+  )
 #+end_src
 
 * Scrolling and mouse                                               :Mouse:Scrolling:
