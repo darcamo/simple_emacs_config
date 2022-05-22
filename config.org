@@ -4496,7 +4496,8 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 
 * PCoIP log-file mode
 #+begin_src emacs-lisp
-;; You need to have the package already installed somewhere where Emacs can find it
+;; You need to have the package already installed somewhere where Emacs can find it.
+;; Currently this package is in a personal repository in the company bitbucket.
 (use-package pcoip-log-mode
   :commands pcoip-log-mode
   :hook
