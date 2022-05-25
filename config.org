@@ -4563,23 +4563,24 @@ Great blog post
 https://writequit.org/articles/working-with-logs-in-emacs.html
 
 #+begin_src emacs-lisp
-(use-package logview
-  :config
-  ;; (add-to-list 'logview-additional-level-mappings
-  ;;            '(("PCoIP-Levels"
-  ;;               (error "LVL:0")
-  ;;               (warning "LVL:1")
-  ;;               (information "LVL:2")
-  ;;               (debug "LVL:3")
-  ;;               (trace "LVL:4")
-  ;;               (aliases)))
-  ;;            )
+;; (use-package logview
+;;   :ensure t
+;;   :config
+;;   ;; (add-to-list 'logview-additional-level-mappings
+;;   ;;            '(("PCoIP-Levels"
+;;   ;;               (error "LVL:0")
+;;   ;;               (warning "LVL:1")
+;;   ;;               (information "LVL:2")
+;;   ;;               (debug "LVL:3")
+;;   ;;               (trace "LVL:4")
+;;   ;;               (aliases)))
+;;   ;;            )
 
-  ;; (add-to-list 'logview-additional-timestamp-formats
-  ;;              '(("PCoIP-Timestamp"
-  ;;                 (regexp . "[0-9]+-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\.[0-9][0-9][0-9]Z")))
-  ;;              )
-  )
+;;   ;; (add-to-list 'logview-additional-timestamp-formats
+;;   ;;              '(("PCoIP-Timestamp"
+;;   ;;                 (regexp . "[0-9]+-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\.[0-9][0-9][0-9]Z")))
+;;   ;;              )
+;;   )
 #+end_src
 
 
