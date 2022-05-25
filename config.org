@@ -3872,7 +3872,6 @@ TODO: Use the new [[https://github.com/dalanicolai/image-roll.el][image-roll]] p
 #+end_src
 
 * Dired                                                                       :Dired:
-
 ** Configuration
 #+begin_src emacs-lisp
 ;; (use-package dired-git
@@ -4279,11 +4278,21 @@ Set a buffer to read-only when this minor mode is active
 (defcustom my/qt-quick-controls-style "$(pwd)/imports/Janus" "Style to use with qmlscene")
 
 
+(defun my/choose-qml-style ()
+  "docstring"
+  (interactive)
+  (setq my/qt-quick-controls-style (completing-read "Choose style: " '("$(pwd)/imports/Janus" "Fusion" "material" "Universal" "Plasma")))
+  )
+
+
 (defun my/run-qmlscene ()
   "Ask the user to choose a QML file in the project and run it with qmlscene."
   (interactive)
-  (compile (format "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmlscene %s %s" my/qml-root-folder my/qt-quick-controls-style my/qmlscene-extra-args (completing-read "Choose file: " (my/get-qml-files) nil t)))
-  )
+  (when current-prefix-arg
+    (my/choose-qml-style))
+
+  (compile (format "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmlscene %s %s" my/qml-root-folder my/qt-quick-controls-style my/qmlscene-extra-args (completing-read "Choose file: " (my/get-qml-files) nil t))))
+
 
 (use-package qml-mode
   :ensure t
