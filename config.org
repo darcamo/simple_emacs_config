@@ -4268,6 +4268,23 @@ Set a buffer to read-only when this minor mode is active
 ** QML
 *** QML-Mode package
 #+begin_src emacs-lisp
+(defcustom my/qml-root-folder "~/git_files/soft-clients/modules/ui_pre_session_qt/src/view/impls/qml/janus" "Root folder from where to run qmlscene")
+
+(defcustom my/qmlscene-extra-args "-I imports" "Extra arguments to pass to qmlscene")
+
+(defun my/get-qml-files ()
+  "Get a list with all QML files in the project."
+  (split-string (shell-command-to-string (format "fd -t f \".qml$\" %s" (project-root (project-current))))))
+
+(defcustom my/qt-quick-controls-style "$(pwd)/imports/Janus" "Style to use with qmlscene")
+
+
+(defun my/run-qmlscene ()
+  "Ask the user to choose a QML file in the project and run it with qmlscene."
+  (interactive)
+  (compile (format "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmlscene %s %s" my/qml-root-folder my/qt-quick-controls-style my/qmlscene-extra-args (completing-read "Choose file: " (my/get-qml-files) nil t)))
+  )
+
 (use-package qml-mode
   :ensure t
   :defer t
@@ -4277,10 +4294,10 @@ Set a buffer to read-only when this minor mode is active
           ([f10] . cmake-integration-run-last-target)
           ([M-f10] . cmake-integration-run-last-target-with-arguments)
           ([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
+          ([C-f10] . my/run-qmlscene)
           )
   :hook
-  (qml-mode . (lambda () (setq comment-start "// ") (setq comment-end "")))
-  )
+  (qml-mode . (lambda () (setq comment-start "// ") (setq comment-end ""))))
 #+end_src
 *** Detect filename in compilation-mode for qmltestrunner errors
 #+begin_src emacs-lisp
