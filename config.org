@@ -3467,7 +3467,11 @@ This package is not in melpa yet.
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :filhos:")
                                  :unnarrowed t :immediate-finish t)
 
-                                ("q" "Qt and QML" plain "Criado em %u\n\n- Links :: [[id:0742709f-7604-47e8-bd2e-0489fd1864fe][QML]]\n\n%?" :if-new
+                                 ("q" "Qt e QML")
+                                 ("qq" "Qt" plain "Criado em %u\n\n- Links :: [[id:ea1b8aaa-d8c8-4f77-b3ef-1e30c76cbef4][Qt]]\n\n%?" :if-new
+                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Programação:Qt:")
+                                 :unnarrowed t :immediate-finish t)
+                                 ("qm" "QML" plain "Criado em %u\n\n- Links :: [[id:0742709f-7604-47e8-bd2e-0489fd1864fe][QML]]\n\n%?" :if-new
                                  (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Programação:Qml:Qt:")
                                  :unnarrowed t :immediate-finish t)
 
