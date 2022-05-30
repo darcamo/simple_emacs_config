@@ -2216,7 +2216,6 @@ In particular, these modes are supported:
      ("Compras\\|Finanças" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/finances.svg") nil nil :ascent center)
      ("Someday" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/Global_thinking.svg") nil nil :ascent center)
      ("Stanford" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/graduate.svg") nil nil :ascent center)
-     ("Notas" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/notes.svg") nil nil :ascent center)
      ("References" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/estudos.svg") nil nil :ascent  center)
      ("Eventos" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/event.svg") nil nil :ascent  center)
      ))
@@ -2230,18 +2229,16 @@ In particular, these modes are supported:
   ;; (setq org-agenda-files (quote ("~/org")))
   (org-agenda-files (file-name-concat org-directory "org-agenda-files.org"))
 
-  ;; The notas.org file is not included in the agenda files, but I still want
-  ;; to search it
+
   (org-agenda-text-search-extra-files
    (append
-    '("~/org/escrever.org" "~/org/notas.org" "~/org/supelec/supelec.org")
+    '("~/org/escrever.org" "~/org/supelec/supelec.org")
     (directory-files "~/org/OrgWiki/" t "^[^.#].*\\.\\(org$\\|org_archive$\\)")
     )
    )
 
   ;; Set refile targets to the agenda files
-  (org-refile-targets (quote ((org-agenda-files :maxlevel . 1)
-                              ("~/org/notas.org" :tag . "REFILE"))))
+  (org-refile-targets '((org-agenda-files :maxlevel . 1)))
 
   ;; Use outline-path when refiling
   (org-refile-use-outline-path (quote file))
@@ -2503,16 +2500,7 @@ In particular, these modes are supported:
            (file ,(concat user-emacs-directory "org-mode-setup/new_task.org")))
           ;; xxxxx End Capture a new tasks xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
           ;;
-          ;; xxxxx Start Capture new notes xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-          ("n" "Notas" entry
-           (file+headline "notas.org" "Notas diversas")
-           "* %^{Título da Nota} %^g\n  %i%?\n  %a")
-          ("e" "Nota de um E-Mail" entry
-           (file+headline "notas.org" "Notas diversas")
-           "* %^{Título da Nota} %^G\n  %i%?\n  \n  Assunto do E-mail: %:subject\n  De: %:from\n  %a")
-          ;; xxxxx End Capture new notes xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-          ;;
-          ;; xxxxx Start Capture expenses data created with tasker xxxxxxxxxx
+          ;; xxxxx Start Capture expenses data xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
           ("f" "Adiciona novo gasto")
           ("fa" "Gasto com alimentação" table-line
            (id ,(get-me-an-org-id-for-the-month "Alimentação"))
@@ -2975,11 +2963,6 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   "Same as my-find-references-org-heading"
   (interactive)
   (find-file (file-name-concat org-directory "references/articles.org"))
-  )
-
-(defun my-find-notas-org-heading nil
-  (interactive)
-  (find-file (file-name-concat org-directory "notas.org"))
   )
 
 (defun my-find-stanford-org-heading nil
