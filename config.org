@@ -2228,7 +2228,7 @@ In particular, these modes are supported:
   ;; Including all org files from a directory into the agenda
   ;; (setq org-agenda-files (file-expand-wildcards "~/org/*.org"))
   ;; (setq org-agenda-files (quote ("~/org")))
-  (org-agenda-files "~/org/org-agenda-files.org")
+  (org-agenda-files (file-name-concat org-directory "org-agenda-files.org"))
 
   ;; The notas.org file is not included in the agenda files, but I still want
   ;; to search it
@@ -2937,7 +2937,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
         (switch-to-buffer projectName)
       ;; Else
       (progn
-        (find-file "~/org/gtd.org")
+        (find-file (file-name-concat org-directory "gtd.org"))
         (goto-char (point-min))
         (search-forward heading)
         (org-tree-to-indirect-buffer)
@@ -2951,85 +2951,85 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 
 (defun my-find-gtd-org-heading nil
   (interactive)
-  (find-file "~/org/gtd.org")
+  (find-file (file-name-concat org-directory "gtd.org"))
   )
 
 (defun my-find-relatorio-atividades-org-heading nil
   (interactive)
   ;; (org-id-goto "RelatorioUFC35Wiki")
-  (find-file "~/org/RelatoriosDeAtividade/RelatoriosDeAtividade.org")
+  (find-file (file-name-concat org-directory "RelatoriosDeAtividade/RelatoriosDeAtividade.org"))
   )
 
 (defun my-find-doutorado-org-heading nil
   (interactive)
                                         ;(my-find-org-heading "Doutorado")
-  (find-file "~/org/doutorado.org")
+  (find-file (file-name-concat org-directory "doutorado.org"))
   )
 
 (defun my-find-references-org-heading nil
   (interactive)
-  (find-file "~/org/references/articles.org")
+  (find-file (file-name-concat org-directory "references/articles.org"))
   )
 
 (defun my-find-articles-org-heading nil
   "Same as my-find-references-org-heading"
   (interactive)
-  (find-file "~/org/references/articles.org")
+  (find-file (file-name-concat org-directory "references/articles.org"))
   )
 
 (defun my-find-notas-org-heading nil
   (interactive)
-  (find-file "~/org/notas.org")
+  (find-file (file-name-concat org-directory "notas.org"))
   )
 
 (defun my-find-stanford-org-heading nil
   (interactive)
-  (find-file "~/org/Stanford.org")
+  (find-file (file-name-concat org-directory "Stanford.org"))
   )
 
 (defun my-find-ufc32-org-heading nil
   (interactive)
   ;; (my-find-org-heading "UFC.32")
-  (find-file (concat org-directory "/ufc32.org"))
+  (find-file (file-name-concat org-directory "ufc32.org"))
   )
 
 (defun my-find-ufc35-org-heading nil
   (interactive)
   ;; (my-find-org-heading "UFC.35")
-  (find-file (concat org-directory "/ufc35.org"))
+  (find-file (file-name-concat org-directory "ufc35.org"))
   )
 
 (defun my-find-ufc42-org-heading nil
   (interactive)
   ;; (my-find-org-heading "UFC.42")
-  (find-file (concat org-directory "/ufc42.org"))
+  (find-file (file-name-concat org-directory "ufc42.org"))
   )
 
 (defun my-find-ufc45-org-heading nil
   (interactive)
   ;; (my-find-org-heading "UFC.45")
-  (find-file (concat org-directory "/ufc45.org"))
+  (find-file (file-name-concat org-directory "ufc45.org"))
   )
 
 (defun my-find-naive-org-heading nil
   (interactive)
-  (find-file "~/org/ufc46-NAIVE.org")
+  (find-file (file-name-concat org-directory "ufc46-NAIVE.org"))
   )
 
 (defun my-find-ufc49-iab-org-heading nil
   (interactive)
-  (find-file "~/org/ufc49-IAB.org")
+  (find-file (file-name-concat org-directory "ufc49-IAB.org"))
   )
 
 (defun my-find-atlantico-org-heading nil
   (interactive)
-  (find-file "~/org/atlantico.org")
+  (find-file (file-name-concat org-directory "atlantico.org"))
   )
 
 (defun my-find-financas-org-heading nil
   (interactive)
                                         ;(my-find-org-heading "Finanças")
-  (find-file "~/org/Financas.org")
+  (find-file (file-name-concat org-directory "Financas.org"))
   ;;(org-id-open "Novembro2020" nil)
   )
 
@@ -3075,13 +3075,13 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   (interactive)
                                         ;(my-find-org-heading "Senhas")
   (require 'org-crypt)
-  (find-file "~/org/Senhas.org")
+  (find-file (file-name-concat org-directory "Senhas.org"))
   )
 
 (defun my-find-carro-org-heading nil
   (interactive)
                                         ;(my-find-org-heading "Carro")
-  (find-file "~/org/Carro.org")
+  (find-file (file-name-concat org-directory "Carro.org"))
   )
 
 (defun my-find-calendario-org-heading nil
@@ -3366,7 +3366,7 @@ Default prefix is =C-c C-=
 (use-package org-journal
   :ensure t
   :custom
-  (org-journal-dir "~/org/journal/")
+  (org-journal-dir (file-name-concat org-directory "journal/"))
   (org-journal-file-format "%Y%m%d.org")
   :bind (:map org-mode-map
               ("C-c C-j" . org-journal-new-entry)
