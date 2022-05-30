@@ -1910,7 +1910,8 @@ In particular, these modes are supported:
      ))
 
   ;; General
-  (org-directory "~/org")
+  (org-directory (if (system-type-is-XP) "~/../../Dropbox/org/"
+                   "~/org"))
 
   ;; Change C-a and C-e behaviour in org-mode
   (org-special-ctrl-a/e t)
