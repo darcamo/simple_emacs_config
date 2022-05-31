@@ -4258,7 +4258,7 @@ Set a buffer to read-only when this minor mode is active
 #+begin_src emacs-lisp
 (defcustom my/qml-root-folder "~/git_files/soft-clients/modules/ui_pre_session_qt/src/view/impls/qml/janus" "Root folder from where to run qmlscene")
 
-(defcustom my/qmlscene-extra-args "-I imports" "Extra arguments to pass to qmlscene")
+(defcustom my/qmlscene-extra-args "-I imports -I ." "Extra arguments to pass to qmlscene")
 
 (defun my/get-qml-files ()
   "Get a list with all QML files in the project."
