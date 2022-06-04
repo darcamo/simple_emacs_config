@@ -3417,6 +3417,16 @@ This package is not in melpa yet.
 * TODO Org-roam                                                             :OrgRoam:
 ** Configuration
 #+begin_src emacs-lisp
+;; Format of the filename used for my org-roam notes
+(setq my--note-filename-format "%<%Y%m%d%H%M%S>-${slug}.org")
+
+;; Template used for the title part of my org-roam notes (not including filetags)
+(setq my--note-title-template "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n")
+
+(defun my--get-note-title-template (tags-string)
+  "Get a note head template with `#+filetags: TAGS-STRING' in the end."
+  (concat my--note-title-template "#+filetags: " tags-string))
+
 (use-package org-roam
   :ensure t
   :defer t
@@ -3437,63 +3447,72 @@ This package is not in melpa yet.
   ;; database to avoid that.
   (org-roam-db-node-include-function (lambda () (not (member "ATTACH" (org-get-tags)))))
 
-  (org-roam-capture-templates '(
+  (org-roam-capture-templates `(
                                 ("d" "default" plain "Criado em %u\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n\n")
+                                 (file+head ,my--note-filename-format ,my--note-title-template)
                                  :unnarrowed t :immediate-finish t)
                                 ("e" "De um E-mail" plain "Criado em %u\n\nE-mail-original: %a\nEnviado por %:from em %:date\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n")
+                                 (file+head ,my--note-filename-format ,my--note-title-template)
                                  :unnarrowed t)
-                                ("a" "Atlântico" plain "Criado em %u\n\n- Links :: [[id:0a6e477a-8a22-4fe1-8e09-1f94a5626516][Atlântico]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Atlantico:")
+
+                                 ("a" "Atlântico")
+                                ("aa" "Atlântico" plain "Criado em %u\n\n- Links :: [[id:0a6e477a-8a22-4fe1-8e09-1f94a5626516][Atlântico]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Atlantico:"))
                                  :unnarrowed t :immediate-finish t)
-                                ("t" "Teradici" plain "Criado em %u\n\n- Links :: [[id:1140ec0c-b2d2-4566-aa8f-7748201241d5][Teradici]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Atlantico:Teradici:HP:")
+                                 ("ap" "Atlantico" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "9beb52e5-65df-458f-8ea4-88eb5dc2ee97"))
+
+                                ("T" "Teradici" plain "Criado em %u\n\n- Links :: [[id:1140ec0c-b2d2-4566-aa8f-7748201241d5][Teradici]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Atlantico:Teradici:HP:"))
                                  :unnarrowed t :immediate-finish t)
                                 ("D" "Doutorado" plain "Criado em %u\n\n- Links :: [[id:685ce449-937c-4977-9bbc-6177273c8c49][Doutorado]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Doutorado:")
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Doutorado:"))
                                  :unnarrowed t :immediate-finish t)
                                 ("l" "Literature" plain "Criado em %u\n\n- Links :: [[id:84fd39bd-cc24-41cb-a173-b23a0c72ebd8][Leituras de papers e outros documentos]]\n\nPDF: <Add PDF Link here>\nBib Entry: <Add bib entry link here>\n\nDon't forget to add a ROAM_REFS property%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Literature:")
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Literature:"))
                                  :unnarrowed t :immediate-finish t)
                                 ("c" "Conhecimentos gerais" plain "Criado em %u\n\n- Links :: [[id:0c2e1ffb-fa6e-4907-a7dc-30574bca2f43][Conhecimentos Gerais e lembrestes diversos]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n")
+                                 (file+head ,my--note-filename-format "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n")
                                  :unnarrowed t :immediate-finish t)
                                 ("f" "Filhos" plain "Criado em %u\n\n- Links :: [[id:70177ece-325d-49cc-9419-810001aa5fb5][Filhos]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :filhos:")
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":filhos:"))
                                  :unnarrowed t :immediate-finish t)
 
-                                 ("q" "Qt e QML")
-                                 ("qq" "Qt" plain "Criado em %u\n\n- Links :: [[id:ea1b8aaa-d8c8-4f77-b3ef-1e30c76cbef4][Qt]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Programação:Qt:")
+                                ("q" "Qt e QML")
+                                ("qq" "Qt" plain "Criado em %u\n\n- Links :: [[id:ea1b8aaa-d8c8-4f77-b3ef-1e30c76cbef4][Qt]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Programação:Qt:"))
                                  :unnarrowed t :immediate-finish t)
-                                 ("qm" "QML" plain "Criado em %u\n\n- Links :: [[id:0742709f-7604-47e8-bd2e-0489fd1864fe][QML]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Programação:Qml:Qt:")
+                                ("qm" "QML" plain "Criado em %u\n\n- Links :: [[id:0742709f-7604-47e8-bd2e-0489fd1864fe][QML]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Programação:Qml:Qt:"))
                                  :unnarrowed t :immediate-finish t)
 
-                                 ("G" "Garantias e notas fiscais" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n%?" :target (node "9a56dad9-505c-40c9-a910-ec20fa017e2e"))
+                                ("G" "Garantias e notas fiscais" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n%?" :target (node "9a56dad9-505c-40c9-a910-ec20fa017e2e"))
+
+                                ("t" "Telecomunicações")
+                                ("t5" "5G" plain "Criado em %u\n\n- Links :: [[id:5485e2b7-c4a9-47c7-b52d-bafd36f114ad][5G]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":5G:"))
+                                 :unnarrowed t :immediate-finish t)
 
                                 ("g" "GTEL")
                                 ("gg" "GTEL" plain "Criado em %u\n\n- Links :: [[id:ae896e12-b884-4de9-84ba-5b794b5878d5][GTEL]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :GTEL:IAB:5G:")
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:IAB:5G:"))
                                  :unnarrowed t :immediate-finish t)
                                 ("gi" "IAB" plain "Criado em %u\n\n- Links :: [[id:0878fa71-2454-4d2d-a63f-8327a8a70681][IAB]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :GTEL:IAB:5G:")
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:IAB:5G:"))
                                  :unnarrowed t :immediate-finish t)
 
                                 ("p" "Programação")
                                 ("pp" "Python" plain "Criado em %u\n\n- Links :: [[id:0cd3f915-9476-43b8-a17c-f113f912a2ae][Python]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Programação:Python:")
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Programação:Python:"))
                                  :unnarrowed t :immediate-finish t)
                                 ("pc" "C++" plain "Criado em %u\n\n- Links :: [[id:a0967201-ec8d-4061-a27d-81590c840bff][C++]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Programação:CPP:")
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Programação:CPP:"))
                                  :unnarrowed t :immediate-finish t)
                                 ("pe" "Emacs Lisp" plain "Criado em %u\n\n- Links :: [[id:4f5b688f-6f4e-4f21-b466-7674e30be51c][Emacs Lisp]]\n\n%?" :if-new
-                                 (file+head "%<%Y%m%d%H%M%S>-${slug}.org" "#+title: ${title}\n#+SETUPFILE: org-roam-setup.org\n#+filetags: :Elisp:Emacs:Programação:")
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Elisp:Emacs:Programação:"))
                                  :unnarrowed t :immediate-finish t)
 
                                 ("P" "Pessoas")
-                                ("Pp" "geral" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "10f28a11-1a4f-4385-af25-1f0335293527"))
+                                ("Pp" "Geral" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "10f28a11-1a4f-4385-af25-1f0335293527"))
                                 ("Pa" "Atlantico" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "9beb52e5-65df-458f-8ea4-88eb5dc2ee97"))
                                 ("Pt" "Teradici" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "6d6ac5f9-0ae3-4c93-aebc-caf212e3fc5d"))
                                 ("Pe" "Ericsson" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "77acdf6f-19a5-43b0-912f-64616f6aa28b"))
