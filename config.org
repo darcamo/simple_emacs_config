@@ -3822,7 +3822,10 @@ https://www.flycheck.org/en/latest/index.html
 #+begin_src emacs-lisp
 (use-package yaml-mode
   :ensure t
-  :defer t)
+  :defer t
+  :hook
+  (yaml-mode . lsp)
+  )
 #+end_src
 
 * PDF                                                                           :PDF:
