@@ -4297,6 +4297,10 @@ Set a buffer to read-only when this minor mode is active
   "Get a list with all QML files in the project."
   (split-string (shell-command-to-string (format "fd -t f \".qml$\" %s" (project-root (project-current))))))
 
+(defun my/get-qml-test-files ()
+  "Get a list with all QML files in the project."
+  (split-string (shell-command-to-string (format "fd -t f \"tst_.*\.qml$\" %s" (project-root (project-current))))))
+
 (defcustom my/qt-quick-controls-style "$(pwd)/imports/Janus" "Style to use with qmlscene")
 
 
@@ -4310,10 +4314,26 @@ Set a buffer to read-only when this minor mode is active
 (defun my/run-qmlscene ()
   "Ask the user to choose a QML file in the project and run it with qmlscene."
   (interactive)
-  (when current-prefix-arg
-    (my/choose-qml-style))
+  (compile (format
+            "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmlscene %s %s"
+            my/qml-root-folder
+            my/qt-quick-controls-style
+            my/qmlscene-extra-args
+            (completing-read "Choose file: " (my/get-qml-files) nil t))))
 
-  (compile (format "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmlscene %s %s" my/qml-root-folder my/qt-quick-controls-style my/qmlscene-extra-args (completing-read "Choose file: " (my/get-qml-files) nil t))))
+(defun my/run-qmltestrunner ()
+  "Ask the user to choose a QML file in the project and run it with qmlscene."
+  (interactive)
+  (if current-prefix-arg
+      (compile (format
+                "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmltestrunner -import imports -import . -silent"
+                my/qml-root-folder
+                my/qt-quick-controls-style))
+    (compile (format
+              "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmltestrunner -import imports -import . -silent -input %s"
+              my/qml-root-folder
+              my/qt-quick-controls-style
+              (completing-read "Choose test file: " (my/get-qml-test-files) nil t)))))
 
 
 (use-package qml-mode
@@ -4325,7 +4345,9 @@ Set a buffer to read-only when this minor mode is active
           ([f10] . cmake-integration-run-last-target)
           ([M-f10] . cmake-integration-run-last-target-with-arguments)
           ([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
+          ([M-f10] . my/choose-qml-style)
           ([C-f10] . my/run-qmlscene)
+          ([S-f10] . my/run-qmltestrunner)
           ([M-f8] . cmake-integration-select-configure-preset)
           ([f8] . cmake-integration-cmake-reconfigure)
           )
