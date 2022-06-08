@@ -3818,6 +3818,19 @@ https://www.flycheck.org/en/latest/index.html
   )
 #+end_src
 
+** Enable origami-mode in programming buffers
+#+begin_src emacs-lisp
+(use-package origami
+  :ensure t
+  :hook
+  (prog-mode . origami-mode)
+  :bind (
+         :map origami-mode-map
+         ("<backtab>" . origami-recursively-toggle-node)
+         ("C-S-<iso-lefttab>" . origami-show-only-node)
+         ))
+#+end_src
+
 * YAML                                                                         :YAML:
 #+begin_src emacs-lisp
 (use-package yaml-mode
