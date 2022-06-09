@@ -3334,7 +3334,7 @@ Try addapting the example below
   :defer t
   :ensure t
   :custom
-  (org-superstar-special-todo-items t)
+  (org-superstar-special-todo-items 'hide)
   :hook
   (org-mode . org-superstar-mode)
   )
