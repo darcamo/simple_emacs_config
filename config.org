@@ -4299,7 +4299,11 @@ Set a buffer to read-only when this minor mode is active
   )
 #+end_src
 
-** QML
+** Qt and QML
+*** Set mode of qml.qrc file to xml-mode
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("qml.qrc" . xml-mode))
+#+end_src
 *** QML-Mode package
 #+begin_src emacs-lisp
 (defcustom my/qml-root-folder "~/git_files/soft-clients/modules/ui_pre_session_qt/src/view/impls/qml/janus" "Root folder from where to run qmlscene")
