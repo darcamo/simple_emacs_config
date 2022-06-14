@@ -3684,7 +3684,7 @@ Currently it is not in melpa yet
   )
 #+end_src
 
-* Calendar                                                                 :Calendar:
+* Calendar and Holidays                                                    :Calendar:
 Useful keybindings:
 | .   | go to today             |
 | <   | calendar-scroll-right   |
@@ -3740,6 +3740,7 @@ Useful keybindings:
       `(
         (holiday-fixed 3 19 "Dia de São José")
         (holiday-fixed 3 25 "Data magna do Ceará")
+        (holiday-fixed 8 15 "Nossa Senhora da Assunção (Fortaleza)")
         ))
 
 (setq calendar-holidays
