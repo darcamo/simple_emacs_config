@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: frect
+# key: frect
+# --
+Rectangle {
+    anchors.fill: parent
+    color: "${2:$$(yas-choose-value '("#11FF0000" "#1100FF00" "#110000FF"))}"
+}

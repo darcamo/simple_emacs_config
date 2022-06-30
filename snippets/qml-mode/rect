@@ -1,0 +1,9 @@
+# -*- mode: snippet -*-
+# name: rect
+# key: rect
+# --
+Rectangle {
+    width: 30
+    height: 30
+    color: "${2:$$(yas-choose-value '("#11FF0000" "#1100FF00" "#110000FF"))}"
+}

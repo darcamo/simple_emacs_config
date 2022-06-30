@@ -4321,6 +4321,7 @@ Set a buffer to read-only when this minor mode is active
 
 (defcustom my/qt-quick-controls-style "$(pwd)/imports/Janus" "Style to use with qmlscene")
 
+(defcustom my/qmltestrunner-extra-args "-silent" "Extra arguments padded to qmltestrunner")
 
 (defun my/choose-qml-style ()
   "docstring"
@@ -4344,14 +4345,16 @@ Set a buffer to read-only when this minor mode is active
   (interactive)
   (if current-prefix-arg
       (compile (format
-                "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmltestrunner -import imports -import . -silent"
+                "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmltestrunner -import imports -import . %s"
                 my/qml-root-folder
-                my/qt-quick-controls-style))
+                my/qt-quick-controls-style
+                my/qmltestrunner-extra-args))
     (compile (format
-              "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmltestrunner -import imports -import . -silent -input %s"
+              "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmltestrunner -import imports -import . -input %s %s"
               my/qml-root-folder
               my/qt-quick-controls-style
-              (completing-read "Choose test file: " (my/get-qml-test-files) nil t)))))
+              (completing-read "Choose test file: " (my/get-qml-test-files) nil t)
+              my/qmltestrunner-extra-args))))
 
 
 (use-package qml-mode
