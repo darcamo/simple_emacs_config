@@ -3364,6 +3364,7 @@ Default prefix is =C-c C-=
   :custom
   (org-journal-dir (file-name-concat org-directory "journal/"))
   (org-journal-file-format "%Y%m%d.org")
+  (org-journal-date-format "%a, %x")
   :bind (:map org-mode-map
               ("C-c C-j" . org-journal-new-entry)
               ))
