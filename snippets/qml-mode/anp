@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: anchors.x: parent y
+# key: anp
+# --
+anchors.${1:$$(yas-choose-value '(left right top bottom verticalCenter horizontalCenter))}: parent.$1

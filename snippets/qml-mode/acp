@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+# name: anchors.centerIn: parent
+# key: acp
+# --
+anchors.centerIn: parent
