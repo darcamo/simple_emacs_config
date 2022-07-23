@@ -3423,7 +3423,14 @@ This package is not in melpa yet.
   (org-remark-global-tracking-mode)
   )
 #+end_src
-
+* org-reveal
+#+begin_src emacs-lisp
+(use-package ox-reveal
+  :ensure t
+  :custom
+  (org-reveal-reveal-js-version 4)
+  )
+#+end_src
 * TODO Org-roam                                                             :OrgRoam:
 ** Configuration
 #+begin_src emacs-lisp
