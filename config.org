@@ -2925,6 +2925,15 @@ reveal."
               ))
 #+end_src
 
+*** HTML and Reveal export
+#+begin_src emacs-lisp
+(use-package ox-html
+:custom
+(org-html-html5-fancy t)
+(org-html-doctype "html5")
+)
+#+end_src
+
 *** COMMENT ODT and docx export
 Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 ** Org useful functions
