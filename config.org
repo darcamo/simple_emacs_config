@@ -4499,8 +4499,28 @@ inside quotes."
 #+end_src
 ** Conan package manager
 #+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("conanfile\\.txt" . conf-mode))
+;; Here we define a minor mode for conanfile just to have a mode-map for it
+(define-derived-mode conanfile-mode
+  conf-space-mode "conanfile-Mode" "A derived mode from conf-space-mode for conanfile.txt buffers."
+  )
+
+(add-to-list 'auto-mode-alist '("conanfile\\.txt" . conanfile-mode))
+
+
+(use-package conanfile-mode
+  :bind
+  (:map conanfile-mode-map
+        ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
+        ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
+        ([f10] . cmake-integration-run-last-target)
+        ([C-f10] . cmake-integration-debug-last-target)
+        ([M-f10] . cmake-integration-run-last-target-with-arguments)
+        ([M-f8] . cmake-integration-select-configure-preset)
+        ([f8] . cmake-integration-cmake-reconfigure)
+        )
+  )
 #+end_src
+
 ** Dap-debug
 There are two alternatives for using dap-debug with c++:
 - [[https://emacs-lsp.github.io/dap-mode/page/configuration/#lldb][LLDB]] -> use ~(require 'dap-lldb)~
