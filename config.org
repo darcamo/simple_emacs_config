@@ -3690,6 +3690,17 @@ https://github.com/publicimageltd/delve
 
 Currently it is not in melpa yet
 
+* COMMENT Visual-fill-column in org-mode
+#+begin_src emacs-lisp
+(use-package visual-fill-column
+  :ensure t
+  :custom
+  (visual-fill-column-center-text t)
+  (visual-fill-column-width 120)
+  :hook
+  (org-mode . visual-fill-column-mode)
+  )
+#+end_src
 * Outline
 #+begin_src emacs-lisp
 (use-package outline
