@@ -4119,8 +4119,6 @@ Configuration specific to a language should be in that language configuration he
 #+begin_src emacs-lisp
 (use-package consult-lsp
   :ensure t
-  :config
-  (consult-lsp-marginalia-mode)
   :bind (
          :map c++-mode-map (
                             ("M-i" . consult-lsp-file-symbols)
