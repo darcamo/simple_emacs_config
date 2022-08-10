@@ -2942,6 +2942,7 @@ reveal."
 :custom
 (org-html-html5-fancy t)
 (org-html-doctype "html5")
+(org-html-validation-link nil)
 )
 #+end_src
 
