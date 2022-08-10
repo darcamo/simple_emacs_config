@@ -2458,6 +2458,11 @@ In particular, these modes are supported:
   ;; Change this to the appropriated jar location
   (org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
 
+  :bind
+  ( :map org-mode-map
+  ("M-." . org-babel-pop-to-session)
+  )
+
   :init
   ;; Load Languages
   (org-babel-do-load-languages
