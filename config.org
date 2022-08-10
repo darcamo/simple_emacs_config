@@ -3189,6 +3189,12 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   )
 #+end_src
 
+** Add more structure templates
+#+begin_src emacs-lisp
+;; Allow expanding "<p" to a "begin_src python" block
+(add-to-list 'org-structure-template-alist (cons "p" "src python"))
+(add-to-list 'org-structure-template-alist (cons "n" "notes"))
+#+end_src
 ** Appearance (face and prettify-symbols)                               :Appearance:
 #+begin_src emacs-lisp
 (use-package org-faces
