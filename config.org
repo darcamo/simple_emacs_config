@@ -4743,6 +4743,15 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   (add-to-list 'lsp-enabled-clients 'pyright))
 
 #+end_src
+
+** Format buffer with yapf
+#+begin_src emacs-lisp
+(use-package yapfify
+  :ensure t
+  :bind ( :map python-mode-map
+  ("C-c f" . yapfify-buffer)
+  ))
+#+end_src
 ** Dap-debug (Python)
 +You need to install ~ptvsd>=4.2~ in your virtual environment+
 
