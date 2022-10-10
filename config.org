@@ -2929,6 +2929,30 @@ reveal."
 )
 #+end_src
 
+*** COMMENT Use highlightjs for code blocks
+See https://emacs.stackexchange.com/questions/9832/how-to-insert-the-content-of-a-org-modes-code-block-inside-precode-tags-whe
+
+You need to add the CSS and JS links for highlightjs to your org-mode file
+Try with the lines
+: #+HTML_HEAD: <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/base16/zenburn.min.css">
+: #+HTML_HEAD: <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js"></script>
+: #+HTML_HEAD: <script>hljs.highlightAll();</script>
+
+#+begin_src emacs-lisp
+(defun rasmus/org-html-wrap-blocks-in-code (src backend info)
+  "Wrap a source block in <pre><code class=\"lang\">.</code></pre>"
+  (when (org-export-derived-backend-p backend 'html)
+    (replace-regexp-in-string
+     "\\(</pre>\\)" "</code>\n\\1"
+     (replace-regexp-in-string "<pre class=\"src src-\\([^\"]*?\\)\">"
+                               "<pre>\n<code class=\"\\1\">\n" src))))
+
+(add-to-list 'org-export-filter-src-block-functions
+             'rasmus/org-html-wrap-blocks-in-code)
+
+(setq org-html-htmlize-output-type nil)
+#+end_src
+
 *** COMMENT ODT and docx export
 Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 ** Org useful functions
@@ -3184,6 +3208,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 (add-to-list 'org-structure-template-alist (cons "p" "src python"))
 ;; Allow expanding "<j" to a "begin_src jupyter-python" block
 (add-to-list 'org-structure-template-alist (cons "j" "src jupyter-python"))
+;; Allow expanding "<n" to a "begin_src notes" block
 (add-to-list 'org-structure-template-alist (cons "n" "notes"))
 #+end_src
 ** Appearance (face and prettify-symbols)                               :Appearance:
