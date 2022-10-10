@@ -4133,12 +4133,18 @@ Configuration specific to a language should be in that language configuration he
          :map c++-mode-map (
                             ("M-i" . consult-lsp-file-symbols)
                             ("M-I" . consult-lsp-symbols)
-                            ))
+                            )
+         :map python-mode-map (
+                            ("M-i" . consult-lsp-file-symbols)
+                            ("M-I" . consult-lsp-symbols)
+                            )
+         )
   )
 #+end_src
 
 * dap-mode -> Debugger Adapter Protocol
-For c++ see [[*Dap-debug][Dap-debug]]
+For c++ see [[*Dap-debug (C++)][Dap-debug (C++)]]
+For Python see [[*Dap-debug (Python)][Dap-debug (Python)]]
 
 Commands you should know to use dap-mode (see more [[https://emacs-lsp.github.io/dap-mode/page/features/][here]])
 | *Command*                              | *Description*                               |
@@ -4168,9 +4174,12 @@ Commands you should know to use dap-mode (see more [[https://emacs-lsp.github.io
 https://emacs-lsp.github.io/dap-mode/page/features/#launchjson-support
 
 ** Common configuration for dap-mode
+To use the debugger, run ~dap-debug-edit-template~, edit the template and evaluate it.
+
 #+begin_src emacs-lisp
 (use-package dap-mode
   ;; :defer t
+  :ensure t
   :commands (dap-debug dap-debug-edit-template)
   :config
   (dap-mode 1)
@@ -4537,7 +4546,6 @@ inside quotes."
 
 (add-to-list 'auto-mode-alist '("conanfile\\.txt" . conanfile-mode))
 
-
 (use-package conanfile-mode
   :bind
   (:map conanfile-mode-map
@@ -4552,7 +4560,7 @@ inside quotes."
   )
 #+end_src
 
-** Dap-debug
+** Dap-debug (C++)
 There are two alternatives for using dap-debug with c++:
 - [[https://emacs-lsp.github.io/dap-mode/page/configuration/#lldb][LLDB]] -> use ~(require 'dap-lldb)~
 - [[https://emacs-lsp.github.io/dap-mode/page/configuration/#vscode-cpptools][vscode-cpptools]] -> use ~(require 'dap-cpptools)~
@@ -4735,7 +4743,17 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   (add-to-list 'lsp-enabled-clients 'pyright))
 
 #+end_src
+** Dap-debug (Python)
++You need to install ~ptvsd>=4.2~ in your virtual environment+
 
+You need to install ~debugpy~ in your virtual environment
+
+#+begin_src emacs-lisp
+(use-package dap-python
+:custom
+(dap-python-debugger 'debugpy)
+  )
+#+end_src
 * Lisp
 #+begin_src emacs-lisp
 (use-package emacs
