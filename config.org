@@ -2400,6 +2400,27 @@ You can open links by clicking or with the =C-c RET= keybinding.
   )
 #+end_src
 
+** Extra packages for org-babel language suport
+*** Jupyter
+#+begin_src emacs-lisp
+(use-package jupyter
+  :ensure t
+  )
+
+(use-package jupyter-org-client
+  :after jupyter
+  :config
+  (jupyter-org-define-key (kbd "M-<return>") (lambda () (interactive) (org-ctrl-c-ctrl-c) (org-babel-next-src-block)))
+  (jupyter-org-define-key (kbd "C-M-p") (lambda () (interactive) (org-babel-previous-src-block) (next-line)))
+  (jupyter-org-define-key (kbd "C-M-n") (lambda () (interactive) (org-babel-next-src-block) (next-line)))
+  )
+
+  ;; (defun darlan-exec ()
+  ;;   "docstring"
+  ;;   (interactive)
+  ;;   (org-ctrl-c-ctrl-c) (org-babel-next-src-block)
+  ;;   )
+#+end_src
 ** Babel                                                                     :Babel:
 #+begin_src emacs-lisp
 (use-package org
@@ -2450,6 +2471,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
      (latex . t)
      ;; (plantuml . t)
      (java . t)
+     ;; (jupyter . t) ;; Requires the 'jupyter' emacs package and this must come last
      ))
   )
 #+end_src
@@ -3160,6 +3182,8 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 #+begin_src emacs-lisp
 ;; Allow expanding "<p" to a "begin_src python" block
 (add-to-list 'org-structure-template-alist (cons "p" "src python"))
+;; Allow expanding "<j" to a "begin_src jupyter-python" block
+(add-to-list 'org-structure-template-alist (cons "j" "src jupyter-python"))
 (add-to-list 'org-structure-template-alist (cons "n" "notes"))
 #+end_src
 ** Appearance (face and prettify-symbols)                               :Appearance:
