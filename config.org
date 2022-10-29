@@ -1654,6 +1654,14 @@ You can open links by clicking or with the =C-c RET= keybinding.
   )
 #+end_src
 
+** googles -> Highlight modified region using pulse
+#+begin_src emacs-lisp
+(use-package goggles
+  :ensure t
+  :hook ((prog-mode text-mode) . goggles-mode)
+  :config
+  (setq-default goggles-pulse t)) ;; set to nil to disable pulsing
+#+end_src
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src emacs-lisp
 ;; (setq scroll-step 1)
