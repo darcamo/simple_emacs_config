@@ -68,7 +68,10 @@ Good themes:
 
 ;; (set-face-foreground 'font-lock-comment-face "#fc0")
 
-(set-face-attribute 'default nil :family "JetBrains Mono" :height 120)
+(if  (font-info "Menlo")
+    (set-face-attribute 'default nil :family "Menlo" :height 150)
+  (set-face-attribute 'default nil :family "JetBrains Mono" :height 120)
+  )
 #+end_src
 
 ** Customize user interface
