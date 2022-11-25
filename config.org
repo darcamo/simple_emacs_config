@@ -1158,15 +1158,22 @@ of the file associated with the current buffer."
 ;; Check if system is GNU/Linux
 (defun system-type-is-linux ()
   (interactive)
-  "Return true if system"
+  "Return true if system is Linux"
   (string-equal system-type "gnu/linux")
   )
 
 ;; Check if system is Windows
 (defun system-type-is-XP ()
   (interactive)
-  "Return true if system"
+  "Return true if system Windows"
   (string-equal system-type "windows-nt")
+  )
+
+  ;; Check if system is Windows
+(defun system-type-is-macos ()
+  (interactive)
+  "Return true if system MacOS"
+  (string-equal system-type "darwin")
   )
 
 ;; whitespace <-> Underline
