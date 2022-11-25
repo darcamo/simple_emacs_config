@@ -1062,6 +1062,33 @@ of the file associated with the current buffer."
   (interactive)
   (gnome-terminal-dir default-directory))
 
+
+ (defun macos-terminal-dir (dir-as-string)
+  "docstring"
+  (interactive)
+  (start-process-shell-command
+   "browse"
+   "*scratch*"
+   ;; (concat (get-terminal-fullpath) " " (concat "--working-directory \"" (expand-file-name dir-as-string) "\""))
+   (concat "open -n -a Terminal " dir-as-string)
+   )
+  )
+
+(defun macos-terminal-default-dir ()
+  "docstring"
+  (interactive)
+  (macos-terminal-dir default-directory)
+  )
+
+(defun open-terminal-default-dir ()
+  "docstring"
+  (interactive)
+  (if (system-type-is-linux)
+      (gnome-terminal-default-dir)
+    (macos-terminal-default-dir)
+    )
+  )
+
 ;; Ver PDF
 (defun ver-pdf-no-evince (pdf &optional page)
   (start-process-shell-command
@@ -1392,7 +1419,7 @@ of the file associated with the current buffer."
          ([f4] . kill-this-buffer) ;C-x k
          ([f11] . browse-default-dir)
          ([S-f11] . browse-default-dir-in-emacs)
-         ([C-S-f11] . gnome-terminal-default-dir)
+         ([C-S-f11] . open-terminal-default-dir)
          ("C-z" . eshell)
          ("M-z" . (lambda () (interactive) (ansi-term "/bin/zsh")))
          ("C-c o" . other-frame) ; When there are multiple frames, change to another frame
