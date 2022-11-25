@@ -1007,13 +1007,34 @@ With negative N, comment out original line and use the absolute value."
                                   ))
   )
 
-;; Browse Directory
-(defun browse-dir (dir-as-string)
+(defun browse-dir-linux (dir-as-string)
+  "docstring"
+  (interactive)
   (start-process-shell-command
    "browse"
    "*scratch*"
    ;; Trocar nautilus por pcmanfm para o lxde
-   (concat "xdg-open " (expand-file-name dir-as-string))))
+   (concat "xdg-open " (expand-file-name dir-as-string)))
+  )
+
+
+(defun browse-dir-macos (dir-as-string)
+  "docstring"
+  (interactive)
+  (start-process-shell-command
+   "browse"
+   "*scratch*"
+   ;; Trocar nautilus por pcmanfm para o lxde
+   (concat "open -a Finder " (expand-file-name dir-as-string)))
+  )
+
+
+;; Browse Directory
+(defun browse-dir (dir-as-string)
+  (if (system-type-is-linux)
+      (browse-dir-linux dir-as-string)
+    (browse-dir-macos dir-as-string)
+    ))
 
 ;; Use essa para abrir links sftp com o nautilus, como sftp://darlan@<server>/home/blabla
 (defun browse-dir-sftp (dir-as-string)
@@ -1022,7 +1043,7 @@ With negative N, comment out original line and use the absolute value."
    "*scratch*"
    (concat "nautilus --no-desktop " dir-as-string)))
 
-(defun browse-default-dir ()
+(defun browse-default-dir  ()
   "Open Nautilus in the default directory, which is the directory
               of the file associated with the current buffer."
   (interactive)
@@ -1066,7 +1087,7 @@ of the file associated with the current buffer."
   (gnome-terminal-dir default-directory))
 
 
- (defun macos-terminal-dir (dir-as-string)
+(defun macos-terminal-dir (dir-as-string)
   "docstring"
   (interactive)
   (start-process-shell-command
@@ -1199,7 +1220,7 @@ of the file associated with the current buffer."
   (string-equal system-type "windows-nt")
   )
 
-  ;; Check if system is Windows
+;; Check if system is Windows
 (defun system-type-is-macos ()
   (interactive)
   "Return true if system MacOS"
@@ -1420,7 +1441,7 @@ of the file associated with the current buffer."
          ([f3] . bury-buffer) ; put the current buffer at the end of the buffer list
          ([C-f3] . unbury-buffer) ; change the buffert at the end of the buffer list to the current buffer
          ([f4] . kill-this-buffer) ;C-x k
-         ([f11] . browse-default-dir)
+         ([C-f11] . browse-default-dir)
          ([S-f11] . browse-default-dir-in-emacs)
          ([C-S-f11] . open-terminal-default-dir)
          ("C-z" . eshell)
