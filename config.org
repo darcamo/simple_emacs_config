@@ -24,6 +24,12 @@ used for the first time they should be "configured".
 (setq use-package-compute-statistics t)
 #+end_src
 
+#+begin_src emacs-lisp
+(straight-use-package 'use-package)
+(use-package el-patch
+  :straight t)
+#+end_src
+
 * Safe local variables
 #+begin_src emacs-lisp
 (put 'helm-make-build-dir 'safe-local-variable 'stringp)
@@ -4336,11 +4342,8 @@ Set a buffer to read-only when this minor mode is active
 * C++                                                               :CPP:Programming:
 ** Load the package with use-package
 #+begin_src emacs-lisp
-(straight-use-package
- '(el-patch :type git :host github :repo "darcamo/cmake-integration")
- )
-
 (use-package cmake-integration
+  :straight (cmake-integration :type git :host github :repo "darcamo/cmake-integration")
   :bind
   (:map c++-mode-map
         ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
@@ -4455,70 +4458,75 @@ Set a buffer to read-only when this minor mode is active
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("qml.qrc" . xml-mode))
 #+end_src
+*** qml-integration package
+#+begin_src emacs-lisp
+(use-package qml-integration
+  :straight (qml-integration :type git :host github :repo "darcamo/qml-integration")
+  )
+#+end_src
 *** QML-Mode package
 #+begin_src emacs-lisp
-(defcustom my/qml-root-folder "~/git_files/soft-clients/modules/ui_pre_session_qt/src/view/impls/qml/janus" "Root folder from where to run qmlscene")
+(use-package qml-mode
+:ensure t
+:bind ( :map qml-mode-map
+          ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
+          ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
+          ([f10] . cmake-integration-run-last-target)
+          ([M-f10] . cmake-integration-run-last-target-with-arguments)
+          ([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
+          ([M-f10] . qml-integration-choose-qml-style)
+          ([C-f10] . qml-integration-run-qmlscene)
+          ([S-f10] . qml-integration-run-qmltestrunner)
+          ([M-f8] . cmake-integration-select-configure-preset)
+          ([f8] . cmake-integration-cmake-reconfigure)
+          )
+:hook
+  (qml-mode . (lambda () (setq comment-start "// ") (setq comment-end "")))
+)
+#+end_src
 
-(defcustom my/qmlscene-extra-args "-I imports -I ." "Extra arguments to pass to qmlscene")
-
-(defun my/get-qml-files ()
-  "Get a list with all QML files in the project."
-  (split-string (shell-command-to-string (format "fd -t f \".qml$\" %s" (project-root (project-current))))))
-
-(defun my/get-qml-test-files ()
-  "Get a list with all QML files in the project."
-  (split-string (shell-command-to-string (format "fd -t f \"tst_.*\.qml$\" %s" (project-root (project-current))))))
-
-(defcustom my/qt-quick-controls-style "$(pwd)/imports/Janus" "Style to use with qmlscene")
-
-(defcustom my/qmltestrunner-extra-args "-silent" "Extra arguments padded to qmltestrunner")
-
-(defun my/choose-qml-style ()
-  "docstring"
-  (interactive)
-  (setq my/qt-quick-controls-style (completing-read "Choose style: " '("$(pwd)/imports/Janus" "Fusion" "material" "Universal" "Plasma")))
-  )
-
+*** Janus Colors
+#+begin_src emacs-lisp
 (defconst my/janus-colors '(("white" "#ffffff")
-  ("black" "#000000")
-  ("transparent" "#00000000")
-  ("pacificBlueB25" "#ECF5F6")
-  ("pacificBlueB300" "#4CCCD7")
-  ("pacificBlueB600" "#00B7C8")
-  ("pacificBlueB700" "#03929D")
-  ("pacificBlueB800" "#057E85")
-  ("pacificBlueB900" "#075B5C")
-  ("astronauteBlueB100" "#B3D7F0")
-  ("grayG5" "#F9F9F9")
-  ("grayG10" "#F4F4F4")
-  ("grayG20" "#E0E0E0")
-  ("grayG30" "#C6C6C6")
-  ("grayG40" "#A8A8A8")
-  ("grayG50" "#8D8D8D")
-  ("grayG60" "#6F6F6F")
-  ("grayG70" "#525252")
-  ("grayG80" "#393939")
-  ("grayG90" "#262626")
-  ("grayG100" "#161616")
-  ("criticalR25" "#FDF3F2")
-  ("criticalR600" "#F43B17")
-  ("criticalR700" "#D82B0D")
-  ("criticalR800" "#D82B0D")
-  ("criticalR900" "#BF1A02")
-  ("warningY25" "#FEF9F0")
-  ("warningY900" "#DC5A25")
-  ("successG25" "#F2FAF6")
-  ("successG600" "#169F67")
-  ("successG900" "#065C39")
-  ("informationalIB25" "#EBF3FA")
-  ("informationalIB700" "#106EEA")
-  ("informationalIB800" "#185CD7")
-  ("informationalIB900" "#1E3BB8")
-  ("switchChecked" "#4BBA86")
-  ("switchCheckedBorder" "#17a81a")
-  ("switchUnCheckedBorder" "#cccccc")
-  ("switchUpUnCheckedBorder" "#21be2b")
-  ("almostWhite" "#999999"))
+                            ("black" "#000000")
+                            ("transparent" "#00000000")
+                            ("pacificBlueB25" "#ECF5F6")
+                            ("pacificBlueB300" "#4CCCD7")
+                            ("pacificBlueB600" "#00B7C8")
+                            ("pacificBlueB700" "#03929D")
+                            ("pacificBlueB800" "#057E85")
+                            ("pacificBlueB900" "#075B5C")
+                            ("astronauteBlueB100" "#B3D7F0")
+                            ("grayG5" "#F9F9F9")
+                            ("grayG10" "#F4F4F4")
+                            ("grayG20" "#E0E0E0")
+                            ("grayG30" "#C6C6C6")
+                            ("grayG40" "#A8A8A8")
+                            ("grayG50" "#8D8D8D")
+                            ("grayG60" "#6F6F6F")
+                            ("grayG70" "#525252")
+                            ("grayG80" "#393939")
+                            ("grayG90" "#262626")
+                            ("grayG100" "#161616")
+                            ("criticalR25" "#FDF3F2")
+                            ("criticalR600" "#F43B17")
+                            ("criticalR700" "#D82B0D")
+                            ("criticalR800" "#D82B0D")
+                            ("criticalR900" "#BF1A02")
+                            ("warningY25" "#FEF9F0")
+                            ("warningY900" "#DC5A25")
+                            ("successG25" "#F2FAF6")
+                            ("successG600" "#169F67")
+                            ("successG900" "#065C39")
+                            ("informationalIB25" "#EBF3FA")
+                            ("informationalIB700" "#106EEA")
+                            ("informationalIB800" "#185CD7")
+                            ("informationalIB900" "#1E3BB8")
+                            ("switchChecked" "#4BBA86")
+                            ("switchCheckedBorder" "#17a81a")
+                            ("switchUnCheckedBorder" "#cccccc")
+                            ("switchUpUnCheckedBorder" "#21be2b")
+                            ("almostWhite" "#999999"))
   "Colors defined in the Palette for Janus."
   )
 
@@ -4526,13 +4534,12 @@ Set a buffer to read-only when this minor mode is active
 ;; annotation, and the string that will be inserted
 (defconst my/janus-colors--completion  (mapcar (lambda (arg)
                                                  (let* (
-                                                       (colorName (car arg))
-                                                       (colorCode (upcase (car (cdr arg))))
-                                                       (fullColorName (concat "Palette." colorName))
-                                                       )
+                                                        (colorName (car arg))
+                                                        (colorCode (upcase (car (cdr arg))))
+                                                        (fullColorName (concat "Palette." colorName))
+                                                        )
                                                    `(,(format "%s (%s)" colorName colorCode) ,fullColorName ,colorCode)
                                                    )) my/janus-colors))
-
 
 (defun my/choose-qml-janus-color--annotation-function (s)
   "Annotate the cadidate S."
@@ -4550,8 +4557,8 @@ If no match found, then whatever was typed will be returned
 inside quotes."
   (interactive)
   (let* ((all-completions my/janus-colors--completion)
-        (choice (let ((completion-extra-properties '(:annotation-function my/choose-qml-janus-color--annotation-function)))
-                  (completing-read "Prompt: " all-completions))))
+         (choice (let ((completion-extra-properties '(:annotation-function my/choose-qml-janus-color--annotation-function)))
+                   (completing-read "Prompt: " all-completions))))
     (let ((item (assoc choice all-completions)))
       (if item
           (nth 1 item)
@@ -4563,52 +4570,6 @@ inside quotes."
   (interactive)
   (insert (my/choose-qml-janus-color))
   )
-
-
-(defun my/run-qmlscene ()
-  "Ask the user to choose a QML file in the project and run it with qmlscene."
-  (interactive)
-  (compile (format
-            "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmlscene %s %s"
-            my/qml-root-folder
-            my/qt-quick-controls-style
-            my/qmlscene-extra-args
-            (completing-read "Choose file: " (my/get-qml-files) nil t))))
-
-(defun my/run-qmltestrunner ()
-  "Ask the user to choose a QML file in the project and run it with qmlscene."
-  (interactive)
-  (if current-prefix-arg
-      (compile (format
-                "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmltestrunner -import imports -import . %s"
-                my/qml-root-folder
-                my/qt-quick-controls-style
-                my/qmltestrunner-extra-args))
-    (compile (format
-              "cd %s && QT_QUICK_CONTROLS_STYLE=%s qmltestrunner -import imports -import . -input %s %s"
-              my/qml-root-folder
-              my/qt-quick-controls-style
-              (completing-read "Choose test file: " (my/get-qml-test-files) nil t)
-              my/qmltestrunner-extra-args))))
-
-
-(use-package qml-mode
-  :ensure t
-  :defer t
-  :bind ( :map qml-mode-map
-          ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
-          ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
-          ([f10] . cmake-integration-run-last-target)
-          ([M-f10] . cmake-integration-run-last-target-with-arguments)
-          ([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
-          ([M-f10] . my/choose-qml-style)
-          ([C-f10] . my/run-qmlscene)
-          ([S-f10] . my/run-qmltestrunner)
-          ([M-f8] . cmake-integration-select-configure-preset)
-          ([f8] . cmake-integration-cmake-reconfigure)
-          )
-  :hook
-  (qml-mode . (lambda () (setq comment-start "// ") (setq comment-end ""))))
 #+end_src
 *** Detect filename in compilation-mode for qmltestrunner errors
 #+begin_src emacs-lisp
