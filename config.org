@@ -4835,6 +4835,7 @@ You need to install ~debugpy~ in your virtual environment
   (pcoip-log-mode . view-mode)
   (pcoip-log-mode . read-only-mode)
   (pcoip-log-mode . auto-revert-tail-mode)
+  (pcoip-log-mode . linum-mode)
   (pcoip-log-mode . (lambda () (add-to-list 'prettify-symbols-alist '("00000000-0000-0000-0000-000000000000" . "※"))
                       (prettify-symbols-mode)))
   :init
