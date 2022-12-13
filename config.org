@@ -1744,6 +1744,8 @@ You can open links by clicking or with the =C-c RET= keybinding.
 (use-package magit
   :ensure t
   :bind ("C-x g" . magit-status)
+  :custom
+  (magit-diff-refine-hunk t)  ;; Note sure about the effect of this one
   )
 #+end_src
 
@@ -1784,8 +1786,8 @@ You can open links by clicking or with the =C-c RET= keybinding.
   (server-start))
 #+end_src
 
-* Spell checking                                                      :SpellChecking:
-** Config
+* Spell and grammar checking                                          :SpellChecking:
+** Spell checking config
 #+begin_src emacs-lisp
 ;; find aspell and hunspell automatically
 (cond
@@ -1822,7 +1824,10 @@ You can open links by clicking or with the =C-c RET= keybinding.
 (add-to-list 'ispell-skip-region-alist '("\\\\begin{equation}" . "\\\\end{equation}"))
 (add-to-list 'ispell-skip-region-alist '("\\\\begin{align}" . "\\\\end{align}"))
 #+end_src
+** Gramar checking config
+See [[https://languagetool.org/pt-BR/premium][languagetool]] and the flycheck-languagetool package.
 
+There is also lsp-grammarly, but it requires an account.
 ** Functions
 #+begin_src emacs-lisp
 ;; lookup-word-definition
