@@ -24,12 +24,6 @@ used for the first time they should be "configured".
 (setq use-package-compute-statistics t)
 #+end_src
 
-#+begin_src emacs-lisp
-(straight-use-package 'use-package)
-(use-package el-patch
-  :straight t)
-#+end_src
-
 * Safe local variables
 #+begin_src emacs-lisp
 (put 'helm-make-build-dir 'safe-local-variable 'stringp)
