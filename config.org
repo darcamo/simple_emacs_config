@@ -1786,6 +1786,17 @@ You can open links by clicking or with the =C-c RET= keybinding.
   (server-start))
 #+end_src
 
+* Artist-mode
+#+begin_src emacs-lisp
+(use-package artist
+  :hook
+  (artist-mode . (lambda ()
+   (add-to-list 'prettify-symbols-alist '("->" . "→"))
+   (setq prettify-symbols-unprettify-at-point t)
+   (prettify-symbols-mode)
+   ))
+  )
+#+end_src
 * Spell and grammar checking                                          :SpellChecking:
 ** Spell checking config
 #+begin_src emacs-lisp
