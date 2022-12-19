@@ -1442,7 +1442,7 @@ of the file associated with the current buffer."
          ([f2] . delete-window)
          ([f3] . bury-buffer) ; put the current buffer at the end of the buffer list
          ([C-f3] . unbury-buffer) ; change the buffert at the end of the buffer list to the current buffer
-         ([f4] . kill-this-buffer) ;C-x k
+         ([f4] . (lambda () (interactive) (kill-buffer (current-buffer)))) ;C-x k
          ([C-f11] . browse-default-dir)
          ([S-f11] . browse-default-dir-in-emacs)
          ([C-S-f11] . open-terminal-default-dir)
