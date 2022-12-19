@@ -3,7 +3,16 @@
 
 (setq mc/cmds-to-run-for-all
       '(
+        artist-backward-char
+        artist-forward-char
+        c-electric-brace
+        c-electric-colon
+        c-electric-lt-gt
+        c-electric-slash
         delete-horizontal-space
+        dired-next-line
+        dired-unmark-backward
+        electric-newline-and-maybe-indent
         forward-sexp
         kill-region
         org-beginning-of-line
@@ -12,6 +21,12 @@
         org-force-self-insert
         org-self-insert-command
         org-yank
+        picture-end-of-line
+        picture-self-insert
+        transpose-words
+        wdired--self-insert
+        wdired-next-line
+        wdired-previous-line
         ))
 
 (setq mc/cmds-to-run-once
@@ -23,4 +38,5 @@
         ace-mc-add-single-cursor
         ace-mc-do-keyboard-reset
         ace-mc-quick-exchange
+        wdired-finish-edit
         ))
