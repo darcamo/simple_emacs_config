@@ -4733,6 +4733,11 @@ You need to install ~debugpy~ in your virtual environment
   (flycheck-emacs-lisp-load-path 'inherit))
 #+end_src
 
+* CSV
+#+begin_src emacs-lisp
+(use-package csv-mode
+  :ensure t)
+#+end_src
 * PCoIP log-file mode
 #+begin_src emacs-lisp
 ;; You need to have the package already installed somewhere where Emacs can find it.
