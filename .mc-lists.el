@@ -8,13 +8,18 @@
         c-electric-brace
         c-electric-colon
         c-electric-lt-gt
+        c-electric-paren
         c-electric-slash
+        c-indent-line-or-region
+        consult-yank-pop
         delete-horizontal-space
         dired-next-line
         dired-unmark-backward
         electric-newline-and-maybe-indent
         forward-sexp
+        indent-for-tab-command
         kill-region
+        nxml-electric-slash
         org-beginning-of-line
         org-emphasize
         org-end-of-line
@@ -39,4 +44,7 @@
         ace-mc-do-keyboard-reset
         ace-mc-quick-exchange
         wdired-finish-edit
+        handle-switch-frame
+        magit-status
+        undo-redo
         ))
