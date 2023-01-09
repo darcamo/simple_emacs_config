@@ -5564,6 +5564,9 @@ Veja a nota [[file:~/org/org-roam-notes/20210305171627-leituras_de_papers_e_outr
 Set my default bibliography.
 You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
 #+begin_src emacs-lisp
+(use-package f
+  :ensure t)
+
 ;; Base folder for my global bib files. There is also a pdfs folder
 ;; inside with PDF files for the entries in the bib files.
 (setq my-references-folder "~/Dropbox/org/references")
