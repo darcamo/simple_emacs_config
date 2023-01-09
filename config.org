@@ -2399,50 +2399,7 @@ There is also lsp-grammarly, but it requires an account.
   :ensure t
   :after org
   :custom
-  (org-super-agenda-groups
-   '((:name "Canceladas"
-            :todo "CANC"
-            :order 500)
-     (:name "Tarefas Concluídas"
-            :todo "DONE"
-            ;; :and (:regexp "State \"DONE\""
-            ;;               )
-            :face (:foreground "gray40")
-            :order 1) ;; Any item without order has a value of zero
-     (
-      :name "Started"
-      ;; :time-grid t
-      :todo "STARTED")
-     (
-      :name "Importantes"
-      :priority "A")
-     (:name "WAIT"
-            ;; :time-grid t
-            :todo "WAIT"
-            )
-     (:name "Atrasadas"
-            :deadline past)
-     (:name "GTEL"
-            :category "GTEL"
-            )
-     (:name "Estudos"
-            :category "Estudos"
-            :order 50)
-     (:name "Someday"
-            :tag "Someday"
-            :order 100
-                                        ; :face (:foreground "gray40")
-            )
-     (:name "Finanças"
-            :tag "Finanças"
-            :order 150
-            )
-     (:name "References"
-            :category "References"
-            :order 200)
-     (:auto-category t)
-     ))
-  (org-super-agenda-header-separator "")
+  (org-super-agenda-header-separator "--- ")
   :config
   (org-super-agenda-mode)
 
