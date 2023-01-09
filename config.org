@@ -4133,7 +4133,19 @@ DIR must include a .project file to be considered a project."
   (add-to-list 'project-find-functions 'mu-project-try-local)
   )
 #+end_src
+* Tree-sitter                                                            :CPP:Python:
+#+begin_src emacs-lisp
+(use-package tree-sitter
+  :ensure t
+  :config
+  (global-tree-sitter-mode))
 
+(use-package tree-sitter-langs
+  :ensure t
+    :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+         (c++-mode . tree-sitter-hl-mode)
+         (python-mode . tree-sitter-hl-mode)))
+#+end_src
 * LSP                                                                   :Programming:
 General configuration to LSP.
 
