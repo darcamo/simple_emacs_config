@@ -1761,7 +1761,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 #+begin_src emacs-lisp
 (use-package blamer
   :ensure t
-  :bind (("s-i" . blamer-show-commit-info))
+  :bind (("s-i" . blamer-show-posframe-commit-info))
   ;; :defer 20
   :custom
   (blamer-idle-time 0.3)
