@@ -1,0 +1,16 @@
+# -*- mode: snippet -*-
+# contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+# name: two-columns in org-Reveal
+# key: columns
+# --
+#+begin_columns
+#+ATTR_HTML: :class w-80 align-middle
+#+begin_column
+$0
+#+end_column
+
+#+ATTR_HTML: :class w-20 align-middle
+#+begin_column
+
+#+end_column
+#+end_columns
