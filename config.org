@@ -138,7 +138,7 @@ The keybindinds all start with =C-x t=
 Alternative modeline similar to powerline
 
 https://github.com/dbordak/telephone-line
-** Dashboard                                                             :Dashboard:
+** COMMENT Dashboard                                                             :Dashboard:
 #+begin_src emacs-lisp
 (use-package dashboard
   :ensure t
