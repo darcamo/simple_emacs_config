@@ -16,3 +16,8 @@ tramp
 nov-places
 local/cmake-integration.el
 straight
+.extension/
+.dap-breakpoints
+eln-cache
+session.*
+auto-save-list
