@@ -21,3 +21,6 @@ straight
 eln-cache
 session.*
 auto-save-list
+logview-cache.extmap
+image-dired
+gdb_window_configuration
