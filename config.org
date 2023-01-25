@@ -3753,6 +3753,16 @@ https://github.com/publicimageltd/delve
 
 Currently it is not in melpa yet
 
+* Edit indirect buffer
+Edit regions in separate buffers, like `org-edit-src-code' but for arbitrary
+regions.
+
+See the docstring of [[help:edit-indirect-region][edit-indirect-region]] for details.
+
+#+begin_src emacs-lisp
+(use-package edit-indirect
+  :ensure t)
+#+end_src
 * COMMENT Visual-fill-column in org-mode
 #+begin_src emacs-lisp
 (use-package visual-fill-column
