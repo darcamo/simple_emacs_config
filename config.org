@@ -3252,7 +3252,8 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 ;; Allow expanding "<n" to a "begin_src notes" block
 (add-to-list 'org-structure-template-alist (cons "n" "notes"))
 #+end_src
-** Appearance (face and prettify-symbols)                               :Appearance:
+** Appearance                                                           :Appearance:
+*** Face and prettify-symbols
 #+begin_src emacs-lisp
 (use-package org-faces
   :custom
@@ -3328,6 +3329,23 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
                 ))
   ;; Enable visual-line-mode in all org-mode buffers
   ;; (org-mode . visual-line-mode)
+  )
+#+end_src
+*** Org-appear
+Show emphasis markers when cursor is on marked text. The default only shows emphasis
+markers, but not other things like links. This is good enough for me.
+
+This is controlled by the variables
+- org-appear-autolinks
+- org-appear-autoemphasis (default is ~t~)
+- org-appear-autoentities
+- org-appear-autokeywords
+- org-appear-autosubmarker
+
+#+begin_src emacs-lisp
+(use-package org-appear
+  :ensure t
+  :hook (org-mode . org-appear-mode)
   )
 #+end_src
 
