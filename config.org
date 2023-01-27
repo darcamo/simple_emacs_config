@@ -4368,7 +4368,7 @@ Set a buffer to read-only when this minor mode is active
 #+begin_src emacs-lisp
 (use-package cc-mode
   :defer t
-  :bind (:map c++-mode-map
+  :bind (:map c-mode-base-map
               ([S-f9] . cmake-integration-generate-project-documentation)  ;; Generate the doxygen documentation
               ([C-S-f9] .  cmake-integration-view-project-documentation)
               ;; Alternate between header and source. You could also use lsp-clangd-find-other-file instead
