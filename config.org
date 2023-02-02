@@ -4225,6 +4225,17 @@ Configuration specific to a language should be in that language configuration he
   )
 #+end_src
 
+* LSP-UI
+#+begin_src emacs-lisp
+(use-package lsp-ui
+  :ensure t
+  :custom
+  ; Position of the popup shown by lsp-ui-doc-glance -> C-c C-l h g
+  (lsp-ui-doc-position 'at-point)
+  (lsp-ui-doc-max-height 20)
+  (lsp-ui-doc-max-width 250)
+)
+#+end_src
 * dap-mode -> Debugger Adapter Protocol
 For c++ see [[*Dap-debug (C++)][Dap-debug (C++)]]
 For Python see [[*Dap-debug (Python)][Dap-debug (Python)]]
