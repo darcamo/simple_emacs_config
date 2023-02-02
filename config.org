@@ -4212,10 +4212,13 @@ Configuration specific to a language should be in that language configuration he
   :ensure t
   :bind (
          :map c-mode-base-map (
+                            ;; ("M-i" . consult-lsp-file-symbols)
+                            ("M-i" . consult-imenu)
                             ("M-I" . consult-lsp-symbols)
                             )
          :map python-mode-map (
-                            ("M-i" . consult-lsp-file-symbols)
+                            ;; ("M-i" . consult-lsp-file-symbols)
+                            ("M-i" . consult-imenu)
                             ("M-I" . consult-lsp-symbols)
                             )
          )
