@@ -3,7 +3,7 @@
 ;; Taken from https://raw.githubusercontent.com/snackon/Witchmacs/master/init.el
 ;; Make emacs startup faster by reducing garbage collection during startup
 
-(setq gc-cons-threshold 402653184
+(setq gc-cons-threshold most-positive-fixnum ;;402653184
       gc-cons-percentage 0.6)
 
 (defvar startup/file-name-handler-alist file-name-handler-alist)
@@ -68,3 +68,4 @@
 
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name (concat user-emacs-directory "config.org")))
+(put 'narrow-to-region 'disabled nil)
