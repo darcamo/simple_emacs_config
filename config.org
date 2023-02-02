@@ -4171,7 +4171,7 @@ DIR must include a .project file to be considered a project."
 (use-package tree-sitter-langs
   :ensure t
     :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (c++-mode . tree-sitter-hl-mode)
+         (c-mode-common . tree-sitter-hl-mode)
          (python-mode . tree-sitter-hl-mode)))
 #+end_src
 * LSP                                                                   :Programming:
@@ -4192,7 +4192,7 @@ Configuration specific to a language should be in that language configuration he
 (use-package lsp-mode
   :ensure t
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (c++-mode . lsp)
+         (c-mode-common . lsp)
          (python-mode . lsp)
          (cmake-mode . lsp)
          ;; if you want which-key integration
@@ -4211,8 +4211,7 @@ Configuration specific to a language should be in that language configuration he
 (use-package consult-lsp
   :ensure t
   :bind (
-         :map c++-mode-map (
-                            ("M-i" . consult-lsp-file-symbols)
+         :map c-mode-base-map (
                             ("M-I" . consult-lsp-symbols)
                             )
          :map python-mode-map (
@@ -4336,7 +4335,7 @@ Set a buffer to read-only when this minor mode is active
 (use-package cmake-integration
   :straight (cmake-integration :type git :host github :protocol ssh :repo "darcamo/cmake-integration")
   :bind
-  (:map c++-mode-map
+  (:map c-mode-base-map
         ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
         ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
         ([f10] . cmake-integration-run-last-target)
@@ -5593,7 +5592,7 @@ Layer darcamo-preview-latex
   :commands (org-fragtog-mode)
   :hook (org-mode . org-fragtog-mode)
   :hook (python-mode . org-fragtog-mode)
-  :hook (c++-mode . org-fragtog-mode)
+  :hook (c-mode-common . org-fragtog-mode)
   )
 #+end_src
 
