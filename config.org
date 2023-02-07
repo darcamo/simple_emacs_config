@@ -1063,17 +1063,15 @@ With negative N, comment out original line and use the absolute value."
 First it will try the tilix terminal emulator. If not installed
 it will try gnome-terminal and if that is not installed it will
 then try lxterminal."
-  (let ((terminal (executable-find "tilix")))
-    (when (equal terminal nil)
-      (setq terminal (executable-find "gnome-terminal")))
-    (when (equal terminal nil)
-      (setq terminal (executable-find "lxterminal")))
-    (when (equal terminal nil)
-      (setq terminal (executable-find "konsole")))
-    terminal
-    ))
+  (cond
+   ((executable-find "kitty") "kitty")
+   ((executable-find "tilix") "tilix")
+   ((executable-find "gnome-terminal") "gnome-terminal")
+   ((executable-find "konsole") "konsole")
+   ((executable-find "lxterminal") "lxterminal")
+   ))
 
-(defun gnome-terminal-dir (dir-as-string)
+(defun linux-terminal-dir (dir-as-string)
   "Open terminal in the provided directory"
   (start-process-shell-command
    "browse"
@@ -1082,11 +1080,11 @@ then try lxterminal."
    (concat (get-terminal-fullpath))
    ))
 
-(defun gnome-terminal-default-dir ()
+(defun linux-terminal-default-dir ()
   "Open terminal in the default directory, which is the directory
 of the file associated with the current buffer."
   (interactive)
-  (gnome-terminal-dir default-directory))
+  (linux-terminal-dir default-directory))
 
 
 (defun macos-terminal-dir (dir-as-string)
@@ -1110,7 +1108,7 @@ of the file associated with the current buffer."
   "docstring"
   (interactive)
   (if (system-type-is-linux)
-      (gnome-terminal-default-dir)
+      (linux-terminal-default-dir)
     (macos-terminal-default-dir)
     )
   )
@@ -4814,7 +4812,6 @@ https://writequit.org/articles/working-with-logs-in-emacs.html
 ;;   ;;              )
 ;;   )
 #+end_src
-
 
 * Latex                                                                       :Latex:
 ** Some useful functions
