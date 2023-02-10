@@ -4473,7 +4473,7 @@ Set a buffer to read-only when this minor mode is active
 ** Qt and QML
 *** Set mode of qml.qrc file to xml-mode
 #+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("qml.qrc" . xml-mode))
+(add-to-list 'auto-mode-alist '(".qrc" . xml-mode))
 #+end_src
 *** qml-integration package
 #+begin_src emacs-lisp
