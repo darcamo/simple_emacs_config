@@ -1,8 +1,11 @@
 
 ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+;; Write customizations to a separate file instead of the init file.
+(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
+(load custom-file t)
+
 ;; Taken from https://raw.githubusercontent.com/snackon/Witchmacs/master/init.el
 ;; Make emacs startup faster by reducing garbage collection during startup
-
 (setq gc-cons-threshold most-positive-fixnum ;;402653184
       gc-cons-percentage 0.6)
 

@@ -1411,11 +1411,6 @@ of the file associated with the current buffer."
                                      recenter-top-bottom other-window))
   (advice-add command :after #'pulse-line))
 
-
-;; Write customizations to a separate file instead of the init file.
-(setq custom-file (expand-file-name "custom.el" user-emacs-directory))
-(load custom-file t)
-
 (use-package rainbow-delimiters
   :ensure t
   :defer t
