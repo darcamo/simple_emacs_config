@@ -3882,6 +3882,12 @@ Useful keybindings:
 #+end_src
 
 * General Programming (not including any specific language)             :Programming:
+** Line numbers
+#+begin_src emacs-lisp
+(use-package emacs
+  :hook
+  (prog-mode . linum-mode))
+#+end_src
 ** Some pretty symbols
 #+begin_src emacs-lisp
 (add-hook
