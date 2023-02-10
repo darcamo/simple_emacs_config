@@ -827,8 +827,8 @@ Tente o corfu-mode primeiro
 ;; From https://stackoverflow.com/a/4717026/1102805
 ;; This is also in https://www.emacswiki.org/emacs/CopyingWholeLines
 (defun duplicate-line-or-region (&optional n)
-  "Duplicate current line, or region if active.
-With argument N, make N copies.
+  "Create N copies of the current line, or region if active.
+If N is not provided, just duplicate the line or region.
 With negative N, comment out original line and use the absolute value."
   (interactive "*p")
   (let ((use-region (use-region-p)))
@@ -976,13 +976,16 @@ With negative N, comment out original line and use the absolute value."
   )
 
 (defun get-today-org-time-stamp ()
-  "Insert a time-stamp for today in the same format org-mode uses
-        for inactive timestamps."
+  "Insert a `time-stamp' for today.
+
+The format is the same format that `org-mode' uses for inactive
+timestamps."
   (interactive)
   (format-time-string "[%Y-%m-%d %a]" (current-time))
   )
 
 (defun get-previous-month()
+  "Get the name of the previous month."
   (interactive)
   (capitalize (format-time-string "%B"
                                   ;; decode-time retorna uma lista especificando a data/hora atual na forma
@@ -995,7 +998,8 @@ With negative N, comment out original line and use the absolute value."
   )
 
 (defun get-previous-month-year()
-  "Get the year of the previous month. This will be equal to the current yar except when we are in january"
+  "Get the year of the previous month.
+This will be equal to the current yar except when we are in january"
   (interactive)
   (capitalize (format-time-string "%Y"
                                   ;; decode-time retorna uma lista especificando a data/hora atual na forma
@@ -1007,21 +1011,28 @@ With negative N, comment out original line and use the absolute value."
                                   ))
   )
 
+(defun get-filebrowse-program-linux ()
+  "Get the name of the file browser app to use to open a folder outside Emacs."
+  (cond
+   ((executable-find "nautilus") "nautilus")
+   ((executable-find "dolphin") "dolphin")
+   )
+  )
+
 (defun browse-dir-linux (dir-as-string)
-  "docstring"
+  "Open filebrowser in the DIR-AS-STRING directory in Linux."
   (interactive)
   (start-process-shell-command
    "browse"
    "*scratch*"
    ;; Trocar nautilus por pcmanfm para o lxde
    ;; (concat "xdg-open " (expand-file-name dir-as-string))
-   (concat "nautilus " (expand-file-name dir-as-string))
+   (concat (get-filebrowse-program-linux) " " (expand-file-name dir-as-string))
    )
   )
 
-
 (defun browse-dir-macos (dir-as-string)
-  "docstring"
+  "Open filebrowser in the DIR-AS-STRING directory in MacOS."
   (interactive)
   (start-process-shell-command
    "browse"
@@ -1029,7 +1040,6 @@ With negative N, comment out original line and use the absolute value."
    ;; Trocar nautilus por pcmanfm para o lxde
    (concat "open -a Finder " (expand-file-name dir-as-string)))
   )
-
 
 ;; Browse Directory
 (defun browse-dir (dir-as-string)
@@ -1046,8 +1056,7 @@ With negative N, comment out original line and use the absolute value."
    (concat "nautilus --no-desktop " dir-as-string)))
 
 (defun browse-default-dir  ()
-  "Open Nautilus in the default directory, which is the directory
-              of the file associated with the current buffer."
+  "Open filebrowser in the default directory."
   (interactive)
   (browse-dir default-directory))
 
