@@ -4051,6 +4051,11 @@ TODO: Use the new [[https://github.com/dalanicolai/image-roll.el][image-roll]] p
 ;; :config (add-hook 'dired-mode-hook 'dired-git-mode)
 ;; )
 
+(use-package dired
+  :custom
+  (dired-dwim-target 'dired-dwim-target-next)
+  )
+
 (use-package dired-x
   :bind (:map dired-mode-map
   ("C-x M-o" . dired-omit-mode))
