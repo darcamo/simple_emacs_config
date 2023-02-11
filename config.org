@@ -3608,6 +3608,9 @@ This package is not in melpa yet.
                                 ("gi" "IAB" plain "Criado em %u\n\n- Links :: [[id:0878fa71-2454-4d2d-a63f-8327a8a70681][IAB]]\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:IAB:5G:"))
                                  :unnarrowed t :immediate-finish t)
+                                ("gn" "NCR" plain "Criado em %u\n\n- Links :: [[id:06bb82e9-6eb6-4e32-a953-f08adf08d428][NCR]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:NCR:5G:"))
+                                 :unnarrowed t :immediate-finish t)
 
                                 ("p" "Programação")
                                 ("pp" "Python" plain "Criado em %u\n\n- Links :: [[id:0cd3f915-9476-43b8-a17c-f113f912a2ae][Python]]\n\n%?" :if-new
@@ -3662,6 +3665,9 @@ This package is not in melpa yet.
                                   :and (= type "id")]
                          (org-roam-node-id node)))))
       (format "[%d]" count)))
+
+  ;; org-roam-title is the face used for the titles in the backlinks buffer
+  (set-face-foreground 'org-roam-title (face-foreground 'org-level-1))
 
   :hook
   ;; Add a draft tag to all new notes. The idea is that I should
