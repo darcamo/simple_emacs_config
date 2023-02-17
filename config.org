@@ -138,36 +138,6 @@ The keybindinds all start with =C-x t=
 Alternative modeline similar to powerline
 
 https://github.com/dbordak/telephone-line
-** COMMENT Dashboard                                                             :Dashboard:
-#+begin_src emacs-lisp
-(use-package dashboard
-  :ensure t
-  :custom
-  (dashboard-projects-backend 'project-el)
-  ;; (dashboard-items '((recents  . 5)
-  ;;                    (bookmarks . 5)
-  ;;                    (projects . 5)
-  ;;                    (agenda . 5)
-  ;;                    (registers . 5)))
-  (dashboard-items '((recents  . 5)
-                     (bookmarks . 5)
-                     (projects . 5)
-                     (agenda . 8)))
-  (dashboard-set-heading-icons t)
-
-  ;; Note that this is not a regexp, but a "tag match"
-  ;; See https://orgmode.org/manual/Matching-tags-and-properties.html
-  (dashboard-match-agenda-entry "Atlântico-habit|GTEL")
-  (dashboard-agenda-release-buffers t)
-
-  ;; Configure initial-buffer-choice to show Dashboard in frames
-  ;; created with emacsclient -c as follows:
-  (initial-buffer-choice (lambda () (get-buffer "*dashboard*")))
-  (dashboard-set-footer nil)
-  :config
-  (dashboard-setup-startup-hook))
-#+end_src
-
 * Completion framework [0/2]                                             :Completion:
 ** COMMENT Ido Mode                                                        :IdoMode:
 #+begin_src emacs-lisp
