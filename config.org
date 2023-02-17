@@ -4200,21 +4200,17 @@ General configuration to LSP.
 Configuration specific to a language should be in that language configuration heading
 
 #+begin_src emacs-lisp
-;; (use-package lsp-mode
-;;   :ensure t
-;;   :config
-;;   (setq lsp-file-watch-threshold 6000
-;;         lsp-enable-snippet t))
-
 ;; Note that this must come before the use-package for LSP to have an effect
 (setq lsp-keymap-prefix "C-c C-l")
 
 (use-package lsp-mode
   :ensure t
-  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-         (c-mode-common . lsp)
-         (python-mode . lsp)
-         (cmake-mode . lsp)
+  :hook (;; replace XXX-mode with concrete major-mode (e. g. python-mode)
+         (c-mode-common . lsp-deferred)
+         (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (lsp-deferred)))
+         (cmake-mode . lsp-deferred)
          ;; if you want which-key integration
          (lsp-mode . lsp-enable-which-key-integration))
   :commands lsp
@@ -4252,6 +4248,8 @@ Configuration specific to a language should be in that language configuration he
   :custom
   ; Position of the popup shown by lsp-ui-doc-glance -> C-c C-l h g
   (lsp-ui-doc-position 'at-point)
+  (lsp-ui-doc-enable nil) ;; You can use "C-c C-l h g" to see the doc
+  (lsp-ui-doc-header t)
   (lsp-ui-doc-max-height 20)
   (lsp-ui-doc-max-width 250)
 )
@@ -4696,35 +4694,10 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 #+end_src
 
 ** lsp-python
+Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
-;; (use-package lsp-python-ms
-;;   :ensure t
-;;   :init (setq lsp-python-ms-auto-install-server t)
-;;   :hook (python-mode . (lambda ()
-;;                          (require 'lsp-python-ms)
-;;                          (lsp))))  ; or lsp-deferred
-
-;; (use-package lsp-jedi
-;;   :ensure t
-;;   :config
-;;   (with-eval-after-load "lsp-mode"
-;;     (add-to-list 'lsp-disabled-clients 'pyls)
-;;     (add-to-list 'lsp-enabled-clients 'jedi)))
-
-;; (use-package lsp-pyright
-;;   :ensure t
-;;   :hook (python-mode . (lambda ()
-;;                           (require 'lsp-pyright)
-;;                           (lsp))))  ; or lsp-deferred
-
-
 (use-package lsp-pyright
-  :ensure t
-  :after lsp
-  :config
-  (add-to-list 'lsp-disabled-clients 'pyls)
-  (add-to-list 'lsp-enabled-clients 'pyright))
-
+  :ensure t)
 #+end_src
 
 ** Format buffer with yapf
