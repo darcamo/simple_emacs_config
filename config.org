@@ -724,6 +724,8 @@ Code to define many acronymms that I use
 Veja aqui
 https://github.com/MatthewZMD/.emacs.d#yasnippet-1
 
+Tip: Check the =yas-describe-tables= command
+
 #+begin_src emacs-lisp
 (use-package yasnippet
   :ensure t
@@ -1761,6 +1763,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 * Artist-mode
 #+begin_src emacs-lisp
 (use-package artist
+  :defer artist
   :hook
   (artist-mode . (lambda ()
    (add-to-list 'prettify-symbols-alist '("->" . "→"))
@@ -2417,6 +2420,7 @@ There is also lsp-grammarly, but it requires an account.
 *** Jupyter
 #+begin_src emacs-lisp
 (use-package jupyter
+  :defer t
   :ensure t
   )
 
@@ -2749,7 +2753,7 @@ reveal."
   :config
   ;; Org Default Backends
   (add-to-list 'org-export-backends 'md)
-  (add-to-list 'org-export-backends 'odt)
+  (add-to-list 'org-export-backends 'reveal) ;; This will load ox-reveal on demand
   )
 
 
@@ -2935,6 +2939,7 @@ reveal."
 *** HTML and Reveal export
 #+begin_src emacs-lisp
 (use-package ox-html
+:defer t
 :custom
 (org-html-html5-fancy t)
 (org-html-doctype "html5")
@@ -3486,6 +3491,7 @@ This package is not in melpa yet.
 #+begin_src emacs-lisp
 (use-package ox-reveal
   :ensure t
+  :defer t
   :custom
   (org-reveal-reveal-js-version 4)
   )
@@ -4155,6 +4161,7 @@ DIR must include a .project file to be considered a project."
 #+begin_src emacs-lisp
 (use-package tree-sitter
   :ensure t
+  :defer t
   :config
   (global-tree-sitter-mode))
 
@@ -4215,6 +4222,7 @@ Configuration specific to a language should be in that language configuration he
 #+begin_src emacs-lisp
 (use-package lsp-ui
   :ensure t
+  :commands (lsp-ui-doc-glance)
   :custom
   ; Position of the popup shown by lsp-ui-doc-glance -> C-c C-l h g
   (lsp-ui-doc-position 'at-point)
@@ -4336,6 +4344,7 @@ Set a buffer to read-only when this minor mode is active
 #+begin_src emacs-lisp
 (use-package cmake-integration
   :straight (cmake-integration :type git :host github :protocol ssh :repo "darcamo/cmake-integration")
+  :defer t
   :bind
   (:map c-mode-base-map
         ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
@@ -4453,6 +4462,7 @@ Set a buffer to read-only when this minor mode is active
 *** qml-integration package
 #+begin_src emacs-lisp
 (use-package qml-integration
+  :commands (qml-integration-choose-qml-style qml-integration-run-qmlscene qml-integration-run-qmltestrunner)
   :straight (qml-integration :type git :host github :protocol ssh :repo "darcamo/qml-integration")
   )
 #+end_src
@@ -4667,7 +4677,8 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
 (use-package lsp-pyright
-  :ensure t)
+  :ensure t
+  :defer t)
 #+end_src
 
 ** Format buffer with yapf
@@ -4709,11 +4720,13 @@ You need to install ~debugpy~ in your virtual environment
 * CSV
 #+begin_src emacs-lisp
 (use-package csv-mode
+  :commands csv-mode
   :ensure t)
 #+end_src
 * JSON
 #+begin_src emacs-lisp
 (use-package json-mode
+  :commands json-mode
   :ensure t)
 #+end_src
 * PCoIP log-file mode
