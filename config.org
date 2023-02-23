@@ -3630,6 +3630,9 @@ This package is not in melpa yet.
          ("C-c n t a" . org-roam-tag-add)
          ("C-c n t r" . org-roam-tag-remove))
   :config
+  ;; I add the "category" tag to notes that I use to group related notes.
+  (add-to-list 'org-tags-exclude-from-inheritance "category")
+
   ;; Define an acessor for the number of backlinks to a note -> we
   ;; will use this in org-roam-node-display-template
   ;; Taken from https://github.com/org-roam/org-roam/wiki/User-contributed-Tricks#showing-the-number-of-backlinks-for-each-node-in-org-roam-node-find
