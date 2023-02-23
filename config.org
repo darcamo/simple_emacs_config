@@ -4674,8 +4674,11 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   ;; (pyvenv-tracking-mode 1)
   ;; (setenv "WORKON_HOME" "~/miniconda3/envs/")
   )
-#+end_src
 
+(use-package pyvenv-auto
+  :ensure t
+  :hook ((python-mode . pyvenv-auto-run)))
+#+end_src
 ** lsp-python
 Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
