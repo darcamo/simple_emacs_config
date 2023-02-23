@@ -2513,8 +2513,8 @@ There is also lsp-grammarly, but it requires an account.
           ("ta" "Tarefa do Atlântico" entry
            (file+headline "atlantico.org" "Lista de Tarefas")
            (file ,(concat user-emacs-directory "org-mode-setup/new_task.org")))
-          ("tp" "Tarefa do Projeto IAB" entry
-           (file+headline "ufc49-IAB.org" "Lista de Tarefas do Projeto")
+          ("tp" "Tarefa do Projeto NCR" entry
+           (file+headline "ufc51-NCR.org" "Lista de Tarefas do Projeto")
            (file ,(concat user-emacs-directory "org-mode-setup/new_task.org")))
           ("td" "Tarefa do Doutorado" entry
            (file+headline "doutorado.org" "Lista de Tarefas")
