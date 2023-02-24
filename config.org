@@ -4639,7 +4639,10 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 
          )
   :hook
-  (python-mode . python--add-debug-highlight)
+  ;; (python-mode . python--add-debug-highlight)
+  (python-mode . (lambda ()
+                   (python--add-debug-highlight)
+                   (require 'dap-python)))
   )
 #+end_src
 
@@ -4702,8 +4705,9 @@ You need to install ~debugpy~ in your virtual environment
 
 #+begin_src emacs-lisp
 (use-package dap-python
-:custom
-(dap-python-debugger 'debugpy)
+  :defer t ;; We will explicitly load dap-python in python-mode-hook
+  :custom
+  (dap-python-debugger 'debugpy)
   )
 #+end_src
 * Lisp
