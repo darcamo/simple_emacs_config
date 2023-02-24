@@ -3539,12 +3539,12 @@ This package is not in melpa yet.
                                  (file+head ,my--note-filename-format ,my--note-title-template)
                                  :unnarrowed t)
 
-                                 ("a" "Atlântico")
+                                ("a" "Atlântico")
                                 ("aa" "Atlântico" plain "Criado em %u\n\n- Links :: [[id:0a6e477a-8a22-4fe1-8e09-1f94a5626516][Atlântico]]\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,(my--get-note-title-template ":Atlantico:"))
                                  :unnarrowed t :immediate-finish t)
-                                 ("ap" "Pessoas no Atlântico" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "9beb52e5-65df-458f-8ea4-88eb5dc2ee97"))
-                                 ("a5" "Grupo de estudos de 5G" plain "Criado em %u\n\n- Links :: [[id:4079723a-ed8a-4c73-85df-df85716ce4d7][Grupo de 5G no Atlântico]]\n\n%?" :if-new
+                                ("ap" "Pessoas no Atlântico" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "9beb52e5-65df-458f-8ea4-88eb5dc2ee97"))
+                                ("a5" "Grupo de estudos de 5G" plain "Criado em %u\n\n- Links :: [[id:4079723a-ed8a-4c73-85df-df85716ce4d7][Grupo de 5G no Atlântico]]\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,(my--get-note-title-template ":5G:Atlantico:"))
                                  :unnarrowed t :immediate-finish t)
 
@@ -3623,12 +3623,13 @@ This package is not in melpa yet.
                  (window-width . 0.33)
                  (window-height . fit-window-to-buffer)))
   :bind (([f6] . org-roam-node-find)
+         :map org-mode-map
          ("C-c n f" . org-roam-node-find)
          ("C-c n l" . org-roam-buffer-toggle)
+         ("C-c n j" . org-roam-dailies-find-today)
          ("C-c n i" . org-roam-node-insert)
          ("C-c n c" . org-roam-capture)
          ;; ("C-c n j" . org-roam-dailies-capture-today)
-         ("C-c n j" . org-roam-dailies-find-today)
          ("C-c n t a" . org-roam-tag-add)
          ("C-c n t r" . org-roam-tag-remove))
   :config
