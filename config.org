@@ -3750,6 +3750,10 @@ notes. The code below has a nicer function that you can use instead
   :ensure t
   :after org-roam
   :commands (org-roam-ui-mode)
+  :bind (:map org-mode-map
+              ("C-c n u u" . org-roam-ui-mode)
+              ("C-c n u o" . org-roam-ui-open)
+              ("C-c n u l" . org-roam-ui-node-local))
   )
 #+end_src
 
