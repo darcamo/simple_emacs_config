@@ -288,7 +288,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
 
 #+begin_src emacs-lisp
 (use-package consult
-  :ensure t
+  :straight t
   :bind (
          ;; Global keybindings
          ("M-i" . consult-imenu)
@@ -414,7 +414,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
 ** Consult-dir                                                             :Consult:
 #+begin_src emacs-lisp
 (use-package consult-dir
-  :ensure t
+  :straight t
   :bind (("C-x C-d" . consult-dir)
          ;; :map vertico-map
          ;; ("C-x C-d" . consult-dir)
@@ -476,7 +476,7 @@ action is performed (you will still be in the minibuffer)
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
-  :ensure t
+  :straight t
   :after (embark consult)
   :demand t ; only necessary if you have the hook below
   ;; if you want to have consult previews as you move around an
@@ -741,7 +741,7 @@ Tip: Check the =yas-describe-tables= command
   :after yasnippet)
 
 (use-package consult-yasnippet
-  :ensure t
+  :straight t
   :commands consult-yasnippet
   )
 #+end_src
@@ -4212,7 +4212,7 @@ Configuration specific to a language should be in that language configuration he
 * Consult-LSP
 #+begin_src emacs-lisp
 (use-package consult-lsp
-  :ensure t
+  :straight t
   :bind (
          :map c-mode-base-map (
                             ("M-i" . consult-lsp-file-symbols)
