@@ -3230,6 +3230,50 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 (add-to-list 'org-structure-template-alist (cons "n" "notes"))
 #+end_src
 ** Appearance                                                           :Appearance:
+*** org-modern
+#+begin_src emacs-lisp
+(use-package org-modern
+  :ensure t
+  :custom
+  (org-modern-timestamp nil)
+  (org-modern-hide-stars nil)
+  :hook
+  (org-mode . org-modern-mode)
+  (org-agenda-finalize . org-modern-agenda)
+  )
+#+end_src
+
+*** org-modern-indent
+#+begin_src emacs-lisp
+(use-package org-modern-indent
+  :straight (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
+  ;; :hook
+  ;; (org-mode . org-modern-indent)
+  :config
+  (add-hook 'org-mode-hook #'org-modern-indent-mode 90)
+  )
+#+end_src
+
+*** COMMENT org-superstar
+#+begin_src emacs-lisp
+;; The org-bullets package replaces all headline markers with
+;; different Unicode bullets
+;; (use-package org-bullets
+;;   :ensure t
+;;   :config
+;;   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
+
+;; Alternative to org-bullets package
+(use-package org-superstar
+  :defer t
+  :ensure t
+  :custom
+  (org-superstar-special-todo-items 'hide)
+  :hook
+  (org-mode . org-superstar-mode)
+  )
+#+end_src
+
 *** Face and prettify-symbols
 #+begin_src emacs-lisp
 (use-package org-faces
@@ -3395,23 +3439,6 @@ Try addapting the example below
 
 ** Extra packages for org-mode
 #+begin_src emacs-lisp
-;; The org-bullets package replaces all headline markers with
-;; different Unicode bullets
-;; (use-package org-bullets
-;;   :ensure t
-;;   :config
-;;   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
-
-;; Alternative to org-bullets package
-(use-package org-superstar
-  :defer t
-  :ensure t
-  :custom
-  (org-superstar-special-todo-items 'hide)
-  :hook
-  (org-mode . org-superstar-mode)
-  )
-
 (use-package org-download
   :ensure t
   :after org
@@ -3776,6 +3803,7 @@ See the docstring of [[help:edit-indirect-region][edit-indirect-region]] for det
 (use-package edit-indirect
   :ensure t)
 #+end_src
+
 * COMMENT Visual-fill-column in org-mode
 #+begin_src emacs-lisp
 (use-package visual-fill-column

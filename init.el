@@ -39,6 +39,8 @@
   (load bootstrap-file nil 'nomessage))
 ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+(straight-use-package 'org)
+
 ;; Initialize melpa repo
 (require 'package)
 (setq package-enable-at-startup nil)
