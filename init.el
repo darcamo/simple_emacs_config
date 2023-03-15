@@ -39,32 +39,34 @@
   (load bootstrap-file nil 'nomessage))
 ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+(straight-use-package 'use-package)
 (straight-use-package 'org)
 
+
 ;; Initialize melpa repo
-(require 'package)
+;; (require 'package)
 (setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-             '("melpa" . "https://melpa.org/packages/"))
+;; (add-to-list 'package-archives
+;;              '("melpa" . "https://melpa.org/packages/"))
 
-;; Add the gnu-devel repository -> some packages are not available in
-;; regular melpa, but might be available in gnu-devel.
-(add-to-list 'package-archives
-             '("gnu-devel" . "https://elpa.gnu.org/devel/") :append)
-;; We want the priority of gnu-devel to be below the other
-;; repositories, such that it is only used for packages that are not
-;; available elsewhere
-(setq package-archive-priorities '(("melpa" . 50)
-                                   ("gnu" . 40)
-                                   ("nongnu" . 50)
-                                   ("gnu-devel" . 10)
-                                   ))
-(package-initialize)
+;; ;; Add the gnu-devel repository -> some packages are not available in
+;; ;; regular melpa, but might be available in gnu-devel.
+;; (add-to-list 'package-archives
+;;              '("gnu-devel" . "https://elpa.gnu.org/devel/") :append)
+;; ;; We want the priority of gnu-devel to be below the other
+;; ;; repositories, such that it is only used for packages that are not
+;; ;; available elsewhere
+;; (setq package-archive-priorities '(("melpa" . 50)
+;;                                    ("gnu" . 40)
+;;                                    ("nongnu" . 50)
+;;                                    ("gnu-devel" . 10)
+;;                                    ))
+;; (package-initialize)
 
-;; Initialize use-package
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
+;; ;; Initialize use-package
+;; (unless (package-installed-p 'use-package)
+;;   (package-refresh-contents)
+;;   (package-install 'use-package))
 
 
 ;; Any local package is put in the "local" folder in my emacs-directory
