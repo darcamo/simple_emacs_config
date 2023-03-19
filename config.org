@@ -65,6 +65,7 @@ Good themes:
 (set-face-background 'lazy-highlight "#960")
 (set-face-foreground 'lazy-highlight "#ccc")
 (set-face-foreground 'org-todo "tomato")
+(set-face-foreground 'fringe "goldenrod")
 
 ;; (set-face-foreground 'font-lock-comment-face "#fc0")
 
