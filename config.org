@@ -2758,7 +2758,7 @@ reveal."
 
 
 (use-package ox-extra
-  ;; :ensure org-contrib  ;; ox-extra is part of the org-contrib package
+  :straight org-contrib  ;; ox-extra is part of the org-contrib package
   :commands ox-extras-activate
   ;; NOTE: To avoid loading this package during emacs startup, the
   ;; ox-extras-activate function will be called in
