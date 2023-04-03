@@ -3581,6 +3581,9 @@ This package is not in melpa yet.
                                 ("e" "De um E-mail" plain "Criado em %u\n\nE-mail-original: %a\nEnviado por %:from em %:date\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,my--note-title-template)
                                  :unnarrowed t)
+                                ("E" "Emacs" plain "Criado em %u\n\n- Links :: [[id:070ea2e3-309c-4b76-84e7-5e61e9a57e79][Emacs]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Emacs:"))
+                                 :unnarrowed t :immediate-finish t)
 
                                 ("a" "Atlântico")
                                 ("aa" "Atlântico" plain "Criado em %u\n\n- Links :: [[id:0a6e477a-8a22-4fe1-8e09-1f94a5626516][Atlântico]]\n\n%?" :if-new
