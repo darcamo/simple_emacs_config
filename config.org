@@ -2769,7 +2769,6 @@ reveal."
   :config
   ;; Org Default Backends
   (add-to-list 'org-export-backends 'md)
-  (add-to-list 'org-export-backends 'reveal) ;; This will load ox-reveal on demand
   )
 
 
@@ -3548,6 +3547,8 @@ This package is not in melpa yet.
   :defer t
   :custom
   (org-reveal-reveal-js-version 4)
+  :init
+  (add-to-list 'org-export-backends 'reveal) ;; This will load ox-reveal on demand
   )
 #+end_src
 * TODO Org-roam                                                             :OrgRoam:
