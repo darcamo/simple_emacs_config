@@ -69,10 +69,26 @@ Good themes:
 
 ;; (set-face-foreground 'font-lock-comment-face "#fc0")
 
-(if  (font-info "Menlo")
-    (set-face-attribute 'default nil :family "Menlo" :height 150)
-  (set-face-attribute 'default nil :family "JetBrains Mono" :height 120)
+
+;; Note that `font-info' cannot be called when Emacs daemon is
+;; starting because we don't have a frame yet.
+(defun darlan/set-my-default-font()
+  "Set my default font."
+  (if  (font-info "Menlo")
+      (set-face-attribute 'default nil :family "Menlo" :height 150)
+    (set-face-attribute 'default nil :family "JetBrains Mono" :height 120)
+    )
   )
+
+
+(use-package emacs
+  :hook
+  ;; The server-after-make-frame-hook only run functions when emacs daemon creates a frame
+  (server-after-make-frame . darlan/set-my-default-font)
+  :config
+  ;; If not running as a daemon, just set my fonts directly
+  (unless (daemonp)
+    (darlan/set-my-default-font)))
 #+end_src
 
 ** Customize user interface
