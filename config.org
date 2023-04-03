@@ -2963,6 +2963,15 @@ reveal."
 )
 #+end_src
 
+*** Jira                                                                     :Jira:
+#+begin_src emacs-lisp
+(use-package ox-jira
+  :straight t
+  :defer t
+  :init
+  (add-to-list 'org-export-backends 'jira) ;; This will load ox-jira on demand
+  )
+#+end_src
 *** COMMENT Use highlightjs for code blocks
 See https://emacs.stackexchange.com/questions/9832/how-to-insert-the-content-of-a-org-modes-code-block-inside-precode-tags-whe
 
