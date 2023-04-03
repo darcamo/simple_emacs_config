@@ -3980,7 +3980,8 @@ Useful keybindings:
                  ))
 #+end_src
 
-** Flycheck                                                               :Flycheck:
+** Syntax check
+*** COMMENT Flycheck                                                     :Flycheck:
 https://www.flycheck.org/en/latest/index.html
 
 #+begin_src emacs-lisp
@@ -3995,6 +3996,21 @@ https://www.flycheck.org/en/latest/index.html
   )
 #+end_src
 
+*** Flymake                                                               :Flymake:
+#+begin_src emacs-lisp
+(use-package flymake
+  :hook
+  (prog-mode . flymake-mode)
+  ;; (LaTeX-mode . flymake-mode)
+  :bind (:map flymake-mode-map
+              ;; Set keybindings similar to the ones I used wit flycheck
+              ;; NOTE: Consult will add the "M-g f" keybinding for `consult-flymake'
+              ("C-c ! n" . flymake-goto-next-error)
+              ("C-c ! p" . flymake-goto-prev-error)
+              ("C-c ! l" . flymake-show-buffer-diagnostics)
+              ("C-c ! v" . flymake-switch-to-log-buffer)
+              ("C-c ! P" . flymake-show-project-diagnostics)))
+#+end_src
 ** Enable origami-mode in programming buffers
 #+begin_src emacs-lisp
 (use-package origami
