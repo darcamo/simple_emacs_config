@@ -4253,10 +4253,6 @@ Configuration specific to a language should be in that language configuration he
   (lsp-enable-snippet t)
   ;; See https://emacs-lsp.github.io/lsp-mode/page/performance/#performance
   (read-process-output-max (* 1024 1024)) ;; 1mb
-  :config
-  ;; Face used for lsp-find-references and similar commands
-  (set-face-foreground 'lsp-face-xref-items "white")
-  (set-face-background 'lsp-face-xref-items "#323232")
   )
 #+end_src
 
