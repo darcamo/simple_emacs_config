@@ -4958,7 +4958,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
 #+begin_src emacs-lisp
 (use-package tex
   :defer t
-  ;; :ensure auctex
+  :straight auctex
   :after latex
   :bind (
          :map LaTeX-mode-map
