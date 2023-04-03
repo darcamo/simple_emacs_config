@@ -1633,7 +1633,7 @@ Replace regular find-file and related functions with ffap versions
   )
 #+end_src
 
-*** Disable ffap bindings in dired-mode buffers                             :Dired:
+*** Disable ffap bindings in dired-mode buffers                              :Dired:
 Getting the file name at point is problematic in dired buffers, since it requires me to
 delete the text in order to use the completion system to open a file.
 #+begin_src emacs-lisp
@@ -2152,7 +2152,7 @@ There is also lsp-grammarly, but it requires an account.
     (unfill-paragraph)))
 #+end_src
 
-*** Keybindings                                                       :Keybindings:
+*** Keybindings                                                        :Keybindings:
 #+begin_src emacs-lisp
 ;; Local Keybinding
 (defun my-org-at-citation-p ()
@@ -2943,7 +2943,7 @@ reveal."
   )
 #+end_src
 
-*** Keybindings                                                       :Keybindings:
+*** Keybindings                                                        :Keybindings:
 #+begin_src emacs-lisp
 (use-package org
   :defer t
@@ -4024,7 +4024,7 @@ https://www.flycheck.org/en/latest/index.html
          ))
 #+end_src
 
-* YAML                                                                         :YAML:
+* YAML -> Problem with emacs 29                                                :YAML:
 #+begin_src emacs-lisp
 (use-package yaml-mode
   :straight t
