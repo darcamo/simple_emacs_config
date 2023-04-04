@@ -4817,7 +4817,12 @@ You need to install ~debugpy~ in your virtual environment
 #+begin_src emacs-lisp
 (use-package json-mode
   :commands json-mode
-  :straight t)
+  :straight t
+  :hook
+  (json-mode . lsp)
+  :bind (
+         :map json-mode-map
+         ("M-I" . lsp-ui-imenu)))
 #+end_src
 * PCoIP log-file mode
 #+begin_src emacs-lisp
