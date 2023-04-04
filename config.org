@@ -4823,6 +4823,14 @@ You need to install ~debugpy~ in your virtual environment
   :bind (
          :map json-mode-map
          ("M-I" . lsp-ui-imenu)))
+
+
+(use-package json-navigator
+  :straight t
+  :bind (:map json-mode-map
+  ("C-c n n" . json-navigator-navigate-after-point)
+  ("C-c n p" . json-navigator-navigate-after-point)
+  ("C-c n r" . json-navigator-navigate-region)))
 #+end_src
 * PCoIP log-file mode
 #+begin_src emacs-lisp
