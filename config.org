@@ -4048,7 +4048,16 @@ https://www.flycheck.org/en/latest/index.html
          ("C-S-<iso-lefttab>" . origami-show-only-node)
          ))
 #+end_src
-
+** Obvious-mode
+#+begin_src emacs-lisp
+(use-package obvious
+  :straight (obvious :type git :host github :protocol ssh :repo "alphapapa/obvious.el")
+  :bind
+  ("<C-f8>" . obvious-mode)
+  :custom
+  (obvious-fringe-bitmap 'filled-rectangle)
+  )
+#+end_src
 * YAML -> Problem with emacs 29                                                :YAML:
 #+begin_src emacs-lisp
 (use-package yaml-mode
