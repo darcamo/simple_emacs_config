@@ -3594,7 +3594,11 @@ This package is not in melpa yet.
                                 ("e" "De um E-mail" plain "Criado em %u\n\nE-mail-original: %a\nEnviado por %:from em %:date\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,my--note-title-template)
                                  :unnarrowed t)
-                                ("E" "Emacs" plain "Criado em %u\n\n- Links :: [[id:070ea2e3-309c-4b76-84e7-5e61e9a57e79][Emacs]]\n\n%?" :if-new
+                                ("s" "Software (uso)")
+                                ("sc" "Conan" plain "Criado em %u\n\n- Links :: [[id:97c2db81-ac99-4bae-a06d-f81434ce3748][Conan]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":conan:"))
+                                 :unnarrowed t :immediate-finish t)
+                                ("se" "Emacs" plain "Criado em %u\n\n- Links :: [[id:070ea2e3-309c-4b76-84e7-5e61e9a57e79][Emacs]]\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,(my--get-note-title-template ":Emacs:"))
                                  :unnarrowed t :immediate-finish t)
 
