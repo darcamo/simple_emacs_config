@@ -3939,6 +3939,19 @@ Useful keybindings:
 #+end_src
 
 * General Programming (not including any specific language)             :Programming:
+
+** Set "C-c &" keybinding for org-mark-ring-goto in programming modes
+If in an org-mode file I activated a link that went to a source code, then =C-c &= will go
+back to the org file.
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :bind (:map prog-mode-map
+              ;; Set keybindings similar to the ones I used wit flycheck
+              ;; NOTE: Consult will add the "M-g f" keybinding for `consult-flymake'
+              ("C-c &" . org-mark-ring-goto)))
+#+end_src
+
 ** Line numbers
 #+begin_src emacs-lisp
 (use-package emacs
