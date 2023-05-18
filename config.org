@@ -4304,8 +4304,8 @@ DIR must include a .project file to be considered a project."
          (c-mode-common . tree-sitter-hl-mode)
          (python-mode . tree-sitter-hl-mode)))
 #+end_src
-* LSP                                                                   :Programming:
-General configuration to LSP.
+* LSP                                                               :LSP:Programming:
+** General configuration
 
 Configuration specific to a language should be in that language configuration heading
 
@@ -4332,7 +4332,7 @@ Configuration specific to a language should be in that language configuration he
   )
 #+end_src
 
-* Consult-LSP
+** Consult-LSP
 #+begin_src emacs-lisp
 (use-package consult-lsp
   :straight t
@@ -4351,7 +4351,7 @@ Configuration specific to a language should be in that language configuration he
   )
 #+end_src
 
-* LSP-UI
+** LSP-UI
 #+begin_src emacs-lisp
 (use-package lsp-ui
   :straight t
@@ -4812,12 +4812,16 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   :straight t
   :hook ((python-mode . pyvenv-auto-run)))
 #+end_src
-** lsp-python
+** LSP for Python                                                              :LSP:
 Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
 (use-package lsp-pyright
   :straight t
   :defer t)
+
+;; https://github.com/fredcamps/lsp-jedi
+;; (use-package lsp-jedi
+;;   :straight t)
 #+end_src
 
 ** Format buffer with yapf
@@ -5260,7 +5264,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
       )
 #+end_src
 
-** LSP
+** LSP for Latex                                                               :LSP:
 #+begin_src emacs-lisp
 (use-package lsp-latex
   ;; NOTE: You need to install texlab for LSP to work with latex
