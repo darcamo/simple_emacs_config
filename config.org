@@ -4475,35 +4475,36 @@ Set a buffer to read-only when this minor mode is active
 * C++                                                               :CPP:Programming:
 ** Load the package with use-package
 #+begin_src emacs-lisp
+(define-minor-mode cmake-integration-keybindings
+  "A minor-mode for adding keybindings to compile C++ code using cmake-integration package."
+  nil
+  "cmake"
+  '(
+    ([M-f9] . cmake-integration-save-and-compile)
+    ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
+    ([C-f9] . cmake-integration-save-and-compile-single-file)
+    ([f10] . cmake-integration-run-last-target)
+    ([C-f10] . cmake-integration-debug-last-target)
+    ([M-f10] . cmake-integration-run-last-target-with-arguments)
+    ([M-f8] . cmake-integration-select-configure-preset)
+    ([f8] . cmake-integration-cmake-reconfigure)
+    )
+  )
+
 (use-package cmake-integration
   :straight (cmake-integration :type git :host github :protocol ssh :repo "darcamo/cmake-integration")
   :defer t
-  :bind
-  (:map c-mode-base-map
-        ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
-        ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
-        ([f10] . cmake-integration-run-last-target)
-        ([C-f10] . cmake-integration-debug-last-target)
-        ([M-f10] . cmake-integration-run-last-target-with-arguments)
-        ([M-f8] . cmake-integration-select-configure-preset)
-        ([f8] . cmake-integration-cmake-reconfigure)
-        )
   :custom
   (cmake-integration-include-subproject-targets-during-completion nil)
   (cmake-integration-hide-utility-targets-during-completion t)
-  (cmake-integration-generator "Ninja"))
+  (cmake-integration-generator "Ninja")
+  :hook
+  (c++-mode . cmake-integration-keybindings)
+  )
 
 (use-package dired
-  :bind
-  (:map dired-mode-map
-        ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
-        ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
-        ([f10] . cmake-integration-run-last-target)
-        ([C-f10] . cmake-integration-debug-last-target)
-        ([M-f10] . cmake-integration-run-last-target-with-arguments)
-        ([M-f8] . cmake-integration-select-configure-preset)
-        ([f8] . cmake-integration-cmake-reconfigure)
-        )
+  :hook
+  (dired-mode . cmake-integration-keybindings)
   )
 #+end_src
 
@@ -4550,16 +4551,8 @@ Set a buffer to read-only when this minor mode is active
 (use-package cmake-mode
   :defer t
   :straight t
-  :bind ( :map cmake-mode-map
-          ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
-          ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
-          ([f10] . cmake-integration-run-last-target)
-          ([C-f10] . cmake-integration-debug-last-target)
-          ([M-f10] . cmake-integration-run-last-target-with-arguments)
-          ([M-f8] . cmake-integration-select-configure-preset)
-          ([f8] . cmake-integration-cmake-reconfigure)
-          ;;([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
-          )
+  :hook
+  (cmake-mode . cmake-integration-keybindings)
   )
 #+end_src
 
@@ -4641,17 +4634,15 @@ Set a buffer to read-only when this minor mode is active
 (add-to-list 'auto-mode-alist '("conanfile\\.txt" . conanfile-mode))
 
 (use-package conanfile-mode
-  :bind
-  (:map conanfile-mode-map
-        ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
-        ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
-        ([f10] . cmake-integration-run-last-target)
-        ([C-f10] . cmake-integration-debug-last-target)
-        ([M-f10] . cmake-integration-run-last-target-with-arguments)
-        ([M-f8] . cmake-integration-select-configure-preset)
-        ([f8] . cmake-integration-cmake-reconfigure)
-        )
+  :hook
+  (cmake-mode . cmake-integration-keybindings)
   )
+
+
+(use-package python
+  :hook
+  (python-mode . (lambda () (when (equal (file-name-nondirectory (buffer-file-name)) "conanfile.py")
+                         (cmake-integration-keybindings)))))
 #+end_src
 
 ** Dap-debug (C++)
