@@ -153,6 +153,19 @@ The keybindinds all start with =C-x t=
   :straight t
   :init (doom-modeline-mode 1))
 #+end_src
+** Change some of the hi-lock faces
+#+begin_src elisp
+(use-package hi-lock
+  :config
+  ;; Set the foreground of some of the hi-lock faces that only specify the background
+  (set-face-foreground ' hi-yellow "black")
+  (set-face-foreground ' hi-pink "black")
+  (set-face-foreground ' hi-green "black")
+  (set-face-foreground ' hi-blue "black")
+  :custom
+  (hi-lock-face-defaults '("hi-yellow" "hi-pink" "hi-green" "hi-blue" "hi-salmon" "hi-aquamarine"))
+  )
+#+end_src
 
 ** COMMENT Telephone Line
 Alternative modeline similar to powerline
