@@ -4553,7 +4553,11 @@ Set a buffer to read-only when this minor mode is active
   :straight t
   :hook
   (cmake-mode . cmake-integration-keybindings)
-  )
+  ;; Enable cmake-integration-keybindings in json mode only for the three file names
+  (json-mode . (lambda () (cond
+                      ((equal (file-name-nondirectory (buffer-file-name)) "CMakePresets.json") (cmake-integration-keybindings))
+                      ((equal (file-name-nondirectory (buffer-file-name)) "CMakeUserPresets.json") (cmake-integration-keybindings))
+                      ((equal (file-name-nondirectory (buffer-file-name)) "ConanPresets.json") (cmake-integration-keybindings))))))
 #+end_src
 
 ** Ninja Mode
