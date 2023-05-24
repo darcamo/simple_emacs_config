@@ -153,6 +153,10 @@ The keybindinds all start with =C-x t=
   :straight t
   :init (doom-modeline-mode 1))
 #+end_src
+
+*NOTE*: Doom modeline now uses [[https://github.com/rainstormstudio/nerd-icons.el][nerd-icons]] instead of [[https://github.com/domtronn/all-the-icons.el][all-the-icons]]. If the icons are not
+displaying correctly, call =nerd-icons-install-fonts= to install the fonts.
+
 ** Change some of the hi-lock faces
 #+begin_src elisp
 (use-package hi-lock
