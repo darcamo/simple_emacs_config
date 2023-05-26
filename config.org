@@ -4716,10 +4716,10 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 
 (defun python--add-debug-highlight ()
   "Adds a highlighter for use by `python--pdb-breakpoint-string'"
-  (highlight-lines-matching-regexp "## DEBUG ##\\s-*$" 'hi-red-b)
+  (highlight-lines-matching-regexp "# -- DEBUG -- #\\s-*$" 'hi-red-b)
   )
 
-(defvar python--pdb-breakpoint-string "breakpoint()  ## DEBUG ##"
+(defvar python--pdb-breakpoint-string "breakpoint()  # -- DEBUG -- #"
   "Python breakpoint string used by `python-insert-breakpoint'")
 
 (defun python-insert-breakpoint ()
