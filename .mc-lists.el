@@ -11,6 +11,7 @@
         c-electric-paren
         c-electric-slash
         c-indent-line-or-region
+        comment-dwim-2
         consult-yank-pop
         delete-horizontal-space
         dired-next-line
@@ -19,6 +20,7 @@
         forward-sexp
         indent-for-tab-command
         kill-region
+        markdown-cycle
         nxml-electric-slash
         org-beginning-of-line
         org-emphasize
@@ -30,6 +32,7 @@
         picture-self-insert
         transpose-words
         wdired--self-insert
+        wdired-downcase-word
         wdired-next-line
         wdired-previous-line
         ))
@@ -43,8 +46,8 @@
         ace-mc-add-single-cursor
         ace-mc-do-keyboard-reset
         ace-mc-quick-exchange
-        wdired-finish-edit
         handle-switch-frame
         magit-status
         undo-redo
+        wdired-finish-edit
         ))
