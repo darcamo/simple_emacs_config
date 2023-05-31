@@ -3107,6 +3107,12 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   (find-file (file-name-concat org-directory "ufc49-IAB.org"))
   )
 
+(defun my-find-ufc51-org-heading nil
+  (interactive)
+  ;; (my-find-org-heading "UFC.32")
+  (find-file (file-name-concat org-directory "ufc51-NCR.org"))
+  )
+
 (defun my-find-atlantico-org-heading nil
   (interactive)
   (find-file (file-name-concat org-directory "atlantico.org"))
