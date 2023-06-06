@@ -3529,6 +3529,11 @@ https://nobiot.github.io/org-transclusion/
   :straight t
   )
 #+end_src
+** org-present
+#+begin_src emacs-lisp
+(use-package org-present
+  :straight t)
+#+end_src
 * org-remark
 Org-remark lets you highlight and annotate any text file with using Org mode.
 
