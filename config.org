@@ -3521,6 +3521,14 @@ Default prefix is =C-c C-=
          ("C-c C-j" . org-journal-new-entry)
          ))
 #+end_src
+** org-transclusion
+https://nobiot.github.io/org-transclusion/
+
+#+begin_src emacs-lisp
+(use-package org-transclusion
+  :straight t
+  )
+#+end_src
 * org-remark
 Org-remark lets you highlight and annotate any text file with using Org mode.
 
