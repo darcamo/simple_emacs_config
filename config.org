@@ -1049,12 +1049,23 @@ This will be equal to the current yar except when we are in january"
    (concat "open -a Finder " (expand-file-name dir-as-string)))
   )
 
+(defun browse-dir-windows (dir-as-string)
+  "Open file explorer in the DIR-AS-STRING directory."
+  (interactive)
+  (start-process-shell-command
+   "browse"
+   "*scratch*"
+   ;; Trocar nautilus por pcmanfm para o lxde
+   (concat "start " (expand-file-name dir-as-string)))
+  )
+
 ;; Browse Directory
 (defun browse-dir (dir-as-string)
-  (if (system-type-is-linux)
-      (browse-dir-linux dir-as-string)
-    (browse-dir-macos dir-as-string)
-    ))
+  (cond
+   ((system-type-is-linux) (browse-dir-linux dir-as-string))
+   ((system-type-is-macos) (browse-dir-macos dir-as-string))
+   ((system-type-is-windows) (browse-dir-windows dir-as-string))
+   (t (message "browse-dir: Unknown system type"))))
 
 ;; Use essa para abrir links sftp com o nautilus, como sftp://darlan@<server>/home/blabla
 (defun browse-dir-sftp (dir-as-string)
@@ -1222,23 +1233,22 @@ of the file associated with the current buffer."
     ))
 
 
-;; Check system type (Linux or Windows)
-;; Check if system is GNU/Linux
 (defun system-type-is-linux ()
+  "Return t if running on Linux."
   (interactive)
   "Return true if system is Linux"
   (string-equal system-type "gnu/linux")
   )
 
-;; Check if system is Windows
-(defun system-type-is-XP ()
+(defun system-type-is-windows ()
+  "Return t if running on Windows."
   (interactive)
   "Return true if system Windows"
   (string-equal system-type "windows-nt")
   )
 
-;; Check if system is Windows
 (defun system-type-is-macos ()
+    "Return t if running on macOS."
   (interactive)
   "Return true if system MacOS"
   (string-equal system-type "darwin")
@@ -1246,11 +1256,11 @@ of the file associated with the current buffer."
 
 ;; whitespace <-> Underline
 (defun darlan/change-to-space (arg)
-  "Remove underline e substitui por um espaço"
+  "Remove underline in ARG and replace it with a space."
   (replace-regexp-in-string "_" " " arg))
 
 (defun darlan/change-to-underline (arg)
-  "Remove um espaço e substitui por um underline"
+  "Remove a space in ARG and replace it with underline."
   (replace-regexp-in-string " " "_" arg))
 
 (defun darlan/change-to-label (start end)
@@ -1983,7 +1993,7 @@ There is also lsp-grammarly, but it requires an account.
      ))
 
   ;; General
-  (org-directory (if (system-type-is-XP) "~/../../Dropbox/org/"
+  (org-directory (if (system-type-is-windows) "~/../../Dropbox/org/"
                    "~/org"))
 
   ;; Change C-a and C-e behaviour in org-mode
