@@ -16,6 +16,7 @@ tramp
 nov-places
 local/cmake-integration.el
 straight
+elpaca
 .extension/
 .dap-breakpoints
 eln-cache
