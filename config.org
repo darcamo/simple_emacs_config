@@ -5759,13 +5759,13 @@ Layer darcamo-preview-latex
   )
 
 
-(use-package org-fragtog
-  :straight t
-  :commands (org-fragtog-mode)
-  :hook (org-mode . org-fragtog-mode)
-  :hook (python-mode . org-fragtog-mode)
-  :hook (c-mode-common . org-fragtog-mode)
-  )
+;; (use-package org-fragtog
+;;   :straight t
+;;   :commands (org-fragtog-mode)
+;;   :hook (org-mode . org-fragtog-mode)
+;;   :hook (python-mode . org-fragtog-mode)
+;;   :hook (c-mode-common . org-fragtog-mode)
+;;   )
 #+end_src
 
 * TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
