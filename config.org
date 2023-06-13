@@ -4007,10 +4007,10 @@ back to the org file.
 
 ** Line numbers
 #+begin_src emacs-lisp
-(use-package emacs
+(use-package display-line-numbers-mode
   :elpaca nil
   :hook
-  (prog-mode . linum-mode))
+  (prog-mode . display-line-numbers-mode))
 #+end_src
 ** Some pretty symbols
 #+begin_src emacs-lisp
@@ -4939,7 +4939,7 @@ You need to install ~debugpy~ in your virtual environment
   (pcoip-log-mode . view-mode)
   (pcoip-log-mode . read-only-mode)
   (pcoip-log-mode . auto-revert-tail-mode)
-  (pcoip-log-mode . linum-mode)
+  (pcoip-log-mode . display-line-numbers-mode)
   (pcoip-log-mode . (lambda () (add-to-list 'prettify-symbols-alist '("00000000-0000-0000-0000-000000000000" . "※"))
                       (prettify-symbols-mode)))
   :init
