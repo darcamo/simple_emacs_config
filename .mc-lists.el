@@ -5,10 +5,12 @@
       '(
         artist-backward-char
         artist-forward-char
+        backward-sexp
         c-electric-brace
         c-electric-colon
         c-electric-lt-gt
         c-electric-paren
+        c-electric-semi&comma
         c-electric-slash
         c-indent-line-or-region
         comment-dwim-2
