@@ -1757,6 +1757,8 @@ You can open links by clicking or with the =C-c RET= keybinding.
 ;; ;; Horizontal Scroll
 ;; (setq hscroll-step 1)
 ;; (setq hscroll-margin 1)
+
+(pixel-scroll-precision-mode)
 #+end_src
 
 * Version control
