@@ -4386,11 +4386,13 @@ Configuration specific to a language should be in that language configuration he
                             ("M-i" . consult-lsp-file-symbols)
                             ;; ("M-i" . consult-imenu)
                             ("M-I" . consult-lsp-symbols)
+                            ("C-c ! L" . consult-lsp-diagnostics)
                             )
          :map python-mode-map (
                             ("M-i" . consult-lsp-file-symbols)
                             ;; ("M-i" . consult-imenu)
                             ("M-I" . consult-lsp-symbols)
+                            ("C-c ! L" . consult-lsp-diagnostics)
                             )
          )
   )
