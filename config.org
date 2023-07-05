@@ -2507,6 +2507,9 @@ There is also lsp-grammarly, but it requires an account.
   ;; Change this to the appropriated jar location
   (org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
 
+  ;; Change this to the appropriated jar location
+  (org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
+
   :bind
   ( :map org-mode-map
   ("M-." . org-babel-pop-to-session)
@@ -2536,7 +2539,7 @@ There is also lsp-grammarly, but it requires an account.
      ;; (octave . t)
      ;; (matlab . t)
      (latex . t)
-     ;; (plantuml . t)
+     (plantuml . t)
      (java . t)
      ;; (jupyter . t) ;; Requires the 'jupyter' emacs package and this must come last
      ))
@@ -3291,6 +3294,8 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 (add-to-list 'org-structure-template-alist (cons "p" "src python"))
 ;; Allow expanding "<j" to a "begin_src jupyter-python" block
 (add-to-list 'org-structure-template-alist (cons "j" "src jupyter-python"))
+;; Allow expanding "<P" to a "begin_src plantuml" block
+(add-to-list 'org-structure-template-alist (cons "P" "src plantuml"))
 ;; Allow expanding "<n" to a "begin_src notes" block
 (add-to-list 'org-structure-template-alist (cons "n" "notes"))
 #+end_src
@@ -6289,5 +6294,23 @@ See more in https://github.com/chenyanming/calibredb.el
 (use-package dockerfile-mode
   :elpaca t
   :defer t
+  )
+#+end_src
+* PlantUML
+Note: Org-mode has native support for evaluating code blocks using plantUML. Just add
+plantuml to =org-babel-load-languages=. Here we are adding plantuml-mode, which is a
+separated package that provides syntax highlight for plantuml code and also has a way to
+execute the code.
+
+#+begin_src emacs-lisp
+(use-package plantuml-mode
+  :elpaca (plantuml-mode :type git :host github
+                         :repo "skuro/plantuml-mode")
+  :config
+  (add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
+
+  (add-to-list 'auto-insert-alist
+               (cons '("\\.puml" "Basic plantuml template")
+                     "plantuml.puml"))
   )
 #+end_src

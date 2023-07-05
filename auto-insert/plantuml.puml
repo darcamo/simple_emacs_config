@@ -1,0 +1,8 @@
+@startuml
+
+!include <C4/C4_Container>
+title This is the diagram title
+
+Container(label, "Container name", "Container description\ncan have\nhard\nnew lines") 
+
+@enduml
