@@ -5810,9 +5810,9 @@ You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
   :elpaca t
   ;; Base folder for my global bib files. There is also a pdfs folder
   ;; inside with PDF files for the entries in the bib files.
+  :config
   (setq my-references-folder "~/Dropbox/org/references")
   (setq org-cite-global-bibliography (f-glob "article*\.bib" my-references-folder))
-  :config
   )
 #+end_src
 
