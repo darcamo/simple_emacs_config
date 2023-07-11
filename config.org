@@ -4134,6 +4134,22 @@ https://www.flycheck.org/en/latest/index.html
   (obvious-fringe-bitmap 'filled-rectangle)
   )
 #+end_src
+** Highlight TODO and similar keywords with hl-todo
+https://github.com/tarsius/hl-todo
+*Tip*: Check the =hl-todo-keyword-faces= variable for the keywords and colors.
+*Tip2*: Check the navigation methods
+: (keymap-set hl-todo-mode-map "C-c p" #'hl-todo-previous)
+: (keymap-set hl-todo-mode-map "C-c n" #'hl-todo-next)
+: (keymap-set hl-todo-mode-map "C-c o" #'hl-todo-occur)
+: (keymap-set hl-todo-mode-map "C-c i" #'hl-todo-insert)
+
+#+begin_src emacs-lisp
+(use-package hl-todo
+  :elpaca t
+  :hook
+  (prog-mode . hl-todo-mode)
+  )
+#+end_src
 * YAML -> Problem with emacs 29                                                :YAML:
 #+begin_src emacs-lisp
 (use-package yaml-mode
