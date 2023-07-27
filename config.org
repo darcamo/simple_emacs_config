@@ -4541,6 +4541,10 @@ Set a buffer to read-only when this minor mode is active
 #+end_src
 
 * C++                                                               :CPP:Programming:
+** Always consider .h files as C++
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+#+end_src
 ** Load the package with use-package
 #+begin_src emacs-lisp
 (define-minor-mode cmake-integration-keybindings
