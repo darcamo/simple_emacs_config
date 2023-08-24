@@ -1,0 +1,5 @@
+# name: fmt::println(...)
+# key: pln
+# description: Print using fmt::println
+# --
+fmt::println("$0");

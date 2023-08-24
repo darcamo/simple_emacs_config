@@ -1,0 +1,5 @@
+# name: fmt::print(...)
+# key: p
+# description: Print using fmt::print
+# --
+fmt::print("$0");
