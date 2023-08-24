@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+#name : TODO: Implement-me
+# --
+`(darlan/get-comment-block-start)` TODO: Implement-me `(darlan/get-comment-block-end)`
