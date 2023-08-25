@@ -370,6 +370,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
          ("M-s m" . consult-multi-occur)
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
+         ("M-s s" . consult-yasnippet)
 
          ;; Isearch integration
          ;; Isearch integration
