@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : EXPECT_EQ
+#group: GTest
+#Description: An equality expectation in GTest
+# --
+EXPECT_EQ($1, $2);
