@@ -1,0 +1,7 @@
+# -*- mode: snippet -*-
+#contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+#name : REQUIRE_FALSE
+#group: Catch
+#Description: REQUIRE_FALSE test in Catch
+# --
+REQUIRE_FALSE($0);
