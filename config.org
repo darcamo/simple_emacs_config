@@ -3899,6 +3899,35 @@ See the docstring of [[help:edit-indirect-region][edit-indirect-region]] for det
   :elpaca t)
 #+end_src
 
+* Atomic-chrome: Edit text-fields in the browser
+With the atomic-chrome Emacs can work with the ghost-text browser extension in order to
+edit text-fields in the browser.
+
+Use =Ctrl+Shift+H= in the browser (or click in the ghost text extension icon) whenever a
+text-field is focused to open in Emacs. Once you edit the text in Emacs, use =Ctrl+c Ctrl+c=
+to accept.
+#+begin_src emacs-lisp
+(use-package atomic-chrome
+  :elpaca t
+  :config
+  (atomic-chrome-start-server)
+  )
+#+end_src
+
+The default major mode of editing buffer is text-mode. You can change the major mode
+manually. If you want to use a different major mode as the default, set
+atomic-chrome-default-major-mode like below.
+
+: (setq atomic-chrome-default-major-mode 'markdown-mode)
+Additionally, you can use atomic-chrome-url-major-mode-alist to choose the major mode for
+a specific website based on the page URL (or, with GhostText, URL hostname) like below.
+
+#+begin_example
+(setq atomic-chrome-url-major-mode-alist
+      '(("github\\.com" . gfm-mode)
+        ("redmine" . textile-mode)))
+#+end_example
+This is an association list of regexp and major mode function. If the page URL matches to on of the regexp, the corresponding major mode is selected.
 * COMMENT Visual-fill-column in org-mode
 #+begin_src emacs-lisp
 (use-package visual-fill-column
