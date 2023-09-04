@@ -4180,13 +4180,15 @@ https://github.com/tarsius/hl-todo
   (prog-mode . hl-todo-mode)
   )
 #+end_src
-* YAML -> Problem with emacs 29                                                :YAML:
+* YAML -> Problem with emacs 29                                      :ClangTidy:YAML:
 #+begin_src emacs-lisp
 (use-package yaml-mode
   :elpaca t
   :defer t
   :hook
   (yaml-mode . lsp)
+  :init
+  (add-to-list 'auto-mode-alist '(".clang-tidy" . yaml-mode))
   )
 #+end_src
 
