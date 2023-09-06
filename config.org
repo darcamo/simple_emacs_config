@@ -6364,3 +6364,12 @@ execute the code.
                      "plantuml.puml"))
   )
 #+end_src
+* x509-mode
+https://github.com/jobbflykt/x509-mode
+
+Open a certificate, public key, etc., and then just call =x509-dwim=.
+#+begin_src emacs-lisp
+(use-package x509-mode
+  :elpaca t)
+#+end_src
+
