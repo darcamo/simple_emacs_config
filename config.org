@@ -4391,17 +4391,53 @@ DIR must include a .project file to be considered a project."
   (add-to-list 'project-find-functions 'mu-project-try-local)
   )
 #+end_src
-* Tree-sitter                                                            :CPP:Python:
+* Tree-sitter                                                           :CPP:Python:
+https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
+
+NOTE: If you want to use tree-sitter major modes in place of the regular major modes, you
+can use the =major-mode-remap-alist= variable. Just set it to map regular major modes with
+their corresponding -ts- one. Ex:
+: (setq major-mode-remap-alist
+:  '((yaml-mode . yaml-ts-mode)
+:    (bash-mode . bash-ts-mode)
+:    (js2-mode . js-ts-mode)
+:    (typescript-mode . typescript-ts-mode)
+:    (json-mode . json-ts-mode)
+:    (css-mode . css-ts-mode)
+:    (python-mode . python-ts-mode)))
+
+
 #+begin_src emacs-lisp
 (use-package tree-sitter
   :elpaca t
   :defer t
   :config
-  (global-tree-sitter-mode))
+  (global-tree-sitter-mode)
+  :custom
+  (treesit-font-lock-level 4) ;; Default is 3
+  (treesit-language-source-alist
+   '(
+     (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+     (c "https://github.com/tree-sitter/tree-sitter-c")
+     (bash "https://github.com/tree-sitter/tree-sitter-bash")
+     (cmake "https://github.com/uyha/tree-sitter-cmake")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (make "https://github.com/alemuller/tree-sitter-make")
+     (markdown "https://github.com/ikatyang/tree-sitter-markdown")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (toml "https://github.com/tree-sitter/tree-sitter-toml")
+     (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+     (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+     ))
+  )
 
 (use-package tree-sitter-langs
   :elpaca t
-    :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+  :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (c-mode-common . tree-sitter-hl-mode)
          (python-mode . tree-sitter-hl-mode)))
 #+end_src
