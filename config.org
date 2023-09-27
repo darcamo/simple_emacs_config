@@ -4405,7 +4405,7 @@ DIR must include a .project file to be considered a project."
          (c-mode-common . tree-sitter-hl-mode)
          (python-mode . tree-sitter-hl-mode)))
 #+end_src
-* LSP                                                               :LSP:Programming:
+* COMMENT LSP                                                               :LSP:Programming:
 ** General configuration
 
 Configuration specific to a language should be in that language configuration heading
@@ -4468,7 +4468,53 @@ Configuration specific to a language should be in that language configuration he
   (lsp-ui-doc-max-width 250)
 )
 #+end_src
-* dap-mode -> Debugger Adapter Protocol
+* Eglot
+https://joaotavora.github.io/eglot/
+
+To add support to more server, see the =eglot-server-programs= variable.
+
+: (add-hook 'foo-mode-hook 'eglot-ensure)
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :hook (;; replace XXX-mode with concrete major-mode (e. g. python-mode)
+         (c-mode-common . eglot-ensure)
+         (python-mode . (lambda ()
+                          (require 'lsp-pyright)
+                          (eglot-ensure)))
+         (cmake-mode . eglot-ensure)
+         )
+  :commands eglot-ensure
+  :custom
+  (eldoc-echo-area-use-multiline-p nil)
+  :bind
+  (:map eglot-mode-map
+        ("C-c C-l ==" . eglot-format-buffer)
+        ("C-c C-l =i" . eglot-code-action-organize-imports)
+        ("C-c C-l rr" . eglot-rename)
+        ("C-c C-l ti" . eglot-inlay-hints-mode)
+        ("C-c C-l ." . eglot-code-action-quickfix)
+        ("C-c C-l aa" . eglot-code-actions)
+        ;; "C-c C-l s" prefix for server information commands
+        ("C-c C-l se" . eglot-stderr-buffer)
+        ("C-c C-l sE" . eglot-events-buffer)
+        ("C-c C-l sc" . eglot-list-connections)
+        ("C-c C-l sr" . eglot-reconnect)))
+#+end_src
+
+- =eglot-mode-map=
+
+  This variable is the keymap for binding Eglot-related command. It is in effect only as
+  long as the buffer is managed by Eglot. By default, it is empty, with the single
+  exception: C-h . is remapped to invoke eldoc-doc-buffer. You can bind additional
+  commands in this map. For example:
+
+: (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
+: (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
+: (define-key eglot-mode-map (kbd "C-c h") 'eldoc)
+: (define-key eglot-mode-map (kbd "<f6>") 'xref-find-definitions)
+
+* COMMENT dap-mode -> Debugger Adapter Protocol
 For c++ see [[*Dap-debug (C++)][Dap-debug (C++)]]
 For Python see [[*Dap-debug (Python)][Dap-debug (Python)]]
 
