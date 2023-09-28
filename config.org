@@ -4210,7 +4210,8 @@ https://github.com/tarsius/hl-todo
   (prog-mode . hl-todo-mode)
   )
 #+end_src
-* YAML -> Problem with emacs 29                                      :ClangTidy:YAML:
+* YAML                                                                         :YAML:
+** yaml-mode
 #+begin_src emacs-lisp
 (use-package yaml-mode
   :elpaca t
@@ -4219,6 +4220,32 @@ https://github.com/tarsius/hl-todo
   (yaml-mode . lsp)
   :init
   (add-to-list 'auto-mode-alist '(".clang-tidy" . yaml-mode))
+  )
+#+end_src
+** yaml-pro
+yaml-pro is a package that provides conveniences for editing yaml.
+
+This package has been written to leverage tree-sitter parsing facilities, allowing all of
+these actions to be performed fast and accurate, even in the absence of parsing errors.
+The tree-sitter version is orders of magnitudes faster and I highly recommend its usage if
+your Emacs version permits.
+
+Check how to use in https://github.com/zkry/yaml-pro
+
+It seems you use this as a minnor-mode (it does not replace yaml-mode
+#+begin_src emacs-lisp
+(use-package yaml-pro
+  :elpaca t
+  )
+#+end_src
+** flymake-yamllint
+You need to innstall =yamllint= using your OS package manager
+#+begin_src emacs-lisp
+(use-package flymake-yamllint
+  :elpaca t
+  :hook
+  (yaml-mode . flymake-yamllint-setup)
+  (yaml-mode . flymake-mode)
   )
 #+end_src
 
