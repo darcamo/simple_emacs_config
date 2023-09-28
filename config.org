@@ -4062,7 +4062,7 @@ back to the org file.
 ;;   )
 #+end_src
 
-** Size of the compile window and scroll it down as output appears
+** COMMENT Size of the compile window and scroll it down as output appears :Compilation:
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
@@ -4072,7 +4072,59 @@ back to the org file.
   )
 #+end_src
 
-** Compilation buffer always at the bottom
+** Popper-mode                                                 :Compilation:
+
+To set which buffers should be a popup, see the =popper-reference-buffers= varaible.
+
+NOTE: Pass an argument to the =popper-toggle= command will keep the current popup and open
+the other one separately.
+
+#+begin_src emacs-lisp
+(use-package popper
+  :ensure t ; or :straight t
+  :bind (("C-S-p"   . popper-toggle)
+         ("C-}"   . popper-cycle)
+         ("C-{"   . popper-cycle-backwards)
+         ;; ("C-{" . popper-toggle-type)
+         )
+  :config
+  (popper-mode +1)
+  :custom
+  (popper-reference-buffers
+   '("\\*Messages\\*"
+     "Output\\*$"
+     "\\*Async Shell Command\\*"
+     help-mode
+     compilation-mode))
+  (popper-display-control 'user)
+  (popper-group-function #'popper-group-by-project)
+  )
+#+end_src
+** COMMENT popwin                                                              :Compilation:
+#+begin_src emacs-lisp
+(use-package popwin
+  :elpaca t
+
+  )
+#+end_src
+** shackle
+
+NOTE: Shackle provides a nicer way to handle buffers, compared to change
+=display-buffer-alist= directly.
+
+#+begin_src elisp
+(use-package shackle
+  :elpaca t
+
+  :custom
+  (shackle-rules '(("*compilation*" :noselect t :align 'below :size 12)
+                   ("*Help*" :select t :same t :inhibit-window-quit t)))
+  (shackle-default-rule '(:select t))
+  :config
+  (shackle-mode)
+  )
+#+end_src
+** COMMENT Compilation buffer always at the bottom                             :Compilation:
 #+begin_src emacs-lisp
 ;; display-buffer-at-bottom
 (add-to-list 'display-buffer-alist
@@ -4784,7 +4836,7 @@ Set a buffer to read-only when this minor mode is active
 )
 #+end_src
 
-*** Detect filename in compilation-mode for qmltestrunner errors
+*** Detect filename in compilation-mode for qmltestrunner errors      :Compilation:
 #+begin_src emacs-lisp
 (use-package compile
   :config
