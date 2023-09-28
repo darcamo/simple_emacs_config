@@ -6481,6 +6481,28 @@ See more in https://github.com/chenyanming/calibredb.el
 
 (add-hook 'kill-buffer-hook    #'calibredb-close-tab)
 #+end_src
+* Epub reader                                                                 :ebook:
+** nov package
+#+begin_src emacs-lisp
+;; https://depp.brause.cc/nov.el/
+(use-package nov
+  :elpaca (nov :type git :host git :repo "https://depp.brause.cc/nov.el.git")
+  ;; git clone https://depp.brause.cc/nov.el.git
+  :config
+  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+  )
+#+end_src
+** COMMENT nov-xwidget package
+#+begin_src emacs-lisp
+(use-package nov-xwidget
+  :demand t
+  :after nov
+  :elpaca (nov-xwidget :type git :repo "https://github.com/chenyanming/nov-xwidget")
+  :config
+  (define-key nov-mode-map (kbd "o") 'nov-xwidget-view)
+  (add-hook 'nov-mode-hook 'nov-xwidget-inject-all-files)
+  )
+#+end_src
 * Dockerfile-mode                                                            :Docker:
 #+begin_src emacs-lisp
 (use-package dockerfile-mode
