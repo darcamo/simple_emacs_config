@@ -3588,7 +3588,7 @@ This package is not in melpa yet.
   (add-to-list 'org-export-backends 'reveal) ;; This will load ox-reveal on demand
   )
 #+end_src
-* TODO Org-roam                                                             :OrgRoam:
+* Org-roam                                                             :OrgRoam:
 ** Configuration
 #+begin_src emacs-lisp
 ;; Format of the filename used for my org-roam notes
@@ -3786,6 +3786,42 @@ shown in the backlink buffer
          (string-trim (buffer-substring-no-properties beg end)))))))
 #+end_src
 
+** consult-org-roam
+https://github.com/jgru/consult-org-roam
+#+begin_src emacs-lisp
+(use-package consult-org-roam
+  :elpaca t
+  :after org-roam
+  :init
+  (require 'consult-org-roam)
+  ;; Activate the minor mode -> regular org-roam commands will now have preview
+  (consult-org-roam-mode 1)
+  :custom
+  ;; Use `ripgrep' for searching with `consult-org-roam-search'
+  (consult-org-roam-grep-func #'consult-ripgrep)
+
+  ;; Note: consult-org-roam adds a source for the `consult-buffer'
+  ;; command (C-x b).
+  ;;
+  ;; Here we set the narrow key for this source to 'r'. That means you
+  ;; can call consult-buffer with C-x b to list opened buffers, then
+  ;; type 'r' and space to limit the buffers to opened org-roam
+  ;; buffers.
+  (consult-org-roam-buffer-narrow-key ?r)
+
+  ;; :config
+  ;; Eventually suppress previewing for certain functions
+  ;; (consult-customize
+  ;;  consult-org-roam-forward-links
+  ;;  :preview-key (kbd "M-."))
+  ;; :bind
+  ;; ;; Define some convenient keybindings as an addition
+  ;; ("C-c n e" . consult-org-roam-file-find)
+  ;; ("C-c n b" . consult-org-roam-backlinks)
+  ;; ("C-c n l" . consult-org-roam-forward-links)
+  ;; ("C-c n r" . consult-org-roam-search)
+  )
+#+end_src
 ** Search roam notes with ripgrep
 You can already use ~consult-ripgrep~ from the notes folder or from a note to search in all
 notes. The code below has a nicer function that you can use instead
@@ -6536,4 +6572,3 @@ Open a certificate, public key, etc., and then just call =x509-dwim=.
 (use-package x509-mode
   :elpaca t)
 #+end_src
-
