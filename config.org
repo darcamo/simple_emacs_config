@@ -1708,6 +1708,9 @@ You can open links by clicking or with the =C-c RET= keybinding.
   (add-to-list 'auto-insert-alist
                (cons '("CMakeUserPresets.json" "Basic CMakeUserPresets template")
                      "CMakeUserPresets.json"))
+  (add-to-list 'auto-insert-alist
+               (cons '("qmldir" "Basic qmldir template")
+                     "qmldir"))
   )
 #+end_src
 
