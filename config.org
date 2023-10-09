@@ -4914,6 +4914,29 @@ Set a buffer to read-only when this minor mode is active
                '("Loc: \\[\\(.*\\)(\\([0-9]*\\))" 1 2))
   )
 #+end_src
+*** Formatting QML buffers with apheleia                                      :QML:
+#+begin_src elisp
+(use-package apheleia
+  :elpaca t
+  :after qml-mode
+  :config
+
+  (push '(qmlformat . ("/usr/lib/qt5/bin/qmlformat" "--inplace" file))
+        apheleia-formatters)
+
+  (add-to-list 'apheleia-mode-alist '(qml-mode . qmlformat))
+    :bind (:map qml-mode-map
+         ;; Save the buffer to file, format the file and reload the disk
+         ("C-c C-l ==" . (lambda () (interactive)
+                   (save-buffer)
+                   (apheleia-format-buffer 'qmlformat)
+                   ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
+                   (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
+                   (revert-buffer t t t)
+                   ))
+         )
+  )
+#+end_src
 ** Conan package manager
 #+begin_src emacs-lisp
 ;; Here we define a minor mode for conanfile just to have a mode-map for it
