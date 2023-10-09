@@ -6590,6 +6590,57 @@ execute the code.
                      "plantuml.puml"))
   )
 #+end_src
+* COMMENT Co-pilot
+#+begin_src emacs-lisp
+;; (defun my/copilot-tab ()
+;;   "Tab command that will complet with copilot if a completion is
+;; available. Otherwise will just call c-indent-line-or-regio."
+;;   (interactive)
+;;   (or (copilot-accept-completion)
+;;       (complete-symbol)
+;;       ))
+
+(use-package copilot
+  :elpaca (:host github :repo "zerolfx/copilot.el")
+  :ensure t
+  :custom
+  (copilot-node-executable "/home/dmoreira/.nvm/versions/node/v20.5.1/bin/node")
+
+  :bind (
+         :map copilot-mode-map
+         ("C-M-S-i" . copilot-complete)
+         :map copilot-completion-map
+         ("C-<next>" . copilot-next-completion)
+         ("C-<prior>" . copilot-previous-completion)
+         ("C-<return>" . copilot-accept-completion)
+         ;; ("C-<right>" . copilot-accept-completion-by-word)
+         ("<tab>" . copilot-accept-completion-by-word)
+         ("<end>" . copilot-accept-completion-by-line)
+         ;; ("C-M-i" . my/copilot-tab)
+         )
+  :hook ((c-mode-common . copilot-mode)
+         (qml-mode . copilot-mode))
+  )
+
+;; https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/
+(defun rk/copilot-quit ()
+  "Run `copilot-clear-overlay' or `keyboard-quit'. If copilot is
+cleared, make sure the overlay doesn't come back too soon."
+  (interactive)
+  (condition-case err
+      (when copilot--overlay
+        (lexical-let ((pre-copilot-disable-predicates copilot-disable-predicates))
+          (setq copilot-disable-predicates (list (lambda () t)))
+          (copilot-clear-overlay)
+          (run-with-idle-timer
+           1.0
+           nil
+           (lambda ()
+             (setq copilot-disable-predicates pre-copilot-disable-predicates)))))
+    (error handler)))
+
+(advice-add 'keyboard-quit :before #'rk/copilot-quit)
+#+end_src
 * x509-mode
 https://github.com/jobbflykt/x509-mode
 
