@@ -4598,6 +4598,7 @@ Configuration specific to a language should be in that language configuration he
 )
 #+end_src
 * Eglot
+** General Configuration
 https://joaotavora.github.io/eglot/
 
 To add support to more server, see the =eglot-server-programs= variable.
@@ -4642,7 +4643,15 @@ To add support to more server, see the =eglot-server-programs= variable.
 : (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
 : (define-key eglot-mode-map (kbd "C-c h") 'eldoc)
 : (define-key eglot-mode-map (kbd "<f6>") 'xref-find-definitions)
-
+** Consult-Eglot
+#+begin_src emacs-lisp
+(use-package consult-eglot
+  :elpaca t
+  :bind (
+         :map c-mode-base-map (("M-I" . consult-eglot-symbols))
+         :map python-mode-map (("M-I" . consult-eglot-symbols)))
+  )
+#+end_src
 * COMMENT dap-mode -> Debugger Adapter Protocol
 For c++ see [[*Dap-debug (C++)][Dap-debug (C++)]]
 For Python see [[*Dap-debug (Python)][Dap-debug (Python)]]
