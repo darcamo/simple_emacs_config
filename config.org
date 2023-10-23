@@ -176,7 +176,7 @@ displaying correctly, call =nerd-icons-install-fonts= to install the fonts.
 Alternative modeline similar to powerline
 
 https://github.com/dbordak/telephone-line
-* Completion framework [0/2]                                             :Completion:
+* Completion framework [0/2]                                           :Completion:
 ** COMMENT Ido Mode                                                        :IdoMode:
 #+begin_src emacs-lisp
 (ido-mode 1)
@@ -2977,7 +2977,7 @@ reveal."
 )
 #+end_src
 
-*** Jira                                                                     :Jira:
+*** Jira                                                                      :Jira:
 #+begin_src emacs-lisp
 (use-package ox-jira
   :elpaca t
@@ -3589,7 +3589,7 @@ This package is not in melpa yet.
   (add-to-list 'org-export-backends 'reveal) ;; This will load ox-reveal on demand
   )
 #+end_src
-* Org-roam                                                             :OrgRoam:
+* Org-roam                                                                  :OrgRoam:
 ** Configuration
 #+begin_src emacs-lisp
 ;; Format of the filename used for my org-roam notes
@@ -4118,7 +4118,7 @@ back to the org file.
   )
 #+end_src
 
-** Popper-mode                                                 :Compilation:
+** Popper-mode                                                         :Compilation:
 
 To set which buffers should be a popup, see the =popper-reference-buffers= varaible.
 
@@ -4146,7 +4146,7 @@ the other one separately.
   (popper-group-function #'popper-group-by-project)
   )
 #+end_src
-** COMMENT popwin                                                              :Compilation:
+** COMMENT popwin                                                      :Compilation:
 #+begin_src emacs-lisp
 (use-package popwin
   :elpaca t
@@ -4170,7 +4170,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
   (shackle-mode)
   )
 #+end_src
-** COMMENT Compilation buffer always at the bottom                             :Compilation:
+** COMMENT Compilation buffer always at the bottom                     :Compilation:
 #+begin_src emacs-lisp
 ;; display-buffer-at-bottom
 (add-to-list 'display-buffer-alist
@@ -4180,7 +4180,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
 #+end_src
 
 ** Syntax check
-*** COMMENT Flycheck                                                     :Flycheck:
+*** COMMENT Flycheck                                                      :Flycheck:
 https://www.flycheck.org/en/latest/index.html
 
 #+begin_src emacs-lisp
@@ -4195,7 +4195,7 @@ https://www.flycheck.org/en/latest/index.html
   )
 #+end_src
 
-*** Flymake                                                               :Flymake:
+*** Flymake                                                                :Flymake:
 **** General Configuration
 #+begin_src emacs-lisp
 (use-package flymake
@@ -4491,7 +4491,7 @@ DIR must include a .project file to be considered a project."
   (add-to-list 'project-find-functions 'mu-project-try-local)
   )
 #+end_src
-* Tree-sitter                                                           :CPP:Python:
+* Tree-sitter                                                            :CPP:Python:
 https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 
 NOTE: If you want to use tree-sitter major modes in place of the regular major modes, you
@@ -4541,7 +4541,7 @@ their corresponding -ts- one. Ex:
          (c-mode-common . tree-sitter-hl-mode)
          (python-mode . tree-sitter-hl-mode)))
 #+end_src
-* COMMENT LSP                                                               :LSP:Programming:
+* COMMENT LSP                                                       :LSP:Programming:
 ** General configuration
 
 Configuration specific to a language should be in that language configuration heading
@@ -4919,7 +4919,7 @@ Set a buffer to read-only when this minor mode is active
 )
 #+end_src
 
-*** Detect filename in compilation-mode for qmltestrunner errors      :Compilation:
+*** Detect filename in compilation-mode for qmltestrunner errors       :Compilation:
 #+begin_src emacs-lisp
 (use-package compile
   :config
@@ -4930,7 +4930,7 @@ Set a buffer to read-only when this minor mode is active
                '("Loc: \\[\\(.*\\)(\\([0-9]*\\))" 1 2))
   )
 #+end_src
-*** Formatting QML buffers with apheleia                                      :QML:
+*** Formatting QML buffers with apheleia                                       :QML:
 #+begin_src elisp
 (use-package apheleia
   :elpaca t
