@@ -826,8 +826,6 @@ Tip: Check the =yas-describe-tables= command
   )
 #+end_src
 
-* Company-mode                                                              :Company:
-Tente o corfu-mode primeiro
 * darcamo function
 #+begin_src emacs-lisp
 ;; Got from http://stackoverflow.com/questions/17325713/looking-for-a-replace-in-string-function-in-elisp
@@ -4101,13 +4099,22 @@ back to the org file.
 ;;   )
 #+end_src
 
+** Scroll down compilation buffer
+#+begin_src emacs-lisp
+(use-package emacs
+  :elpaca nil
+  :custom
+  ;; (compilation-scroll-output t)
+  (compilation-scroll-output 'first-error)
+  )
+#+end_src
+
 ** COMMENT Size of the compile window and scroll it down as output appears :Compilation:
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
   :custom
   (compilation-window-height 16)
-  (compilation-scroll-output t)
   )
 #+end_src
 
