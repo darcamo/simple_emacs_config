@@ -4605,6 +4605,20 @@ Configuration specific to a language should be in that language configuration he
 )
 #+end_src
 * Eglot
+
+Eglot here relies on Emacs' built-in functionality as well. =xref-find-references= is bound
+to =M-?=. Additionally, Eglot provides the following similar commands:
+=eglot-find-declaration=, =eglot-find-implementation=, =eglot-find-typeDefinition=.
+
+| Command                            | Keybinding | Description                                                 |
+|------------------------------------+------------+-------------------------------------------------------------|
+| xref-find-references               | (M-?)      | Find references to the identifier at point                  |
+| xref-go-back                       | (M-,)      | Go back to the previous position in xref history            |
+| xref-go-forward                    | (C-M-,)    | Go to the point where a previous M-, was invoked            |
+| xref-find-apropos                  | (C-M-.)    | Find all meaningful symbols that match PATTERN              |
+| xref-find-definitions-other-frame  | (C-x 5 .)  | Like ‘xref-find-definitions’ but switch to the other frame  |
+| xref-find-definitions-other-window | (C-x 4 .)  | Like ‘xref-find-definitions’ but switch to the other window |
+
 ** General Configuration
 https://joaotavora.github.io/eglot/
 
