@@ -4264,8 +4264,8 @@ https://github.com/tarsius/hl-todo
   :defer t
   :hook
   (yaml-mode . lsp)
-  :init
-  (add-to-list 'auto-mode-alist '(".clang-tidy" . yaml-mode))
+  :mode
+  (".clang-tidy" . yaml-mode)
   )
 #+end_src
 ** yaml-pro
@@ -4308,9 +4308,9 @@ You need to innstall =yamllint= using your OS package manager
   ;; (pdf-tools-install t t)
   :hook
   (pdf-view-mode . pdf-tools-enable-minor-modes)
+  :mode
+  ("\\.pdf" . pdf-view-mode)
   )
-
-(add-to-list 'auto-mode-alist '("\\.pdf" . pdf-view-mode))
 
 ;; (with-eval-after-load 'pdf-view
 ;;   (require 'pdf-continuous-scroll-mode))
@@ -4899,10 +4899,6 @@ Set a buffer to read-only when this minor mode is active
 #+end_src
 
 ** Qt and QML
-*** Set mode of qml.qrc file to xml-mode
-#+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '(".qrc" . xml-mode))
-#+end_src
 *** qml-integration package
 #+begin_src emacs-lisp
 (use-package qml-integration
@@ -4910,7 +4906,11 @@ Set a buffer to read-only when this minor mode is active
              qml-integration-run-qmlscene
              qml-integration-run-qmltestrunner)
   :elpaca (qml-integration :type git :host github :protocol ssh
-                           :repo "darcamo/qml-integration" :depth nil) )
+                           :repo "darcamo/qml-integration" :depth nil)
+  :mode
+  ;; Set mode of qml.qrc file to xml-mode
+  (".qrc" . xml-mode)
+  )
 #+end_src
 *** QML-Mode package
 #+begin_src emacs-lisp
@@ -4974,11 +4974,11 @@ Set a buffer to read-only when this minor mode is active
   conf-space-mode "conanfile-Mode" "A derived mode from conf-space-mode for conanfile.txt buffers."
   )
 
-(add-to-list 'auto-mode-alist '("conanfile\\.txt" . conanfile-mode))
-
 (use-package conanfile-mode
   :hook
   (cmake-mode . cmake-integration-keybindings)
+  :mode
+  ("conanfile\\.txt" . conanfile-mode)
   )
 
 
@@ -6580,8 +6580,8 @@ See more in https://github.com/chenyanming/calibredb.el
 (use-package nov
   :elpaca (nov :type git :host git :repo "https://depp.brause.cc/nov.el.git")
   ;; git clone https://depp.brause.cc/nov.el.git
-  :config
-  (add-to-list 'auto-mode-alist '("\\.epub\\'" . nov-mode))
+  :mode
+  ("\\.epub\\'" . nov-mode)
   )
 #+end_src
 ** COMMENT nov-xwidget package
@@ -6612,9 +6612,9 @@ execute the code.
 (use-package plantuml-mode
   :elpaca (plantuml-mode :type git :host github
                          :repo "skuro/plantuml-mode")
+  :mode
+  ("\\.puml\\'" . plantuml-mode)
   :config
-  (add-to-list 'auto-mode-alist '("\\.puml\\'" . plantuml-mode))
-
   (add-to-list 'auto-insert-alist
                (cons '("\\.puml" "Basic plantuml template")
                      "plantuml.puml"))
