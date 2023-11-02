@@ -548,7 +548,14 @@ action is performed (you will still be in the minibuffer)
   ;; Recommended: Enable Corfu globally.
   ;; This is recommended since dabbrev can be used globally (M-/).
   :init
-  (global-corfu-mode))
+  (global-corfu-mode)
+
+  :bind (:map corfu-map
+              ("<end>" . corfu-last)
+              ("<home>" . corfu-first)
+              ("<next>" . corfu-scroll-up)
+              ("<prior>" . corfu-scroll-down)
+              ))
 
 ;; A few more useful configurations...
 (use-package emacs
