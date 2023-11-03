@@ -4611,7 +4611,7 @@ Configuration specific to a language should be in that language configuration he
   (lsp-ui-doc-max-width 250)
 )
 #+end_src
-* Eglot
+* Eglot                                                                       :Eglot:
 
 Eglot here relies on Emacs' built-in functionality as well. =xref-find-references= is bound
 to =M-?=. Additionally, Eglot provides the following similar commands:
@@ -4637,9 +4637,7 @@ To add support to more server, see the =eglot-server-programs= variable.
 (use-package eglot
   :hook (;; replace XXX-mode with concrete major-mode (e. g. python-mode)
          (c-mode-common . eglot-ensure)
-         (python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (eglot-ensure)))
+         (python-mode . eglot-ensure)
          (cmake-mode . eglot-ensure)
          )
   :commands eglot-ensure
@@ -4657,7 +4655,9 @@ To add support to more server, see the =eglot-server-programs= variable.
         ("C-c C-l se" . eglot-stderr-buffer)
         ("C-c C-l sE" . eglot-events-buffer)
         ("C-c C-l sc" . eglot-list-connections)
-        ("C-c C-l sr" . eglot-reconnect)))
+        ("C-c C-l sr" . eglot-reconnect)
+        ("C-c C-l d" . eldoc)
+        ))
 #+end_src
 
 - =eglot-mode-map=
@@ -4680,7 +4680,10 @@ To add support to more server, see the =eglot-server-programs= variable.
          :map python-mode-map (("M-I" . consult-eglot-symbols)))
   )
 #+end_src
-* COMMENT dap-mode -> Debugger Adapter Protocol
+** Project specific configuration
+See the =eglot-workspace-configuration= variable. [[https://gist.github.com/doolio/8c1768ebf33c483e6d26e5205896217f][Here]] is an example.
+* Debug Protocol
+** COMMENT dap-mode -> Debugger Adapter Protocol
 For c++ see [[*Dap-debug (C++)][Dap-debug (C++)]]
 For Python see [[*Dap-debug (Python)][Dap-debug (Python)]]
 
@@ -4708,10 +4711,10 @@ Commands you should know to use dap-mode (see more [[https://emacs-lsp.github.io
 | dap-ui-hide-many-windows             |                                           |
 |--------------------------------------+-------------------------------------------|
 
-** TODO Check support for launch.json
+*** TODO Check support for launch.json
 https://emacs-lsp.github.io/dap-mode/page/features/#launchjson-support
 
-** Common configuration for dap-mode
+*** Common configuration for dap-mode
 To use the debugger, run ~dap-debug-edit-template~, edit the template and evaluate it.
 
 #+begin_src emacs-lisp
@@ -4750,7 +4753,7 @@ To use the debugger, run ~dap-debug-edit-template~, edit the template and evalua
   )
 #+end_src
 
-** COMMENT Define a minor-mode that is activated when dap is running (useful to set keybindings)
+*** COMMENT Define a minor-mode that is activated when dap is running (useful to set keybindings)
 Taken from https://emacs-lsp.github.io/dap-mode/page/how-to/
 #+begin_src emacs-lisp
 (define-minor-mode +dap-running-session-mode
@@ -4785,6 +4788,37 @@ Set a buffer to read-only when this minor mode is active
 #+begin_src emacs-lisp
 (add-hook '+dap-running-session-mode-hook 'read-only-mode)
 
+#+end_src
+
+** Dape mode
+Note: Here I'm onnly keepinng genenral configuration for dape.
+
+For C++ configuration see [[*Dape - Debug protocol][Dape - Debug protocol]]
+For Python configuration see
+
+#+begin_src elisp
+(use-package dape
+  ;; Currently only on github
+  :elpaca (dape :type git :host github :repo "svaante/dape")
+
+  ;; Add inline variable hints, this feature is highly experimental
+  ;; (setq dape-inline-variables t)
+
+  ;; To remove info buffer on startup
+  ;; (remove-hook 'dape-on-start-hooks 'dape-info)
+
+  ;; To remove repl buffer on startup
+  ;; (remove-hook 'dape-on-start-hooks 'dape-repl)
+
+  ;; By default dape uses gdb keybinding prefix
+  ;; (setq dape-key-prefix "\C-x\C-a")
+
+  ;; Kill compile buffer on build success
+  ;; (add-hook 'dape-compile-compile-hooks 'kill-buffer)
+
+  ;; Projectile users
+  ;; (setq dape-cwd-fn 'projectile-project-root)
+  )
 #+end_src
 
 * C++                                                               :CPP:Programming:
@@ -4995,7 +5029,7 @@ Set a buffer to read-only when this minor mode is active
                          (cmake-integration-keybindings)))))
 #+end_src
 
-** Dap-debug (C++)
+** COMMENT Dap-debug (C++) - Debug Protocol
 There are two alternatives for using dap-debug with c++:
 - [[https://emacs-lsp.github.io/dap-mode/page/configuration/#lldb][LLDB]] -> use ~(require 'dap-lldb)~
 - [[https://emacs-lsp.github.io/dap-mode/page/configuration/#vscode-cpptools][vscode-cpptools]] -> use ~(require 'dap-cpptools)~
@@ -5015,6 +5049,32 @@ it is running ~dap-debug-edit-template~ to configure the template before running
 
 To use the debugger, run ~dap-debug-edit-template~, edit the template and evaluate it.
 
+** Dape - Debug protocol
+Note: You need to install =cpptools= extension. See [[https://github.com/svaante/dape#c-and-c---cppdbg][here]] for instructions. In summary, just
+download a [[https://github.com/microsoft/vscode-cpptools/releases][release]], and unpack the =vsix= file, Then =chmod +x
+debugAdapters/bin/OpenDebugAD7=.
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :after dape
+  :config
+  (setq dape-cppdbg-command "~/.emacs.d/dape-debuggers/cpptools-linux/extension/debugAdapters/bin/OpenDebugAD7")
+  (add-to-list 'dape-configs
+               `(cppdbg
+                 modes (c-mode c-ts-mode c++-mode c++-ts-mode)
+                 command-cwd ,(file-name-directory
+                               dape-cppdbg-command)
+                 command dape-cppdbg-command
+                 :type "cppdbg"
+                 :request "launch"
+                 :cwd dape-cwd-fn
+                 :program dape-find-file
+                 :MIMode ,(cond
+                           ((executable-find "gdb") "gdb")
+                           ((executable-find "lldb") "lldb"))))
+
+  )
+#+end_src
 ** TODO Other packages to investigate                                  :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
@@ -5109,11 +5169,11 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
          ([S-f9] . kill-compilation)
 
          )
-  :hook
-  ;; (python-mode . python--add-debug-highlight)
-  (python-mode . (lambda ()
-                   (python--add-debug-highlight)
-                   (require 'dap-python)))
+  ;; :hook
+  ;; ;; (python-mode . python--add-debug-highlight)
+  ;; (python-mode . (lambda ()
+  ;;                  (python--add-debug-highlight)
+  ;;                  (require 'dap-python)))
   )
 #+end_src
 
@@ -5135,7 +5195,7 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   )
 #+end_src
 
-** pyvenv: Virtual Environment
+** COMMENT pyvenv: Virtual Environment
 #+begin_src emacs-lisp
 ;; Call pyvenv-activate and specify the folder with the virtual environment
 (use-package pyvenv
@@ -5153,7 +5213,8 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   :elpaca t
   :hook ((python-mode . pyvenv-auto-run)))
 #+end_src
-** LSP for Python                                                              :LSP:
+** pyright as language server                                                  :LSP:
+*** COMMENT LSP                                                               :LSP:
 Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
 (use-package lsp-pyright
@@ -5164,6 +5225,23 @@ Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 ;; (use-package lsp-jedi
 ;;   :elpaca t)
 #+end_src
+*** Eglot                                                                   :Eglot:
+#+begin_src emacs-lisp
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
+  )
+#+end_src
+
+
+https://robbmann.io/posts/emacs-eglot-pyrightconfig/
+#+begin_quote
+pyright is typically a system or user installation, not something you install per virtual
+environment. Getting pyright to see the virtual environment of my choosing , and correctly
+report which dependencies are installed was a bit of a hassle, but I think my favorite
+solution so far has been to configure the virtual environment through the
+pyrightconfig.json file at the root of my project, and just have this file ignored by git.
+#+end_quote
 
 ** Format buffer with yapf
 #+begin_src emacs-lisp
@@ -5173,7 +5251,7 @@ Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
   ("C-c f" . yapfify-buffer)
   ))
 #+end_src
-** Dap-debug (Python)
+** COMMENT Dap-debug (Python)
 +You need to install ~ptvsd>=4.2~ in your virtual environment+
 
 You need to install ~debugpy~ in your virtual environment
@@ -5183,6 +5261,24 @@ You need to install ~debugpy~ in your virtual environment
   :defer t ;; We will explicitly load dap-python in python-mode-hook
   :custom
   (dap-python-debugger 'debugpy)
+  )
+#+end_src
+** Dape - Debug Protocol
+Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] (there is a package in Arch).
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :after dape
+  :config
+  (add-to-list 'dape-configs
+               `(debugpy
+                 modes (python-ts-mode python-mode)
+                 command "python"
+                 command-args ("-m" "debugpy.adapter")
+                 :type "executable"
+                 :request "launch"
+                 :cwd dape-cwd-fn
+                 :program dape-find-file-buffer-default))
   )
 #+end_src
 * Lisp
