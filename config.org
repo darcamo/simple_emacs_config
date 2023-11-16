@@ -4821,6 +4821,17 @@ For Python configuration see
   )
 #+end_src
 
+* Formatting buffers                                               :apheleia:
+If the language server in a programming language supports formatting, use that instead. If
+it does not, then apheleia can be used instead.
+#+begin_src emacs-lisp
+(use-package apheleia
+  :elpaca t
+  )
+#+end_src
+
+In each language configuration what needs to use apheleia for formatting, you might add an
+entry to =apheleia-formatters= and =apheleia-mode-alist=.
 * C++                                                               :CPP:Programming:
 ** Always consider .h files as C++
 #+begin_src emacs-lisp
@@ -4973,7 +4984,6 @@ For Python configuration see
   (qml-mode . (lambda () (setq comment-start "// ") (setq comment-end "")))
 )
 #+end_src
-
 *** Detect filename in compilation-mode for qmltestrunner errors       :Compilation:
 #+begin_src emacs-lisp
 (use-package compile
@@ -4985,27 +4995,25 @@ For Python configuration see
                '("Loc: \\[\\(.*\\)(\\([0-9]*\\))" 1 2))
   )
 #+end_src
-*** Formatting QML buffers with apheleia                                       :QML:
+*** Formatting QML buffers with apheleia                              :QML:apheleia:
 #+begin_src elisp
-(use-package apheleia
-  :elpaca t
-  :after qml-mode
+(use-package qml-mode
+  :after apheleia
   :config
-
-  (push '(qmlformat . ("/usr/lib/qt5/bin/qmlformat" "--inplace" file))
+  (push '(qmlformat . ("/usr/bin/qmlformat" "--inplace" file))
         apheleia-formatters)
 
   (add-to-list 'apheleia-mode-alist '(qml-mode . qmlformat))
-    :bind (:map qml-mode-map
-         ;; Save the buffer to file, format the file and reload the disk
-         ("C-c C-l ==" . (lambda () (interactive)
-                   (save-buffer)
-                   (apheleia-format-buffer 'qmlformat)
-                   ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
-                   (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
-                   (revert-buffer t t t)
-                   ))
-         )
+  :bind (:map qml-mode-map
+              ;; Save the buffer to file, format the file and reload the disk
+              ("C-c C-l ==" . (lambda () (interactive)
+                                (save-buffer)
+                                (apheleia-format-buffer 'qmlformat)
+                                ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
+                                (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
+                                (revert-buffer t t t)
+                                ))
+              )
   )
 #+end_src
 ** Conan package manager
