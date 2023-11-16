@@ -5214,7 +5214,7 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
   :hook ((python-mode . pyvenv-auto-run)))
 #+end_src
 ** pyright as language server                                                  :LSP:
-*** COMMENT LSP                                                               :LSP:
+*** COMMENT LSP                                                                :LSP:
 Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
 (use-package lsp-pyright
@@ -5225,7 +5225,7 @@ Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 ;; (use-package lsp-jedi
 ;;   :elpaca t)
 #+end_src
-*** Eglot                                                                   :Eglot:
+*** Eglot                                                                    :Eglot:
 #+begin_src emacs-lisp
 (use-package eglot
   :config
