@@ -13,6 +13,19 @@ https://github.com/MatthewZMD/.emacs.d
 https://www.rousette.org.uk/archives/emacs-from-scratch-again/
 
 
+TODO: Check superword-mode
+
+TODO: Check the new find-sibling-file function in emacs29
+TODO: Check the pixel-scroll-precision-mode minor mode
+TODO: Check the compilation-hidden-output variable
+TODO: Check the project-vc-extra-root-markers variable
+TODO: Check the python-shell-dedicated variable
+TODO: Check the c++-ts-mode and c-or-c++-ts-mode new major modes
+TODO: Check the python-ts-mode new major modes
+TODO: Check the json-ts-mode new major modes
+
+TODO: *Check the* compilation-hidden-output variable
+
 My hand-crafted Emacs configuration
 
 init-time atual do emacs: ~1.2
@@ -5101,6 +5114,9 @@ Ver pacote yapfify (caso não consiga formatar com o LSP)
 Ver pacote python-coverage
 
 Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7/comment/hr2q2xc/?utm_source=share&utm_medium=web2x&context=3
+
+NOTE: Run the =run-python= command to run a python interpreter (with
+completion).
 
 ** Helper functions
 #+begin_src emacs-lisp

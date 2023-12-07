@@ -12,12 +12,18 @@
         c-electric-paren
         c-electric-semi&comma
         c-electric-slash
+        c-electric-star
         c-indent-line-or-region
+        c-scope-operator
         comment-dwim-2
+        complete-symbol
         consult-yank-pop
+        cycle-spacing
+        dabbrev-expand
         delete-horizontal-space
         dired-next-line
         dired-unmark-backward
+        down-list
         electric-newline-and-maybe-indent
         forward-sexp
         indent-for-tab-command
@@ -32,6 +38,7 @@
         org-yank
         picture-end-of-line
         picture-self-insert
+        read-only-mode
         transpose-words
         wdired--self-insert
         wdired-downcase-word
@@ -48,8 +55,12 @@
         ace-mc-add-single-cursor
         ace-mc-do-keyboard-reset
         ace-mc-quick-exchange
+        dap-tooltip-mouse-motion
         handle-switch-frame
+        ignore-preserving-kill-region
         magit-status
+        pixel-scroll-precision
+        pixel-scroll-start-momentum
         undo-redo
         wdired-finish-edit
         ))
