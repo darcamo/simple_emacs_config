@@ -25,6 +25,9 @@ TODO: Check the python-ts-mode new major modes
 TODO: Check the json-ts-mode new major modes
 
 TODO: *Check the* compilation-hidden-output variable
+TODO: try the ts-fold package
+https://github.com/emacs-tree-sitter/ts-fold
+
 
 My hand-crafted Emacs configuration
 
@@ -3734,6 +3737,10 @@ This package is not in melpa yet.
                                 ("Pt" "Teradici" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "6d6ac5f9-0ae3-4c93-aebc-caf212e3fc5d"))
                                 ("Pe" "Ericsson" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "77acdf6f-19a5-43b0-912f-64616f6aa28b"))
                                 ("Pg" "GTEL" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "b1011fcd-ebb7-48e1-abbd-6ab5d74ac83f"))
+
+                               ("S" "Squish" plain "Criado em %u\n\n- Links :: [[id:9894551a-5732-4d48-ae4c-6bff53083bdf][Squish]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Squish:Programação:"))
+                                 :unnarrowed t :immediate-finish t)
                                 ))
   :init
   ;; Note that this is commented out to avoid slowing down Emacs

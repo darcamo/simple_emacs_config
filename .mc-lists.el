@@ -61,6 +61,7 @@
         magit-status
         pixel-scroll-precision
         pixel-scroll-start-momentum
+        pixel-scroll-interpolate-down
         undo-redo
         wdired-finish-edit
         ))
