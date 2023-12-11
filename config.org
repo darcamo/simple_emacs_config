@@ -1764,6 +1764,10 @@ You can open links by clicking or with the =C-c RET= keybinding.
 * Version control
 ** Magit                                                                     :Magit:
 #+begin_src emacs-lisp
+(use-package transient
+  :elpaca (transient :type git :host github :repo "magit/transient")
+  )
+
 (use-package magit
   :elpaca t
   :bind ("C-x g" . magit-status)
