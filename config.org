@@ -5521,13 +5521,52 @@ TeX-command-master (from auctex) with a 'Latex' argument."
     (LaTeX-insert-item))
   )
 #+end_src
-
-** General config
+** Auctex General config                                                    :auctex:
 #+begin_src emacs-lisp
-(use-package tex
-  :defer t
-  :elpaca auctex
-  :after latex
+(use-package latex
+  :demand t ;; Prevent the automatic deferred loading introduced by
+            ;; constructs such as ':bind'. Auctex is "strange" and
+            ;; deferring loading auctex will make opening a latex file
+            ;; use the builtin latex-mode.
+  :elpaca  (auctex
+            :pre-build (("./autogen.sh")
+                        ("./configure" "--without-texmf-dir" "--with-lispdir=.")
+                        ("make")))
+  ;; :mode (("\\.tex\\'" . LaTeX-mode)
+  ;;        ("\\.tex\\.erb\\'" . LaTeX-mode)
+  ;;        ("\\.etx\\'" . LaTeX-mode))
+  :custom
+  (TeX-master nil)
+  (TeX-auto-save t)
+  (TeX-parse-self t)
+  (TeX-save-query nil)
+
+  ;; Extra indentation for lines beginning with an item.
+  (LaTeX-item-indent 0)
+
+  (LaTeX-beamer-item-overlay-flag nil)
+
+  (TeX-view-program-selection
+   '(
+     ((output-dvi has-no-display-manager) "dvi2tty")
+     ((output-dvi style-pstricks) "dvips and gv")
+     (output-dvi "xdvi")
+     (output-pdf "PDF Tools")
+     (output-html "xdg-open")))
+  :init
+  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+
+  ;; ;; We add this here to make sure we only load the auctex-latexmk
+  ;; ;; package after the tex package has been loaded
+  ;; (use-package auctex-latexmk
+  ;;   :elpaca t
+  ;;   :config
+  ;;   (auctex-latexmk-setup)
+  ;;   )
+  :config
+  ;; Add the .synctex.gz file to the list of files to be cleared by the
+  ;; "Clear All" command
+  (add-to-list 'LaTeX-clean-output-suffixes "\\.synctex\\.gz")
   :bind (
          :map LaTeX-mode-map
          ;; ([f5] . latex-skeleton-acronym)
@@ -5548,59 +5587,25 @@ TeX-command-master (from auctex) with a 'Latex' argument."
          ;; Enable key bindings (M-p and M-p) for navigation
          ;; (highlight-symbol-nav-mode)
          )
-  :custom
-  (TeX-master nil)
-  (TeX-auto-save t)
-  (TeX-parse-self t)
-
-  ;; Extra indentation for lines beginning with an item.
-  (LaTeX-item-indent 0)
-
-  (LaTeX-beamer-item-overlay-flag nil)
-
-  (TeX-view-program-selection
-   '(
-     ((output-dvi has-no-display-manager) "dvi2tty")
-     ((output-dvi style-pstricks) "dvips and gv")
-     (output-dvi "xdvi")
-     (output-pdf "PDF Tools")
-     (output-html "xdg-open")))
-  :init
-  ;; Add the .synctex.gz file to the list of files to be cleared by the
-  ;; "Clear All" command
-  (add-to-list 'LaTeX-clean-output-suffixes "\\.synctex\\.gz")
-
-  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
-
-  ;; ;; We add this here to make sure we only load the auctex-latexmk
-  ;; ;; package after the tex package has been loaded
-  ;; (use-package auctex-latexmk
-  ;;   :elpaca t
-  ;;   :config
-  ;;   (auctex-latexmk-setup)
-  ;;   )
 
   :hook
+  (TeX-mode . (lambda ()
+                (setq TeX-command-extra-options "-shell-escape")))
   (LaTeX-mode . reftex-mode)
   (LaTeX-mode . TeX-source-correlate-mode)
-  ;; Since I never use plain tex, whenever Emacs tries to use plain
-  ;; tex mode (because I opened a .tex file, for instance) it will
-  ;; just change to latex mode
-  (plain-TeX-mode . LaTeX-mode)
+
+  ;; ;; Since I never use plain tex, whenever Emacs tries to use plain
+  ;; ;; tex mode (because I opened a .tex file, for instance) it will
+  ;; ;; just change to latex mode
+  ;; (plain-TeX-mode . LaTeX-mode)
   )
 
-(use-package indent-guide
+  (use-package indent-guide
   :elpaca t
   :defer t
   :hook
   (LaTeX-mode . (lambda () (indent-guide-mode t)))
   )
-
-;; ;; Minor-mode that highlights the symbol under point throughout the buffer
-;; (use-package highlight-symbol
-;;   :elpaca t
-;;   :hook (LaTeX-mode . highlight-symbol-mode)
-;;   )
 #+end_src
 
 ** Set some faces
