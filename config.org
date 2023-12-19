@@ -485,6 +485,16 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
   (("M-s p" . consult-project))
   )
 #+end_src
+
+** consult-jump-project                                                    :Consult:
+Quickly jump between projects, their files and buffers with consult.
+
+#+begin_src emacs-lisp
+(use-package consult-jump-project
+  :elpaca (consult-jump-project :type git :host github :repo "jdtsmith/consult-jump-project")
+  :bind ("C-x p p" . consult-jump-project)
+  )
+#+end_src
 ** Other useful consult commands                                           :Consult:
 - consult-minor-mode-men
   - Filter the groups with "g", "i", "l" and "o"
