@@ -477,7 +477,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
          ))
 #+end_src
 
-** COMMENT Consult-project
+** COMMENT Consult-project                                                 :Consult:
 #+begin_src emacs-lisp
 (use-package consult-project
   :elpaca (consult-project :type git :host github :repo "Qkessler/consult-project")
@@ -3455,7 +3455,6 @@ This is controlled by the variables
   :hook (org-mode . org-appear-mode)
   )
 #+end_src
-
 ** Specific faces for TODO keywords
 https://www.i3s.unice.fr/~malapert/emacs_orgmode.html
 
@@ -3830,7 +3829,7 @@ shown in the backlink buffer
          (string-trim (buffer-substring-no-properties beg end)))))))
 #+end_src
 
-** consult-org-roam
+** consult-org-roam                                                        :Consult:
 https://github.com/jgru/consult-org-roam
 #+begin_src emacs-lisp
 (use-package consult-org-roam
@@ -3885,7 +3884,7 @@ notes. The code below has a nicer function that you can use instead
   )
 #+end_src
 
-** COMMENT Org-roam-bibtex
+** COMMENT Org-roam-bibtex                                            :Bibtex:Latex:
 #+begin_src emacs-lisp
 (use-package org-roam-bibtex
   :elpaca t
@@ -4612,7 +4611,7 @@ Configuration specific to a language should be in that language configuration he
   )
 #+end_src
 
-** Consult-LSP
+** Consult-LSP                                                         :Consult:LSP:
 #+begin_src emacs-lisp
 (use-package consult-lsp
   :elpaca t
@@ -4633,7 +4632,7 @@ Configuration specific to a language should be in that language configuration he
   )
 #+end_src
 
-** LSP-UI
+** LSP-UI                                                                      :LSP:
 #+begin_src emacs-lisp
 (use-package lsp-ui
   :elpaca t
@@ -4707,7 +4706,7 @@ To add support to more server, see the =eglot-server-programs= variable.
 : (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
 : (define-key eglot-mode-map (kbd "C-c h") 'eldoc)
 : (define-key eglot-mode-map (kbd "<f6>") 'xref-find-definitions)
-** Consult-Eglot
+** Consult-Eglot                                                     :Consult:Eglot:
 #+begin_src emacs-lisp
 (use-package consult-eglot
   :elpaca t
