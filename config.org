@@ -6848,6 +6848,8 @@ Open a certificate, public key, etc., and then just call =x509-dwim=.
 (use-package gptel
   :elpaca t
   :commands (gptel-menu gptel-send gptel gptel-mode gptel-set-topic gptel--convert-markdown->org)
+  :custom
+  (gptel-default-mode 'org-mode)
   :config
   (setq-default gptel-model "mistral:latest" ;Pick your default model
                 gptel-backend (gptel-make-ollama
