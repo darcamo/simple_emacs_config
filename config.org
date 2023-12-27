@@ -2744,6 +2744,14 @@ There is also lsp-grammarly, but it requires an account.
 
 ** Crypt
 #+begin_src emacs-lisp
+(use-package epg
+  :config
+  ;; Org-crypt stoped working and emacs just hanged forever when trying to enncript.
+  ;; In this link (https://stackoverflow.com/questions/76388376/emacs-org-encrypt-entry-hangs-when-file-is-modified)
+  ;; I found the solution to set epg-wait-for-status to ignore.
+  (fset 'epg-wait-for-status 'ignore)
+  )
+
 (use-package org-crypt
   :commands (org-decrypt-entry org-decrypt-entries org-encrypt-entry org-encrypt-entries)
   :custom
@@ -2767,11 +2775,6 @@ There is also lsp-grammarly, but it requires an account.
   ;; (setq org-tags-exclude-from-inheritance (quote ("crypt" "Projeto")))
   (add-to-list 'org-tags-exclude-from-inheritance "crypt")
   ;; darcamo@gmail.com (see in the seahorse program)
-
-  ;; Org-crypt stoped working and emacs just hanged forever when trying to enncript.
-  ;; In this link (https://stackoverflow.com/questions/76388376/emacs-org-encrypt-entry-hangs-when-file-is-modified)
-  ;; I found the solution to set epg-wait-for-status to ignore.
-  (fset 'epg-wait-for-status 'ignore)
 
   :init
   ;; Automatically encrypts everything that has the tag "crypt"
