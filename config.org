@@ -4151,7 +4151,7 @@ the other one separately.
 
 #+begin_src emacs-lisp
 (use-package popper
-  :ensure t ; or :straight t
+  :elpaca t ; or :straight t
   :bind (("C-S-p"   . popper-toggle)
          ("C-}"   . popper-cycle)
          ("C-{"   . popper-cycle-backwards)
@@ -6785,7 +6785,6 @@ cleared, make sure the overlay doesn't come back too soon."
 
 (use-package copilot
   :elpaca (:host github :repo "zerolfx/copilot.el")
-  :ensure t
   :custom
   (copilot-node-executable "/home/dmoreira/.nvm/versions/node/v20.5.1/bin/node")
 
