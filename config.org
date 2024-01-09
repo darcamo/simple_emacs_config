@@ -1806,7 +1806,8 @@ You can open links by clicking or with the =C-c RET= keybinding.
   ;; (blamer-datetime-formatter "[%s] ")
   ;; (blamer-author-formatter "%s ")
   ;; (blamer-commit-formatter "✏ %s")
-  (blamer-self-author-name "Eu mesmo")
+  (blamer-self-author-name "🙋")
+  (blamer-type 'visual)
   ;; :custom-face
   ;; (blamer-face ((t :foreground "#7a88cf"
   ;;                  :background nil
