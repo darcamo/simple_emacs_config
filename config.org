@@ -4236,7 +4236,7 @@ https://www.flycheck.org/en/latest/index.html
               ("C-c ! v" . flymake-switch-to-log-buffer)
               ("C-c ! P" . flymake-show-project-diagnostics)))
 #+end_src
-**** flymake-json
+**** COMMENT flymake-json
 #+begin_src emacs-lisp
 (use-package flymake-json
   :elpaca t
