@@ -5189,17 +5189,24 @@ completion).
 (use-package python
   :defer t
   :bind (:map python-mode-map
-         ;; Add breakpoint with pudb
-         ([C-f8] . python-insert-breakpoint)
-         ;; ([C-S-f8] . pudb-add-breakpoint)
+              ;; Add breakpoint with pudb
+              ([C-f8] . python-insert-breakpoint)
+              ;; ([C-S-f8] . pudb-add-breakpoint)
 
-         ;; Run a python file
-         ([f9] . my-python-compile)
-         ([S-f9] . kill-compilation)
+              ;; Run a python file
+              ([f9] . my-python-compile)
+              ([S-f9] . kill-compilation)
 
-         )
+              )
+  :custom
+  (python-shell-interpreter "ipython")
+  (python-shell-interpreter-args "--simple-prompt")
+  :hook
+  (python-base-mode . (lambda () (setq fill-column 120)))
+
+
   ;; :hook
-  ;; ;; (python-mode . python--add-debug-highlight)
+  ;; ;; (python-base-mode . python--add-debug-highlight)
   ;; (python-mode . (lambda ()
   ;;                  (python--add-debug-highlight)
   ;;                  (require 'dap-python)))
@@ -5224,7 +5231,7 @@ completion).
   )
 #+end_src
 
-** COMMENT pyvenv: Virtual Environment
+** pyvenv: Virtual Environment
 #+begin_src emacs-lisp
 ;; Call pyvenv-activate and specify the folder with the virtual environment
 (use-package pyvenv
@@ -5240,8 +5247,9 @@ completion).
 
 (use-package pyvenv-auto
   :elpaca t
-  :hook ((python-mode . pyvenv-auto-run)))
+  :hook ((python-base-mode . pyvenv-auto-run)))
 #+end_src
+
 ** pyright as language server                                                  :LSP:
 *** COMMENT LSP                                                                :LSP:
 Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
@@ -5310,6 +5318,36 @@ Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] (the
                  :program dape-find-file-buffer-default))
   )
 #+end_src
+** code-cells-mode
+When code-cell-mode is active, several keybindings are added to the =C-c %= prefix. I have
+added keybindings to some of the commands to easier keys.
+
+NOTE: code-cells-mode will also define the cells as the outline. With this,
+=consult-outline= becomes a nice way to quickly navigate between cells.
+
+#+begin_src emacs-lisp
+(use-package code-cells
+  :elpaca t
+  :commands (code-cells-mode)
+  :bind (:map python-mode-map
+              ("C-M-p" . code-cells-backward-cell)
+              ("C-M-n" . code-cells-forward-cell)
+              ("M-S-<up>" . code-cells-move-cell-up)
+              ("M-S-<down>" . code-cells-move-cell-down))
+  :hook ((python-base-mode . code-cells-mode))
+  )
+#+end_src
+
+Standard keybindings
+|---------+---------------------------------|
+| =C-c % e= | code-cells-eval                 |
+| =C-c % b= | code-cells-backward-cell        |
+| =C-c % f= | code-cells-forward-cell         |
+| =C-c % B= | code-cells-move-cell-up         |
+| =C-c % F= | code-cells-move-cell-down       |
+| =C-c % ;= | code-cells-comment-or-uncomment |
+| =C-c % @= | code-cells-mark-cell            |
+|---------+---------------------------------|
 * Lisp
 #+begin_src emacs-lisp
 (use-package emacs
