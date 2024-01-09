@@ -6854,17 +6854,43 @@ Open a certificate, public key, etc., and then just call =x509-dwim=.
   :elpaca t)
 #+end_src
 * gptel                                                                  :LLM:ollama:
+Useful commands:
+- gptel-send
+  - use C-u before for a menu
+- gptel
+- gptel-abort
+- gptel-set-topic
+
 #+begin_src emacs-lisp
 (use-package gptel
   :elpaca t
   :commands (gptel-menu gptel-send gptel gptel-mode gptel-set-topic gptel--convert-markdown->org)
+  :bind
+  ("C-c <return>" . gptel-send)
   :custom
   (gptel-default-mode 'org-mode)
   :config
-  (setq-default gptel-model "mistral:latest" ;Pick your default model
+  (setq-default gptel-model "dolphin-mixtral:latest" ;; Pick your default model
                 gptel-backend (gptel-make-ollama
                                "Ollama"                               ;Any name of your choosing
                                :host "localhost:11434"                ;Where it's running
-                               :models '("mistral:latest")            ;Installed models
+                               :models '("mistral:latest" "dolphin-mixtral:latest" "openchat:latest" "codellama:7b" "codellama:34b")            ;Installed models
                                :stream t)))
 #+end_src
+
+
+Note: You can customize the =gptel-directives= variable.
+You can also customize =gptel-temperature=.
+
+- To customize gptel to auto-scroll and go to the end of the response
+  : (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+  : (add-hook 'gptel-post-response-hook 'gptel-end-of-response)
+- To write your own workflows use =gptel-request=
+  : (gptel-request
+  :  "My prompt"
+  :  :system "Respond like a frobinator. Be terse."
+  :  :callback (lambda (response info)
+  :              "Frobnicate LLM RESPONSE"
+  :              (frob response)))
+- Note: When the gptel-send transient menu is open, you can use =C-x C-s= to save the
+  current choice as default. THIS WORKS IN ANY TRANSIENT MENU!.
