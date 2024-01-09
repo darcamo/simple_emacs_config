@@ -1817,7 +1817,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
   (global-blamer-mode 1)
   )
 #+end_src
-** magit-todos                                                               :Magit:
+** COMMENT magit-todos                                                               :Magit:
 #+begin_src emacs-lisp
 (use-package magit-todos
   :elpaca t
