@@ -1752,6 +1752,12 @@ You can open links by clicking or with the =C-c RET= keybinding.
   :config
   (setq-default goggles-pulse t)) ;; set to nil to disable pulsing
 #+end_src
+
+** TODO turbo-log
+Check https://github.com/Artawower/turbo-log
+
+** TODO file-info
+https://github.com/Artawower/file-info.el
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src emacs-lisp
 ;; (setq scroll-step 1)
@@ -3928,6 +3934,8 @@ https://github.com/publicimageltd/delve
 
 Currently it is not in melpa yet
 
+** TODO orgnote
+https://github.com/Artawower/orgnote
 * Edit indirect buffer
 Edit regions in separate buffers, like `org-edit-src-code' but for arbitrary
 regions.
