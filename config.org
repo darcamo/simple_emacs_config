@@ -1478,7 +1478,10 @@ of the file associated with the current buffer."
          ("C-c o" . other-frame) ; When there are multiple frames, change to another frame
          ("C-c r" . revert-buffer)
          ("C-x C-b" . ibuffer)
-         ("C-c d" . duplicate-dwim)  ;; Maybe change this keybinding
+         ("C-c d" . duplicate-dwim)
+         ;; Note that "C-x x t" calls `toggle-truncate-lines`. Thus, I
+         ;; set "C-x x v" to toggle visual-line-mode
+         ("C-x x v" . visual-line-mode) 
 
          ;; Use "pause" to set a window as dedicated
          ([pause] . toggle-current-window-dedication)
