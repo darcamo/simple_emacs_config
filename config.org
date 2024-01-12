@@ -1367,6 +1367,10 @@ of the file associated with the current buffer."
   (indent-tabs-mode nil)
 
   (recentf-max-saved-items 100)
+
+  ;; This controls how `toggle-truncate-lines` work. By default it
+  ;; will truncate on any character (when word-wrap is nil).
+  (word-wrap t)
   :init
   ;; Enable recentf-mode to save recent files
   ;; With this minor-mode emacs will save recent files when it exits
