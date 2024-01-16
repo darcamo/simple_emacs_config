@@ -1485,7 +1485,7 @@ of the file associated with the current buffer."
          ("C-c d" . duplicate-dwim)
          ;; Note that "C-x x t" calls `toggle-truncate-lines`. Thus, I
          ;; set "C-x x v" to toggle visual-line-mode
-         ("C-x x v" . visual-line-mode) 
+         ("C-x x v" . visual-line-mode)
 
          ;; Use "pause" to set a window as dedicated
          ([pause] . toggle-current-window-dedication)
@@ -4833,7 +4833,7 @@ Set a buffer to read-only when this minor mode is active
 ** Dape mode
 Note: Here I'm onnly keepinng genenral configuration for dape.
 
-For C++ configuration see [[*Dape - Debug protocol][Dape - Debug protocol]]
+For C++ configuration see [[*Dape C++ - Debug protocol][Dape C++ - Debug protocol]]
 For Python configuration see
 
 #+begin_src elisp
@@ -4858,6 +4858,8 @@ For Python configuration see
 
   ;; Projectile users
   ;; (setq dape-cwd-fn 'projectile-project-root)
+  ;; :custom
+  ;; (dape-buffer-window-arrangement 'gud)
   )
 #+end_src
 
@@ -5097,7 +5099,7 @@ it is running ~dap-debug-edit-template~ to configure the template before running
 
 To use the debugger, run ~dap-debug-edit-template~, edit the template and evaluate it.
 
-** Dape - Debug protocol
+** Dape C++ - Debug protocol
 Note: You need to install =cpptools= extension. See [[https://github.com/svaante/dape#c-and-c---cppdbg][here]] for instructions. In summary, just
 download a [[https://github.com/microsoft/vscode-cpptools/releases][release]], and unpack the =vsix= file, Then =chmod +x
 debugAdapters/bin/OpenDebugAD7=.
@@ -5106,7 +5108,7 @@ debugAdapters/bin/OpenDebugAD7=.
 (use-package emacs
   :after dape
   :config
-  (setq dape-cppdbg-command "~/.emacs.d/dape-debuggers/cpptools-linux/extension/debugAdapters/bin/OpenDebugAD7")
+  (setq dape-cppdbg-command "~/.emacs.d/debug-adapters/cpptools/extension/debugAdapters/bin/OpenDebugAD7")
   (add-to-list 'dape-configs
                `(cppdbg
                  modes (c-mode c-ts-mode c++-mode c++-ts-mode)
@@ -5322,7 +5324,7 @@ You need to install ~debugpy~ in your virtual environment
   (dap-python-debugger 'debugpy)
   )
 #+end_src
-** Dape - Debug Protocol
+** Dape Python - Debug Protocol
 Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] (there is a package in Arch).
 
 #+begin_src emacs-lisp
