@@ -5072,11 +5072,11 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
   ("conanfile\\.txt" . conanfile-mode)
   )
 
-
 (use-package python
   :hook
-  (python-mode . (lambda () (when (equal (file-name-nondirectory (buffer-file-name)) "conanfile.py")
-                         (cmake-integration-keybindings)))))
+  (python-mode . (lambda () (when (buffer-file-name)
+                         (when (equal (file-name-nondirectory (buffer-file-name)) "conanfile.py")
+                           (cmake-integration-keybindings))))))
 #+end_src
 
 ** COMMENT Dap-debug (C++) - Debug Protocol
