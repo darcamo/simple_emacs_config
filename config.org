@@ -5325,23 +5325,8 @@ You need to install ~debugpy~ in your virtual environment
   )
 #+end_src
 ** Dape Python - Debug Protocol
-Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] (there is a package in Arch).
+Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] in your python environment. Then running =dape= should be enough.
 
-#+begin_src emacs-lisp
-(use-package emacs
-  :after dape
-  :config
-  (add-to-list 'dape-configs
-               `(debugpy
-                 modes (python-ts-mode python-mode)
-                 command "python"
-                 command-args ("-m" "debugpy.adapter")
-                 :type "executable"
-                 :request "launch"
-                 :cwd dape-cwd-fn
-                 :program dape-find-file-buffer-default))
-  )
-#+end_src
 ** code-cells-mode
 When code-cell-mode is active, several keybindings are added to the =C-c %= prefix. I have
 added keybindings to some of the commands to easier keys.
