@@ -4314,6 +4314,25 @@ https://github.com/tarsius/hl-todo
   (prog-mode . hl-todo-mode)
   )
 #+end_src
+** Consult documentation in zeal
+See https://github.com/jinzhu/zeal-at-point
+
+You need to have [[https://zealdocs.org/][zeal]] installed.
+
+#+begin_src emacs-lisp
+(use-package zeal-at-point
+  :elpaca t
+  :bind (:map prog-mode-map
+              ;; Pass C-u before to specify the search item instead of
+              ;; using the thing at point
+              ("C-c d" . zeal-at-point))
+  :config
+  ;; Add more docsets beyond the standard library
+  (add-to-list 'zeal-at-point-mode-alist '(c++-mode . ("cpp" "Boost")))
+  (add-to-list 'zeal-at-point-mode-alist '(python-mode . ("python3" "NumPy" "SciPy" "Pandas")))
+  )
+#+end_src
+
 * YAML                                                                         :YAML:
 ** yaml-mode
 #+begin_src emacs-lisp
