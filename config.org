@@ -3950,6 +3950,17 @@ Currently it is not in melpa yet
 
 ** TODO orgnote
 https://github.com/Artawower/orgnote
+
+* Markdown
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :elpaca t
+  :custom
+  (markdown-fontify-code-blocks-natively t)
+  :config
+  (set-face-attribute ' markdown-code-face nil :background "gray10")
+  )
+#+end_src
 * Edit indirect buffer
 Edit regions in separate buffers, like `org-edit-src-code' but for arbitrary
 regions.
