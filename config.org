@@ -236,6 +236,9 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
          :map vertico-map
          ;; Note that you can also use C-M-f and C-M-b to move cursor between directories
          ("C-l" . backward-kill-sexp))
+  :hook
+  ;; Clean up file path when typing
+  (rfn-eshadow-update-overlay . vertico-directory-tidy)
   )
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
