@@ -1826,7 +1826,8 @@ https://github.com/Artawower/file-info.el
 #+begin_src emacs-lisp
 (use-package blamer
   :elpaca t
-  :demand t
+  ;; :demand t
+  :commands (blamer-show-posframe-commit-info blamer-mode global-blamer-mode)
   :bind (("s-i" . blamer-show-posframe-commit-info))
   ;; :defer 20
   :custom
@@ -1842,8 +1843,8 @@ https://github.com/Artawower/file-info.el
   ;;                  :background nil
   ;;                  :height 140
   ;;                  :italic t)))
-  :config
-  (global-blamer-mode 1)
+  ;; :config
+  ;; (global-blamer-mode 1)
   )
 #+end_src
 ** COMMENT magit-todos                                                               :Magit:
