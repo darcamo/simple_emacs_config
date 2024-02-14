@@ -4988,6 +4988,8 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
                     (c++-mode  . doxygen)))
   (push '(c-mode . "darcamo") c-default-style)
   (push '(c++-mode . "darcamo") c-default-style)
+  :hook
+  (c-mode-common . (lambda () (setq fill-column 120)))
   )
 
 
