@@ -1972,6 +1972,20 @@ There is also lsp-grammarly, but it requires an account.
 ** General
 *** Config
 #+begin_src emacs-lisp
+(defun my-get-org-file-apps ()
+  "Get the value that I want to pass to org-file-apps."
+  '(
+    (auto-mode . emacs)
+    (directory . emacs)
+    ("\\.mm\\'" . default)
+    ("\\.x?html?\\'" . default)
+    ("pdf" . "evince %s")
+    ("\\.pdf::\\([0-9]+\\)\\'" . "evince -p %1 %s")  ;; Link containing a specific page
+    ("\\.od[s|p|t]" . default)
+    ("xmind" . "xmind-zen %s")
+    )
+  )
+
 (use-package org
   :mode
   ;; Usa o org-mode para arquivos README
@@ -2027,16 +2041,7 @@ There is also lsp-grammarly, but it requires an account.
    '((heading . auto) (plain-list-item . nil)))
 
   ;; tell org-mode to use the default system programn to open open office documents
-  (org-file-apps (quote (
-                         (auto-mode . emacs)
-                         (directory . emacs)
-                         ("\\.mm\\'" . default)
-                         ("\\.x?html?\\'" . default)
-                         ("pdf" . "evince %s")
-                         ("\\.pdf::\\([0-9]+\\)\\'" . "evince -p %1 %s")  ;; Link containing a specific page
-                         ("\\.od[s|p|t]" . default)
-                         ("xmind" . "xmind-zen %s")
-                         )))
+  (org-file-apps (my-get-org-file-apps))
 
   ;; When editing source code (with C-c ') Show edit buffer in the
   ;; current window, keeping all other windows.
