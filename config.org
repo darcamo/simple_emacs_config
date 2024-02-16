@@ -68,7 +68,7 @@ Good themes:
 - doom tomorrow night
 #+begin_src emacs-lisp
 (use-package doom-themes
-  :elpaca t
+  :ensure t
   :config
   ;; (load-theme 'wombat)
   (load-theme 'doom-material-dark t)
@@ -98,7 +98,7 @@ Good themes:
 
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :hook
   ;; The server-after-make-frame-hook only run functions when emacs daemon creates a frame
   (server-after-make-frame . darlan/set-my-default-font)
@@ -167,7 +167,7 @@ The keybindinds all start with =C-x t=
 ** Doom Modeline
 #+begin_src emacs-lisp
 (use-package doom-modeline
-  :elpaca t
+  :ensure t
   :init (doom-modeline-mode 1)
   :config
   (set-face-attribute 'mode-line-inactive nil :background "#303030" :overline t)
@@ -217,7 +217,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 
 ;; Enable vertico
 (use-package vertico
-  :elpaca t
+  :ensure t
   :custom
   ;; Different scroll margin
   ;; (vertico-scroll-margin 0)
@@ -264,7 +264,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 ;; Multiple files can be opened at once with `find-file' if you enter a
 ;; wildcard. You may also give the `initials' completion style a try.
 (use-package orderless
-  :elpaca t
+  :ensure t
   :init
   ;; Configure a custom style dispatcher (see the Consult wiki)
   ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
@@ -279,7 +279,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 
 ;; A few more useful configurations...
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :init
   ;; Add prompt indicator to `completing-read-multiple'.
   ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
@@ -317,7 +317,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 ** Marginalia                                                           :Marginalia:
 #+begin_src emacs-lisp
 (use-package marginalia
-  :elpaca t
+  :ensure t
   ;; Either bind `marginalia-cycle` globally or only in the minibuffer
   :bind (("M-A" . marginalia-cycle)
          :map minibuffer-local-map
@@ -334,7 +334,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 ** all-the-icons-completion                                            :AllTheIcons:
 #+begin_src emacs-lisp
 (use-package all-the-icons-completion
-:elpaca t
+:ensure t
 :config
 (all-the-icons-completion-mode)
 ;; (add-hook 'marginalia-mode-hook #'all-the-icons-completion-marginalia-setup)
@@ -352,7 +352,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
 
 #+begin_src emacs-lisp
 (use-package consult
-  :elpaca t
+  :ensure t
   :bind (
          ;; Global keybindings
          ("M-i" . consult-imenu)
@@ -478,7 +478,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
 ** Consult-dir                                                             :Consult:
 #+begin_src emacs-lisp
 (use-package consult-dir
-  :elpaca t
+  :ensure t
   :bind (("C-x C-d" . consult-dir)
          ;; :map vertico-map
          ;; ("C-x C-d" . consult-dir)
@@ -489,7 +489,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
 ** COMMENT Consult-project                                                 :Consult:
 #+begin_src emacs-lisp
 (use-package consult-project
-  :elpaca (consult-project :type git :host github :repo "Qkessler/consult-project")
+  :ensure (consult-project :type git :host github :repo "Qkessler/consult-project")
   :bind
   (("M-s p" . consult-project))
   )
@@ -500,7 +500,7 @@ Quickly jump between projects, their files and buffers with consult.
 
 #+begin_src emacs-lisp
 (use-package consult-jump-project
-  :elpaca (consult-jump-project :type git :host github :repo "jdtsmith/consult-jump-project")
+  :ensure (consult-jump-project :type git :host github :repo "jdtsmith/consult-jump-project")
   :bind ("C-x p p" . consult-jump-project)
   )
 #+end_src
@@ -516,7 +516,7 @@ Note: If you use =C-u= before calling ~embark-act~, then the session will be kep
 action is performed (you will still be in the minibuffer)
 #+begin_src emacs-lisp
 (use-package embark
-  :elpaca t
+  :ensure t
 
   :bind
   (("C-." . embark-act)         ;; pick some comfortable binding
@@ -550,7 +550,7 @@ action is performed (you will still be in the minibuffer)
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
-  :elpaca t
+  :ensure t
   :after (embark consult)
   :demand t ; only necessary if you have the hook below
   ;; if you want to have consult previews as you move around an
@@ -562,7 +562,7 @@ action is performed (you will still be in the minibuffer)
 ** Corfu                                                                     :Corfu:
 #+begin_src emacs-lisp
 (use-package corfu
-  :elpaca t
+  :ensure t
   ;; Optional customizations
   :custom
   (corfu-cycle t)                ;; Enable cycling for `corfu-next/previous'
@@ -594,7 +594,7 @@ action is performed (you will still be in the minibuffer)
 
 ;; A few more useful configurations...
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :init
   ;; TAB cycle if there are only few candidates
   (setq completion-cycle-threshold 3)
@@ -611,7 +611,7 @@ action is performed (you will still be in the minibuffer)
 ;; https://github.com/jdtsmith/kind-icon
 ;; Add nice icons in corfu popup
 (use-package kind-icon
-  :elpaca t
+  :ensure t
   :after corfu
   :custom
   (kind-icon-default-face 'corfu-default) ; to compute blended backgrounds correctly
@@ -728,7 +728,7 @@ Code to define many acronymms that I use
 
 
 (use-package dash
-  :elpaca t
+  :ensure t
   :defer t
   :config
   ;; The dash library provides the "-keep" function
@@ -750,7 +750,7 @@ Code to define many acronymms that I use
   )
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :defer t
   :custom
   ;; I will always modify my abbrev file manually or programatically and I don't
@@ -796,7 +796,7 @@ Code to define many acronymms that I use
 
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :bind
   ([C-f1] . fill-with-comment)
   )
@@ -811,7 +811,7 @@ Tip: Check the =yas-describe-tables= command
 
 #+begin_src emacs-lisp
 (use-package yasnippet
-  :elpaca t
+  :ensure t
   :init
   (yas-global-mode)
   :bind (:map yas-minor-mode-map
@@ -820,11 +820,11 @@ Tip: Check the =yas-describe-tables= command
   )
 
 (use-package yasnippet-snippets
-  :elpaca t
+  :ensure t
   :after yasnippet)
 
 (use-package consult-yasnippet
-  :elpaca t
+  :ensure t
   :commands consult-yasnippet
   )
 #+end_src
@@ -1364,7 +1364,7 @@ of the file associated with the current buffer."
   )
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :mode
   ("\\.abbrev_defs\\'" . emacs-lisp-mode)
   :custom
@@ -1402,7 +1402,7 @@ of the file associated with the current buffer."
 ;; breaks the org-roam buffer for some reason. Therefore, only enabled
 ;; it in programming modes
 (use-package page-break-lines
-  :elpaca t
+  :ensure t
   ;; :config
   ;; ;;(global-page-break-lines-mode)
   ;; (add-to-list 'page-break-lines-modes 'c++-mode)
@@ -1423,7 +1423,7 @@ of the file associated with the current buffer."
           (lambda ()
             ;; (visual-fill-column-mode)  ;; Nice minor-mode, but it comflicts with git-gutter
             (use-package adaptive-wrap
-              :elpaca t
+              :ensure t
               :config
               (adaptive-wrap-prefix-mode))
             )
@@ -1448,7 +1448,7 @@ of the file associated with the current buffer."
   (advice-add command :after #'pulse-line))
 
 (use-package rainbow-delimiters
-  :elpaca t
+  :ensure t
   :defer t
   :config
   (set-face-foreground 'rainbow-delimiters-depth-1-face "#c66")  ; red
@@ -1468,7 +1468,7 @@ of the file associated with the current buffer."
 ** Ediff: use single frame
 #+begin_src emacs-lisp
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :custom
   (ediff-window-setup-function 'ediff-setup-windows-plain)
 )
@@ -1477,7 +1477,7 @@ of the file associated with the current buffer."
 ** Keybindigns                                                         :Keybindings:
 #+begin_src emacs-lisp
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :bind (
          ([f2] . delete-window)
          ([f3] . bury-buffer) ; put the current buffer at the end of the buffer list
@@ -1513,7 +1513,7 @@ of the file associated with the current buffer."
 ** Extra packages                                                      :Keybindings:
 #+begin_src emacs-lisp
 (use-package diminish
- :elpaca t)
+ :ensure t)
 
 ;; While autorevert is a native functionality, we use "use-package" here as a way to diminish its modline
 (use-package autorevert
@@ -1522,7 +1522,7 @@ of the file associated with the current buffer."
   )
 
 (use-package which-key
-  :elpaca t
+  :ensure t
   :config (which-key-mode)
   :diminish which-key-mode
   )
@@ -1540,12 +1540,12 @@ of the file associated with the current buffer."
   )
 
 (use-package goto-last-change
-  :elpaca t
+  :ensure t
   :bind ("C-x C-n" . goto-last-change)
   )
 
 (use-package git-gutter
-  :elpaca t
+  :ensure t
   :config
   (global-git-gutter-mode +1)
   ;; The default is " GitGutter", but I don't want to waste
@@ -1553,20 +1553,20 @@ of the file associated with the current buffer."
   (setq git-gutter:lighter ""))
 
 (use-package comment-dwim-2
-  :elpaca t
+  :ensure t
   :bind ("M-;" . comment-dwim-2)
   :config
   (setq comment-dwim-2--inline-comment-behavior 'reindent-comment))
 
 (use-package discover-my-major
-  :elpaca t
+  :ensure t
   :bind
   ;; Discover Major mode keybindings with 'discover-my-major'
   ("C-h C-m" . discover-my-major)
   )
 
 (use-package multiple-cursors
-  :elpaca t
+  :ensure t
   :bind
   ("C-S-c C-S-c" . mc/edit-lines)
   ("C-S-c C-S-l" . mc/mark-all-like-this)
@@ -1575,7 +1575,7 @@ of the file associated with the current buffer."
   )
 
 (use-package ace-mc
-  :elpaca t
+  :ensure t
   :bind (
          ("C-)" . ace-mc-add-multiple-cursors)
          ("C-M-)" . ace-mc-add-single-cursor)
@@ -1583,7 +1583,7 @@ of the file associated with the current buffer."
   )
 
 (use-package drag-stuff
-  :elpaca t
+  :ensure t
   :bind (
          ;; Allow you to use M-up and M-down to move a line up or down
          ([(meta up)] . drag-stuff-up)
@@ -1594,7 +1594,7 @@ of the file associated with the current buffer."
   )
 
 (use-package rainbow-mode
-  :elpaca t
+  :ensure t
   :defer t
   :hook
   (help-mode . rainbow-mode)  ;; Enable by default in help buffers (useful for faces)
@@ -1607,7 +1607,7 @@ of the file associated with the current buffer."
 
 
 (use-package expand-region
-  :elpaca t
+  :ensure t
   :bind (
          ("C-=" . er/expand-region)
          ("C-M-=" . er/contract-region)
@@ -1615,7 +1615,7 @@ of the file associated with the current buffer."
   )
 
 (use-package smartparens
-  :elpaca t
+  :ensure t
   :defer t
   :hook
   (prog-mode . smartparens-mode)
@@ -1626,13 +1626,13 @@ of the file associated with the current buffer."
   )
 
 (use-package unfill
-  :elpaca t
+  :ensure t
   :bind
   (("M-Q" . unfill-paragraph))
   )
 
 (use-package anzu
-  :elpaca t
+  :ensure t
   :init
   (global-anzu-mode)
   ;; Remap query-replace and query-replace-regexp with anzu versions
@@ -1641,10 +1641,9 @@ of the file associated with the current buffer."
   )
 
 (use-package lorem-ipsum
-  :elpaca t
+  :ensure t
   :commands (Lorem-ipsum-insert-list Lorem-ipsum-insert-sentences Lorem-ipsum-insert-paragraphs)
   )
-
 #+end_src
 
 ** ace window: Easily jump to any window with "C-x o"                          :Ace:
@@ -1670,7 +1669,7 @@ o - maximize current window
 
 #+begin_src emacs-lisp
 (use-package ace-window
-  :elpaca t
+  :ensure t
   :bind
   ([remap other-window] . ace-window)
   )
@@ -1701,7 +1700,7 @@ delete the text in order to use the completion system to open a file.
 ** sudo-edit                                                                  :sudo:
 #+begin_src emacs-lisp
 (use-package sudo-edit
-  :elpaca t
+  :ensure t
   :commands sudo-edit
   )
 #+end_src
@@ -1710,7 +1709,7 @@ delete the text in order to use the completion system to open a file.
 Use the ~world-clock~ command to see the times
 #+begin_src emacs-lisp
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :custom
   (zoneinfo-style-world-list '(
                                ("America/Fortaleza" "Fortaleza")
@@ -1762,7 +1761,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 ** googles -> Highlight modified region using pulse
 #+begin_src emacs-lisp
 (use-package goggles
-  :elpaca t
+  :ensure t
   :hook ((prog-mode text-mode) . goggles-mode)
   :config
   (setq-default goggles-pulse t)) ;; set to nil to disable pulsing
@@ -1771,7 +1770,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
 ** olivetti -> similar to writeroom and darkroom
 #+begin_src emacs-lisp
 (use-package olivetti
-  :elpaca t
+  :ensure t
   :bind ("C-x x o" . olivetti-mode)
   )
 #+end_src
@@ -1802,11 +1801,11 @@ https://github.com/Artawower/file-info.el
 ** Magit                                                                     :Magit:
 #+begin_src emacs-lisp
 (use-package transient
-  :elpaca (transient :type git :host github :repo "magit/transient")
+  :ensure (transient :type git :host github :repo "magit/transient")
   )
 
 (use-package magit
-  :elpaca t
+  :ensure t
   :bind ("C-x g" . magit-status)
   :custom
   (magit-diff-refine-hunk t)  ;; Note sure about the effect of this one
@@ -1816,7 +1815,7 @@ https://github.com/Artawower/file-info.el
 ** Git timemachine
 #+begin_src emacs-lisp
 (use-package git-timemachine
-  :elpaca t
+  :ensure t
   :commands (git-timemachine)
   )
 #+end_src
@@ -1824,7 +1823,7 @@ https://github.com/Artawower/file-info.el
 ** Blamer
 #+begin_src emacs-lisp
 (use-package blamer
-  :elpaca t
+  :ensure t
   ;; :demand t
   :commands (blamer-show-posframe-commit-info blamer-mode global-blamer-mode)
   :bind (("s-i" . blamer-show-posframe-commit-info))
@@ -1849,7 +1848,7 @@ https://github.com/Artawower/file-info.el
 ** COMMENT magit-todos                                                               :Magit:
 #+begin_src emacs-lisp
 (use-package magit-todos
-  :elpaca t
+  :ensure t
   :after magit
   :config (magit-todos-mode 1))
 #+end_src
@@ -1947,7 +1946,7 @@ There is also lsp-grammarly, but it requires an account.
 ** Keybindings                                                         :Keybindings:
 #+begin_src emacs-lisp
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :bind (
          ([f7] . ispell)
          ([S-f7] . ispell-region)
@@ -2440,7 +2439,7 @@ There is also lsp-grammarly, but it requires an account.
 
 
 (use-package org-super-agenda
-  :elpaca t
+  :ensure t
   :after org
   :custom
   (org-super-agenda-header-separator "--- ")
@@ -2454,7 +2453,7 @@ There is also lsp-grammarly, but it requires an account.
 
 
 ;; (use-package origami
-;;   :elpaca t
+;;   :ensure t
 ;;   :after org-super-agenda
 ;;   :bind (:map org-super-agenda-header-map
 ;;               ;; Enable origami-mode in org-agenda
@@ -2490,7 +2489,7 @@ There is also lsp-grammarly, but it requires an account.
 #+begin_src emacs-lisp
 (use-package jupyter
   :defer t
-  :elpaca t
+  :ensure t
   )
 
 (use-package jupyter-org-client
@@ -2731,7 +2730,7 @@ There is also lsp-grammarly, but it requires an account.
   )
 
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :after org-clock
   :hook (post-command . (lambda ()
                           (let ((color (cond ((org-clocking-p) "green")
@@ -2839,7 +2838,7 @@ reveal."
 
 
 (use-package ox-extra
-  :elpaca org-contrib  ;; ox-extra is part of the org-contrib package
+  :ensure org-contrib  ;; ox-extra is part of the org-contrib package
   :commands ox-extras-activate
   ;; NOTE: To avoid loading this package during emacs startup, the
   ;; ox-extras-activate function will be called in
@@ -3031,7 +3030,7 @@ reveal."
 *** Jira                                                                      :Jira:
 #+begin_src emacs-lisp
 (use-package ox-jira
-  :elpaca t
+  :ensure t
   :defer t
   :init
   (add-to-list 'org-export-backends 'jira) ;; This will load ox-jira on demand
@@ -3331,7 +3330,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 *** org-modern
 #+begin_src emacs-lisp
 (use-package org-modern
-  :elpaca t
+  :ensure t
   :custom
   (org-modern-timestamp nil)
   (org-modern-hide-stars nil)
@@ -3344,7 +3343,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 *** org-modern-indent
 #+begin_src emacs-lisp
 (use-package org-modern-indent
-  :elpaca (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
+  :ensure (org-modern-indent :type git :host github :repo "jdtsmith/org-modern-indent")
   ;; :hook
   ;; (org-mode . org-modern-indent)
   :config
@@ -3357,14 +3356,14 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 ;; The org-bullets package replaces all headline markers with
 ;; different Unicode bullets
 ;; (use-package org-bullets
-;;   :elpaca t
+;;   :ensure t
 ;;   :config
 ;;   (add-hook 'org-mode-hook (lambda () (org-bullets-mode 1))))
 
 ;; Alternative to org-bullets package
 (use-package org-superstar
   :defer t
-  :elpaca t
+  :ensure t
   :custom
   (org-superstar-special-todo-items 'hide)
   :hook
@@ -3463,7 +3462,7 @@ This is controlled by the variables
 
 #+begin_src emacs-lisp
 (use-package org-appear
-  :elpaca t
+  :ensure t
   :hook (org-mode . org-appear-mode)
   )
 #+end_src
@@ -3485,7 +3484,7 @@ Try addapting the example below
 ** all-the-icons-ibuffer                                               :AllTheIcons:
 #+begin_src emacs-lisp
 (use-package all-the-icons-ibuffer
-:elpaca t
+:ensure t
 :config
 (all-the-icons-ibuffer-mode 1)
 )
@@ -3493,7 +3492,7 @@ Try addapting the example below
 ** COMMENT SVG tag mode
 #+begin_src emacs-lisp
 (use-package svg-tag-mode
-  :elpaca t
+  :ensure t
   :custom
   (svg-tag-tags
                                         ; ATTACH
@@ -3537,7 +3536,7 @@ Try addapting the example below
 ** Extra packages for org-mode
 #+begin_src emacs-lisp
 (use-package org-download
-  :elpaca t
+  :ensure t
   :after org
   :commands (org-download-screenshot org-download-yank)
   ;; :bind
@@ -3557,7 +3556,7 @@ Default prefix is =C-c C-=
 
 #+begin_src emacs-lisp
 (use-package org-journal
-  :elpaca t
+  :ensure t
   :custom
   (org-journal-dir (file-name-concat org-directory "journal/"))
   (org-journal-file-format "%Y%m%d.org")
@@ -3574,14 +3573,14 @@ https://nobiot.github.io/org-transclusion/
 
 #+begin_src emacs-lisp
 (use-package org-transclusion
-  :elpaca t
+  :ensure t
   )
 #+end_src
 
 ** org-present
 #+begin_src emacs-lisp
 (use-package org-present
-  :elpaca t)
+  :ensure t)
 #+end_src
 * org-remark
 Org-remark lets you highlight and annotate any text file with using Org mode.
@@ -3594,7 +3593,7 @@ This package is not in melpa yet.
 
 #+begin_src emacs-lisp
 (use-package org-remark
-  :elpaca t
+  :ensure t
   :custom
   ;; The default pens do not work well with dark background and I'll define my own pens
   (org-remark-create-default-pen-set nil)
@@ -3631,7 +3630,7 @@ This package is not in melpa yet.
 * org-reveal
 #+begin_src emacs-lisp
 (use-package ox-reveal
-  :elpaca t
+  :ensure t
   :defer t
   :custom
   (org-reveal-reveal-js-version 4)
@@ -3653,7 +3652,7 @@ This package is not in melpa yet.
   (concat my--note-title-template "#+filetags: " tags-string))
 
 (use-package org-roam
-  :elpaca t
+  :ensure t
   :defer t
   :custom
   (org-roam-directory "~/org/org-roam-notes/")
@@ -3845,7 +3844,7 @@ shown in the backlink buffer
 https://github.com/jgru/consult-org-roam
 #+begin_src emacs-lisp
 (use-package consult-org-roam
-  :elpaca t
+  :ensure t
   :after org-roam
   :init
   (require 'consult-org-roam)
@@ -3899,7 +3898,7 @@ notes. The code below has a nicer function that you can use instead
 ** COMMENT Org-roam-bibtex                                            :Bibtex:Latex:
 #+begin_src emacs-lisp
 (use-package org-roam-bibtex
-  :elpaca t
+  :ensure t
   :after org-roam
   :defer t
   :hook (org-roam-mode . org-roam-bibtex-mode)
@@ -3938,7 +3937,7 @@ notes. The code below has a nicer function that you can use instead
 ** Org-roam UI
 #+begin_src emacs-lisp
 (use-package org-roam-ui
-  :elpaca t
+  :ensure t
   :after org-roam
   :commands (org-roam-ui-mode)
   :bind (:map org-mode-map
@@ -3963,7 +3962,7 @@ https://github.com/Artawower/orgnote
 * Markdown
 #+begin_src emacs-lisp
 (use-package markdown-mode
-  :elpaca t
+  :ensure t
   :custom
   (markdown-fontify-code-blocks-natively t)
   :config
@@ -3978,7 +3977,7 @@ See the docstring of [[help:edit-indirect-region][edit-indirect-region]] for det
 
 #+begin_src emacs-lisp
 (use-package edit-indirect
-  :elpaca t)
+  :ensure t)
 #+end_src
 
 * Atomic-chrome: Edit text-fields in the browser
@@ -3990,7 +3989,7 @@ text-field is focused to open in Emacs. Once you edit the text in Emacs, use =Ct
 to accept.
 #+begin_src emacs-lisp
 (use-package atomic-chrome
-  :elpaca t
+  :ensure t
   :config
   (atomic-chrome-start-server)
   )
@@ -4013,7 +4012,7 @@ This is an association list of regexp and major mode function. If the page URL m
 * COMMENT Visual-fill-column in org-mode
 #+begin_src emacs-lisp
 (use-package visual-fill-column
-  :elpaca t
+  :ensure t
   :custom
   (visual-fill-column-center-text t)
   (visual-fill-column-width 120)
@@ -4059,7 +4058,7 @@ Useful keybindings:
 
 #+begin_src emacs-lisp
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :custom
   (calendar-mark-holidays-flag nil)
   (calendar-latitude -3.77)
@@ -4117,7 +4116,7 @@ back to the org file.
 
 #+begin_src emacs-lisp
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :bind (:map prog-mode-map
               ;; Set keybindings similar to the ones I used wit flycheck
               ;; NOTE: Consult will add the "M-g f" keybinding for `consult-flymake'
@@ -4127,7 +4126,7 @@ back to the org file.
 ** Line numbers
 #+begin_src emacs-lisp
 (use-package display-line-numbers-mode
-  :elpaca nil
+  :ensure nil
   :hook
   (prog-mode . display-line-numbers-mode))
 #+end_src
@@ -4147,7 +4146,7 @@ back to the org file.
 ** Handle ansi colors in compilation buffer                            :Compilation:
 #+begin_src emacs-lisp
 (use-package emacs
-  :elpaca nil
+  :ensure nil
 :hook
 (compilation-filter . ansi-color-compilation-filter)
 )
@@ -4169,7 +4168,7 @@ back to the org file.
 ** Scroll down compilation buffer
 #+begin_src emacs-lisp
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :custom
   ;; (compilation-scroll-output t)
   (compilation-scroll-output 'first-error)
@@ -4179,7 +4178,7 @@ back to the org file.
 ** COMMENT Size of the compile window and scroll it down as output appears :Compilation:
 #+begin_src emacs-lisp
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :custom
   (compilation-window-height 16)
   )
@@ -4194,7 +4193,7 @@ the other one separately.
 
 #+begin_src emacs-lisp
 (use-package popper
-  :elpaca t ; or :straight t
+  :ensure t ; or :straight t
   :bind (("C-S-p"   . popper-toggle)
          ("C-}"   . popper-cycle)
          ("C-{"   . popper-cycle-backwards)
@@ -4216,7 +4215,7 @@ the other one separately.
 ** COMMENT popwin                                                      :Compilation:
 #+begin_src emacs-lisp
 (use-package popwin
-  :elpaca t
+  :ensure t
 
   )
 #+end_src
@@ -4227,7 +4226,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
 
 #+begin_src elisp
 (use-package shackle
-  :elpaca t
+  :ensure t
 
   :custom
   (shackle-rules '(("*compilation*" :noselect t :align 'below :size 12)
@@ -4252,7 +4251,7 @@ https://www.flycheck.org/en/latest/index.html
 
 #+begin_src emacs-lisp
 (use-package flycheck
-  :elpaca t
+  :ensure t
   :commands flycheck-mode
   ;; :init
   ;;(global-flycheck-mode)
@@ -4281,14 +4280,14 @@ https://www.flycheck.org/en/latest/index.html
 **** COMMENT flymake-json
 #+begin_src emacs-lisp
 (use-package flymake-json
-  :elpaca t
+  :ensure t
   :hook
   (json-mode . flymake-json-load))
 #+end_src
 ** Enable origami-mode in programming buffers
 #+begin_src emacs-lisp
 (use-package origami
-  :elpaca t
+  :ensure t
   :hook
   (prog-mode . origami-mode)
   :bind (
@@ -4300,7 +4299,7 @@ https://www.flycheck.org/en/latest/index.html
 ** Obvious-mode
 #+begin_src emacs-lisp
 (use-package obvious
-  :elpaca (obvious :type git :host github :protocol ssh :repo "alphapapa/obvious.el")
+  :ensure (obvious :type git :host github :protocol ssh :repo "alphapapa/obvious.el")
   :bind
   ("<C-f8>" . obvious-mode)
   :custom
@@ -4318,7 +4317,7 @@ https://github.com/tarsius/hl-todo
 
 #+begin_src emacs-lisp
 (use-package hl-todo
-  :elpaca t
+  :ensure t
   :hook
   (prog-mode . hl-todo-mode)
   )
@@ -4330,7 +4329,7 @@ You need to have [[https://zealdocs.org/][zeal]] installed.
 
 #+begin_src emacs-lisp
 (use-package zeal-at-point
-  :elpaca t
+  :ensure t
   :bind (:map prog-mode-map
               ;; Pass C-u before to specify the search item instead of
               ;; using the thing at point
@@ -4346,7 +4345,7 @@ You need to have [[https://zealdocs.org/][zeal]] installed.
 ** yaml-mode
 #+begin_src emacs-lisp
 (use-package yaml-mode
-  :elpaca t
+  :ensure t
   :defer t
   :hook
   (yaml-mode . lsp)
@@ -4367,14 +4366,14 @@ Check how to use in https://github.com/zkry/yaml-pro
 It seems you use this as a minnor-mode (it does not replace yaml-mode
 #+begin_src emacs-lisp
 (use-package yaml-pro
-  :elpaca t
+  :ensure t
   )
 #+end_src
 ** flymake-yamllint
 You need to innstall =yamllint= using your OS package manager
 #+begin_src emacs-lisp
 (use-package flymake-yamllint
-  :elpaca t
+  :ensure t
   :hook
   (yaml-mode . flymake-yamllint-setup)
   (yaml-mode . flymake-mode)
@@ -4385,7 +4384,7 @@ You need to innstall =yamllint= using your OS package manager
 ** PDF-tools package
 #+begin_src emacs-lisp
 (use-package pdf-tools
-  :elpaca t
+  :ensure t
   :commands pdf-view-mode
   ;; :config
   ;; First argument "t" means "Build the program (if necessary)
@@ -4406,7 +4405,7 @@ You need to innstall =yamllint= using your OS package manager
 ** COMMENT Integration with org (create org-links)                         :OrgMode:
 #+begin_src emacs-lisp
 (use-package org-pdftools
-  :elpaca t
+  :ensure t
   :hook (org-mode . org-pdftools-setup-link))
 #+end_src
 
@@ -4450,7 +4449,7 @@ TODO: Use the new [[https://github.com/dalanicolai/image-roll.el][image-roll]] p
 ** Configuration
 #+begin_src emacs-lisp
 ;; (use-package dired-git
-;; :elpaca t
+;; :ensure t
 ;; :config (add-hook 'dired-mode-hook 'dired-git-mode)
 ;; )
 
@@ -4511,14 +4510,14 @@ TODO: Use the new [[https://github.com/dalanicolai/image-roll.el][image-roll]] p
 #+begin_src emacs-lisp
 ;; ;; Use the nice icons from treemacs in dired buffers
 ;; (use-package treemacs-icons-dired
-;;   :elpaca t
+;;   :ensure t
 ;;   :commands treemacs-icons-dired-mode
 ;;   :hook
 ;;   (dired-mode . treemacs-icons-dired-mode)
 ;;   )
 
 (use-package all-the-icons-dired
-  :elpaca t
+  :ensure t
   :commands all-the-icons-dired-mode
   :hook
   (dired-mode . all-the-icons-dired-mode)
@@ -4595,7 +4594,7 @@ their corresponding -ts- one. Ex:
 
 #+begin_src emacs-lisp
 (use-package tree-sitter
-  :elpaca t
+  :ensure t
   :defer t
   :config
   (global-tree-sitter-mode)
@@ -4622,7 +4621,7 @@ their corresponding -ts- one. Ex:
   )
 
 (use-package tree-sitter-langs
-  :elpaca t
+  :ensure t
   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
          (c-mode-common . tree-sitter-hl-mode)
          (python-mode . tree-sitter-hl-mode)))
@@ -4637,7 +4636,7 @@ Configuration specific to a language should be in that language configuration he
 (setq lsp-keymap-prefix "C-c C-l")
 
 (use-package lsp-mode
-  :elpaca t
+  :ensure t
   :hook (;; replace XXX-mode with concrete major-mode (e. g. python-mode)
          (c-mode-common . lsp-deferred)
          (python-mode . (lambda ()
@@ -4658,7 +4657,7 @@ Configuration specific to a language should be in that language configuration he
 ** Consult-LSP                                                         :Consult:LSP:
 #+begin_src emacs-lisp
 (use-package consult-lsp
-  :elpaca t
+  :ensure t
   :bind (
          :map c-mode-base-map (
                             ("M-i" . consult-lsp-file-symbols)
@@ -4679,7 +4678,7 @@ Configuration specific to a language should be in that language configuration he
 ** LSP-UI                                                                      :LSP:
 #+begin_src emacs-lisp
 (use-package lsp-ui
-  :elpaca t
+  :ensure t
   :commands (lsp-ui-doc-glance)
   :custom
   ; Position of the popup shown by lsp-ui-doc-glance -> C-c C-l h g
@@ -4753,7 +4752,7 @@ To add support to more server, see the =eglot-server-programs= variable.
 ** Consult-Eglot                                                     :Consult:Eglot:
 #+begin_src emacs-lisp
 (use-package consult-eglot
-  :elpaca t
+  :ensure t
   :bind (
          :map c-mode-base-map (("M-I" . consult-eglot-symbols))
          :map python-mode-map (("M-I" . consult-eglot-symbols)))
@@ -4799,7 +4798,7 @@ To use the debugger, run ~dap-debug-edit-template~, edit the template and evalua
 #+begin_src emacs-lisp
 (use-package dap-mode
   ;; :defer t
-  :elpaca t
+  :ensure t
   :commands (dap-debug dap-debug-edit-template)
   :config
   (dap-mode 1)
@@ -4878,7 +4877,7 @@ For Python configuration see
 #+begin_src elisp
 (use-package dape
   ;; Currently only on github
-  :elpaca (dape :type git :host github :repo "svaante/dape")
+  :ensure (dape :type git :host github :repo "svaante/dape")
 
   ;; Add inline variable hints, this feature is highly experimental
   ;; (setq dape-inline-variables t)
@@ -4907,7 +4906,7 @@ If the language server in a programming language supports formatting, use that i
 it does not, then apheleia can be used instead.
 #+begin_src emacs-lisp
 (use-package apheleia
-  :elpaca t
+  :ensure t
   )
 #+end_src
 
@@ -4938,7 +4937,7 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
   )
 
 (use-package cmake-integration
-  :elpaca (cmake-integration :type git :host github :protocol ssh
+  :ensure (cmake-integration :type git :host github :protocol ssh
                              :repo "darcamo/cmake-integration" :depth nil)
   :defer t
   :custom
@@ -4999,7 +4998,7 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
 #+begin_src emacs-lisp
 (use-package cmake-mode
   :defer t
-  :elpaca t
+  :ensure t
   :hook
   (cmake-mode . cmake-integration-keybindings)
   ;; Enable cmake-integration-keybindings in json mode only for the three file names
@@ -5013,7 +5012,7 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
 #+begin_src emacs-lisp
 (use-package ninja-mode
   :defer t
-  :elpaca t)
+  :ensure t)
 #+end_src
 
 ** Help find file at point and ff-find-related-file find include files
@@ -5040,7 +5039,7 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
   :commands (qml-integration-choose-qml-style
              qml-integration-run-qmlscene
              qml-integration-run-qmltestrunner)
-  :elpaca (qml-integration :type git :host github :protocol ssh
+  :ensure (qml-integration :type git :host github :protocol ssh
                            :repo "darcamo/qml-integration" :depth nil)
   :mode
   ;; Set mode of qml.qrc file to xml-mode
@@ -5050,7 +5049,7 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
 *** QML-Mode package
 #+begin_src emacs-lisp
 (use-package qml-mode
-:elpaca t
+:ensure t
 :bind ( :map qml-mode-map
           ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
           ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
@@ -5281,7 +5280,7 @@ completion).
 ** Anaconda support                                                       :Anaconda:
 #+begin_src emacs-lisp
 (use-package conda
-  :elpaca t
+  :ensure t
   :defer t
   :commands (conda-env-list conda-env-activate conda-env-deactivate)
   :config
@@ -5300,7 +5299,7 @@ completion).
 #+begin_src emacs-lisp
 ;; Call pyvenv-activate and specify the folder with the virtual environment
 (use-package pyvenv
-  :elpaca t
+  :ensure t
   :commands (pyvenv-activate pyvenv-workon pyvenv-mode pyvenv-tracking-mode)
   :custom
   (pyvenv-workon "~/miniconda3/envs/")
@@ -5311,7 +5310,7 @@ completion).
   )
 
 (use-package pyvenv-auto
-  :elpaca t
+  :ensure t
   :hook ((python-base-mode . pyvenv-auto-run)))
 #+end_src
 
@@ -5320,12 +5319,12 @@ completion).
 Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
 (use-package lsp-pyright
-  :elpaca t
+  :ensure t
   :defer t)
 
 ;; https://github.com/fredcamps/lsp-jedi
 ;; (use-package lsp-jedi
-;;   :elpaca t)
+;;   :ensure t)
 #+end_src
 *** Eglot                                                                    :Eglot:
 #+begin_src emacs-lisp
@@ -5348,7 +5347,7 @@ pyrightconfig.json file at the root of my project, and just have this file ignor
 ** Format buffer with yapf
 #+begin_src emacs-lisp
 (use-package yapfify
-  :elpaca t
+  :ensure t
   :bind ( :map python-mode-map
   ("C-c f" . yapfify-buffer)
   ))
@@ -5377,7 +5376,7 @@ NOTE: code-cells-mode will also define the cells as the outline. With this,
 
 #+begin_src emacs-lisp
 (use-package code-cells
-  :elpaca t
+  :ensure t
   :commands (code-cells-mode)
   :bind (:map python-mode-map
               ("C-M-p" . code-cells-backward-cell)
@@ -5401,7 +5400,7 @@ Standard keybindings
 * Lisp
 #+begin_src emacs-lisp
 (use-package emacs
-  :elpaca nil
+  :ensure nil
   :bind (:map emacs-lisp-mode-map
               ;; Run all defined tests
               ([f9] . (lambda () (interactive) (ert t)))
@@ -5420,13 +5419,13 @@ Standard keybindings
 #+begin_src emacs-lisp
 (use-package csv-mode
   :commands csv-mode
-  :elpaca t)
+  :ensure t)
 #+end_src
 * JSON
 #+begin_src emacs-lisp
 (use-package json-mode
   :commands json-mode
-  :elpaca t
+  :ensure t
   :hook
   (json-mode . lsp)
   :bind (
@@ -5435,7 +5434,7 @@ Standard keybindings
 
 
 (use-package json-navigator
-  :elpaca t
+  :ensure t
   :bind (:map json-mode-map
   ("C-c n n" . json-navigator-navigate-after-point)
   ("C-c n p" . json-navigator-navigate-after-point)
@@ -5490,7 +5489,7 @@ https://writequit.org/articles/working-with-logs-in-emacs.html
 
 #+begin_src emacs-lisp
 ;; (use-package logview
-;;   :elpaca t
+;;   :ensure t
 ;;   :config
 ;;   ;; (add-to-list 'logview-additional-level-mappings
 ;;   ;;            '(("PCoIP-Levels"
@@ -5604,7 +5603,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
             ;; constructs such as ':bind'. Auctex is "strange" and
             ;; deferring loading auctex will make opening a latex file
             ;; use the builtin latex-mode.
-  :elpaca  (auctex
+  :ensure  (auctex
             :pre-build (("./autogen.sh")
                         ("./configure" "--without-texmf-dir" "--with-lispdir=.")
                         ("make")))
@@ -5635,7 +5634,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
   ;; ;; We add this here to make sure we only load the auctex-latexmk
   ;; ;; package after the tex package has been loaded
   ;; (use-package auctex-latexmk
-  ;;   :elpaca t
+  ;;   :ensure t
   ;;   :config
   ;;   (auctex-latexmk-setup)
   ;;   )
@@ -5677,7 +5676,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
   )
 
   (use-package indent-guide
-  :elpaca t
+  :ensure t
   :defer t
   :hook
   (LaTeX-mode . (lambda () (indent-guide-mode t)))
@@ -5829,7 +5828,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
 (use-package lsp-latex
   ;; NOTE: You need to install texlab for LSP to work with latex
   :after latex
-  :elpaca t
+  :ensure t
   :hook (latex-mode . lsp)
   :hook (LaTeX-mode . lsp)
   :bind (
@@ -6300,7 +6299,7 @@ Layer darcamo-preview-latex
 
 
 ;; (use-package org-fragtog
-;;   :elpaca t
+;;   :ensure t
 ;;   :commands (org-fragtog-mode)
 ;;   :hook (org-mode . org-fragtog-mode)
 ;;   :hook (python-mode . org-fragtog-mode)
@@ -6316,7 +6315,7 @@ Set my default bibliography.
 You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
 #+begin_src emacs-lisp
 (use-package f
-  :elpaca t
+  :ensure t
   ;; Base folder for my global bib files. There is also a pdfs folder
   ;; inside with PDF files for the entries in the bib files.
   :config
@@ -6365,7 +6364,7 @@ These commands work together: for example, =crossref-lookup= displays a list of 
 
 #+begin_src emacs-lisp
 (use-package biblio
-  :elpaca t
+  :ensure t
   :commands (biblio-lookup biblio-hal-lookup biblio-dblp-lookup
              biblio-ieee-lookup biblio-arxiv-lookup
              biblio-crossref-lookup biblio-dissemin-lookup)
@@ -6402,7 +6401,7 @@ Some useful keybindings
 
 #+begin_src emacs-lisp
 (use-package citar
-  :elpaca t
+  :ensure t
   :no-require
   :custom
   ;; Use citar when the org-cite-insert command is called
@@ -6541,7 +6540,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 ** Configuration
 #+begin_src emacs-lisp
 (use-package mu4e
-  ;; :ensure nil  ;; mu4e is not found in melpa -> you need to install the "mu" system package
+  ;; :elpaca nil  ;; mu4e is not found in melpa -> you need to install the "mu" system package
   :commands (mu4e mu4e-user-agent mu4e~compose-mail)
   :custom
   ;; Appearance
@@ -6727,7 +6726,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 This package makes mu4e much more beautiful
 #+begin_src emacs-lisp
 (use-package mu4e-column-faces
-  :elpaca t
+  :ensure t
   :after mu4e
   :config (mu4e-column-faces-mode)
   )
@@ -6760,7 +6759,7 @@ See more in https://github.com/chenyanming/calibredb.el
 ** configuration                                                       :AllTheIcons:
 #+begin_src emacs-lisp
 (use-package calibredb
-  :elpaca t
+  :ensure t
   :custom
   (calibredb-root-dir (expand-file-name "~/Dropbox/Calibre Library"))
   (calibredb-format-all-the-icons t)
@@ -6803,7 +6802,7 @@ See more in https://github.com/chenyanming/calibredb.el
 #+begin_src emacs-lisp
 ;; https://depp.brause.cc/nov.el/
 (use-package nov
-  :elpaca (nov :type git :host git :repo "https://depp.brause.cc/nov.el.git")
+  :ensure (nov :type git :host git :repo "https://depp.brause.cc/nov.el.git")
   ;; git clone https://depp.brause.cc/nov.el.git
   :mode
   ("\\.epub\\'" . nov-mode)
@@ -6814,7 +6813,7 @@ See more in https://github.com/chenyanming/calibredb.el
 (use-package nov-xwidget
   :demand t
   :after nov
-  :elpaca (nov-xwidget :type git :repo "https://github.com/chenyanming/nov-xwidget")
+  :ensure (nov-xwidget :type git :repo "https://github.com/chenyanming/nov-xwidget")
   :config
   (define-key nov-mode-map (kbd "o") 'nov-xwidget-view)
   (add-hook 'nov-mode-hook 'nov-xwidget-inject-all-files)
@@ -6823,7 +6822,7 @@ See more in https://github.com/chenyanming/calibredb.el
 * Dockerfile-mode                                                            :Docker:
 #+begin_src emacs-lisp
 (use-package dockerfile-mode
-  :elpaca t
+  :ensure t
   :defer t
   )
 #+end_src
@@ -6835,7 +6834,7 @@ execute the code.
 
 #+begin_src emacs-lisp
 (use-package plantuml-mode
-  :elpaca (plantuml-mode :type git :host github
+  :ensure (plantuml-mode :type git :host github
                          :repo "skuro/plantuml-mode")
   :mode
   ("\\.puml\\'" . plantuml-mode)
@@ -6873,7 +6872,7 @@ cleared, make sure the overlay doesn't come back too soon."
     (error handler)))
 
 (use-package copilot
-  :elpaca (:host github :repo "zerolfx/copilot.el")
+  :ensure (:host github :repo "zerolfx/copilot.el")
   :custom
   (copilot-node-executable "/home/dmoreira/.nvm/versions/node/v20.5.1/bin/node")
 
@@ -6901,7 +6900,7 @@ https://github.com/jobbflykt/x509-mode
 Open a certificate, public key, etc., and then just call =x509-dwim=.
 #+begin_src emacs-lisp
 (use-package x509-mode
-  :elpaca t)
+  :ensure t)
 #+end_src
 * gptel                                                                  :LLM:ollama:
 Useful commands:
@@ -6913,7 +6912,7 @@ Useful commands:
 
 #+begin_src emacs-lisp
 (use-package gptel
-  :elpaca t
+  :ensure t
   :commands (gptel-menu gptel-send gptel gptel-mode gptel-set-topic gptel--convert-markdown->org)
   :bind
   ("C-c <return>" . gptel-send)
