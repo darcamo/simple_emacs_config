@@ -6,6 +6,7 @@
         artist-backward-char
         artist-forward-char
         backward-sexp
+        c-beginning-of-statement
         c-electric-brace
         c-electric-colon
         c-electric-lt-gt
@@ -35,15 +36,19 @@
         org-end-of-line
         org-force-self-insert
         org-self-insert-command
+        org-set-tags-command
         org-yank
         picture-end-of-line
         picture-self-insert
         read-only-mode
         transpose-words
         wdired--self-insert
+        wdired-capitalize-word
         wdired-downcase-word
         wdired-next-line
         wdired-previous-line
+        wdired-upcase-word
+        yaml-electric-backspace
         ))
 
 (setq mc/cmds-to-run-once
