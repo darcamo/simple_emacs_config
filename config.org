@@ -56,6 +56,12 @@ used for the first time they should be "configured".
 (put 'org-attach-id-dir 'safe-local-variable 'stringp)
 #+end_src
 
+* Path for programs to run in subprocesses
+#+begin_src emacs-lisp
+(setenv "PATH" (concat (getenv "PATH") ":~/.local/bin"))
+(setq exec-path (append exec-path '("~/.local/bin")))
+(setenv "LD_LIBRARY_PATH" "$SQUISH_DIR/lib:$LD_LIBRARY_PATH" t)
+#+end_src
 * Set the theme and apearance                                            :Appearance:
 ** Theme                                                                     :Theme:
 Good themes:
