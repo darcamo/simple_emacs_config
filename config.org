@@ -4122,7 +4122,6 @@ Useful keybindings:
 #+end_src
 
 * General Programming (not including any specific language)             :Programming:
-
 ** Set "C-c &" keybinding for org-mark-ring-goto in programming modes
 If in an org-mode file I activated a link that went to a source code, then =C-c &= will go
 back to the org file.
@@ -5016,16 +5015,15 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
                '("stroustrup"
                  (c-offsets-alist . ((innamespace . [0])))))
   (setq-default c-doc-comment-style
-                  '((java-mode . javadoc)
-                    (pike-mode . autodoc)
-                    (c-mode    . doxygen)
-                    (c++-mode  . doxygen)))
+                '((java-mode . javadoc)
+                  (pike-mode . autodoc)
+                  (c-mode    . doxygen)
+                  (c++-mode  . doxygen)))
   (push '(c-mode . "darcamo") c-default-style)
   (push '(c++-mode . "darcamo") c-default-style)
   :hook
   (c-mode-common . (lambda () (setq fill-column 120)))
   )
-
 
 ;; c-c++-lsp-enable-semantic-highlight nil
 #+end_src
