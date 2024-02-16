@@ -3992,6 +3992,8 @@ See the docstring of [[help:edit-indirect-region][edit-indirect-region]] for det
 #+end_src
 
 * Atomic-chrome: Edit text-fields in the browser
+https://github.com/alpha22jp/atomic-chrome
+
 With the atomic-chrome Emacs can work with the ghost-text browser extension in order to
 edit text-fields in the browser.
 
@@ -5463,10 +5465,13 @@ Standard keybindings
   (pcoip-log-mode . read-only-mode)
   (pcoip-log-mode . auto-revert-tail-mode)
   (pcoip-log-mode . display-line-numbers-mode)
-  (pcoip-log-mode . (lambda () (add-to-list 'prettify-symbols-alist '("00000000-0000-0000-0000-000000000000" . "※"))
+  (pcoip-log-mode . (lambda ()
+                      (add-to-list 'prettify-symbols-alist '("00000000-0000-0000-0000-000000000000" . "※"))
                       (prettify-symbols-mode)))
   :init
-  (add-to-list 'auto-mode-alist (cons (concat "^/tmp/Teradici/" (getenv "USER") "/PCoIPClient/logs/" ) 'pcoip-log-mode)))
+  ;; (add-to-list 'auto-mode-alist (cons (concat "^/tmp/Teradici/" (getenv "USER") "/PCoIPClient/logs/" ) 'pcoip-log-mode)))
+  (add-to-list 'auto-mode-alist (cons (concat "^/tmp/Teradici/" "TERADICI" "/PCoIPClient/logs/" ) 'pcoip-log-mode)))
+
 #+end_src
 
 #+begin_src emacs-lisp
