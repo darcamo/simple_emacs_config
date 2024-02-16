@@ -5046,6 +5046,12 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
 #+end_src
 
 ** Qt and QML
+*** Janus Colors
+#+begin_src emacs-lisp
+(when (locate-library "janus")
+  (load-library "janus")
+  )
+#+end_src
 *** qml-integration package
 #+begin_src emacs-lisp
 (use-package qml-integration
