@@ -198,7 +198,7 @@ displaying correctly, call =nerd-icons-install-fonts= to install the fonts.
 Alternative modeline similar to powerline
 
 https://github.com/dbordak/telephone-line
-* Completion framework [0/2]                                           :Completion:
+* Completion framework [0/2]                                             :Completion:
 ** COMMENT Ido Mode                                                        :IdoMode:
 #+begin_src emacs-lisp
 (ido-mode 1)
@@ -5165,7 +5165,7 @@ debugAdapters/bin/OpenDebugAD7=.
 
   )
 #+end_src
-** TODO Other packages to investigate                                :Investigate:
+** TODO Other packages to investigate                                  :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
 * Python                                                         :Programming:Python:
@@ -6307,7 +6307,7 @@ Layer darcamo-preview-latex
 ;;   )
 #+end_src
 
-* TODO References: Bibtex, bibtex-completions, org-ref [0/3]         :References:
+* TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
 Veja a nota [[file:~/org/org-roam-notes/20210305171627-leituras_de_papers_e_outros_documentos.org][Leituras de papers e outros documentos]]
 
 ** Set my default bibliograph folder and files (used by native org-cite)
@@ -6371,10 +6371,10 @@ These commands work together: for example, =crossref-lookup= displays a list of 
   )
 #+end_src
 
-** TODO Bibtex-completions                                           :Investigate:
+** TODO Bibtex-completions                                             :Investigate:
 Used by org-roam-bibtex
 
-** TODO Org-ref or citar [0/1]            :AllTheIcons:Citar:Investigate:OrgRef:
+** TODO Org-ref or citar [0/1]                :AllTheIcons:Citar:Investigate:OrgRef:
 NOTE:
 - citar uses two caches to speed up library display; one for the global bibliography, and
   another for local files specific to a buffer. This is great for performance, but means
@@ -6443,7 +6443,7 @@ Some useful keybindings
 *** TODO Configure note support in citar (integrated with org-roam)
 https://github.com/bdarcus/citar#notes
 
-** TODO Org-noter                                           :Investigate:OrgNoter:
+** TODO Org-noter                                             :Investigate:OrgNoter:
 * Mail with mu4e                                                          :Mail:mu4e:
 Note: =C-c C-p= in message mode takes a screenshot and attach to the e-mail
 
