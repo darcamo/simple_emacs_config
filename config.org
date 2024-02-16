@@ -1684,7 +1684,7 @@ Replace regular find-file and related functions with ffap versions
   )
 #+end_src
 
-*** Disable ffap bindings in dired-mode buffers                              :Dired:
+*** Disable ffap bindings in dired-mode buffers                             :Dired:
 Getting the file name at point is problematic in dired buffers, since it requires me to
 delete the text in order to use the completion system to open a file.
 #+begin_src emacs-lisp
@@ -1845,7 +1845,7 @@ https://github.com/Artawower/file-info.el
   ;; (global-blamer-mode 1)
   )
 #+end_src
-** COMMENT magit-todos                                                               :Magit:
+** COMMENT magit-todos                                                       :Magit:
 #+begin_src emacs-lisp
 (use-package magit-todos
   :ensure t
@@ -2204,7 +2204,7 @@ There is also lsp-grammarly, but it requires an account.
     (unfill-paragraph)))
 #+end_src
 
-*** Keybindings                                                        :Keybindings:
+*** Keybindings                                                       :Keybindings:
 #+begin_src emacs-lisp
 ;; Local Keybinding
 (defun my-org-at-citation-p ()
@@ -3007,7 +3007,7 @@ reveal."
   )
 #+end_src
 
-*** Keybindings                                                        :Keybindings:
+*** Keybindings                                                       :Keybindings:
 #+begin_src emacs-lisp
 (use-package org
   :defer t
@@ -3027,7 +3027,7 @@ reveal."
 )
 #+end_src
 
-*** Jira                                                                      :Jira:
+*** Jira                                                                     :Jira:
 #+begin_src emacs-lisp
 (use-package ox-jira
   :ensure t
@@ -4246,7 +4246,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
 #+end_src
 
 ** Syntax check
-*** COMMENT Flycheck                                                      :Flycheck:
+*** COMMENT Flycheck                                                     :Flycheck:
 https://www.flycheck.org/en/latest/index.html
 
 #+begin_src emacs-lisp
@@ -4261,7 +4261,7 @@ https://www.flycheck.org/en/latest/index.html
   )
 #+end_src
 
-*** Flymake                                                                :Flymake:
+*** Flymake                                                               :Flymake:
 **** General Configuration
 #+begin_src emacs-lisp
 (use-package flymake
@@ -4901,7 +4901,7 @@ For Python configuration see
   )
 #+end_src
 
-* Formatting buffers                                               :apheleia:
+* Formatting buffers                                                       :apheleia:
 If the language server in a programming language supports formatting, use that instead. If
 it does not, then apheleia can be used instead.
 #+begin_src emacs-lisp
@@ -5066,7 +5066,7 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
   (qml-mode . (lambda () (setq comment-start "// ") (setq comment-end "")))
 )
 #+end_src
-*** Detect filename in compilation-mode for qmltestrunner errors       :Compilation:
+*** Detect filename in compilation-mode for qmltestrunner errors      :Compilation:
 #+begin_src emacs-lisp
 (use-package compile
   :config
@@ -5077,7 +5077,7 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
                '("Loc: \\[\\(.*\\)(\\([0-9]*\\))" 1 2))
   )
 #+end_src
-*** Formatting QML buffers with apheleia                              :QML:apheleia:
+*** Formatting QML buffers with apheleia                             :QML:apheleia:
 #+begin_src elisp
 (use-package qml-mode
   :after apheleia
@@ -5165,7 +5165,7 @@ debugAdapters/bin/OpenDebugAD7=.
 
   )
 #+end_src
-** TODO Other packages to investigate                                  :Investigate:
+** TODO Other packages to investigate                                :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
 * Python                                                         :Programming:Python:
@@ -5315,7 +5315,7 @@ completion).
 #+end_src
 
 ** pyright as language server                                                  :LSP:
-*** COMMENT LSP                                                                :LSP:
+*** COMMENT LSP                                                               :LSP:
 Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
 (use-package lsp-pyright
@@ -5326,7 +5326,7 @@ Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 ;; (use-package lsp-jedi
 ;;   :ensure t)
 #+end_src
-*** Eglot                                                                    :Eglot:
+*** Eglot                                                                   :Eglot:
 #+begin_src emacs-lisp
 (use-package eglot
   :config
@@ -6307,7 +6307,7 @@ Layer darcamo-preview-latex
 ;;   )
 #+end_src
 
-* TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
+* TODO References: Bibtex, bibtex-completions, org-ref [0/3]         :References:
 Veja a nota [[file:~/org/org-roam-notes/20210305171627-leituras_de_papers_e_outros_documentos.org][Leituras de papers e outros documentos]]
 
 ** Set my default bibliograph folder and files (used by native org-cite)
@@ -6371,10 +6371,10 @@ These commands work together: for example, =crossref-lookup= displays a list of 
   )
 #+end_src
 
-** TODO Bibtex-completions                                             :Investigate:
+** TODO Bibtex-completions                                           :Investigate:
 Used by org-roam-bibtex
 
-** TODO Org-ref or citar [0/1]                :AllTheIcons:Citar:Investigate:OrgRef:
+** TODO Org-ref or citar [0/1]            :AllTheIcons:Citar:Investigate:OrgRef:
 NOTE:
 - citar uses two caches to speed up library display; one for the global bibliography, and
   another for local files specific to a buffer. This is great for performance, but means
@@ -6443,7 +6443,7 @@ Some useful keybindings
 *** TODO Configure note support in citar (integrated with org-roam)
 https://github.com/bdarcus/citar#notes
 
-** TODO Org-noter                                             :Investigate:OrgNoter:
+** TODO Org-noter                                           :Investigate:OrgNoter:
 * Mail with mu4e                                                          :Mail:mu4e:
 Note: =C-c C-p= in message mode takes a screenshot and attach to the e-mail
 
