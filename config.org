@@ -4911,6 +4911,29 @@ For Python configuration see
   ;; (setq dape-cwd-fn 'projectile-project-root)
   ;; :custom
   ;; (dape-buffer-window-arrangement 'gud)
+
+  :config
+  (transient-define-prefix dape-transient ()
+    "Transient for dape."
+    [["Stepping"
+      ("n" "Next" dape-next :transient t)
+      ("i" "Step in" dape-step-in :transient t)
+      ("o" "Step out" dape-step-out :transient t)
+      ("c" "Continue" dape-continue :transient t)
+      ("r" "restart" dape-restart :transient t)]
+     ["Breakpoints"
+      ("bb" "Next" dape-breakpoint-toggle :transient t)
+      ("bd" "Step in" dape-breakpoint-remove-at-point :transient t)
+      ("bD" "Continue" dape-breakpoint-remove-all :transient t)
+      ("bl" "restart" dape-breakpoint-log :transient t)]
+     ["Info"
+      ("si" "Info" dape-breakpoint-toggle :transient t)
+      ("sm" "Memory" dape-breakpoint-remove-at-point :transient t)
+      ("ss" "Select Stack" dape-breakpoint-remove-all :transient t)
+      ("R" "Repl" dape-breakpoint-log :transient t)]
+     ["Quit"
+      ("qq" "Quit" dape-quit :transient nil)
+      ("qk" "Kill" dape-kill :transient nil)]])
   )
 #+end_src
 
