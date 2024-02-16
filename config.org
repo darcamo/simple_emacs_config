@@ -1711,7 +1711,6 @@ Use the ~world-clock~ command to see the times
 #+begin_src emacs-lisp
 (use-package emacs
   :elpaca nil
-  :elpaca t
   :custom
   (zoneinfo-style-world-list '(
                                ("America/Fortaleza" "Fortaleza")
