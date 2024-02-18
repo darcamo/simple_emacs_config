@@ -3970,7 +3970,8 @@ Currently it is not in melpa yet
 ** TODO orgnote
 https://github.com/Artawower/orgnote
 
-* Markdown
+* Markdown                                                                 :markdown:
+** General config
 #+begin_src emacs-lisp
 (use-package markdown-mode
   :ensure t
@@ -3980,6 +3981,64 @@ https://github.com/Artawower/orgnote
   (set-face-attribute ' markdown-code-face nil :background "gray10")
   )
 #+end_src
+** COMMENT Flymake support
+Note: You need to install the =markdownlint= package in the system.
+- The name of the executable is =mdl=.
+
+#+begin_src emacs-lisp
+(use-package flymake-markdownlint
+  :ensure t
+  :hook
+  (markdown-mode . flymake-mode)
+  (markdown-mode . flymake-markdownlint-setup)
+  :custom
+  (flymake-markdownlint-program "mdl")
+  )
+#+end_src
+** Formatting
+Check the https://github.com/executablebooks/mdformat (system) package and how to
+configure it with apheleia
+
+Another alternative is the https://github.com/nlamirault/emacs-markdownfmt emacs package
+- But it requires [[https://github.com/shurcooL/markdownfmt][markdownfmt]], which is not in the Arch repository of in the AUR.
+
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+:after apheleia
+:config
+  (push '(mdformat . ("/usr/bin/mdformat" "-" file))
+        apheleia-formatters)
+(add-to-list 'apheleia-mode-alist '(markdown-mode . mdformat))
+:bind (:map markdown-mode-map
+              ;; Save the buffer to file, format the file and reload the disk
+              ("C-c f" . apheleia-format-buffer)
+              )
+)
+#+end_src
+
+** Generate table of contents
+Call the command =markdown-toc-generate-toc= and a TOC will be inserted in the cursor position.
+
+#+begin_src elisp
+(use-package markdown-toc
+  :ensure t
+  :commands markdown-toc-generate-toc
+  )
+#+end_src
+** Preview using Guthub README preview
+Check the https://github.com/seagle0128/grip-mode package
+
+You need to install the python-grip package.
+
+#+begin_src emacs-lisp
+(use-package grip-mode
+  :ensure t
+  ;; Add a binding for `C-c C-c g` in markdown buffers
+  :bind (:map markdown-mode-command-map
+              ("g" . grip-mode)))
+#+end_src
+
 * Edit indirect buffer
 Edit regions in separate buffers, like `org-edit-src-code' but for arbitrary
 regions.
