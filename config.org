@@ -5162,10 +5162,13 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
           ([M-f8] . cmake-integration-select-configure-preset)
           ([f8] . cmake-integration-cmake-reconfigure)
           )
-:hook
-  (qml-mode . (lambda () (setq comment-start "// ") (setq comment-end "")))
-)
+  :hook
+  (qml-mode . (lambda () (setq comment-start "// ")
+                (setq comment-end "")
+                (setq fill-column 120)))
+  )
 #+end_src
+
 *** Detect filename in compilation-mode for qmltestrunner errors      :Compilation:
 #+begin_src emacs-lisp
 (use-package compile
