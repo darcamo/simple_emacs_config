@@ -4355,16 +4355,26 @@ https://www.flycheck.org/en/latest/index.html
   :hook
   (json-mode . flymake-json-load))
 #+end_src
-** Enable origami-mode in programming buffers
+** Enable folding in programming buffers
 #+begin_src emacs-lisp
-(use-package origami
-  :ensure t
+;; (use-package origami
+;;   :ensure t
+;;   :hook
+;;   (prog-mode . origami-mode)
+;;   :bind (
+;;          :map origami-mode-map
+;;          ("<backtab>" . origami-recursively-toggle-node) ;; Shift+TAB
+;;          ("C-S-<iso-lefttab>" . origami-show-only-node)  ;; Ctrl+Shift+TAB
+;;          ))
+
+(use-package emacs
   :hook
-  (prog-mode . origami-mode)
+  (prog-mode . hs-minor-mode)
+  :bind
   :bind (
-         :map origami-mode-map
-         ("<backtab>" . origami-recursively-toggle-node)
-         ("C-S-<iso-lefttab>" . origami-show-only-node)
+         :map prog-mode-map
+         ("<backtab>" . hs-toggle-hiding) ;; Shift+TAB
+         ("C-S-<iso-lefttab>" . hs-show-all)  ;; Ctrl+Shift+TAB
          ))
 #+end_src
 ** Obvious-mode
