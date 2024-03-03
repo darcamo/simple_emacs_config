@@ -3699,6 +3699,9 @@ This package is not in melpa yet.
                                 ("se" "Emacs" plain "Criado em %u\n\n- Links :: [[id:070ea2e3-309c-4b76-84e7-5e61e9a57e79][Emacs]]\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,(my--get-note-title-template ":Emacs:Software:"))
                                  :unnarrowed t :immediate-finish t)
+                                ("sl" "Linux" plain "Criado em %u\n\n- Links :: [[id:157dad02-42b3-4e27-bfad-b09b60f32719][Linux]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":Linux:Software:"))
+                                 :unnarrowed t :immediate-finish t)
 
                                 ("a" "Atlântico")
                                 ("aa" "Atlântico" plain "Criado em %u\n\n- Links :: [[id:0a6e477a-8a22-4fe1-8e09-1f94a5626516][Atlântico]]\n\n%?" :if-new
