@@ -1,3 +1,4 @@
+;; -*- lexical-binding: t; -*-
 
 ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 ;; Write customizations to a separate file instead of the init file.

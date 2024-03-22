@@ -33,6 +33,11 @@ My hand-crafted Emacs configuration
 
 init-time atual do emacs: ~1.2
 
+Enable lexical binding
+#+begin_src emacs-lisp
+;; -*- lexical-binding: t; -*-
+#+end_src
+
 Activate use-package report -> call the command ~use-package-report~. Ideally, you want
 packages that were not used yet to be only "initialized" and only after they have been
 used for the first time they should be "configured".
