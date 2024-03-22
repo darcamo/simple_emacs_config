@@ -30,11 +30,13 @@
         indent-for-tab-command
         kill-region
         markdown-cycle
+        markdown-end-of-line
         nxml-electric-slash
         org-beginning-of-line
         org-emphasize
         org-end-of-line
         org-force-self-insert
+        org-meta-return
         org-self-insert-command
         org-set-tags-command
         org-yank
@@ -49,6 +51,7 @@
         wdired-previous-line
         wdired-upcase-word
         yaml-electric-backspace
+        yas-expand
         ))
 
 (setq mc/cmds-to-run-once
@@ -64,9 +67,9 @@
         handle-switch-frame
         ignore-preserving-kill-region
         magit-status
+        pixel-scroll-interpolate-down
         pixel-scroll-precision
         pixel-scroll-start-momentum
-        pixel-scroll-interpolate-down
         undo-redo
         wdired-finish-edit
         ))

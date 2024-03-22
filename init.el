@@ -131,3 +131,5 @@
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name (concat user-emacs-directory "config.org")))
 (put 'narrow-to-region 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
