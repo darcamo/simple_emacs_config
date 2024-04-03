@@ -5129,6 +5129,25 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
 ;; c-c++-lsp-enable-semantic-highlight nil
 #+end_src
 
+** Change eglot-server-program to configure clangd                    :Eglot:clangd:
+#+begin_src emacs-lisp
+;; https://www.reddit.com/r/emacs/comments/18eeu1f/configure_clangd_in_eglot_to_not_add_headers/
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs
+               '((c-ts-mode c++-ts-mode c-mode c++-mode)
+                 . ("clangd"
+                    "-j=12"
+                    "--log=error"
+                    "--malloc-trim"
+                    "--background-index"
+                    "--clang-tidy"
+                    "--completion-style=detailed"
+                    "--pch-storage=memory"
+                    "--header-insertion=never"
+                    "--header-insertion-decorators=0")))
+  )
+#+end_src
 ** CMake-mode
 #+begin_src emacs-lisp
 (use-package cmake-mode
