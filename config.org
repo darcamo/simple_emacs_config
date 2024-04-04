@@ -4720,6 +4720,8 @@ version can’t be used, fall back to the original major mode.
      (yaml "https://github.com/ikatyang/tree-sitter-yaml")
      (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
      ))
+  ;; Indentation
+  (c-ts-mode-indent-offset 4)
   )
 
 ;; (use-package tree-sitter-langs
