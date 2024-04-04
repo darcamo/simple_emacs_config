@@ -4818,6 +4818,7 @@ To add support to more server, see the =eglot-server-programs= variable.
 #+begin_src emacs-lisp
 (use-package eglot
   :hook (;; replace XXX-mode with concrete major-mode (e. g. python-mode)
+         (c-ts-base-mode . eglot-ensure)
          (c-mode-common . eglot-ensure)
          (python-mode . eglot-ensure)
          (cmake-mode . eglot-ensure)
@@ -5050,6 +5051,8 @@ it does not, then apheleia can be used instead.
 In each language configuration what needs to use apheleia for formatting, you might add an
 entry to =apheleia-formatters= and =apheleia-mode-alist=.
 * C++                                                               :CPP:Programming:
+Note: Use =C-c C-k= to toggle between line comments and block comments.
+
 ** Always consider .h files as C++
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
@@ -5083,7 +5086,7 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
   (cmake-integration-generator "Ninja")
   :hook
   (c++-mode . cmake-integration-keybindings)
-  (c++-ts-mode . cmake-integration-keybindings)
+  (c-ts-base-mode . cmake-integration-keybindings)
   )
 
 (use-package dired
@@ -5094,15 +5097,24 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
 
 ** General configuration
 #+begin_src emacs-lisp
-(use-package cc-mode
+(use-package c-ts-mode
   :defer t
+  :after cc-mode
   :bind (:map c-mode-base-map
               ([S-f9] . cmake-integration-generate-project-documentation)  ;; Generate the doxygen documentation
               ([C-S-f9] .  cmake-integration-view-project-documentation)
               ;; Alternate between header and source. You could also use lsp-clangd-find-other-file instead
               ("M-o" . ff-find-related-file)
               ("M-O" . lsp-clangd-find-other-file)
+
+              :map c-ts-base-mode-map
+              ([S-f9] . cmake-integration-generate-project-documentation)  ;; Generate the doxygen documentation
+              ([C-S-f9] .  cmake-integration-view-project-documentation)
+              ;; Alternate between header and source. You could also use lsp-clangd-find-other-file instead
+              ("M-o" . ff-find-related-file)
+              ("M-O" . lsp-clangd-find-other-file)
               )
+
   :config
   ;; If the indentation is wrong at some place, put the cursor there and use "C-c
   ;; C-o" to find-out the offset and the name of the syntactical element under the
