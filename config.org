@@ -4867,6 +4867,12 @@ To add support to more server, see the =eglot-server-programs= variable.
 ** Project specific configuration
 See the =eglot-workspace-configuration= variable. [[https://gist.github.com/doolio/8c1768ebf33c483e6d26e5205896217f][Here]] is an example.
 * Debugging
+** Emphasize current line in gud
+#+begin_src emacs-lisp
+(use-package gud
+  :custom
+  (gud-highlight-current-line t))
+#+end_src
 ** Disable gdb asking if I want to download debuginfo
 Set ~gdb-debuginfod-enable-setting~ to nil
 #+begin_src emacs-lisp
