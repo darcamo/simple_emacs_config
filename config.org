@@ -3350,6 +3350,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   :custom
   (org-modern-timestamp nil)
   (org-modern-hide-stars nil)
+  (org-modern-fold-stars '(("▶" . "▼") ("▷" . "▽") ("▷" . "▽") ("▹" . "▿") ("▸" . "▾")))
   :hook
   (org-mode . org-modern-mode)
   (org-agenda-finalize . org-modern-agenda)
