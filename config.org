@@ -4822,6 +4822,7 @@ To add support to more server, see the =eglot-server-programs= variable.
          (c-ts-base-mode . eglot-ensure)
          (c-mode-common . eglot-ensure)
          (python-mode . eglot-ensure)
+         (python-ts-mode . eglot-ensure)
          (cmake-mode . eglot-ensure)
          (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
          )
@@ -5514,7 +5515,7 @@ Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
 (use-package eglot
   :config
-  (add-to-list 'eglot-server-programs '(python-mode . ("pyright-langserver" "--stdio")))
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
   )
 #+end_src
 
