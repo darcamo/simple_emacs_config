@@ -5450,6 +5450,7 @@ completion).
   :custom
   (python-shell-interpreter "ipython")
   (python-shell-interpreter-args "--simple-prompt")
+  (python-check-command "ruff check")  ;; Use `C-c C-v` to check the code
   :hook
   (python-base-mode . (lambda () (setq fill-column 120)))
 
@@ -5528,8 +5529,61 @@ report which dependencies are installed was a bit of a hassle, but I think my fa
 solution so far has been to configure the virtual environment through the
 pyrightconfig.json file at the root of my project, and just have this file ignored by git.
 #+end_quote
+** Ruff                                                                       :Ruff:
+Ruff provides:
+- linting
+- formatting
+- isort
+*** Format buffer with ruff
+#+begin_src emacs-lisp
+(use-package ruff-format
+  :ensure t
+  :commands (ruff-format-buffer ruff-format-region ruff-format-on-save-mode)
+  :bind ( :map python-ts-mode-map
+          ("C-c f" . ruff-format-buffer)
+          ))
+#+end_src
+*** Flymake support for Python with ruff
 
-** Format buffer with yapf
+#+begin_src emacs-lisp
+(use-package flymake-ruff
+  :ensure t
+  :hook (python-ts-mode . flymake-ruff-load)
+  :hook (python-mode . flymake-ruff-load)
+  :hook (eglot-managed-mode . flymake-ruff-load)
+  )
+#+end_src
+
+https://github.com/erickgnavar/flymake-ruff
+#+begin_quote
+Pyright has some diagnostic notes that overlap with diagnostics provided by ruff. These
+diagnostic notes can't be disabled via Pyright's config, but you can exclude them by
+adding a filter to eglot--report-to-flymake. For example, to remove Pyright's "variable
+not accessed" notes, add the following:
+#+end_quote
+
+#+begin_src emacs-lisp
+(defun my-filter-eglot-diagnostics (diags)
+    "Drop Pyright 'variable not accessed' notes from DIAGS."
+    (list (seq-remove (lambda (d)
+                        (and (eq (flymake-diagnostic-type d) 'eglot-note)
+                             (s-starts-with? "Pyright:" (flymake-diagnostic-text d))
+                             (s-ends-with? "is not accessed" (flymake-diagnostic-text d))))
+                      (car diags))))
+
+(advice-add 'eglot--report-to-flymake :filter-args #'my-filter-eglot-diagnostics)
+#+end_src
+
+*** COMMENT LSP                                                               :LSP:
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("ruff-lsp")))
+  )
+#+end_src
+
+** COMMENT Format buffer with yapf
 #+begin_src emacs-lisp
 (use-package yapfify
   :ensure t
