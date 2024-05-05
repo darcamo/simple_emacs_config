@@ -7162,6 +7162,7 @@ Useful commands:
   ;; (gptel-default-mode 'org-mode)
   :config
   (setq-default gptel-model "dolphin-mixtral:latest" ;; Pick your default model
+                gptel-expert-commands t
                 gptel-backend (gptel-make-ollama
                                "Ollama"                               ;Any name of your choosing
                                :host "localhost:11434"                ;Where it's running
@@ -7173,6 +7174,7 @@ Useful commands:
                                          "vicuna:13b-16k"
                                          "vicuna:latest"
                                          "mixtral:latest"
+                                         "llama3"
                                          )
                                :stream t)))
 #+end_src
