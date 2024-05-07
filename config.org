@@ -5661,23 +5661,26 @@ Standard keybindings
   :ensure t)
 #+end_src
 * JSON
+Note: Run =npm i -g vscode-langservers-extracted= to install the json language server.
+
 #+begin_src emacs-lisp
 (use-package json-mode
-  :commands json-mode
+  ;; :commands json-mode
   :ensure t
-  :hook
-  (json-mode . lsp)
-  :bind (
-         :map json-mode-map
-         ("M-I" . lsp-ui-imenu)))
+  ;; :hook
+  ;; (json-mode . lsp)
+  ;; :bind (
+  ;;        :map json-mode-map
+  ;;        ("M-I" . lsp-ui-imenu))
+  )
 
 
-(use-package json-navigator
-  :ensure t
-  :bind (:map json-mode-map
-  ("C-c n n" . json-navigator-navigate-after-point)
-  ("C-c n p" . json-navigator-navigate-after-point)
-  ("C-c n r" . json-navigator-navigate-region)))
+;; (use-package json-navigator
+;;   :ensure t
+;;   :bind (:map json-mode-map
+;;   ("C-c n n" . json-navigator-navigate-after-point)
+;;   ("C-c n p" . json-navigator-navigate-after-point)
+;;   ("C-c n r" . json-navigator-navigate-region)))
 #+end_src
 * PCoIP log-file mode
 #+begin_src emacs-lisp
