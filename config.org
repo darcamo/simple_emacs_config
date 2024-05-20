@@ -5646,6 +5646,7 @@ Standard keybindings
 | =C-c % @= | code-cells-mark-cell            |
 |---------+---------------------------------|
 * Lisp
+** General keybindings to run elisp code
 #+begin_src emacs-lisp
 (use-package emacs
   :ensure nil
@@ -5662,7 +5663,15 @@ Standard keybindings
   :custom
   (flycheck-emacs-lisp-load-path 'inherit))
 #+end_src
-
+** COMMENT Formatter for elisp code
+#+begin_src emacs-lisp
+(use-package elisp-autofmt
+  :commands (elisp-autofmt-mode elisp-autofmt-buffer)
+  ;; :custom
+  ;; (elisp-autofmt-python-bin "python3")
+  ;; :hook (emacs-lisp-mode . elisp-autofmt-mode)
+  )
+#+end_src
 * CSV
 #+begin_src emacs-lisp
 (use-package csv-mode
