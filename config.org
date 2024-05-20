@@ -5283,6 +5283,15 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
               )
   )
 #+end_src
+*** Squish
+#+begin_src emacs-lisp
+(use-package squish-feature
+  :commands (squish-feature-mode)
+  :init
+  (add-to-list 'auto-mode-alist (cons "\\.feature" ' squish-feature-mode))
+  )
+#+end_src
+
 ** Conan package manager
 #+begin_src emacs-lisp
 ;; Here we define a minor mode for conanfile just to have a mode-map for it
