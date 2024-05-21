@@ -35,11 +35,13 @@
   :group 'tools
   :prefix "squish-")
 
+
 (defcustom squish-suites-folder ""
   "The folder where test suites are, relative to the project folder."
   :type '(string)
   :safe #'stringp
   :group 'squish)
+
 
 (defcustom squish-installation-directory
   (expand-file-name "~/squish-for-qt-7.1.0")
@@ -52,8 +54,12 @@ inside it."
   :group 'squish)
 
 
-;; Store the last testsuite that was run
+;; Store the last test suite that was run
 (defvar squish--last-test-suite nil)
+
+
+;; Store the last test case that was run
+(defvar squish--last-test-case nil)
 
 
 (defun squish--get-project-root-folder ()
@@ -64,21 +70,25 @@ inside it."
 (defun squish--get-suite-folder ()
   (let ((project-root-folder (squish--get-project-root-folder)))
     (when project-root-folder
-
       (file-name-concat project-root-folder squish-suites-folder))))
 
+
 (defun squish--get-test-suite-names ()
+  "Get all test suites names in the project."
   (directory-files (squish--get-suite-folder) nil "suite_"))
+
 
 (defun squish--get-squishserver-path ()
   (file-name-concat squish-installation-directory
                     "bin"
                     "squishserver"))
 
+
 (defun squish--get-squishrunner-path ()
   (file-name-concat squish-installation-directory
                     "bin"
                     "squishrunner"))
+
 
 (defun squish-start-server ()
   "Run squishserver in a process."
@@ -86,6 +96,7 @@ inside it."
   (start-process
    "squishserver" "*Squish Server*" (squish--get-squishserver-path)
    "--verbose"))
+
 
 (defun squish-stop-server ()
   "Stop the running squish server process."
@@ -96,9 +107,11 @@ inside it."
   ;; (kill-buffer "*Squish Server*")
   )
 
+
 (defun squish--is-file (path)
   "Check that PATH is a file (and not a directory)."
   (not (string-equal "" (file-name-nondirectory path))))
+
 
 (defun squish-setup-AUT ()
   "Query for the AUT location and set it up in squishserver."
@@ -140,6 +153,40 @@ inside it."
   (setq squish--last-test-suite
         (completing-read "Test suite" (squish--get-test-suite-names)))
   (squish-run-last-test-suite))
+
+
+(defun squish--get-test-case-names (testsuite)
+  "Get all test case names in TESTSUITE."
+  (mapcar #'(lambda (testcase) (file-name-concat testsuite testcase)) (directory-files testsuite nil "tst_"))
+  )
+
+
+(defun squish--get-test-case-names-in-all-suites ()
+  "Get all test case names in all test suites."
+  (mapcan 'squish--get-test-case-names
+          (squish--get-test-suite-names)))
+
+
+(defun squish-run-last-test-case ()
+  "Run the last test suite, whish is stored in `squish--last-test-case'."
+  (interactive)
+
+  (unless squish--last-test-case
+    (error "Please call `squish-ask-and-run-test-case' first"))
+
+  (compile
+   (format "cd %s && %s --testcase %s"
+           (squish--get-suite-folder)
+           (squish--get-squishrunner-path)
+           squish--last-test-case)))
+
+
+(defun squish-ask-and-run-test-case ()
+  "Ask for a test case name (with completions) and run it."
+  (interactive)
+  (setq squish--last-test-case
+        (completing-read "Test case" (squish--get-test-case-names-in-all-suites)))
+  (squish-run-last-test-case))
 
 
 (provide 'squishrunner)
