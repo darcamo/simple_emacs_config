@@ -23,11 +23,8 @@
 ;; Provide functions to easily run squishrunner for a given test
 ;; suite, or test case.
 
-;; 
-
 ;;; Code:
 (require 'project)
-;; (require 'f)
 
 
 (defgroup squish nil
@@ -68,6 +65,7 @@ inside it."
 
 
 (defun squish--get-suite-folder ()
+  "Get the test suite folder."
   (let ((project-root-folder (squish--get-project-root-folder)))
     (when project-root-folder
       (file-name-concat project-root-folder squish-suites-folder))))
@@ -79,12 +77,14 @@ inside it."
 
 
 (defun squish--get-squishserver-path ()
+  "Get the path of the squishserver executable."
   (file-name-concat squish-installation-directory
                     "bin"
                     "squishserver"))
 
 
 (defun squish--get-squishrunner-path ()
+  "Get the path of the squishrunner executable."
   (file-name-concat squish-installation-directory
                     "bin"
                     "squishrunner"))
@@ -103,9 +103,7 @@ inside it."
   (interactive)
   (start-process
    "stopsquishserver" nil (squish--get-squishserver-path)
-   "--stop")
-  ;; (kill-buffer "*Squish Server*")
-  )
+   "--stop"))
 
 
 (defun squish--is-file (path)
@@ -116,7 +114,6 @@ inside it."
 (defun squish-setup-AUT ()
   "Query for the AUT location and set it up in squishserver."
   (interactive)
-
   (let ((aut-path
          (expand-file-name
           (read-file-name "Select AUT executable: "))))
@@ -126,9 +123,6 @@ inside it."
 
     (let ((aut-folder (file-name-directory aut-path))
           (aut-executable (file-name-nondirectory aut-path)))
-      ;; (message "Executable: '%s'" aut-executable)
-      ;; (message "Folder: '%s'" aut-folder)
-
       (start-process
        "setupsquishserveraut" nil (squish--get-squishserver-path)
        "--config" "addAUT" aut-executable aut-folder))))
@@ -157,8 +151,8 @@ inside it."
 
 (defun squish--get-test-case-names (testsuite)
   "Get all test case names in TESTSUITE."
-  (mapcar #'(lambda (testcase) (file-name-concat testsuite testcase)) (directory-files testsuite nil "tst_"))
-  )
+  (let ((suitefolder (file-name-concat (squish--get-suite-folder) testsuite)))
+    (mapcar #'(lambda (testcase) (file-name-concat testsuite testcase)) (directory-files suitefolder nil "tst_"))))
 
 
 (defun squish--get-test-case-names-in-all-suites ()
@@ -170,15 +164,17 @@ inside it."
 (defun squish-run-last-test-case ()
   "Run the last test suite, whish is stored in `squish--last-test-case'."
   (interactive)
-
   (unless squish--last-test-case
     (error "Please call `squish-ask-and-run-test-case' first"))
 
-  (compile
-   (format "cd %s && %s --testcase %s"
-           (squish--get-suite-folder)
-           (squish--get-squishrunner-path)
-           squish--last-test-case)))
+  (let ((testsuitename (file-name-directory squish--last-test-case))
+        (testcasename (file-name-nondirectory squish--last-test-case)))
+    (compile
+     (format "cd %s && %s --testsuite %s --testcase %s"
+             (squish--get-suite-folder)
+             (squish--get-squishrunner-path)
+             testsuitename
+             testcasename))))
 
 
 (defun squish-ask-and-run-test-case ()
