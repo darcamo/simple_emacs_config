@@ -185,5 +185,11 @@ inside it."
   (squish-run-last-test-case))
 
 
+;; xxxxxxxxxx Minor mode for setting keybindings xxxxxxxxxxxxxxxxxxxxx
+(defvar squishrunner-mode-map (make-keymap) "A keymap for squishrunner minor mode.")
+
+(define-minor-mode squishrunner-mode "A minor mode whose only use is having a dedicated keymap." :lighter Squish :keymap squishrunner-mode-map)
+;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+
 (provide 'squishrunner)
 ;;; squishrunner.el ends here
