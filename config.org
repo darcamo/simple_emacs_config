@@ -5290,6 +5290,21 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
   :init
   (add-to-list 'auto-mode-alist (cons "\\.feature" ' squish-feature-mode))
   )
+
+(use-package squishrunner
+  :commands (squishrunner-mode)
+  :bind (:map squishrunner-mode-map
+              ([f9] . squish-run-last-test-case)
+              ([M-f9] . squish-ask-and-run-test-case)
+
+              ([f10] . squish-run-last-test-suite)
+              ([M-f10] . squish-ask-and-run-test-suite)
+
+              ([f8] . squish-start-server)
+              ([C-f8] . squish-stop-server)
+
+              ([f9] . my-python-compile)
+              ([S-f9] . kill-compilation)))
 #+end_src
 
 ** Conan package manager
