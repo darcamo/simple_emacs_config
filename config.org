@@ -23,6 +23,7 @@ TODO: Check the python-shell-dedicated variable
 TODO: Check the c++-ts-mode and c-or-c++-ts-mode new major modes
 TODO: Check the python-ts-mode new major modes
 TODO: Check the json-ts-mode new major modes
+TODO: Check [[https://github.com/emacs-taskrunner/emacs-taskrunner][emacs-taskrunner]] package
 
 TODO: *Check the* compilation-hidden-output variable
 TODO: try the ts-fold package
@@ -5309,7 +5310,11 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
               ([f9] . my-python-compile)
               ([S-f9] . kill-compilation)))
 #+end_src
+**** TODO Try the prodigy package as a way to start/stop the squish server
 
+https://github.com/rejeep/prodigy.el/?tab=readme-ov-file
+
+There is also the nice package [[https://github.com/emacs-taskrunner/emacs-taskrunner][emacs-taskrunner]].
 ** Conan package manager
 #+begin_src emacs-lisp
 ;; Here we define a minor mode for conanfile just to have a mode-map for it
