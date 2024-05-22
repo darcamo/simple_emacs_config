@@ -3987,7 +3987,10 @@ https://github.com/Artawower/orgnote
   :custom
   (markdown-fontify-code-blocks-natively t)
   :config
-  (set-face-attribute ' markdown-code-face nil :background "gray10")
+  (set-face-attribute 'markdown-code-face nil :background "gray10")
+  (set-face-attribute 'markdown-header-face-1 nil :height 1.5)
+  (set-face-attribute 'markdown-header-face-2 nil :height 1.3)
+  (set-face-attribute 'markdown-header-face-3 nil :underline t)
   )
 #+end_src
 ** COMMENT Flymake support
