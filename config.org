@@ -5291,8 +5291,7 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
 #+begin_src emacs-lisp
 (use-package squish-feature
   :commands (squish-feature-mode)
-  :init
-  (add-to-list 'auto-mode-alist (cons "\\.feature" ' squish-feature-mode))
+  :mode ("\\.feature" . squish-feature-mode)
   )
 
 (use-package squishrunner

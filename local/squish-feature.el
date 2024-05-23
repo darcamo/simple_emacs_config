@@ -24,6 +24,11 @@
 
 ;;; Code:
 
+
+;; TODO: Check https://www.emacswiki.org/emacs/ModeTutorial and add indentation code
+;; TODO: Check https://stackoverflow.com/questions/22989800/creating-emacs-mode-defining-indentation as well
+
+
 (defvar squish-feature--regexp-title "^\\(Feature:\\) \\(.+$\\)")
 
 
@@ -37,6 +42,8 @@
 (defvar squish-feature--regexp-inside-quotes "'.+'")
 
 
+(defvar squish-feature--regexp-comment "#+.*")
+
 (defvar squish-feature--fontlock
   `((,squish-feature--regexp-title 1 'font-lock-type-face)
     (,squish-feature--regexp-title 2 'font-lock-variable-name-face)
@@ -46,13 +53,22 @@
     (,squish-feature--regexp-keywords 1 'font-lock-builtin-face)
     ;; (,squish-feature--regexp-keywords 2 'font-lock-string-face)
     (,squish-feature--regexp-inside-quotes
-     . 'font-lock-preprocessor-face)))
+     . 'font-lock-preprocessor-face)
+    (,squish-feature--regexp-comment
+     . 'font-lock-comment-face)
+    ))
 
 
-(define-derived-mode squish-feature-mode fundamental-mode "Feature"
+(define-derived-mode squish-feature-mode text-mode "Feature"
   "Major mode for editing squish feature files."
+  (set (make-local-variable 'comment-start) "# ")
+  (set (make-local-variable 'comment-start-skip) "#+ *")
+  (set (make-local-variable 'comment-end) "")
+
   (setq font-lock-defaults '(squish-feature--fontlock)))
 
+;;;###autoload
+(add-to-list 'auto-mode-alist '("\\.feature" . squish-feature-mode))
 
 (provide 'squish-feature)
 ;;; squish-feature.el ends here
