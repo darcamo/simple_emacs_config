@@ -7129,6 +7129,20 @@ execute the code.
                      "plantuml.puml"))
   )
 #+end_src
+* Mermaid
+Note: You need to install [[https://github.com/mermaid-js/mermaid-cli][mermaid-cli]].
+
+The CLI executable is =mmdc=.
+
+#+begin_src emacs-lisp
+(use-package mermaid-mode
+  :ensure t)
+#+end_src
+
+You can compile with =C-c C-c=.
+
+See [[https://github.com/abrochard/mermaid-mode?tab=readme-ov-file#usage][Usage]] for the keybindings.
+
 * COMMENT Co-pilot
 #+begin_src emacs-lisp
 ;; (defun my/copilot-tab ()
