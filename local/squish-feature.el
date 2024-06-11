@@ -32,23 +32,30 @@
 (defvar squish-feature--regexp-title "^\\(Feature:\\) \\(.+$\\)")
 
 
-(defvar squish-feature--regexp-scennario
+(defvar squish-feature--regexp-scenario
   "^[[:space:]]\\{4,\\}\\(Scenario:\\)\\([[:space:]].+$\\)")
 
+(defvar squish-feature--regexp-background
+  "^[[:space:]]\\{4,\\}\\(Background:\\)\\([[:space:]]*$\\)")
+
+(defvar squish-feature--regexp-rule
+  "^[[:space:]]\\{4,\\}\\(Rule:\\)\\([[:space:]].+$\\)")
 
 (defvar squish-feature--regexp-keywords
   "^[[:space:]]\\{4,\\}\\(Given\\|When\\|And\\|But\\|Then\\)\\([[:space:]].+$\\)")
 
 (defvar squish-feature--regexp-inside-quotes "'.+'")
 
-
 (defvar squish-feature--regexp-comment "#+.*")
 
 (defvar squish-feature--fontlock
   `((,squish-feature--regexp-title 1 'font-lock-type-face)
     (,squish-feature--regexp-title 2 'font-lock-variable-name-face)
-    (,squish-feature--regexp-scennario 1 'font-lock-number-face)
-    (,squish-feature--regexp-scennario
+    (,squish-feature--regexp-scenario 1 'font-lock-number-face)
+    (,squish-feature--regexp-rule 1 'font-lock-regexp-grouping-construct)
+    (,squish-feature--regexp-rule 2 'font-lock-variable-name-face)
+    (,squish-feature--regexp-background 1 'font-lock-number-face)
+    (,squish-feature--regexp-scenario
      2 'font-lock-variable-name-face)
     (,squish-feature--regexp-keywords 1 'font-lock-builtin-face)
     ;; (,squish-feature--regexp-keywords 2 'font-lock-string-face)
