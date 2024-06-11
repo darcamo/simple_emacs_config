@@ -37,7 +37,7 @@
 
 
 (defvar squish-feature--regexp-keywords
-  "^[[:space:]]\\{4,\\}\\(Given\\|When\\|And\\|Then\\)\\([[:space:]].+$\\)")
+  "^[[:space:]]\\{4,\\}\\(Given\\|When\\|And\\|But\\|Then\\)\\([[:space:]].+$\\)")
 
 (defvar squish-feature--regexp-inside-quotes "'.+'")
 
