@@ -4,30 +4,21 @@
 #+TITLE: My Emacs configuration
 #+STARTUP: indent show2levels
 
-https://github.com/snackon/Witchmacs
 
-https://github.com/susam/emfy/blob/main/.emacs
 
-https://github.com/MatthewZMD/.emacs.d
 
 https://www.rousette.org.uk/archives/emacs-from-scratch-again/
 
 
 TODO: Check superword-mode
 
-TODO: Check the new find-sibling-file function in emacs29
 TODO: Check the pixel-scroll-precision-mode minor mode
 TODO: Check the compilation-hidden-output variable
 TODO: Check the project-vc-extra-root-markers variable
 TODO: Check the python-shell-dedicated variable
-TODO: Check the c++-ts-mode and c-or-c++-ts-mode new major modes
-TODO: Check the python-ts-mode new major modes
-TODO: Check the json-ts-mode new major modes
-TODO: Check [[https://github.com/emacs-taskrunner/emacs-taskrunner][emacs-taskrunner]] package
 
 TODO: *Check the* compilation-hidden-output variable
-TODO: try the ts-fold package
-https://github.com/emacs-tree-sitter/ts-fold
+TODO: try the [[https://github.com/emacs-tree-sitter/ts-fold][ts-fold]] package
 
 
 My hand-crafted Emacs configuration
@@ -4383,7 +4374,6 @@ https://www.flycheck.org/en/latest/index.html
 (use-package emacs
   :hook
   (prog-mode . hs-minor-mode)
-  :bind
   :bind (
          :map prog-mode-map
          ("<backtab>" . hs-toggle-hiding) ;; Shift+TAB
