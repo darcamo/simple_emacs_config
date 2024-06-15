@@ -5116,14 +5116,14 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
               ([S-f9] . cmake-integration-generate-project-documentation)  ;; Generate the doxygen documentation
               ([C-S-f9] .  cmake-integration-view-project-documentation)
               ;; Alternate between header and source. You could also use lsp-clangd-find-other-file instead
-              ("M-o" . ff-find-related-file)
+              ("M-o" . ff-find-other-file)
               ("M-O" . lsp-clangd-find-other-file)
 
               :map c-ts-base-mode-map
               ([S-f9] . cmake-integration-generate-project-documentation)  ;; Generate the doxygen documentation
               ([C-S-f9] .  cmake-integration-view-project-documentation)
               ;; Alternate between header and source. You could also use lsp-clangd-find-other-file instead
-              ("M-o" . ff-find-related-file)
+              ("M-o" . ff-find-other-file)
               ("M-O" . lsp-clangd-find-other-file)
               )
 
@@ -5195,7 +5195,7 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
   :ensure t)
 #+end_src
 
-** Help find file at point and ff-find-related-file find include files
+** Help find file at point and ff-find-other-file find include files
 #+begin_src emacs-lisp
 (use-package ffap
   :defer t
