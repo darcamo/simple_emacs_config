@@ -477,7 +477,6 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
   ;; (setq consult-project-function nil)
   )
 #+end_src
-
 ** Consult-dir                                                             :Consult:
 #+begin_src emacs-lisp
 (use-package consult-dir
@@ -1848,14 +1847,18 @@ https://github.com/Artawower/file-info.el
   ;; (global-blamer-mode 1)
   )
 #+end_src
-** COMMENT magit-todos                                                       :Magit:
+** magit-todos                                                       :Magit:
 #+begin_src emacs-lisp
 (use-package magit-todos
   :ensure t
   :after magit
-  :config (magit-todos-mode 1))
+  :config (magit-todos-mode 1)
+  :custom
+  (magit-todos-exclude-globs '(".git/" "debug-adapters" "snippets/" "org-mode-setup/new_task.org"))
+  )
 #+end_src
-* Emacs server
+
+* COMMENT Emacs server
 #+begin_src emacs-lisp
 (require 'server)
 (unless (server-running-p)
