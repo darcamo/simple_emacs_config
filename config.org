@@ -7218,7 +7218,7 @@ Useful commands:
   ;; :custom
   ;; (gptel-default-mode 'org-mode)
   :config
-  (setq-default gptel-model "dolphin-mixtral:latest" ;; Pick your default model
+  (setq-default gptel-model "llama3" ;; Pick your default model
                 gptel-expert-commands t
                 gptel-backend (gptel-make-ollama
                                "Ollama"                               ;Any name of your choosing
