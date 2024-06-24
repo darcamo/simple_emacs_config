@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: VRuller
+# key: vr
+# --
+VRuller {
+    anchors.top: parent.top
+    anchors.bottom: parent.bottom
+}$0

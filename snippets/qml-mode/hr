@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: HRuller
+# key: hr
+# --
+HRuller {
+    anchors.left: parent.left
+    anchors.right: parent.right
+}$0
