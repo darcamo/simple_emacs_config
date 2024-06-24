@@ -3715,6 +3715,9 @@ This package is not in melpa yet.
                                  (file+head ,my--note-filename-format ,(my--get-note-title-template ":5G:Atlantico:"))
                                  :unnarrowed t :immediate-finish t)
 
+                                ("o" "PCoIP" plain "Criado em %u\n\n- Links :: [[id:c22ceaa8-2aac-4105-8900-a6cfb7d24c2f][PCoIP]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":PCoIP:"))
+                                 :unnarrowed t :immediate-finish t)
                                 ("T" "Teradici" plain "Criado em %u\n\n- Links :: [[id:1140ec0c-b2d2-4566-aa8f-7748201241d5][Teradici]]\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,(my--get-note-title-template ":Atlantico:Teradici:HP:"))
                                  :unnarrowed t :immediate-finish t)
@@ -5230,8 +5233,8 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
 *** QML-Mode package
 #+begin_src emacs-lisp
 (use-package qml-mode
-:ensure t
-:bind ( :map qml-mode-map
+  :ensure t
+  :bind ( :map qml-mode-map
           ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
           ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
           ([f10] . cmake-integration-run-last-target)
