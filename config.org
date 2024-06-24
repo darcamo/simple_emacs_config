@@ -51,6 +51,8 @@ used for the first time they should be "configured".
 (put 'org-download-image-dir 'safe-local-variable 'stringp)
 (put 'org-html-table-align-individual-fields 'safe-local-variable 'booleanp)
 (put 'org-attach-id-dir 'safe-local-variable 'stringp)
+(put 'qml-integration-qmltestrunner-program 'safe-local-variable 'stringp)
+(put 'qml-integration-qmlscene-program 'safe-local-variable 'stringp)
 #+end_src
 
 * Path for programs to run in subprocesses

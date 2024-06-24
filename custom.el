@@ -3,6 +3,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(cmake-integration-run-working-directory 'root)
  '(ignored-local-variable-values
    '((pyvenv-workon
       . "git_files/cppsim/apps/iab/process_iab_results/.venv")))
@@ -21,7 +22,85 @@
  '(magit-todos-exclude-globs '(".git/" "debug-adapters"))
  '(package-selected-packages nil)
  '(safe-local-variable-values
-   '((pyvenv-workon . "git_files/cppsim/apps/iab/process_iab_results/.venv")
+   '((squish-suites-folder . "squish_tests")
+     (squish-suite-folder . "squish_tests")
+     (qml-integration-import-directories "." "imports"
+                                         "~/git_files/soft-clients/desktop_app/ui_session_common_qt/janus/Resources"
+                                         "~/git_files/soft-clients/desktop_app/ui_session_common_qt/neos"
+                                         "~/git_files/soft-clients/desktop_app/ui_session_common_qt/janus/in_session/resources/")
+     (qml-integration-qml-root-folder
+      . "~/git_files/soft-clients/desktop_app/ui_session_common_qt/janus")
+     (py-master-file
+      . "/home/dmoreira/git_files/squish_tool/pcoip_client_control/tests/test_pages.py")
+     (qml-integration-ignored-paths "*/.*" "./Documentation"
+                                    "./package" "./sdk" "./Tools"
+                                    "./trust_agent_ipc" "./Dockerfile"
+                                    "./cmake" "./licenses" "./build*"
+                                    "./modules/_submodules"
+                                    "./modules/safe-c-library"
+                                    "./modules/logger"
+                                    "./modules/legacy"
+                                    "./modules/broker*"
+                                    "./modules/test*"
+                                    "./modules/edid_retriever"
+                                    "./modules/customization_example"
+                                    "./modules/vchan_plugins"
+                                    "./modules/tera_crypto"
+                                    "./modules/ndk_build"
+                                    "./modules/utils"
+                                    "./modules/customization"
+                                    "./modules/layer_4"
+                                    "./modules/android"
+                                    "./modules/high_performance_client"
+                                    "*/localization" "*/translations")
+     (qml-integration-qt-quick-controls-style . "imports/Janus")
+     (qml-integration-import-directories "." "imports"
+                                         "~/git_files/soft-clients/desktop_app/ui_session_common_qt/janus/resources")
+     (qml-integration-user-styles "imports/Janus")
+     (qml-integration-qml-root-folder
+      . "~/git_files/soft-clients/desktop_app/ui_pre_session_qt/src/view/impls/qml/janus")
+     (cmake-integration-include-subproject-targets-during-completion)
+     (cmake-integration-hide-utility-targets-during-completion . t)
+     (cmake-integration-include-subproject-targets-during-completion
+      . t)
+     (cmake-integration-hide-library-targets-during-completion)
+     (cmake-integration-run-working-directory . root)
+     (org-download-method . attach) (org-download-method quote attach)
+     (ff-search-directories "." "../inc" "../src" "../api"
+                            "../src/view/impls/*" "../../inc"
+                            "../src/controller" "../../../../inc"
+                            "/usr/include")
+     (ff-search-directories "." "../inc" "../src" "../api"
+                            "../src/view/impls/*" "../../inc"
+                            "../../../../inc" "/usr/include")
+     (ff-search-directories "." "../inc" "../src" "../api"
+                            "../src/view/impls/*" "../../../../inc"
+                            "/usr/include")
+     (ff-search-directories "." "../inc" "../src"
+                            "../src/view/impls/*" "../../../../inc"
+                            "/usr/include")
+     (ff-search-directories "." "../inc" "../src" "../../../../inc"
+                            "../src/view/impls/*" "/usr/include")
+     (ff-search-directories "." "../inc" "../src" "../../../../inc"
+                            "../src/*/*/*" "/usr/include")
+     (ff-search-directories "." "../inc" "../src" "../view/impls/qml"
+                            "/usr/include")
+     (ff-search-directories "." "../inc" "../src" "/usr/include")
+     (ff-search-directories "." "../inc" "../src" "/usr/include"
+                            "/home/dmoreira/git_files/soft-clients/modules/*/src/*/*/*"
+                            "/home/dmoreira/git_files/soft-clients/modules/*/src/*/*/*/*"
+                            "/home/dmoreira/git_files/soft-clients/modules/*/inc/*/*/*")
+     (my/qml-root-folder
+      . ~/git_files/soft-clients/modules/ui_pre_session_qt/src/view/impls/qml/qml)
+     (ff-search-directories "." "/usr/include"
+                            "/home/dmoreira/git_files/soft-clients/modules/ui_pre_session_qt/src/*/*/*"
+                            "/home/dmoreira/git_files/soft-clients/modules/ui_pre_session_qt/src/*/*/*/*"
+                            "/home/dmoreira/git_files/soft-clients/modules/ui_pre_session_qt/inc/*/*/*")
+     (my/qmlscene-extra-args . "-I ../janus/imports -I ../janus")
+     (cmake-integration-build-dir . "build/Debug")
+     (cmake-integration-hide-library-targets-during-completion . t)
+     (pyvenv-workon
+      . "git_files/cppsim/apps/iab/process_iab_results/.venv")
      (cmake-integration-hide-utility-targets-during-completion)
      (cmake-integration-include-conan-toolchain-file)
      (cmake-integration-include-conan-toolchain-file . t)
