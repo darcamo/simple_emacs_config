@@ -5791,7 +5791,7 @@ https://writequit.org/articles/working-with-logs-in-emacs.html
 ;;   )
 #+end_src
 
-* Latex                                                                       :Latex:
+* COMMENT Latex                                                               :Latex:
 ** Some useful functions
 #+begin_src emacs-lisp
 (defun latex-skeleton-math-left-right ( left-symbol right-symbol)
