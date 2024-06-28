@@ -4620,6 +4620,18 @@ TODO: Use the new [[https://github.com/dalanicolai/image-roll.el][image-roll]] p
   ;; (set-face-attribute 'all-the-icons-dired-dir-face nil :foreground "gold")
   )
 #+end_src
+** Some pretty symbols
+#+begin_src emacs-lisp
+(add-hook
+ 'dired-mode-hook
+ (lambda ()
+   (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (user-login-name)) . "🙋"))
+   (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (group-name (group-gid))) . "🫂"))
+   (setq prettify-symbols-unprettify-at-point t)
+   (prettify-symbols-mode)
+   )
+ )
+#+end_src
 * Project                                                                   :Project:
 Emacs already has a notion of a "project" with native =project.el=
 
