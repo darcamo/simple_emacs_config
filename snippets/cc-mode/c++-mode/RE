@@ -2,6 +2,5 @@
 #contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
 #name : REQUIRE
 #group: Catch
-#Description: REQUIRE test in Catch
 # --
 REQUIRE($0);

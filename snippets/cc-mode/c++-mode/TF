@@ -2,7 +2,6 @@
 #contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
 #name : TEST_F
 #group: GTest
-#Description: A test with a test suite in GTest
 # --
 TEST_F(${1:TestFixtureClassName}, ${2:TestName}){
     $0

@@ -2,7 +2,6 @@
 #contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
 #name : Catch SECTION
 #group: Catch
-#Description: SECTION in Catch
 # --
 SECTION("Test ${1:Bla bla bla}") {
     ///@todo Implement-me

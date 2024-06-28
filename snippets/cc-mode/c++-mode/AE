@@ -2,6 +2,5 @@
 #contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
 #name : ASSERT_EQ
 #group: GTest
-#Description: An equality assert in GTest
 # --
 ASSERT_EQ($1, $2);

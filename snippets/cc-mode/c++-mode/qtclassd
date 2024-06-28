@@ -2,7 +2,6 @@
 #contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
 #name : Qt Class with the Qt Designer
 #group: Qt
-#Description: Qt Class when using the Qt Designer
 # --
 #ifndef ${1:`(upcase (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))`_H}
 #define $1

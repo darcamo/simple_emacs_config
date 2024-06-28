@@ -2,7 +2,6 @@
 #contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
 #name : TEST
 #group: GTest
-#Description: A test in GTest
 # --
 TEST(${1:TestSuiteName}, ${2:TestName}){
     $0

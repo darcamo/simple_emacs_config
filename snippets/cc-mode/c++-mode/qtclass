@@ -2,7 +2,6 @@
 #contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
 #name : Qt Class (hand coded)
 #group: Qt
-#Description: Qt Class
 # --
 #ifndef ${1:`(upcase (file-name-nondirectory (file-name-sans-extension (buffer-file-name))))`_H}
 #define $1

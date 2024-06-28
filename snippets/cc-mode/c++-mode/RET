@@ -2,6 +2,5 @@
 #contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
 #name : REQUIRE_THAT
 #group: Catch
-#Description: REQUIRE_THAT test in Catch
 # --
 REQUIRE_THAT($1, Equals($2));

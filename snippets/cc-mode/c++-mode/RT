@@ -2,6 +2,5 @@
 #contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
 #name : REQUIRE_THROWS
 #group: Catch
-#Description: REQUIRE_THROWS test in Catch
 # --
 REQUIRE_THROWS($0);
