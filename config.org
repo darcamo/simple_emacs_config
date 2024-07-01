@@ -9,6 +9,7 @@
 
 https://www.rousette.org.uk/archives/emacs-from-scratch-again/
 
+TODO: Use ~dired-hide-details-mode~
 
 TODO: Check superword-mode
 
@@ -4645,8 +4646,9 @@ TODO: Use the new [[https://github.com/dalanicolai/image-roll.el][image-roll]] p
 (add-hook
  'dired-mode-hook
  (lambda ()
-   (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (user-login-name)) . "🙋"))
-   (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (group-name (group-gid))) . "🫂"))
+   (add-to-list 'prettify-symbols-alist '("AUTH\\\\" . "★"))
+   ;; (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (user-login-name)) . "🙋"))
+   ;; (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (group-name (group-gid))) . "🫂"))
    (setq prettify-symbols-unprettify-at-point t)
    (prettify-symbols-mode)
    )
