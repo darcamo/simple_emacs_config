@@ -63,7 +63,7 @@ used for the first time they should be "configured".
 (setenv "LD_LIBRARY_PATH" "$SQUISH_DIR/lib:$LD_LIBRARY_PATH" t)
 #+end_src
 * Set the theme and apearance                                            :Appearance:
-** Theme                                                                     :Theme:
+** Theme                                                                :Theme:font:
 Good themes:
 - wombat (nativo)
 - doom opera
@@ -5508,7 +5508,15 @@ completion).
               ;; Run a python file
               ([f9] . my-python-compile)
               ([S-f9] . kill-compilation)
+              )
+  :bind (:map python-ts-mode-map
+              ;; Add breakpoint with pudb
+              ([C-f8] . python-insert-breakpoint)
+              ;; ([C-S-f8] . pudb-add-breakpoint)
 
+              ;; Run a python file
+              ([f9] . my-python-compile)
+              ([S-f9] . kill-compilation)
               )
   :custom
   (python-shell-interpreter "ipython")
