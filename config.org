@@ -6,6 +6,12 @@
 
 
 
+TODO: Replace my =toggle-current-window-dedication= function with the native (in Emacs 30)
+=toggle-window-dedicated= function.
+TODO: Emacs 30 use-package now has a =:vc= keyword to install packages from git. Should I go
+      back to standard package manager in Emacs? Once you use it (instead of elpaca), you
+      can use =package-vc-upgrade-all= to update VC installed packages.
+
 
 https://www.rousette.org.uk/archives/emacs-from-scratch-again/
 
@@ -13,8 +19,6 @@ TODO: Use ~dired-hide-details-mode~
 
 TODO: Check superword-mode
 
-TODO: Check the pixel-scroll-precision-mode minor mode
-TODO: Check the compilation-hidden-output variable
 TODO: Check the project-vc-extra-root-markers variable
 TODO: Check the python-shell-dedicated variable
 
@@ -5341,11 +5345,10 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
               ([f9] . my-python-compile)
               ([S-f9] . kill-compilation)))
 #+end_src
-**** TODO Try the prodigy package as a way to start/stop the squish server
 
-https://github.com/rejeep/prodigy.el/?tab=readme-ov-file
+Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting processes with emacs]]
+- This could be used to start the squish server
 
-There is also the nice package [[https://github.com/emacs-taskrunner/emacs-taskrunner][emacs-taskrunner]].
 ** Conan package manager
 #+begin_src emacs-lisp
 ;; Here we define a minor mode for conanfile just to have a mode-map for it
@@ -5428,7 +5431,6 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 
 NOTE: Run the =run-python= command to run a python interpreter (with
 completion).
-
 ** Helper functions
 #+begin_src emacs-lisp
 
@@ -7233,6 +7235,17 @@ cleared, make sure the overlay doesn't come back too soon."
   (advice-add 'keyboard-quit :before #'rk/copilot-quit)
   )
 #+end_src
+* COMMENT prodigy: Starting processes with emacs
+#+begin_src emacs-lisp
+(use-package prodigy
+  :ensure t
+
+  ;; Define services
+  )
+#+end_src
+
+Note: There is also the nice package [[https://github.com/emacs-taskrunner/emacs-taskrunner][emacs-taskrunner]].
+
 * x509-mode
 https://github.com/jobbflykt/x509-mode
 
