@@ -3927,30 +3927,14 @@ https://github.com/jgru/consult-org-roam
   ;; (consult-customize
   ;;  consult-org-roam-forward-links
   ;;  :preview-key (kbd "M-."))
-  ;; :bind
-  ;; ;; Define some convenient keybindings as an addition
-  ;; ("C-c n e" . consult-org-roam-file-find)
-  ;; ("C-c n b" . consult-org-roam-backlinks)
-  ;; ("C-c n l" . consult-org-roam-forward-links)
-  ;; ("C-c n r" . consult-org-roam-search)
-  )
-#+end_src
-** Search roam notes with ripgrep
-You can already use ~consult-ripgrep~ from the notes folder or from a note to search in all
-notes. The code below has a nicer function that you can use instead
-#+begin_src emacs-lisp
-;; taken from https://org-roam.discourse.group/t/using-consult-ripgrep-with-org-roam-for-searching-notes/1226
-(defun bms/org-roam-rg-search ()
-  "Search org-roam directory using consult-ripgrep. With live-preview."
-  (interactive)
-  (require 'org-roam)
-  (let ((consult-ripgrep-command "rg --null --ignore-case --type org --line-buffered --color=always --max-columns=500 --no-heading --line-number . -e ARG OPTS"))
-    (consult-ripgrep org-roam-directory)))
-
-(use-package consult
-  :defer t
   :bind
-  ([C-f6] . bms/org-roam-rg-search)
+  ;; Define some convenient keybindings as an addition
+  ("C-c n e" . consult-org-roam-file-find)
+  ("C-c n b" . consult-org-roam-backlinks)
+  ("C-c n B" . consult-org-roam-backlinks-recursive)
+  ;; ("C-c n l" . consult-org-roam-forward-links)
+  ("C-c n r" . consult-org-roam-search)
+  ([C-f6] . consult-org-roam-search) ;; Search roam notes with ripgrep
   )
 #+end_src
 
@@ -4541,7 +4525,6 @@ You need to innstall =yamllint= using your OS package manager
 #+end_src
 
 ** Keybindings                                                         :Keybindings:
-TODO: Use the new [[https://github.com/dalanicolai/image-roll.el][image-roll]] package instead of pdf-continuous-scroll
 #+begin_src emacs-lisp
 (use-package pdf-view
   :defer t
