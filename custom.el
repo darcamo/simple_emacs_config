@@ -28,8 +28,6 @@
                                          "~/git_files/soft-clients/desktop_app/ui_session_common_qt/janus/Resources"
                                          "~/git_files/soft-clients/desktop_app/ui_session_common_qt/neos"
                                          "~/git_files/soft-clients/desktop_app/ui_session_common_qt/janus/in_session/resources/")
-     (qml-integration-qml-root-folder
-      . "~/git_files/soft-clients/desktop_app/ui_session_common_qt/janus")
      (py-master-file
       . "/home/dmoreira/git_files/squish_tool/pcoip_client_control/tests/test_pages.py")
      (qml-integration-ignored-paths "*/.*" "./Documentation"
@@ -57,8 +55,6 @@
      (qml-integration-import-directories "." "imports"
                                          "~/git_files/soft-clients/desktop_app/ui_session_common_qt/janus/resources")
      (qml-integration-user-styles "imports/Janus")
-     (qml-integration-qml-root-folder
-      . "~/git_files/soft-clients/desktop_app/ui_pre_session_qt/src/view/impls/qml/janus")
      (cmake-integration-include-subproject-targets-during-completion)
      (cmake-integration-hide-utility-targets-during-completion . t)
      (cmake-integration-include-subproject-targets-during-completion

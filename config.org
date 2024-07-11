@@ -4,6 +4,13 @@
 #+TITLE: My Emacs configuration
 #+STARTUP: indent show2levels
 
+LLMs
+- ollama
+- gpf4all
+- [[https://claude.ai/login?returnTo=%2F][cloude]]
+- [[https://www.phind.com/search?home=true][phind]]
+- [[https://www.infoworld.com/article/3700869/14-llms-that-arent-chatgpt.html][14 LLMs que não são chatGPT]]
+
 
 
 TODO: Replace my =toggle-current-window-dedication= function with the native (in Emacs 30)
@@ -4002,6 +4009,17 @@ Currently it is not in melpa yet
 ** TODO orgnote
 https://github.com/Artawower/orgnote
 
+** COMMENT nursery
+https://github.com/chrisbarrett/nursery
+
+Several small packages that extend org-roam in some way.
+
+The package =org-roam-dblocks= seems particularly nice.
+
+The package =org-roam-gc= seems useful if you start using roam dailies.
+
+The package =org-roam-rewrite= has commands for renaming nodes, rewriting links and deleting
+nodes with redirection so you can refactor notes without leaving broken links.
 * Markdown                                                                 :markdown:
 ** General config
 #+begin_src emacs-lisp
@@ -4281,15 +4299,6 @@ back to the org file.
   )
 #+end_src
 
-** COMMENT Size of the compile window and scroll it down as output appears :Compilation:
-#+begin_src emacs-lisp
-(use-package emacs
-  :ensure nil
-  :custom
-  (compilation-window-height 16)
-  )
-#+end_src
-
 ** Popper-mode                                                         :Compilation:
 
 To set which buffers should be a popup, see the =popper-reference-buffers= varaible.
@@ -4316,13 +4325,6 @@ the other one separately.
      compilation-mode))
   (popper-display-control 'user)
   (popper-group-function #'popper-group-by-project)
-  )
-#+end_src
-** COMMENT popwin                                                      :Compilation:
-#+begin_src emacs-lisp
-(use-package popwin
-  :ensure t
-
   )
 #+end_src
 ** shackle
@@ -4905,7 +4907,7 @@ To add support to more server, see the =eglot-server-programs= variable.
 #+end_src
 ** Project specific configuration
 See the =eglot-workspace-configuration= variable. [[https://gist.github.com/doolio/8c1768ebf33c483e6d26e5205896217f][Here]] is an example.
-* Debugging
+* Debugging                                                                   :debug:
 ** Emphasize current line in gud
 #+begin_src emacs-lisp
 (use-package gud
@@ -4921,7 +4923,7 @@ Set ~gdb-debuginfod-enable-setting~ to nil
   )
 #+end_src
 
-** COMMENT dap-mode -> Debugger Adapter Protocol
+** COMMENT dap-mode -> Debugger Adapter Protocol                         :LSP:debug:
 For c++ see [[*Dap-debug (C++)][Dap-debug (C++)]]
 For Python see [[*Dap-debug (Python)][Dap-debug (Python)]]
 
@@ -5028,7 +5030,7 @@ Set a buffer to read-only when this minor mode is active
 
 #+end_src
 
-** Dape mode
+** Dape mode                                                                 :debug:
 Note: Here I'm onnly keepinng genenral configuration for dape.
 
 For C++ configuration see [[*Dape C++ - Debug protocol][Dape C++ - Debug protocol]]
@@ -5367,7 +5369,7 @@ Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting process
                            (cmake-integration-keybindings))))))
 #+end_src
 
-** COMMENT Dap-debug (C++) - Debug Protocol
+** COMMENT Dap-debug (C++) - Debug Protocol                                  :debug:
 There are two alternatives for using dap-debug with c++:
 - [[https://emacs-lsp.github.io/dap-mode/page/configuration/#lldb][LLDB]] -> use ~(require 'dap-lldb)~
 - [[https://emacs-lsp.github.io/dap-mode/page/configuration/#vscode-cpptools][vscode-cpptools]] -> use ~(require 'dap-cpptools)~
@@ -5387,7 +5389,7 @@ it is running ~dap-debug-edit-template~ to configure the template before running
 
 To use the debugger, run ~dap-debug-edit-template~, edit the template and evaluate it.
 
-** Dape C++ - Debug protocol
+** Dape C++ - Debug protocol                                                 :debug:
 Note: You need to install =cpptools= extension. See [[https://github.com/svaante/dape#c-and-c---cppdbg][here]] for instructions. In summary, just
 download a [[https://github.com/microsoft/vscode-cpptools/releases][release]], and unpack the =vsix= file, Then =chmod +x
 debugAdapters/bin/OpenDebugAD7=.
@@ -5661,7 +5663,7 @@ not accessed" notes, add the following:
   ("C-c f" . yapfify-buffer)
   ))
 #+end_src
-** COMMENT Dap-debug (Python)
+** COMMENT Dap-debug (Python)                                                :debug:
 +You need to install ~ptvsd>=4.2~ in your virtual environment+
 
 You need to install ~debugpy~ in your virtual environment
@@ -5673,7 +5675,7 @@ You need to install ~debugpy~ in your virtual environment
   (dap-python-debugger 'debugpy)
   )
 #+end_src
-** Dape Python - Debug Protocol
+** Dape Python - Debug Protocol                                              :debug:
 Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] in your python environment. Then running =dape= should be enough.
 
 ** code-cells-mode
