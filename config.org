@@ -7305,3 +7305,18 @@ You can also customize =gptel-temperature=.
   :              (frob response)))
 - Note: When the gptel-send transient menu is open, you can use =C-x C-s= to save the
   current choice as default. THIS WORKS IN ANY TRANSIENT MENU!.
+* COMMENT Ellama                                                                 :LLM:ollama:
+https://www.rahuljuliato.com/posts/ellama
+#+begin_src emacs-lisp
+(use-package ellama
+  :ensure t
+  :init
+  (setopt ellama-language "English")
+  (require 'llm-ollama)
+  (setopt ellama-provider
+		  (make-llm-ollama
+		   :chat-model "codellama:7b" :embedding-model "codellama:7b")))
+#+end_src
+* Texpresso
+Live Latex
+https://github.com/let-def/texpresso
