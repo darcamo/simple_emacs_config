@@ -3666,7 +3666,12 @@ This package is not in melpa yet.
   (org-remark-global-tracking-mode)
   )
 #+end_src
-* org-reveal
+* COMMENT org-reveal
+
+Parece que o org-reveal não é mais mantido e não está mais funcionando.
+
+Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
+
 #+begin_src emacs-lisp
 (use-package ox-reveal
   :ensure t
@@ -3676,6 +3681,15 @@ This package is not in melpa yet.
   :init
   (add-to-list 'org-export-backends 'reveal) ;; This will load ox-reveal on demand
   )
+#+end_src
+* org-re-reveal
+#+begin_src emacs-lisp
+(use-package org-re-reveal
+  :ensure t
+  :defer t
+  :init
+  (add-to-list 'org-export-backends 're-reveal) ;; This will load ox-reveal on demand
+)
 #+end_src
 * Org-roam                                                                  :OrgRoam:
 ** Configuration
