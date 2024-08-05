@@ -3696,6 +3696,14 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   :defer t
   :init
   (add-to-list 'org-export-backends 're-reveal) ;; This will load ox-reveal on demand
+  :custom
+  (org-re-reveal-history t)
+  (org-re-reveal-transition "slide")
+  (org-re-reveal-width 1920)
+  (org-re-reveal-height 1080)
+  (org-re-reveal-viewport "width=device-width, initial-scale=1.0, minimum-scale=0.1, maximum-scale=10.0, user-scalable=yes")
+  ;; (org-re-reveal-highlight-url "https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.10.0/styles/base16/zenburn.min.css")
+  (org-re-reveal-plugins '(markdown notes search zoom highlight math))
 )
 #+end_src
 * Org-roam                                                                  :OrgRoam:
