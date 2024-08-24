@@ -373,7 +373,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
   :bind (
          ;; Global keybindings
          ("M-i" . consult-imenu)
-         ("M-I" . consult-imenu-multi)
+         ;; ("M-I" . consult-imenu-multi)
 
          ;; C-c keybindigs
          ;; ("C-c h" . consult-history)
@@ -4910,7 +4910,11 @@ To add support to more server, see the =eglot-server-programs= variable.
   :ensure t
   :bind (
          :map c-mode-base-map (("M-I" . consult-eglot-symbols))
-         :map python-mode-map (("M-I" . consult-eglot-symbols)))
+         :map c-ts-base-mode-map (("M-I" . consult-eglot-symbols))
+         :map c++-ts-mode-map (("M-I" . consult-eglot-symbols))
+         :map python-mode-map (("M-I" . consult-eglot-symbols))
+         :map python-ts-mode-map (("M-I" . consult-eglot-symbols))
+         )
   )
 #+end_src
 ** Project specific configuration
