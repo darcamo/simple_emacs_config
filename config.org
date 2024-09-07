@@ -1497,7 +1497,9 @@ of the file associated with the current buffer."
   :bind (
          ([f2] . delete-window)
          ([f3] . bury-buffer) ; put the current buffer at the end of the buffer list
+         ([mouse-9] . bury-buffer) ; put the current buffer at the end of the buffer list
          ([C-f3] . unbury-buffer) ; change the buffert at the end of the buffer list to the current buffer
+         ([mouse-8] . unbury-buffer) ; change the buffert at the end of the buffer list to the current buffer
          ([f4] . (lambda () (interactive) (kill-buffer (current-buffer)))) ;C-x k
          ([C-f11] . browse-default-dir)
          ([S-f11] . browse-default-dir-in-emacs)
