@@ -5981,6 +5981,8 @@ TeX-command-master (from auctex) with a 'Latex' argument."
   ;; Add the .synctex.gz file to the list of files to be cleared by the
   ;; "Clear All" command
   (add-to-list 'LaTeX-clean-output-suffixes "\\.synctex\\.gz")
+  (add-to-list 'LaTeX-clean-output-suffixes "\\.loc")
+  (add-to-list 'LaTeX-clean-output-suffixes "\\.soc")
   :bind (
          :map LaTeX-mode-map
          ;; ([f5] . latex-skeleton-acronym)
