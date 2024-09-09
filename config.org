@@ -91,16 +91,14 @@ Good themes:
   (load-theme 'doom-material-dark t)
   )
 
-;; (set-face-background 'default "#111")
-(set-face-background 'cursor "#c96")
-(set-face-background 'isearch "#c60")
-(set-face-foreground 'isearch "#eee")
-(set-face-background 'lazy-highlight "#960")
-(set-face-foreground 'lazy-highlight "#ccc")
-(set-face-foreground 'org-todo "tomato")
-(set-face-foreground 'fringe "goldenrod")
-
-;; (set-face-foreground 'font-lock-comment-face "#fc0")
+(use-package emacs
+  :ensure nil
+  :custom-face
+  (cursor ((t (:background "#c96"))))
+  (isearch ((t (:background "#c60" :foreground "#eee"))))
+  (fringe ((t (:foreground "goldenrod"))))
+  (org-todo ((t (:foreground "tomato"))))
+  )
 
 
 ;; Note that `font-info' cannot be called when Emacs daemon is
@@ -200,12 +198,12 @@ displaying correctly, call =nerd-icons-install-fonts= to install the fonts.
 ** Change some of the hi-lock faces
 #+begin_src elisp
 (use-package hi-lock
-  :config
+  :custom-face
   ;; Set the foreground of some of the hi-lock faces that only specify the background
-  (set-face-foreground ' hi-yellow "black")
-  (set-face-foreground ' hi-pink "black")
-  (set-face-foreground ' hi-green "black")
-  (set-face-foreground ' hi-blue "black")
+  (hi-yellow ((t (:foreground "black"))))
+  (hi-pink ((t (:foreground "black"))))
+  (hi-green ((t (:foreground "black"))))
+  (hi-blue ((t (:foreground "black"))))
   :custom
   (hi-lock-face-defaults '("hi-yellow" "hi-pink" "hi-green" "hi-blue" "hi-salmon" "hi-aquamarine"))
   )
@@ -1703,7 +1701,7 @@ Replace regular find-file and related functions with ffap versions
   )
 #+end_src
 
-*** Disable ffap bindings in dired-mode buffers                             :Dired:
+*** Disable ffap bindings in dired-mode buffers                              :Dired:
 Getting the file name at point is problematic in dired buffers, since it requires me to
 delete the text in order to use the completion system to open a file.
 #+begin_src emacs-lisp
@@ -2252,7 +2250,7 @@ There is also lsp-grammarly, but it requires an account.
     (unfill-paragraph)))
 #+end_src
 
-*** Keybindings                                                       :Keybindings:
+*** Keybindings                                                        :Keybindings:
 #+begin_src emacs-lisp
 ;; Local Keybinding
 (defun my-org-at-citation-p ()
@@ -3055,7 +3053,7 @@ reveal."
   )
 #+end_src
 
-*** Keybindings                                                       :Keybindings:
+*** Keybindings                                                        :Keybindings:
 #+begin_src emacs-lisp
 (use-package org
   :defer t
@@ -3075,7 +3073,7 @@ reveal."
 )
 #+end_src
 
-*** Jira                                                                     :Jira:
+*** Jira                                                                      :Jira:
 #+begin_src emacs-lisp
 (use-package ox-jira
   :ensure t
@@ -4365,7 +4363,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
 #+end_src
 
 ** Syntax check
-*** COMMENT Flycheck                                                     :Flycheck:
+*** COMMENT Flycheck                                                      :Flycheck:
 https://www.flycheck.org/en/latest/index.html
 
 #+begin_src emacs-lisp
@@ -4380,7 +4378,7 @@ https://www.flycheck.org/en/latest/index.html
   )
 #+end_src
 
-*** Flymake                                                               :Flymake:
+*** Flymake                                                                :Flymake:
 **** General Configuration
 #+begin_src emacs-lisp
 (use-package flymake
@@ -5305,7 +5303,7 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
   )
 #+end_src
 
-*** Detect filename in compilation-mode for qmltestrunner errors      :Compilation:
+*** Detect filename in compilation-mode for qmltestrunner errors       :Compilation:
 #+begin_src emacs-lisp
 (use-package compile
   :config
@@ -5316,12 +5314,12 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
                '("Loc: \\[\\(.*\\)(\\([0-9]*\\))" 1 2))
   )
 #+end_src
-*** Formatting QML buffers with apheleia                             :QML:apheleia:
+*** Formatting QML buffers with apheleia                              :QML:apheleia:
 #+begin_src elisp
 (use-package qml-mode
   :after apheleia
   :config
-  (push '(qmlformat . ("/usr/bin/qmlformat" "--inplace" file))
+  (push '(qmlformat . ("/home/moreirad/git_files/soft-clients/build/Debug/deps/Qt5/5.15.16/bin/qmlformat" "--inplace" file))
         apheleia-formatters)
 
   (add-to-list 'apheleia-mode-alist '(qml-mode . qmlformat))
@@ -5588,7 +5586,7 @@ completion).
 #+end_src
 
 ** pyright as language server                                                  :LSP:
-*** COMMENT LSP                                                               :LSP:
+*** COMMENT LSP                                                                :LSP:
 Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
 (use-package lsp-pyright
@@ -5599,7 +5597,7 @@ Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 ;; (use-package lsp-jedi
 ;;   :ensure t)
 #+end_src
-*** Eglot                                                                   :Eglot:
+*** Eglot                                                                    :Eglot:
 #+begin_src emacs-lisp
 (use-package eglot
   :config
@@ -5661,7 +5659,7 @@ not accessed" notes, add the following:
 (advice-add 'eglot--report-to-flymake :filter-args #'my-filter-eglot-diagnostics)
 #+end_src
 
-*** COMMENT LSP                                                               :LSP:
+*** COMMENT LSP                                                                :LSP:
 
 #+begin_src emacs-lisp
 (use-package eglot
@@ -7322,7 +7320,7 @@ You can also customize =gptel-temperature=.
   :              (frob response)))
 - Note: When the gptel-send transient menu is open, you can use =C-x C-s= to save the
   current choice as default. THIS WORKS IN ANY TRANSIENT MENU!.
-* COMMENT Ellama                                                                 :LLM:ollama:
+* COMMENT Ellama                                                         :LLM:ollama:
 https://www.rahuljuliato.com/posts/ellama
 #+begin_src emacs-lisp
 (use-package ellama
