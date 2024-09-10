@@ -5229,6 +5229,7 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
   :ensure t
   :hook
   (cmake-mode . cmake-integration-keybindings)
+  (cmake-ts-mode . cmake-integration-keybindings)
   ;; Enable cmake-integration-keybindings in json mode only for the three file names
   (json-mode . (lambda () (cond
                       ((equal (file-name-nondirectory (buffer-file-name)) "CMakePresets.json") (cmake-integration-keybindings))
