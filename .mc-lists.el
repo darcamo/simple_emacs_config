@@ -31,6 +31,7 @@
         kill-region
         markdown-cycle
         markdown-end-of-line
+        markdown-outdent-or-delete
         nxml-electric-slash
         org-beginning-of-line
         org-emphasize

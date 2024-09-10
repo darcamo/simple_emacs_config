@@ -95,12 +95,14 @@
      (my/qmlscene-extra-args . "-I ../janus/imports -I ../janus")
      (cmake-integration-build-dir . "build/Debug")
      (cmake-integration-hide-library-targets-during-completion . t)
+     (cmake-integration-conan-arguments
+      . "--build missing -r conancenter")
      (pyvenv-workon
       . "git_files/cppsim/apps/iab/process_iab_results/.venv")
      (cmake-integration-hide-utility-targets-during-completion)
      (cmake-integration-include-conan-toolchain-file)
      (cmake-integration-include-conan-toolchain-file . t)
-     (cmake-integration-conan-profile . "gcc-release")
+     (cmake-integration-conan-profile . "debug")
      (darlan-cmake-use-ninja . t) (darlan-build-dir . "build")
      (cmake-integration-run-working-directory . bin)))
  '(warning-suppress-log-types '((comp))))
