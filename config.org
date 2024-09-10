@@ -5116,6 +5116,7 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
 ** Always consider .h files as C++
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cppm\\'" . c++-mode)) ;; One of extensions used for module file
 #+end_src
 ** Load the package with use-package
 #+begin_src emacs-lisp
