@@ -1420,7 +1420,9 @@ of the file associated with the current buffer."
   ;; :config
   ;; ;;(global-page-break-lines-mode)
   ;; (add-to-list 'page-break-lines-modes 'c++-mode)
+  ;; (add-to-list 'page-break-lines-modes ' c++-ts-mode)
   ;; (add-to-list 'page-break-lines-modes 'python-mode)
+  ;; (add-to-list 'page-break-lines-modes 'python-ts-mode)
   ;; (add-to-list 'page-break-lines-modes 'org-mode)
   :custom
   (page-break-lines-lighter "")
@@ -4463,7 +4465,9 @@ You need to have [[https://zealdocs.org/][zeal]] installed.
   :config
   ;; Add more docsets beyond the standard library
   (add-to-list 'zeal-at-point-mode-alist '(c++-mode . ("cpp" "Boost")))
+  (add-to-list 'zeal-at-point-mode-alist '(c++-ts-mode . ("cpp" "Boost")))
   (add-to-list 'zeal-at-point-mode-alist '(python-mode . ("python3" "NumPy" "SciPy" "Pandas")))
+  (add-to-list 'zeal-at-point-mode-alist '(python-ts-mode . ("python3" "NumPy" "SciPy" "Pandas")))
   )
 #+end_src
 
@@ -5381,7 +5385,10 @@ Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting process
   :hook
   (python-mode . (lambda () (when (buffer-file-name)
                          (when (equal (file-name-nondirectory (buffer-file-name)) "conanfile.py")
-                           (cmake-integration-keybindings))))))
+                           (cmake-integration-keybindings)))))
+  (python-ts-mode . (lambda () (when (buffer-file-name)
+                            (when (equal (file-name-nondirectory (buffer-file-name)) "conanfile.py")
+                              (cmake-integration-keybindings))))))
 #+end_src
 
 ** COMMENT Dap-debug (C++) - Debug Protocol                                  :debug:
@@ -5675,8 +5682,10 @@ not accessed" notes, add the following:
 (use-package yapfify
   :ensure t
   :bind ( :map python-mode-map
-  ("C-c f" . yapfify-buffer)
-  ))
+          ("C-c f" . yapfify-buffer)
+          :map python-ts-mode-map
+          ("C-c f" . yapfify-buffer)
+          ))
 #+end_src
 ** COMMENT Dap-debug (Python)                                                :debug:
 +You need to install ~ptvsd>=4.2~ in your virtual environment+
@@ -5708,7 +5717,13 @@ NOTE: code-cells-mode will also define the cells as the outline. With this,
               ("C-M-p" . code-cells-backward-cell)
               ("C-M-n" . code-cells-forward-cell)
               ("M-S-<up>" . code-cells-move-cell-up)
-              ("M-S-<down>" . code-cells-move-cell-down))
+              ("M-S-<down>" . code-cells-move-cell-down)
+              :map python-ts-mode-map
+              ("C-M-p" . code-cells-backward-cell)
+              ("C-M-n" . code-cells-forward-cell)
+              ("M-S-<up>" . code-cells-move-cell-up)
+              ("M-S-<down>" . code-cells-move-cell-down)
+              )
   :hook ((python-base-mode . code-cells-mode))
   )
 #+end_src
