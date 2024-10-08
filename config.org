@@ -7357,3 +7357,15 @@ https://www.rahuljuliato.com/posts/ellama
 * Texpresso
 Live Latex
 https://github.com/let-def/texpresso
+* SSH File Modes
+Improve viewing SSH key related files (=authorized_keys= and =know_hosts=)
+#+begin_src emacs-lisp
+(use-package ssh-file-modes
+  :ensure (ssh-file-modes :type git :host github :repo "darcamo/emacs-ssh-file-modes")
+  :hook
+  (ssh-known-hosts-mode . display-line-numbers-mode)
+  (ssh-known-hosts-mode . font-lock-mode)
+  (ssh-authorized-keys-mode . display-line-numbers-mode)
+  (ssh-authorized-keys-mode . font-lock-mode)
+  )
+#+end_src
