@@ -7365,4 +7365,6 @@ Improve viewing SSH key related files (=authorized_keys= and =know_hosts=)
   (ssh-authorized-keys-mode . display-line-numbers-mode)
   (ssh-authorized-keys-mode . font-lock-mode)
   )
+
+  (add-to-list 'auto-mode-alist '("\\.ssh/.*\\.pub\\'" . ssh-authorized-keys-mode))
 #+end_src
