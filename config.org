@@ -3453,32 +3453,29 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   (set-face-attribute 'org-drawer nil :foreground "gray28")
   (set-face-attribute 'org-footnote nil :foreground "firebrick1")
 
-  (with-eval-after-load 'color
-    ;; Background color of src blocks will be slightly darken than default
-    ;; background
-    (set-face-attribute 'org-block nil :background
-                        ;; (color-darken-name
-                        ;;  (face-attribute 'default :background) 2)
-                        "gray16"
-                        )
+  ;; Background color of src blocks will be slightly darken than default
+  ;; background
+  (set-face-attribute 'org-block nil :background
+                      ;; (color-darken-name
+                      ;;  (face-attribute 'default :background) 2)
+                      "gray11"
+                      )
 
-    ;; Change background of the begin line and underline it
-    (set-face-attribute 'org-block-begin-line nil
-                        ;; :background (color-saturate-name (face-attribute 'default :background) 15)
-                        :underline t)
+  ;; Change background of the begin line and underline it
+  (set-face-attribute 'org-block-begin-line nil
+                      ;; :background (color-saturate-name (face-attribute 'default :background) 15)
+                      :underline t)
 
-    ;; Change background of the begin line and overline it
-    ;;
-    ;; Note that usually org-block-end-line inherits from org-block-begin-line,
-    ;; but since we don't want the underline we set in org-block-begin-line we
-    ;; change it to inherit from org-meta-line (which org-block-end-line inherits
-    ;; from)
-    (set-face-attribute 'org-block-end-line nil
-                        ;; :background (color-saturate-name (face-attribute 'default :background) 10)
-                        :inherit 'org-meta-line
-                        :overline t)
-    )
-
+  ;; Change background of the begin line and overline it
+  ;;
+  ;; Note that usually org-block-end-line inherits from org-block-begin-line,
+  ;; but since we don't want the underline we set in org-block-begin-line we
+  ;; change it to inherit from org-meta-line (which org-block-end-line inherits
+  ;; from)
+  (set-face-attribute 'org-block-end-line nil
+                      ;; :background (color-saturate-name (face-attribute 'default :background) 10)
+                      :inherit 'org-meta-line
+                      :overline t)
   :hook
   (org-mode . (lambda ()
                 (add-to-list 'prettify-symbols-alist '("<->" . "↔"))
