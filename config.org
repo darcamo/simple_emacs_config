@@ -65,6 +65,7 @@ used for the first time they should be "configured".
 (put 'org-attach-id-dir 'safe-local-variable 'stringp)
 (put 'qml-integration-qmltestrunner-program 'safe-local-variable 'stringp)
 (put 'qml-integration-qmlscene-program 'safe-local-variable 'stringp)
+(put 'qml-integration-qmllint-program 'safe-local-variable 'stringp)
 #+end_src
 
 * Path for programs to run in subprocesses
@@ -5299,6 +5300,7 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
           ([M-f10] . qml-integration-choose-qml-style)
           ([C-f10] . qml-integration-run-qmlscene)
           ([S-f10] . qml-integration-run-qmltestrunner)
+          ([S-C-f10] . qml-integration-run-qmllint)
           ([M-f8] . cmake-integration-select-configure-preset)
           ([f8] . cmake-integration-cmake-reconfigure)
           )
