@@ -5280,7 +5280,8 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
 (use-package qml-integration
   :commands (qml-integration-choose-qml-style
              qml-integration-run-qmlscene
-             qml-integration-run-qmltestrunner)
+             qml-integration-run-qmltestrunner
+             qml-integration-run-qmllint)
   :ensure (qml-integration :type git :host github :protocol ssh
                            :repo "darcamo/qml-integration" :depth nil)
   :mode
