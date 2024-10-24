@@ -4208,6 +4208,7 @@ Useful keybindings:
         (holiday-fixed 10 12 "Feriado de Nossa Senhora Aparecida")
         (holiday-fixed 11 2 "Feriado de Finados")
         (holiday-fixed 11 15 "Feriado de Proclamação da República")
+        (holiday-fixed 11 20 "Feriado da Conciência Negra")
         (holiday-fixed 12 25 "Feriado de Natal")
         ))
 
