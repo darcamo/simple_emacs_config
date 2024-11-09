@@ -5267,6 +5267,24 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
 #+end_src
 
 ** Qt and QML
+
+*** COMMENT qml-ts-mode (Has imenu support, but syntax highlight is still pretty low)
+Alternative mode for qml, using tree-sitter.
+
+NOTE: You need to manually install the tree-sitter grammar for it. See [[https://github.com/yuja/tree-sitter-qmljs][tree-sitter-qmljs]].
+You can use the code below for that.
+: git clone https://github.com/yuja/tree-sitter-qmljs.git
+: cd tree-sitter-qmljs
+: gcc ./src/parser.c ./src/scanner.c -fPIC -I./ --shared -o libtree-sitter-qmljs.so
+: cp libtree-sitter-qmljs.so ~/.emacs.d/tree-sitter/
+
+#+begin_src emacs-lisp
+(use-package qml-ts-mode
+  :ensure (qml-ts-mode :type git :host github :repo "xhcoding/qml-ts-mode")
+  ;; :bind
+  ;; (("M-s p" . consult-project))
+  )
+#+end_src
 *** Janus Colors
 #+begin_src emacs-lisp
 (when (locate-library "janus")
