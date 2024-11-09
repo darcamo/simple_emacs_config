@@ -5726,17 +5726,12 @@ NOTE: code-cells-mode will also define the cells as the outline. With this,
 (use-package code-cells
   :ensure t
   :commands (code-cells-mode)
-  :bind (:map python-mode-map
-              ("C-M-p" . code-cells-backward-cell)
-              ("C-M-n" . code-cells-forward-cell)
-              ("M-S-<up>" . code-cells-move-cell-up)
-              ("M-S-<down>" . code-cells-move-cell-down)
-              :map python-ts-mode-map
-              ("C-M-p" . code-cells-backward-cell)
-              ("C-M-n" . code-cells-forward-cell)
-              ("M-S-<up>" . code-cells-move-cell-up)
-              ("M-S-<down>" . code-cells-move-cell-down)
-              )
+  :bind ( :map code-cells-mode-map
+          ("C-M-p" . code-cells-backward-cell)
+          ("C-M-n" . code-cells-forward-cell)
+          ("M-S-<up>" . code-cells-move-cell-up)
+          ("M-S-<down>" . code-cells-move-cell-down)
+          )
   :hook ((python-base-mode . code-cells-mode))
   )
 #+end_src
