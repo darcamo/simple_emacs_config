@@ -4420,7 +4420,9 @@ https://www.flycheck.org/en/latest/index.html
   :bind (
          :map prog-mode-map
          ("<backtab>" . hs-toggle-hiding) ;; Shift+TAB
+         ("C-(" . hs-toggle-hiding)
          ("C-S-<iso-lefttab>" . hs-show-all)  ;; Ctrl+Shift+TAB
+         ("C-M-(" . hs-show-all)
          ))
 #+end_src
 ** Obvious-mode
