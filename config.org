@@ -7204,6 +7204,9 @@ execute the code.
                          :repo "skuro/plantuml-mode")
   :mode
   ("\\.puml\\'" . plantuml-mode)
+  :custom
+  (plantuml-default-exec-mode 'jar)
+  (plantuml-jar-path "/usr/bin/plantuml")
   :config
   (add-to-list 'auto-insert-alist
                (cons '("\\.puml" "Basic plantuml template")
