@@ -4527,10 +4527,6 @@ You need to innstall =yamllint= using your OS package manager
   :mode
   ("\\.pdf" . pdf-view-mode)
   )
-
-;; (with-eval-after-load 'pdf-view
-;;   (require 'pdf-continuous-scroll-mode))
-
 #+end_src
 
 ** COMMENT Integration with org (create org-links)                         :OrgMode:
@@ -7362,6 +7358,10 @@ https://www.rahuljuliato.com/posts/ellama
 		  (make-llm-ollama
 		   :chat-model "codellama:7b" :embedding-model "codellama:7b")))
 #+end_src
+
+Veja também [[https://www.reddit.com/r/emacs/comments/1e37cer/elisa_100/][elisa]].
+* Gemini  Code Completion                                                       :LLM:
+https://github.com/shishimaru/gemini-code-completion.el
 * Texpresso
 Live Latex
 https://github.com/let-def/texpresso
