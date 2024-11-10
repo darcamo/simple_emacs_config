@@ -5114,6 +5114,23 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
 * C++                                                               :CPP:Programming:
 Note: Use =C-c C-k= to toggle between line comments and block comments.
 
+** Doxygen with tree-sitter
+Enable doxygen syntax highlighting using tree-sitter.
+
+YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
+: git clone https://github.com/tree-sitter-grammars/tree-sitter-doxygen
+: cd tree-sitter-doxygen
+: gcc ./src/parser.c  ./src/scanner.c -fPIC -I./ --shared -o libtree-sitter-doxygen.so
+: cp libtree-sitter-doxygen.so ~/.emacs.d/tree-sitter/
+
+*NOTE:* The =c-ts-mode-enable-doxygen= option was added only in Emacs 31.1.
+#+begin_src emacs-lisp
+(use-package c-ts-mode
+  :custom
+  (c-ts-mode-enable-doxygen t)
+  )
+#+end_src
+
 ** Always consider .h files as C++
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
