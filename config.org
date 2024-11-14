@@ -4544,7 +4544,6 @@ You need to innstall =yamllint= using your OS package manager
   :defer t
   :bind (
          :map pdf-view-mode-map
-         ("c" . pdf-continuous-scroll-mode)
          ("i" . pdf-view-midnight-minor-mode)
          ([f9] . tex-all)  ; We want to compile when viewing the PDF
          ([f10] . (lambda () (interactive) (ver-pdf-no-evince (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
