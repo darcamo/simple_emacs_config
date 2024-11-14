@@ -3878,7 +3878,9 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
       (format "[%d]" count)))
 
   ;; org-roam-title is the face used for the titles in the backlinks buffer
-  (set-face-foreground 'org-roam-title (face-foreground 'org-level-1))
+  ;; (set-face-foreground 'org-roam-title (face-foreground 'org-level-1))
+  (set-face-foreground 'org-roam-title "Yellow")
+  (set-face-attribute 'org-roam-title nil :height 1.3)
 
   :hook
   ;; Add a draft tag to all new notes. The idea is that I should
