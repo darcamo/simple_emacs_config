@@ -1639,6 +1639,7 @@ of the file associated with the current buffer."
   :hook
   (prog-mode . smartparens-mode)
   (markdown-mode . smartparens-mode)
+  (org-mode . smartparens-mode)
   :config
   ;; Stop pairing single quotes in elisp
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
