@@ -3998,6 +3998,8 @@ https://github.com/jgru/consult-org-roam
   )
 #+end_src
 
+** TODO org-roam-ql
+Veja mais sobre ele
 ** Functions to find IDs in all roam files
 *Note*: If IDs are not known and you need to search all org-roam files for IDs, run the
 ~my/org-id-update-org-roam-files~ function.
