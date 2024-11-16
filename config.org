@@ -3376,7 +3376,37 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 ;; Allow expanding "<n" to a "begin_src notes" block
 (add-to-list 'org-structure-template-alist (cons "n" "notes"))
 #+end_src
+
 ** Appearance                                                           :Appearance:
+*** Different link colors depending on link type
+#+begin_src emacs-lisp
+(use-package org
+  :init
+  (defface org-link-id
+    '((t :foreground "Gold"
+         :weight bold
+         :underline t))
+    "Face for Org-Mode links starting with id:."
+    :group 'org-faces)
+
+  (defface org-link-file
+    '((t :foreground "OrangeRed"
+         :weight bold
+         :underline t))
+    "Face for Org-Mode links starting with file:."
+    :group 'org-faces)
+
+  :config
+  (org-link-set-parameters
+   "id"
+   :face 'org-link-id)
+
+  (org-link-set-parameters
+   "file"
+   :face 'org-link-file)
+  )
+#+end_src
+
 *** org-modern
 #+begin_src emacs-lisp
 (use-package org-modern
@@ -3497,6 +3527,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   ;; (org-mode . visual-line-mode)
   )
 #+end_src
+
 *** Org-appear
 Show emphasis markers when cursor is on marked text. The default only shows emphasis
 markers, but not other things like links. This is good enough for me.
@@ -3514,6 +3545,7 @@ This is controlled by the variables
   :hook (org-mode . org-appear-mode)
   )
 #+end_src
+
 ** Specific faces for TODO keywords
 https://www.i3s.unice.fr/~malapert/emacs_orgmode.html
 
@@ -3529,13 +3561,13 @@ Try addapting the example below
         ("SOMEDAY" . (:foreground "LimeGreen" :weight bold))
         ))
 #+end_example
+
 ** all-the-icons-ibuffer                                               :AllTheIcons:
 #+begin_src emacs-lisp
 (use-package all-the-icons-ibuffer
-:ensure t
-:config
-(all-the-icons-ibuffer-mode 1)
-)
+  :ensure t
+  :config
+  (all-the-icons-ibuffer-mode 1))
 #+end_src
 ** COMMENT SVG tag mode
 #+begin_src emacs-lisp
@@ -3630,6 +3662,7 @@ https://nobiot.github.io/org-transclusion/
 (use-package org-present
   :ensure t)
 #+end_src
+
 * org-remark
 Org-remark lets you highlight and annotate any text file with using Org mode.
 
