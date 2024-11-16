@@ -3744,8 +3744,6 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   ;; database to avoid that.
   (org-roam-db-node-include-function (lambda () (not (member "ATTACH" (org-get-tags)))))
 
-  (org-roam-dailies-capture-templates '(("d" "default" entry "* %?" :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n"))))
-
   (org-roam-capture-templates `(
                                 ("d" "default" plain "Criado em %u\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,my--note-title-template)
@@ -3839,7 +3837,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
                                 ("Pe" "Ericsson" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "77acdf6f-19a5-43b0-912f-64616f6aa28b"))
                                 ("Pg" "GTEL" entry "* ${title}\n:PROPERTIES:\n:ID:       %(org-id-new)\n:END:\nCriado em %u\n\n%?" :target (node "b1011fcd-ebb7-48e1-abbd-6ab5d74ac83f"))
 
-                               ("S" "Squish" plain "Criado em %u\n\n- Links :: [[id:9894551a-5732-4d48-ae4c-6bff53083bdf][Squish]]\n\n%?" :if-new
+                                ("S" "Squish" plain "Criado em %u\n\n- Links :: [[id:9894551a-5732-4d48-ae4c-6bff53083bdf][Squish]]\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,(my--get-note-title-template ":Squish:Programação:"))
                                  :unnarrowed t :immediate-finish t)
                                 ))
@@ -3854,15 +3852,14 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
                  (window-height . fit-window-to-buffer)))
   :bind (([f6] . org-roam-node-find)
          ("C-c n f" . org-roam-node-find)
-         ("C-c n j" . org-roam-dailies-goto-today)
          ("C-c n c" . org-roam-capture)
-         ("C-c n d" . org-roam-dailies-goto-date)
          :map org-mode-map
          ("C-c n l" . org-roam-buffer-toggle)
          ("C-c n i" . org-roam-node-insert)
-         ;; ("C-c n j" . org-roam-dailies-capture-today)
          ("C-c n t a" . org-roam-tag-add)
-         ("C-c n t r" . org-roam-tag-remove))
+         ("C-c n t r" . org-roam-tag-remove)
+         )
+
   :config
   ;; I add the "category" tag to notes that I use to group related notes.
   (add-to-list 'org-tags-exclude-from-inheritance "category")
@@ -3885,6 +3882,31 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   (set-face-attribute 'org-roam-title nil :height 1.3)
   )
 
+(use-package org-roam-dailies
+  :custom
+  ;;                                                              Time
+  ;; (org-roam-dailies-capture-templates '(("d" "default" entry "* %<%I:%M %p>: %?" :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n"))))
+  (org-roam-dailies-capture-templates '(("d" "default" entry "* %<%I:%M %p>: %?"
+                                         :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n"))))
+  :bind (
+         ("C-c n j" . org-roam-dailies-goto-today)
+         ("C-c n g" . org-roam-dailies-goto-date)
+         ;; ("C-c n j" . org-roam-dailies-capture-today)
+         ;; To learn more about org-roam dailies, see
+         ;; https://systemcrafters.net/build-a-second-brain-in-emacs/keep-a-journal/
+         :map org-roam-dailies-map
+         ;; Note that "y" and "t" are already in org-roam-dailies-map
+         ;; as "go to yesterday/tomorrow". Here we are adding the "Y"
+         ;; and "T" for the capture version of the commands. This is
+         ;; useful for writing concluding thoughts for the previous
+         ;; day or leaving notes for yourself for tomorrow!
+         ("Y" . org-roam-dailies-capture-yesterday)
+         ("T" . org-roam-dailies-capture-tomorrow)
+         )
+
+  :bind-keymap
+  ("C-c n d" . org-roam-dailies-map)
+  )
 
 (defun my-orb-action-copy-pdf-location-to-killring (citekey)
   (let ((key (car citekey)))
