@@ -5315,10 +5315,14 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 #+end_src
 
 ** Ninja Mode
+Note: =ninja-mode= was previously included in the [[https://github.com/ninja-build/ninja/commits/master/][ninja repository]], but on [2024-11-11 Mon]
+it was moved to its [[https://github.com/ninja-build/ninja-emacs/issues][own repository]]. Because of that, just =use-package ninja-mode= with
+=:ensure t= was not working anymore and I had to specify the new repository and even the
+main file.
 #+begin_src emacs-lisp
 (use-package ninja-mode
-  :defer t
-  :ensure t)
+  :ensure (ninja-emacs :type git :host github :repo "ninja-build/ninja-emacs" :main "ninja-mode.el")
+  :defer t)
 #+end_src
 
 ** Help find file at point and ff-find-other-file find include files
