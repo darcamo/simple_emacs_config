@@ -99,6 +99,8 @@ Good themes:
   (isearch ((t (:background "#c60" :foreground "#eee"))))
   (fringe ((t (:foreground "goldenrod"))))
   (org-todo ((t (:foreground "tomato"))))
+  (bold ((t (:foreground "OrangeRed"))))
+  (italic ((t (:foreground "Orange"))))
   )
 
 
