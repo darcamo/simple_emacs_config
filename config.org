@@ -19,9 +19,6 @@ TODO: Emacs 30 use-package now has a =:vc= keyword to install packages from git.
       back to standard package manager in Emacs? Once you use it (instead of elpaca), you
       can use =package-vc-upgrade-all= to update VC installed packages.
 
-
-https://www.rousette.org.uk/archives/emacs-from-scratch-again/
-
 TODO: Use ~dired-hide-details-mode~
 
 TODO: Check superword-mode
@@ -224,7 +221,13 @@ https://github.com/dbordak/telephone-line
 (setq ido-enable-flex-matching t)
 (fido-mode)
 #+end_src
-
+** imenu
+#+begin_src emacs-lisp
+(use-package emacs
+  :ensure nil
+  :custom
+  (imenu-flatten 'group))
+#+end_src
 ** Vertico and orderless                                         :Orderless:Vertico:
 Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 *** Basic configuration
