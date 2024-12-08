@@ -5173,8 +5173,12 @@ In each language configuration what needs to use apheleia for formatting, you mi
 entry to =apheleia-formatters= and =apheleia-mode-alist=.
 * C++                                                               :CPP:Programming:
 Note: Use =C-c C-k= to toggle between line comments and block comments.
-
-** Doxygen with tree-sitter
+** Doxygen                                                                 :doxygen:
+*** Use conf-mode in Doxyfile
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("Doxyfile" . conf-mode))
+#+end_src
+*** Doxygen with tree-sitter
 Enable doxygen syntax highlighting using tree-sitter.
 
 YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
