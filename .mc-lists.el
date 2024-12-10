@@ -34,10 +34,12 @@
         markdown-outdent-or-delete
         nxml-electric-slash
         org-beginning-of-line
+        org-cycle
         org-emphasize
         org-end-of-line
         org-force-self-insert
         org-meta-return
+        org-metaright
         org-self-insert-command
         org-set-tags-command
         org-yank
