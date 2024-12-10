@@ -3848,13 +3848,16 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
 
                                 ("g" "GTEL")
                                 ("gg" "GTEL" plain "Criado em %u\n\n- Links :: [[id:ae896e12-b884-4de9-84ba-5b794b5878d5][GTEL]]\n\n%?" :if-new
-                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:IAB:5G:"))
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:"))
                                  :unnarrowed t :immediate-finish t)
                                 ("gi" "IAB" plain "Criado em %u\n\n- Links :: [[id:0878fa71-2454-4d2d-a63f-8327a8a70681][IAB]]\n\n%?" :if-new
-                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:IAB:5G:"))
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:IAB:"))
                                  :unnarrowed t :immediate-finish t)
-                                ("gn" "NCR" plain "Criado em %u\n\n- Links :: [[id:06bb82e9-6eb6-4e32-a953-f08adf08d428][NCR]]\n\n%?" :if-new
-                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:NCR:5G:"))
+                                ("gN" "NCR" plain "Criado em %u\n\n- Links :: [[id:06bb82e9-6eb6-4e32-a953-f08adf08d428][NCR]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:NCR:"))
+                                 :unnarrowed t :immediate-finish t)
+                                 ("gn" "NTN" plain "Criado em %u\n\n- Links :: [[id:49bcec38-0a18-47d6-8bde-102587d6fcad][NTN]]\n\n%?" :if-new
+                                 (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:NTN:"))
                                  :unnarrowed t :immediate-finish t)
 
                                 ("p" "Programação")
