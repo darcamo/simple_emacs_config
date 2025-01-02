@@ -3927,7 +3927,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   :custom
   ;;                                                              Time
   ;; (org-roam-dailies-capture-templates '(("d" "default" entry "* %<%I:%M %p>: %?" :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n"))))
-  (org-roam-dailies-capture-templates '(("d" "default" entry "* %<%I:%M %p>: %?"
+  (org-roam-dailies-capture-templates '(("d" "default" entry "* %<%H:%M %p>: %?"
                                          :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n"))))
   :bind (
          ("C-c n j" . org-roam-dailies-goto-today)
