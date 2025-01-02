@@ -16,6 +16,7 @@
         c-electric-star
         c-indent-line-or-region
         c-scope-operator
+        capitalize-region
         comment-dwim-2
         complete-symbol
         consult-yank-pop
