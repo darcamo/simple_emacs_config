@@ -5215,7 +5215,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   '(
     ([M-f9] . cmake-integration-save-and-compile)
     ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
-    ([C-f9] . cmake-integration-save-and-compile-single-file)
+    ([C-f9] . cmake-integration-run-ctest)
     ([f10] . cmake-integration-run-last-target)
     ([S-f10] . kill-compilation)
     ([C-f10] . cmake-integration-debug-last-target)
@@ -5402,7 +5402,7 @@ You can use the code below for that.
           ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
           ([f10] . cmake-integration-run-last-target)
           ([M-f10] . cmake-integration-run-last-target-with-arguments)
-          ([C-f9] . cmake-integration-save-and-compile-single-file)  ;; Compile only the current source file
+          ([C-f9] . cmake-integration-run-ctest)  ;; Compile only the current source file
           ([M-f10] . qml-integration-choose-qml-style)
           ([C-f10] . qml-integration-run-qmlscene)
           ([S-f10] . qml-integration-run-qmltestrunner)
