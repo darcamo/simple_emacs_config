@@ -73,7 +73,7 @@ used for the first time they should be "configured".
 #+end_src
 
 * Set the theme and apearance                                            :Appearance:
-** Theme                                                                :Theme:font:
+** Theme                                                                 :Theme:font:
 Good themes:
 - wombat (nativo)
 - doom opera
@@ -144,7 +144,7 @@ Good themes:
 (setq-default indicate-buffer-boundaries 'left)
 #+end_src
 
-** Enable tab-bar-mode                                                      :TabBar:
+** Enable tab-bar-mode                                                       :TabBar:
 Alternate between tabs with C-<tab>
 #+begin_src emacs-lisp
 (use-package tab-bar
@@ -214,8 +214,8 @@ displaying correctly, call =nerd-icons-install-fonts= to install the fonts.
 Alternative modeline similar to powerline
 
 https://github.com/dbordak/telephone-line
-* Completion framework [0/2]                                             :Completion:
-** COMMENT Ido Mode                                                        :IdoMode:
+* Completion framework [0/2]                                      :Completion:
+** COMMENT Ido Mode                                                         :IdoMode:
 #+begin_src emacs-lisp
 (ido-mode 1)
 (ido-everywhere)
@@ -231,7 +231,7 @@ https://github.com/dbordak/telephone-line
   (imenu-flatten 'group))
 #+end_src
 
-** Vertico and orderless                                         :Orderless:Vertico:
+** Vertico and orderless                                          :Orderless:Vertico:
 Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 *** Basic configuration
 #+begin_src emacs-lisp
@@ -338,7 +338,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   (vertico-mouse-mode))
 #+end_src
 
-** Marginalia                                                           :Marginalia:
+** Marginalia                                                            :Marginalia:
 #+begin_src emacs-lisp
 (use-package marginalia
   :ensure t
@@ -355,7 +355,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   (marginalia-mode))
 #+end_src
 
-** all-the-icons-completion                                            :AllTheIcons:
+** all-the-icons-completion                                             :AllTheIcons:
 #+begin_src emacs-lisp
 (use-package all-the-icons-completion
 :ensure t
@@ -367,7 +367,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 )
 #+end_src
 
-** Consult                                                     :Keybindings:Consult:
+** Consult                                                      :Keybindings:Consult:
 
 Use "M-x" e digite "^consult" para ver os diversos comandos.
 
@@ -500,7 +500,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
   )
 #+end_src
 
-** Consult-dir                                                             :Consult:
+** Consult-dir                                                              :Consult:
 #+begin_src emacs-lisp
 (use-package consult-dir
   :ensure t
@@ -511,7 +511,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
          ))
 #+end_src
 
-** COMMENT Consult-project                                                 :Consult:
+** COMMENT Consult-project                                                  :Consult:
 #+begin_src emacs-lisp
 (use-package consult-project
   :ensure (consult-project :type git :host github :repo "Qkessler/consult-project")
@@ -520,7 +520,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
   )
 #+end_src
 
-** consult-jump-project                                                    :Consult:
+** consult-jump-project                                                     :Consult:
 Quickly jump between projects, their files and buffers with consult.
 
 #+begin_src emacs-lisp
@@ -530,11 +530,11 @@ Quickly jump between projects, their files and buffers with consult.
   )
 #+end_src
 
-** Other useful consult commands                                           :Consult:
+** Other useful consult commands                                            :Consult:
 - consult-minor-mode-men
   - Filter the groups with "g", "i", "l" and "o"
 
-** Embark                                                       :Keybindings:Embark:
+** Embark                                                        :Keybindings:Embark:
 Note: During a prefix key (e.g. =C-x=, =C-c=, etc) you can use =C-h= to see all possible
 completions for that prefix key. This is nicer than which key because you can use search.
 
@@ -585,7 +585,7 @@ action is performed (you will still be in the minibuffer)
   (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 
-** Corfu                                                                     :Corfu:
+** Corfu                                                                      :Corfu:
 #+begin_src emacs-lisp
 (use-package corfu
   :ensure t
@@ -645,7 +645,7 @@ action is performed (you will still be in the minibuffer)
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
 
-** Acronyms                                                         :Acronym:abbrev:
+** Acronyms                                                          :Acronym:abbrev:
 Code to define many acronymms that I use
 #+begin_src emacs-lisp
 
@@ -828,7 +828,7 @@ Code to define many acronymms that I use
   )
 #+end_src
 
-** Yasnippets                                                           :Yasnippets:
+** Yasnippets                                                            :Yasnippets:
 *** Config
 Veja aqui
 https://github.com/MatthewZMD/.emacs.d#yasnippet-1
@@ -1502,7 +1502,7 @@ of the file associated with the current buffer."
 )
 #+end_src
 
-** Keybindigns                                                         :Keybindings:
+** Keybindigns                                                          :Keybindings:
 #+begin_src emacs-lisp
 (use-package emacs
   :ensure nil
@@ -1540,7 +1540,7 @@ of the file associated with the current buffer."
 ;; (global-set-key (kbd "M-I") 'imenu)  ;; Use Alt+Shift+i for standard imenu
 #+end_src
 
-** Extra packages                                                      :Keybindings:
+** Extra packages                                                       :Keybindings:
 #+begin_src emacs-lisp
 (use-package diminish
  :ensure t)
@@ -1678,7 +1678,7 @@ of the file associated with the current buffer."
   )
 #+end_src
 
-** ace window: Easily jump to any window with "C-x o"                          :Ace:
+** ace window: Easily jump to any window with "C-x o"                           :Ace:
 Replace the standard ~other-window~ (=C-x o=) function with ace-window.
 
 Note that with a prefix argument (=C-u=) ace-window swaps to current and the other window.
@@ -1707,7 +1707,7 @@ o - maximize current window
   )
 #+end_src
 
-** Find-file-at-point                                                         :ffap:
+** Find-file-at-point                                                          :ffap:
 Replace regular find-file and related functions with ffap versions
 #+begin_src emacs-lisp
 (use-package ffap
@@ -1716,7 +1716,7 @@ Replace regular find-file and related functions with ffap versions
   )
 #+end_src
 
-*** Disable ffap bindings in dired-mode buffers                              :Dired:
+*** Disable ffap bindings in dired-mode buffers                               :Dired:
 Getting the file name at point is problematic in dired buffers, since it requires me to
 delete the text in order to use the completion system to open a file.
 #+begin_src emacs-lisp
@@ -1729,7 +1729,7 @@ delete the text in order to use the completion system to open a file.
   )
 #+end_src
 
-** sudo-edit                                                                  :sudo:
+** sudo-edit                                                                   :sudo:
 #+begin_src emacs-lisp
 (use-package sudo-edit
   :ensure t
@@ -1831,7 +1831,7 @@ https://github.com/Artawower/file-info.el
 #+end_src
 
 * Version control
-** Magit                                                                     :Magit:
+** Magit                                                                      :Magit:
 #+begin_src emacs-lisp
 (use-package transient
   :ensure (transient :type git :host github :repo "magit/transient")
@@ -1899,7 +1899,7 @@ https://github.com/Artawower/file-info.el
   )
 #+end_src
 
-** magit-todos                                                       :Magit:
+** magit-todos                                                                :Magit:
 #+begin_src emacs-lisp
 (use-package magit-todos
   :ensure t
@@ -2003,7 +2003,7 @@ There is also lsp-grammarly, but it requires an account.
   )
 #+end_src
 
-** Keybindings                                                         :Keybindings:
+** Keybindings                                                          :Keybindings:
 #+begin_src emacs-lisp
 (use-package emacs
   :ensure nil
@@ -2269,7 +2269,7 @@ There is also lsp-grammarly, but it requires an account.
     (unfill-paragraph)))
 #+end_src
 
-*** Keybindings                                                        :Keybindings:
+*** Keybindings                                                         :Keybindings:
 #+begin_src emacs-lisp
 ;; Local Keybinding
 (defun my-org-at-citation-p ()
@@ -2339,7 +2339,7 @@ There is also lsp-grammarly, but it requires an account.
   )
 #+end_src
 
-** Agenda                                                                   :Agenda:
+** Agenda                                                                    :Agenda:
 *** Config
 #+begin_src emacs-lisp
 ;; My agenda super-agenda groups -> Used in my custom command to show the agenda
@@ -2572,7 +2572,7 @@ There is also lsp-grammarly, but it requires an account.
   ;;   )
 #+end_src
 
-** Babel                                                                     :Babel:
+** Babel                                                                      :Babel:
 #+begin_src emacs-lisp
 (use-package org
   :defer t
@@ -2630,7 +2630,7 @@ There is also lsp-grammarly, but it requires an account.
   )
 #+end_src
 
-** Capture                                                                 :Capture:
+** Capture                                                                  :Capture:
 *** Config
 #+begin_src emacs-lisp
 (setq my-financas-table-line-template "| | %^{Nome do gasto} | %^u | %^{Valor no débito} | %^{Valor no cartão} |")
@@ -3073,7 +3073,7 @@ reveal."
   )
 #+end_src
 
-*** Keybindings                                                        :Keybindings:
+*** Keybindings                                                         :Keybindings:
 #+begin_src emacs-lisp
 (use-package org
   :defer t
@@ -3093,7 +3093,7 @@ reveal."
 )
 #+end_src
 
-*** Jira                                                                      :Jira:
+*** Jira                                                                       :Jira:
 #+begin_src emacs-lisp
 (use-package ox-jira
   :ensure t
@@ -3373,7 +3373,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 
 #+end_src
 
-** Keybindings                                                         :Keybindings:
+** Keybindings                                                          :Keybindings:
 #+begin_src emacs-lisp
 (use-package org
   :defer t
@@ -3394,7 +3394,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 (add-to-list 'org-structure-template-alist (cons "n" "notes"))
 #+end_src
 
-** Appearance                                                           :Appearance:
+** Appearance                                                            :Appearance:
 *** Different link colors depending on link type
 #+begin_src emacs-lisp
 (use-package org
@@ -3579,7 +3579,7 @@ Try addapting the example below
         ))
 #+end_example
 
-** all-the-icons-ibuffer                                               :AllTheIcons:
+** all-the-icons-ibuffer                                                :AllTheIcons:
 #+begin_src emacs-lisp
 (use-package all-the-icons-ibuffer
   :ensure t
@@ -4362,7 +4362,7 @@ back to the org file.
  )
 #+end_src
 
-** Handle ansi colors in compilation buffer                            :Compilation:
+** Handle ansi colors in compilation buffer                             :Compilation:
 #+begin_src emacs-lisp
 (use-package emacs
   :ensure nil
@@ -4394,7 +4394,7 @@ back to the org file.
   )
 #+end_src
 
-** Popper-mode                                                         :Compilation:
+** Popper-mode                                                          :Compilation:
 
 To set which buffers should be a popup, see the =popper-reference-buffers= varaible.
 
@@ -4441,7 +4441,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
   )
 #+end_src
 
-** COMMENT Compilation buffer always at the bottom                     :Compilation:
+** COMMENT Compilation buffer always at the bottom                      :Compilation:
 #+begin_src emacs-lisp
 ;; display-buffer-at-bottom
 (add-to-list 'display-buffer-alist
@@ -4451,7 +4451,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
 #+end_src
 
 ** Syntax check
-*** COMMENT Flycheck                                                      :Flycheck:
+*** COMMENT Flycheck                                                       :Flycheck:
 https://www.flycheck.org/en/latest/index.html
 
 #+begin_src emacs-lisp
@@ -4466,7 +4466,7 @@ https://www.flycheck.org/en/latest/index.html
   )
 #+end_src
 
-*** Flymake                                                                :Flymake:
+*** Flymake                                                                 :Flymake:
 **** General Configuration
 #+begin_src emacs-lisp
 (use-package flymake
@@ -4631,14 +4631,14 @@ You need to innstall =yamllint= using your OS package manager
   (save-place-mode 1))
 #+end_src
 
-** COMMENT Integration with org (create org-links)                         :OrgMode:
+** COMMENT Integration with org (create org-links)                          :OrgMode:
 #+begin_src emacs-lisp
 (use-package org-pdftools
   :ensure t
   :hook (org-mode . org-pdftools-setup-link))
 #+end_src
 
-** Keybindings                                                         :Keybindings:
+** Keybindings                                                          :Keybindings:
 #+begin_src emacs-lisp
 (use-package pdf-view
   :defer t
@@ -4733,7 +4733,7 @@ You need to innstall =yamllint= using your OS package manager
   )
 #+end_src
 
-** Icons in dired                                                      :AllTheIcons:
+** Icons in dired                                                       :AllTheIcons:
 #+begin_src emacs-lisp
 ;; ;; Use the nice icons from treemacs in dired buffers
 ;; (use-package treemacs-icons-dired
@@ -4914,7 +4914,7 @@ Configuration specific to a language should be in that language configuration he
   )
 #+end_src
 
-** Consult-LSP                                                         :Consult:LSP:
+** Consult-LSP                                                          :Consult:LSP:
 #+begin_src emacs-lisp
 (use-package consult-lsp
   :ensure t
@@ -4935,7 +4935,7 @@ Configuration specific to a language should be in that language configuration he
   )
 #+end_src
 
-** LSP-UI                                                                      :LSP:
+** LSP-UI                                                                       :LSP:
 #+begin_src emacs-lisp
 (use-package lsp-ui
   :ensure t
@@ -5013,7 +5013,7 @@ To add support to more server, see the =eglot-server-programs= variable.
 : (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
 : (define-key eglot-mode-map (kbd "C-c h") 'eldoc)
 : (define-key eglot-mode-map (kbd "<f6>") 'xref-find-definitions)
-** Consult-Eglot                                                     :Consult:Eglot:
+** Consult-Eglot                                                      :Consult:Eglot:
 #+begin_src emacs-lisp
 (use-package consult-eglot
   :ensure t
@@ -5046,7 +5046,7 @@ Set ~gdb-debuginfod-enable-setting~ to nil
   )
 #+end_src
 
-** COMMENT dap-mode -> Debugger Adapter Protocol                         :LSP:debug:
+** COMMENT dap-mode -> Debugger Adapter Protocol                          :LSP:debug:
 For c++ see [[*Dap-debug (C++)][Dap-debug (C++)]]
 For Python see [[*Dap-debug (Python)][Dap-debug (Python)]]
 
@@ -5153,7 +5153,7 @@ Set a buffer to read-only when this minor mode is active
 
 #+end_src
 
-** Dape mode                                                                 :debug:
+** Dape mode                                                                  :debug:
 Note: Here I'm onnly keepinng genenral configuration for dape.
 
 For C++ configuration see [[*Dape C++ - Debug protocol][Dape C++ - Debug protocol]]
@@ -5222,7 +5222,7 @@ In each language configuration what needs to use apheleia for formatting, you mi
 entry to =apheleia-formatters= and =apheleia-mode-alist=.
 * C++                                                               :CPP:Programming:
 Note: Use =C-c C-k= to toggle between line comments and block comments.
-** Doxygen                                                                 :doxygen:
+** Doxygen                                                                  :doxygen:
 *** Use conf-mode in Doxyfile
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("Doxyfile" . conf-mode))
@@ -5340,7 +5340,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 ;; c-c++-lsp-enable-semantic-highlight nil
 #+end_src
 
-** Change eglot-server-program to configure clangd                    :Eglot:clangd:
+** Change eglot-server-program to configure clangd                     :Eglot:clangd:
 #+begin_src emacs-lisp
 ;; https://www.reddit.com/r/emacs/comments/18eeu1f/configure_clangd_in_eglot_to_not_add_headers/
 (use-package eglot
@@ -5469,7 +5469,7 @@ You can use the code below for that.
   )
 #+end_src
 
-*** Detect filename in compilation-mode for qmltestrunner errors       :Compilation:
+*** Detect filename in compilation-mode for qmltestrunner errors        :Compilation:
 #+begin_src emacs-lisp
 (use-package compile
   :config
@@ -5481,7 +5481,7 @@ You can use the code below for that.
   )
 #+end_src
 
-*** Formatting QML buffers with apheleia                              :QML:apheleia:
+*** Formatting QML buffers with apheleia                               :QML:apheleia:
 #+begin_src elisp
 (use-package qml-mode
   :after apheleia
@@ -5528,7 +5528,7 @@ You can use the code below for that.
 
 Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting processes with emacs]]
 - This could be used to start the squish server
-*** Add qmlls to eglot-server-programs                                      :Eglot:
+*** Add qmlls to eglot-server-programs                                        :Eglot:
 #+begin_src emacs-lisp
 (use-package eglot
   :config
@@ -5561,7 +5561,7 @@ Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting process
                               (cmake-integration-keybindings))))))
 #+end_src
 
-** COMMENT Dap-debug (C++) - Debug Protocol                                  :debug:
+** COMMENT Dap-debug (C++) - Debug Protocol                                   :debug:
 There are two alternatives for using dap-debug with c++:
 - [[https://emacs-lsp.github.io/dap-mode/page/configuration/#lldb][LLDB]] -> use ~(require 'dap-lldb)~
 - [[https://emacs-lsp.github.io/dap-mode/page/configuration/#vscode-cpptools][vscode-cpptools]] -> use ~(require 'dap-cpptools)~
@@ -5581,7 +5581,7 @@ it is running ~dap-debug-edit-template~ to configure the template before running
 
 To use the debugger, run ~dap-debug-edit-template~, edit the template and evaluate it.
 
-** Dape C++ - Debug protocol                                                 :debug:
+** Dape C++ - Debug protocol                                                  :debug:
 Note: You need to install =cpptools= extension. See [[https://github.com/svaante/dape#c-and-c---cppdbg][here]] for instructions. In summary, just
 download a [[https://github.com/microsoft/vscode-cpptools/releases][release]], and unpack the =vsix= file, Then =chmod +x
 debugAdapters/bin/OpenDebugAD7=.
@@ -5608,7 +5608,7 @@ debugAdapters/bin/OpenDebugAD7=.
   )
 #+end_src
 
-** TODO Other packages to investigate                                  :Investigate:
+** TODO Other packages to investigate                                 :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
 * Python                                                         :Programming:Python:
@@ -5728,7 +5728,7 @@ completion).
   )
 #+end_src
 
-** Anaconda support                                                       :Anaconda:
+** Anaconda support                                                        :Anaconda:
 #+begin_src emacs-lisp
 (use-package conda
   :ensure t
@@ -5765,8 +5765,8 @@ completion).
   :hook ((python-base-mode . pyvenv-auto-run)))
 #+end_src
 
-** pyright as language server                                                  :LSP:
-*** COMMENT LSP                                                                :LSP:
+** pyright as language server                                                   :LSP:
+*** COMMENT LSP                                                                 :LSP:
 Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
 (use-package lsp-pyright
@@ -5778,7 +5778,7 @@ Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 ;;   :ensure t)
 #+end_src
 
-*** Eglot                                                                    :Eglot:
+*** Eglot                                                                     :Eglot:
 #+begin_src emacs-lisp
 (use-package eglot
   :config
@@ -5795,7 +5795,7 @@ report which dependencies are installed was a bit of a hassle, but I think my fa
 solution so far has been to configure the virtual environment through the
 pyrightconfig.json file at the root of my project, and just have this file ignored by git.
 #+end_quote
-** Ruff                                                                       :Ruff:
+** Ruff                                                                        :Ruff:
 Ruff provides:
 - linting
 - formatting
@@ -5841,7 +5841,7 @@ not accessed" notes, add the following:
 (advice-add 'eglot--report-to-flymake :filter-args #'my-filter-eglot-diagnostics)
 #+end_src
 
-*** COMMENT LSP                                                                :LSP:
+*** COMMENT LSP                                                                 :LSP:
 
 #+begin_src emacs-lisp
 (use-package eglot
@@ -5861,7 +5861,7 @@ not accessed" notes, add the following:
           ))
 #+end_src
 
-** COMMENT Dap-debug (Python)                                                :debug:
+** COMMENT Dap-debug (Python)                                                 :debug:
 +You need to install ~ptvsd>=4.2~ in your virtual environment+
 
 You need to install ~debugpy~ in your virtual environment
@@ -5874,7 +5874,7 @@ You need to install ~debugpy~ in your virtual environment
   )
 #+end_src
 
-** Dape Python - Debug Protocol                                              :debug:
+** Dape Python - Debug Protocol                                               :debug:
 Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] in your python environment. Then running =dape= should be enough.
 
 ** code-cells-mode
@@ -6127,7 +6127,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
   )
 #+end_src
 
-** Auctex General config                                                    :auctex:
+** Auctex General config                                                     :auctex:
 #+begin_src emacs-lisp
 (use-package latex
   :demand t ;; Prevent the automatic deferred loading introduced by
@@ -6356,7 +6356,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
       )
 #+end_src
 
-** LSP for Latex                                                               :LSP:
+** LSP for Latex                                                                :LSP:
 #+begin_src emacs-lisp
 (use-package lsp-latex
   ;; NOTE: You need to install texlab for LSP to work with latex
@@ -6375,7 +6375,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
 
 ** TODO Tectonic
 Investigate the use of lsp and latex with the [[https://github.com/tectonic-typesetting/tectonic][Tectonic]] engine
-** Beamer                                                                   :Beamer:
+** Beamer                                                                    :Beamer:
 #+begin_src emacs-lisp
 (define-derived-mode beamer-mode
   LaTeX-mode "Beamer-Mode" "A derived mode from LaTeX-mode for latex buffers with beamer presentations."
@@ -6840,7 +6840,7 @@ Layer darcamo-preview-latex
 ;;   )
 #+end_src
 
-* TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
+* TODO References: Bibtex, bibtex-completions, org-ref [0/3]    :References:
 Veja a nota [[file:~/org/org-roam-notes/20210305171627-leituras_de_papers_e_outros_documentos.org][Leituras de papers e outros documentos]]
 
 ** Set my default bibliograph folder and files (used by native org-cite)
@@ -6857,7 +6857,7 @@ You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
   )
 #+end_src
 
-** Bibtex                                                                   :Bibtex:
+** Bibtex                                                                    :Bibtex:
 #+begin_src emacs-lisp
 (use-package bibtex
   :defer t
@@ -6904,10 +6904,10 @@ These commands work together: for example, =crossref-lookup= displays a list of 
   )
 #+end_src
 
-** TODO Bibtex-completions                                             :Investigate:
+** TODO Bibtex-completions                                              :Investigate:
 Used by org-roam-bibtex
 
-** TODO Org-ref or citar [0/1]                :AllTheIcons:Citar:Investigate:OrgRef:
+** TODO Org-ref or citar [0/1]                 :AllTheIcons:Citar:Investigate:OrgRef:
 NOTE:
 - citar uses two caches to speed up library display; one for the global bibliography, and
   another for local files specific to a buffer. This is great for performance, but means
@@ -6976,7 +6976,7 @@ Some useful keybindings
 *** TODO Configure note support in citar (integrated with org-roam)
 https://github.com/bdarcus/citar#notes
 
-** TODO Org-noter                                             :Investigate:OrgNoter:
+** TODO Org-noter                                            :Investigate:OrgNoter:
 * Mail with mu4e                                                          :Mail:mu4e:
 Note: =C-c C-p= in message mode takes a screenshot and attach to the e-mail
 
@@ -7034,7 +7034,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 ;;        ))))
 #+end_src
 
-** Common email config and some helper functions                               :epa:
+** Common email config and some helper functions                                :epa:
 #+begin_src emacs-lisp
 ;; The my-define-mail-variables function just define some variables
 ;; that are used in the rest of the mu4e configuration
@@ -7289,7 +7289,7 @@ See more in https://github.com/chenyanming/calibredb.el
 - TIP: To add a file to the library use =calibredb-add=
   - After that use "=s f=" to fetch the metadata.
 
-** configuration                                                       :AllTheIcons:
+** configuration                                                        :AllTheIcons:
 #+begin_src emacs-lisp
 (use-package calibredb
   :ensure t
