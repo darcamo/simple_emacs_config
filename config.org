@@ -4592,6 +4592,13 @@ You need to innstall =yamllint= using your OS package manager
   ("\\.pdf" . pdf-view-mode)
   )
 #+end_src
+** Restore page in the PDF on next visit - saveplace-pdf-view
+#+begin_src emacs-lisp
+(use-package saveplace-pdf-view
+  :ensure t
+  :config
+  (save-place-mode 1))
+#+end_src
 
 ** COMMENT Integration with org (create org-links)                         :OrgMode:
 #+begin_src emacs-lisp
