@@ -71,6 +71,7 @@ used for the first time they should be "configured".
 (setq exec-path (append exec-path '("~/.local/bin")))
 (setenv "LD_LIBRARY_PATH" "$SQUISH_DIR/lib:$LD_LIBRARY_PATH" t)
 #+end_src
+
 * Set the theme and apearance                                            :Appearance:
 ** Theme                                                                :Theme:font:
 Good themes:
@@ -221,6 +222,7 @@ https://github.com/dbordak/telephone-line
 (setq ido-enable-flex-matching t)
 (fido-mode)
 #+end_src
+
 ** imenu
 #+begin_src emacs-lisp
 (use-package emacs
@@ -228,6 +230,7 @@ https://github.com/dbordak/telephone-line
   :custom
   (imenu-flatten 'group))
 #+end_src
+
 ** Vertico and orderless                                         :Orderless:Vertico:
 Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 *** Basic configuration
@@ -363,6 +366,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 ;; (marginalia-mode . all-the-icons-completion-marginalia-setup)
 )
 #+end_src
+
 ** Consult                                                     :Keybindings:Consult:
 
 Use "M-x" e digite "^consult" para ver os diversos comandos.
@@ -495,6 +499,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
   ;; (setq consult-project-function nil)
   )
 #+end_src
+
 ** Consult-dir                                                             :Consult:
 #+begin_src emacs-lisp
 (use-package consult-dir
@@ -524,6 +529,7 @@ Quickly jump between projects, their files and buffers with consult.
   :bind ("C-x p p" . consult-jump-project)
   )
 #+end_src
+
 ** Other useful consult commands                                           :Consult:
 - consult-minor-mode-men
   - Filter the groups with "g", "i", "l" and "o"
@@ -1800,6 +1806,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
   :bind ("C-x x o" . olivetti-mode)
   )
 #+end_src
+
 ** TODO turbo-log
 Check https://github.com/Artawower/turbo-log
 
@@ -1891,6 +1898,7 @@ https://github.com/Artawower/file-info.el
   ;; (global-blamer-mode 1)
   )
 #+end_src
+
 ** magit-todos                                                       :Magit:
 #+begin_src emacs-lisp
 (use-package magit-todos
@@ -1921,6 +1929,7 @@ https://github.com/Artawower/file-info.el
    ))
   )
 #+end_src
+
 * Spell and grammar checking                                          :SpellChecking:
 ** Spell checking config
 #+begin_src emacs-lisp
@@ -1959,6 +1968,7 @@ https://github.com/Artawower/file-info.el
 (add-to-list 'ispell-skip-region-alist '("\\\\begin{equation}" . "\\\\end{equation}"))
 (add-to-list 'ispell-skip-region-alist '("\\\\begin{align}" . "\\\\end{align}"))
 #+end_src
+
 ** Gramar checking config
 See [[https://languagetool.org/pt-BR/premium][languagetool]] and the flycheck-languagetool package.
 
@@ -2561,6 +2571,7 @@ There is also lsp-grammarly, but it requires an account.
   ;;   (org-ctrl-c-ctrl-c) (org-babel-next-src-block)
   ;;   )
 #+end_src
+
 ** Babel                                                                     :Babel:
 #+begin_src emacs-lisp
 (use-package org
@@ -3091,6 +3102,7 @@ reveal."
   (add-to-list 'org-export-backends 'jira) ;; This will load ox-jira on demand
   )
 #+end_src
+
 *** COMMENT Use highlightjs for code blocks
 See https://emacs.stackexchange.com/questions/9832/how-to-insert-the-content-of-a-org-modes-code-block-inside-precode-tags-whe
 
@@ -3574,6 +3586,7 @@ Try addapting the example below
   :config
   (all-the-icons-ibuffer-mode 1))
 #+end_src
+
 ** COMMENT SVG tag mode
 #+begin_src emacs-lisp
 (use-package svg-tag-mode
@@ -3713,6 +3726,7 @@ This package is not in melpa yet.
   (org-remark-global-tracking-mode)
   )
 #+end_src
+
 * COMMENT org-reveal
 
 Parece que o org-reveal não é mais mantido e não está mais funcionando.
@@ -3729,6 +3743,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   (add-to-list 'org-export-backends 'reveal) ;; This will load ox-reveal on demand
   )
 #+end_src
+
 * org-re-reveal
 #+begin_src emacs-lisp
 (use-package org-re-reveal
@@ -3746,6 +3761,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   (org-re-reveal-plugins '(markdown notes search zoom highlight math))
 )
 #+end_src
+
 * Org-roam                                                                  :OrgRoam:
 ** Configuration
 #+begin_src emacs-lisp
@@ -4107,6 +4123,7 @@ nodes with redirection so you can refactor notes without leaving broken links.
   (set-face-attribute 'markdown-header-face-3 nil :underline t)
   )
 #+end_src
+
 ** COMMENT Flymake support
 Note: You need to install the =markdownlint= package in the system.
 - The name of the executable is =mdl=.
@@ -4121,6 +4138,7 @@ Note: You need to install the =markdownlint= package in the system.
   (flymake-markdownlint-program "mdl")
   )
 #+end_src
+
 ** Formatting
 Check the https://github.com/executablebooks/mdformat (system) package and how to
 configure it with apheleia
@@ -4152,6 +4170,7 @@ Call the command =markdown-toc-generate-toc= and a TOC will be inserted in the c
   :commands markdown-toc-generate-toc
   )
 #+end_src
+
 ** Preview using Guthub README preview
 Check the https://github.com/seagle0128/grip-mode package
 
@@ -4218,6 +4237,7 @@ This is an association list of regexp and major mode function. If the page URL m
   (org-mode . visual-fill-column-mode)
   )
 #+end_src
+
 * Outline
 #+begin_src emacs-lisp
 (use-package outline
@@ -4328,6 +4348,7 @@ back to the org file.
   :hook
   (prog-mode . display-line-numbers-mode))
 #+end_src
+
 ** Some pretty symbols
 #+begin_src emacs-lisp
 (add-hook
@@ -4401,6 +4422,7 @@ the other one separately.
   (popper-group-function #'popper-group-by-project)
   )
 #+end_src
+
 ** shackle
 
 NOTE: Shackle provides a nicer way to handle buffers, compared to change
@@ -4418,6 +4440,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
   (shackle-mode)
   )
 #+end_src
+
 ** COMMENT Compilation buffer always at the bottom                     :Compilation:
 #+begin_src emacs-lisp
 ;; display-buffer-at-bottom
@@ -4459,6 +4482,7 @@ https://www.flycheck.org/en/latest/index.html
               ("C-c ! v" . flymake-switch-to-log-buffer)
               ("C-c ! P" . flymake-show-project-diagnostics)))
 #+end_src
+
 **** COMMENT flymake-json
 #+begin_src emacs-lisp
 (use-package flymake-json
@@ -4466,6 +4490,7 @@ https://www.flycheck.org/en/latest/index.html
   :hook
   (json-mode . flymake-json-load))
 #+end_src
+
 ** Enable folding in programming buffers
 #+begin_src emacs-lisp
 ;; (use-package origami
@@ -4489,6 +4514,7 @@ https://www.flycheck.org/en/latest/index.html
          ("C-M-(" . hs-show-all)
          ))
 #+end_src
+
 ** Obvious-mode
 #+begin_src emacs-lisp
 (use-package obvious
@@ -4499,6 +4525,7 @@ https://www.flycheck.org/en/latest/index.html
   (obvious-fringe-bitmap 'filled-rectangle)
   )
 #+end_src
+
 ** Highlight TODO and similar keywords with hl-todo
 https://github.com/tarsius/hl-todo
 *Tip*: Check the =hl-todo-keyword-faces= variable for the keywords and colors.
@@ -4515,6 +4542,7 @@ https://github.com/tarsius/hl-todo
   (prog-mode . hl-todo-mode)
   )
 #+end_src
+
 ** Consult documentation in zeal
 See https://github.com/jinzhu/zeal-at-point
 
@@ -4548,6 +4576,7 @@ You need to have [[https://zealdocs.org/][zeal]] installed.
   (".clang-tidy" . yaml-mode)
   )
 #+end_src
+
 ** yaml-pro
 yaml-pro is a package that provides conveniences for editing yaml.
 
@@ -4564,6 +4593,7 @@ It seems you use this as a minnor-mode (it does not replace yaml-mode
   :ensure t
   )
 #+end_src
+
 ** flymake-yamllint
 You need to innstall =yamllint= using your OS package manager
 #+begin_src emacs-lisp
@@ -4592,6 +4622,7 @@ You need to innstall =yamllint= using your OS package manager
   ("\\.pdf" . pdf-view-mode)
   )
 #+end_src
+
 ** Restore page in the PDF on next visit - saveplace-pdf-view
 #+begin_src emacs-lisp
 (use-package saveplace-pdf-view
@@ -4724,6 +4755,7 @@ You need to innstall =yamllint= using your OS package manager
   ;; (set-face-attribute 'all-the-icons-dired-dir-face nil :foreground "gold")
   )
 #+end_src
+
 ** Some pretty symbols
 #+begin_src emacs-lisp
 (add-hook
@@ -4737,6 +4769,7 @@ You need to innstall =yamllint= using your OS package manager
    )
  )
 #+end_src
+
 * Project                                                                   :Project:
 Emacs already has a notion of a "project" with native =project.el=
 
@@ -4785,6 +4818,7 @@ DIR must include a .project file to be considered a project."
   (add-to-list 'project-find-functions 'mu-project-try-local)
   )
 #+end_src
+
 * Tree-sitter                                                            :CPP:Python:
 https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 
@@ -4813,6 +4847,7 @@ version can’t be used, fall back to the original major mode.
   (global-treesit-auto-mode)
   )
 #+end_src
+
 ** Configuration
 #+begin_src emacs-lisp
 (use-package tree-sitter
@@ -4850,6 +4885,7 @@ version can’t be used, fall back to the original major mode.
 ;;          (c-mode-common . tree-sitter-hl-mode)
 ;;          (python-mode . tree-sitter-hl-mode)))
 #+end_src
+
 * COMMENT LSP                                                       :LSP:Programming:
 ** General configuration
 
@@ -4913,6 +4949,7 @@ Configuration specific to a language should be in that language configuration he
   (lsp-ui-doc-max-width 250)
 )
 #+end_src
+
 * Eglot                                                                       :Eglot:
 
 Eglot here relies on Emacs' built-in functionality as well. =xref-find-references= is bound
@@ -4989,6 +5026,7 @@ To add support to more server, see the =eglot-server-programs= variable.
          )
   )
 #+end_src
+
 ** Project specific configuration
 See the =eglot-workspace-configuration= variable. [[https://gist.github.com/doolio/8c1768ebf33c483e6d26e5205896217f][Here]] is an example.
 * Debugging                                                                   :debug:
@@ -4998,6 +5036,7 @@ See the =eglot-workspace-configuration= variable. [[https://gist.github.com/dool
   :custom
   (gud-highlight-current-line t))
 #+end_src
+
 ** Disable gdb asking if I want to download debuginfo
 Set ~gdb-debuginfod-enable-setting~ to nil
 #+begin_src emacs-lisp
@@ -5188,6 +5227,7 @@ Note: Use =C-c C-k= to toggle between line comments and block comments.
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("Doxyfile" . conf-mode))
 #+end_src
+
 *** Doxygen with tree-sitter
 Enable doxygen syntax highlighting using tree-sitter.
 
@@ -5213,6 +5253,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 (add-to-list 'auto-mode-alist '("\\.cxxm\\'" . c++-mode)) ;; One of extensions used for module file
 (add-to-list 'auto-mode-alist '("\\.c++m\\'" . c++-mode)) ;; One of extensions used for module file
 #+end_src
+
 ** Load the package with use-package
 #+begin_src emacs-lisp
 (define-minor-mode cmake-integration-keybindings
@@ -5318,6 +5359,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
                     "--header-insertion-decorators=0")))
   )
 #+end_src
+
 ** CMake-mode
 #+begin_src emacs-lisp
 (use-package cmake-mode
@@ -5380,12 +5422,14 @@ You can use the code below for that.
   ;; (("M-s p" . consult-project))
   )
 #+end_src
+
 *** Janus Colors
 #+begin_src emacs-lisp
 (when (locate-library "janus")
   (load-library "janus")
   )
 #+end_src
+
 *** qml-integration package
 #+begin_src emacs-lisp
 (use-package qml-integration
@@ -5400,6 +5444,7 @@ You can use the code below for that.
   (".qrc" . xml-mode)
   )
 #+end_src
+
 *** QML-Mode package
 #+begin_src emacs-lisp
 (use-package qml-mode
@@ -5435,6 +5480,7 @@ You can use the code below for that.
                '("Loc: \\[\\(.*\\)(\\([0-9]*\\))" 1 2))
   )
 #+end_src
+
 *** Formatting QML buffers with apheleia                              :QML:apheleia:
 #+begin_src elisp
 (use-package qml-mode
@@ -5456,6 +5502,7 @@ You can use the code below for that.
               )
   )
 #+end_src
+
 *** Squish
 #+begin_src emacs-lisp
 (use-package squish-feature
@@ -5489,6 +5536,7 @@ Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting process
                '((qml-mode)
                  . ("qmlls6"))))
 #+end_src
+
 ** Conan package manager
 #+begin_src emacs-lisp
 ;; Here we define a minor mode for conanfile just to have a mode-map for it
@@ -5559,6 +5607,7 @@ debugAdapters/bin/OpenDebugAD7=.
 
   )
 #+end_src
+
 ** TODO Other packages to investigate                                  :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
@@ -5728,6 +5777,7 @@ Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 ;; (use-package lsp-jedi
 ;;   :ensure t)
 #+end_src
+
 *** Eglot                                                                    :Eglot:
 #+begin_src emacs-lisp
 (use-package eglot
@@ -5759,6 +5809,7 @@ Ruff provides:
           ("C-c f" . ruff-format-buffer)
           ))
 #+end_src
+
 *** Flymake support for Python with ruff
 
 #+begin_src emacs-lisp
@@ -5809,6 +5860,7 @@ not accessed" notes, add the following:
           ("C-c f" . yapfify-buffer)
           ))
 #+end_src
+
 ** COMMENT Dap-debug (Python)                                                :debug:
 +You need to install ~ptvsd>=4.2~ in your virtual environment+
 
@@ -5821,6 +5873,7 @@ You need to install ~debugpy~ in your virtual environment
   (dap-python-debugger 'debugpy)
   )
 #+end_src
+
 ** Dape Python - Debug Protocol                                              :debug:
 Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] in your python environment. Then running =dape= should be enough.
 
@@ -5873,6 +5926,7 @@ Standard keybindings
   :custom
   (flycheck-emacs-lisp-load-path 'inherit))
 #+end_src
+
 ** COMMENT Formatter for elisp code
 #+begin_src emacs-lisp
 (use-package elisp-autofmt
@@ -5882,12 +5936,14 @@ Standard keybindings
   ;; :hook (emacs-lisp-mode . elisp-autofmt-mode)
   )
 #+end_src
+
 * CSV
 #+begin_src emacs-lisp
 (use-package csv-mode
   :commands csv-mode
   :ensure t)
 #+end_src
+
 * JSON
 Note: Run =npm i -g vscode-langservers-extracted= to install the json language server.
 
@@ -5910,6 +5966,7 @@ Note: Run =npm i -g vscode-langservers-extracted= to install the json language s
 ;;   ("C-c n p" . json-navigator-navigate-after-point)
 ;;   ("C-c n r" . json-navigator-navigate-region)))
 #+end_src
+
 * PCoIP log-file mode
 #+begin_src emacs-lisp
 ;; You need to have the package already installed somewhere where Emacs can find it.
@@ -6069,6 +6126,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
     (LaTeX-insert-item))
   )
 #+end_src
+
 ** Auctex General config                                                    :auctex:
 #+begin_src emacs-lisp
 (use-package latex
@@ -7272,6 +7330,7 @@ See more in https://github.com/chenyanming/calibredb.el
 
 (add-hook 'kill-buffer-hook    #'calibredb-close-tab)
 #+end_src
+
 * Epub reader                                                                 :ebook:
 ** nov package
 #+begin_src emacs-lisp
@@ -7283,6 +7342,7 @@ See more in https://github.com/chenyanming/calibredb.el
   ("\\.epub\\'" . nov-mode)
   )
 #+end_src
+
 ** COMMENT nov-xwidget package
 #+begin_src emacs-lisp
 (use-package nov-xwidget
@@ -7294,6 +7354,7 @@ See more in https://github.com/chenyanming/calibredb.el
   (add-hook 'nov-mode-hook 'nov-xwidget-inject-all-files)
   )
 #+end_src
+
 * Dockerfile-mode                                                            :Docker:
 #+begin_src emacs-lisp
 (use-package dockerfile-mode
@@ -7301,6 +7362,7 @@ See more in https://github.com/chenyanming/calibredb.el
   :defer t
   )
 #+end_src
+
 * PlantUML
 Note: Org-mode has native support for evaluating code blocks using plantUML. Just add
 plantuml to =org-babel-load-languages=. Here we are adding plantuml-mode, which is a
@@ -7322,6 +7384,7 @@ execute the code.
                      "plantuml.puml"))
   )
 #+end_src
+
 * Mermaid
 Note: You need to install [[https://github.com/mermaid-js/mermaid-cli][mermaid-cli]].
 
@@ -7389,6 +7452,7 @@ Don't forget to call ~copilot-install-server~.
   ;; (advice-add 'keyboard-quit :before #'rk/copilot-quit)
   )
 #+end_src
+
 * COMMENT prodigy: Starting processes with emacs
 #+begin_src emacs-lisp
 (use-package prodigy
@@ -7408,6 +7472,7 @@ Open a certificate, public key, etc., and then just call =x509-dwim=.
 (use-package x509-mode
   :ensure t)
 #+end_src
+
 * gptel                                                                  :LLM:ollama:
 Useful commands:
 - gptel-send
