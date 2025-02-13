@@ -1842,6 +1842,7 @@ https://github.com/Artawower/file-info.el
   :bind ("C-x g" . magit-status)
   :custom
   (magit-diff-refine-hunk t)  ;; Note sure about the effect of this one
+  (magit-format-file-function 'magit-format-file-nerd-icons)
   )
 
 
