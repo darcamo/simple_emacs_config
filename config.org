@@ -7450,6 +7450,8 @@ Don't forget to call ~copilot-install-server~.
          (c-ts-base-mode . copilot-mode)
          (python-ts-mode . copilot-mode)
          (qml-mode . copilot-mode))
+  :custom-face
+  (copilot-overlay-face ((t (:foreground "DeepSkyBlue"))))
   ;; :config
   ;; (advice-add 'keyboard-quit :before #'rk/copilot-quit)
   )
