@@ -4435,7 +4435,8 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
 
   :custom
   (shackle-rules '(("*compilation*" :noselect t :align 'below :size 12)
-                   ("*Help*" :select t :same t :inhibit-window-quit t)))
+                   ("*Help*" :select t :same t :inhibit-window-quit t)
+                   ("*ert*" :align 'below :size 12)))
   (shackle-default-rule '(:select t))
   :config
   (shackle-mode)
