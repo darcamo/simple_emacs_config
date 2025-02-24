@@ -7494,20 +7494,22 @@ Useful commands:
   ;; :custom
   ;; (gptel-default-mode 'org-mode)
   :config
-  (setq-default gptel-model "llama3" ;; Pick your default model
+  (setq-default gptel-model 'Qwen2.5-Coder:7b ;; Pick your default model
                 gptel-expert-commands t
                 gptel-backend (gptel-make-ollama
                                "Ollama"                               ;Any name of your choosing
                                :host "localhost:11434"                ;Where it's running
-                               :models '("mistral:latest"
-                                         "dolphin-mixtral:latest"
-                                         "openchat:latest"
-                                         "codellama:7b"
-                                         "codellama:34b"
-                                         "vicuna:13b-16k"
-                                         "vicuna:latest"
-                                         "mixtral:latest"
-                                         "llama3"
+                               :models '(DeepSeek-R1
+                                         Qwen2.5-Coder:7b
+                                         mistral:latest
+                                         dolphin-mixtral:latest
+                                         openchat:latest
+                                         codellama:7b
+                                         codellama:34b
+                                         vicuna:13b-16k
+                                         vicuna:latest
+                                         mixtral:latest
+                                         llama3
                                          )
                                :stream t)))
 #+end_src
