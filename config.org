@@ -5541,6 +5541,19 @@ Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting process
   (add-to-list 'eglot-server-programs
                '((qml-mode)
                  . ("qmlls6"))))
+
+*** Qt Translations Mode
+Usually, something named "anything.ts" will use the typescript major mode, but Qt also
+uses the =.ts= extension for itsa (translation) language files.
+
+#+begin_src emacs-lisp
+(use-package qt-translations-mode
+  :ensure (qt-translations-mode :type git :host github :protocol ssh
+                                :repo "darcamo/qt-translations-mode" :depth nil)
+  :commands (qt-translations-mode)
+  :mode
+  ("pcoip_janus_[a-z][a-z]\\.ts" . qt-translations-mode)
+  ("pcoip_[a-z][a-z]\\.ts" . qt-translations-mode))
 #+end_src
 
 ** Conan package manager
