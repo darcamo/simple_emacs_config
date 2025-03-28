@@ -4424,7 +4424,7 @@ the other one separately.
   )
 #+end_src
 
-** shackle
+** COMMENT shackle
 
 NOTE: Shackle provides a nicer way to handle buffers, compared to change
 =display-buffer-alist= directly.
