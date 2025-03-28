@@ -7420,36 +7420,12 @@ You can compile with =C-c C-c=.
 See [[https://github.com/abrochard/mermaid-mode?tab=readme-ov-file#usage][Usage]] for the keybindings.
 
 * COMMENT Co-pilot                                                          :copilot:
+** Completions in buffer
 https://github.com/copilot-emacs/copilot.el
 
 Don't forget to call ~copilot-install-server~.
 
 #+begin_src emacs-lisp
-;; (defun my/copilot-tab ()
-;;   "Tab command that will complet with copilot if a completion is
-;; available. Otherwise will just call c-indent-line-or-regio."
-;;   (interactive)
-;;   (or (copilot-accept-completion)
-;;       (complete-symbol)
-;;       ))
-
-;; ;; https://robert.kra.hn/posts/2023-02-22-copilot-emacs-setup/
-;; (defun rk/copilot-quit ()
-;;   "Run `copilot-clear-overlay' or `keyboard-quit'. If copilot is
-;; cleared, make sure the overlay doesn't come back too soon."
-;;   (interactive)
-;;   (condition-case err
-;;       (when copilot--overlay
-;;         (lexical-let ((pre-copilot-disable-predicates copilot-disable-predicates))
-;;           (setq copilot-disable-predicates (list (lambda () t)))
-;;           (copilot-clear-overlay)
-;;           (run-with-idle-timer
-;;            1.0
-;;            nil
-;;            (lambda ()
-;;              (setq copilot-disable-predicates pre-copilot-disable-predicates)))))
-;;     (error handler)))
-
 (use-package copilot
   :ensure (:host github :repo "copilot-emacs/copilot.el")
   :bind (
@@ -7469,9 +7445,14 @@ Don't forget to call ~copilot-install-server~.
          (python-ts-mode . copilot-mode)
          (qml-mode . copilot-mode))
   :custom-face
-  (copilot-overlay-face ((t (:foreground "DeepSkyBlue"))))
-  ;; :config
-  ;; (advice-add 'keyboard-quit :before #'rk/copilot-quit)
+  (copilot-overlay-face ((t (:foreground "DeepSkyBlue")))))
+#+end_src
+** Chat
+#+begin_src emacs-lisp
+(use-package copilot-chat
+  :ensure (:host github :repo "chep/copilot-chat.el")
+  :custom
+  (copilot-chat-frontend 'markdown)
   )
 #+end_src
 
