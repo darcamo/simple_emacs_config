@@ -5374,6 +5374,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   :hook
   (cmake-mode . cmake-integration-keybindings)
   (cmake-ts-mode . cmake-integration-keybindings)
+  (compilation-mode . cmake-integration-keybindings)
   ;; Enable cmake-integration-keybindings in json mode only for the three file names
   (json-mode . (lambda () (cond
                       ((equal (file-name-nondirectory (buffer-file-name)) "CMakePresets.json") (cmake-integration-keybindings))
