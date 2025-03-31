@@ -5751,6 +5751,17 @@ completion).
 ;;    nil pudb-bp-file))
 #+end_src
 
+** pytest
+#+begin_src emacs-lisp
+(use-package python-pytest
+  :ensure t
+  :bind (:map python-ts-mode-map
+              ([f10] . python-pytest-file-dwim)
+              ([C-f10] . python-pytest-run-def-at-point-treesit)
+              ([S-f10] . python-pytest)
+              ([C-S-f10] . python-pytest-dispatch)
+              ))
+#+end_src
 ** Configuration and keybindings
 #+begin_src emacs-lisp
 (use-package python
