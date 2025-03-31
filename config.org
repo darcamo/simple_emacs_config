@@ -7505,6 +7505,7 @@ Don't forget to call ~copilot-install-server~.
   :ensure (:host github :repo "chep/copilot-chat.el")
   :custom
   (copilot-chat-frontend 'markdown)
+  :commands (copilot-chat-display copilot-chat-transient)
   )
 #+end_src
 
