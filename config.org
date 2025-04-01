@@ -7478,7 +7478,7 @@ You can compile with =C-c C-c=.
 
 See [[https://github.com/abrochard/mermaid-mode?tab=readme-ov-file#usage][Usage]] for the keybindings.
 
-* COMMENT Co-pilot                                                          :copilot:
+* Co-pilot                                                                  :copilot:
 ** Completions in buffer
 https://github.com/copilot-emacs/copilot.el
 
@@ -7510,10 +7510,13 @@ Don't forget to call ~copilot-install-server~.
 #+begin_src emacs-lisp
 (use-package copilot-chat
   :ensure (:host github :repo "chep/copilot-chat.el")
-  :custom
-  (copilot-chat-frontend 'markdown)
+  ;; :custom
+  ;; (copilot-chat-frontend 'markdown)
   :commands (copilot-chat-display copilot-chat-transient)
-  )
+  :bind
+  (
+   ("C-x c" . copilot-chat-transient)
+   ))
 #+end_src
 
 * COMMENT prodigy: Starting processes with emacs
