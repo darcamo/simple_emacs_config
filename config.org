@@ -1745,12 +1745,13 @@ Use the ~world-clock~ command to see the times
   :custom
   (zoneinfo-style-world-list '(
                                ("America/Fortaleza" "Fortaleza")
-                               ("America/New_York" "New York")
-                               ("Europe/London" "London")
-                               ("Europe/Paris" "Paris")
-                               ("CET" "Stockholm")
+                               ;; ("America/New_York" "New York")
+                               ;; ("Europe/London" "London")
+                               ;; ("Europe/Paris" "Paris")
+                               ;; ("CET" "Stockholm")
                                ("Australia/Sydney" "Sydney")
                                ("America/Vancouver" "Vancouver")
+                               ("Asia/Kolkata" "India")
                                ))
   )
 
