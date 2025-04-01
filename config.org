@@ -4830,6 +4830,7 @@ of the time this is enough, since I'm usually using git. However, sometimes bein
 specify that a folder is a project with the presence of a special file (such as
 .projectile with the =projectile= library) is useful.
 
+** Make folders with .project file act as a project
 The code below will make emacs recognize a folder with a =.project= file as a project.
 #+begin_src emacs-lisp
 ;; Taken from https://manueluberti.eu/emacs/2020/11/14/extending-project/
@@ -4861,6 +4862,11 @@ DIR must include a .project file to be considered a project."
   :config
   (add-to-list 'project-find-functions 'mu-project-try-local)
   )
+#+end_src
+
+** Make project ignore the .venv folder
+#+begin_src emacs-lisp
+(add-to-list 'project-vc-ignores "./.venv/")
 #+end_src
 
 * Tree-sitter                                                            :CPP:Python:
