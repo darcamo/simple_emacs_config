@@ -5037,6 +5037,7 @@ See the =eglot-workspace-configuration= variable. [[https://gist.github.com/dool
 ** Emphasize current line in gud
 #+begin_src emacs-lisp
 (use-package gud
+  :defer t
   :custom
   (gud-highlight-current-line t))
 #+end_src
@@ -5045,6 +5046,7 @@ See the =eglot-workspace-configuration= variable. [[https://gist.github.com/dool
 Set ~gdb-debuginfod-enable-setting~ to nil
 #+begin_src emacs-lisp
 (use-package gdb-mi
+  :defer t
   :custom
   (gdb-debuginfod-enable-setting nil)
   )
@@ -5167,6 +5169,7 @@ For Python configuration see
 (use-package dape
   ;; Currently only on github
   :ensure (dape :type git :host github :repo "svaante/dape")
+  :commands (dape dape-breakpoint-toggle dape-breakpoint-log dape-watch-dwim)
 
   ;; Add inline variable hints, this feature is highly experimental
   ;; (setq dape-inline-variables t)
@@ -5219,6 +5222,7 @@ it does not, then apheleia can be used instead.
 #+begin_src emacs-lisp
 (use-package apheleia
   :ensure t
+  :commands (apheleia-format-buffer)
   )
 #+end_src
 
