@@ -4887,7 +4887,7 @@ their corresponding -ts- one. Ex:
 :    (json-mode . json-ts-mode)
 :    (css-mode . css-ts-mode)
 :    (python-mode . python-ts-mode)))
-** treesit-auto
+** COMMENT treesit-auto
 Automatically install and use tree-sitter major modes in Emacs 29+. If the tree-sitter
 version can’t be used, fall back to the original major mode.
 
@@ -4898,6 +4898,7 @@ version can’t be used, fall back to the original major mode.
   (treesit-auto-install 'prompt)
   :config
   (treesit-auto-add-to-auto-mode-alist 'all)
+  (delete 'markdown treesit-auto-langs)
   (global-treesit-auto-mode)
   )
 #+end_src
