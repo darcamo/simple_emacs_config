@@ -1453,6 +1453,16 @@ This function is useful for creating labels from text, such as converting figure
 
 ** Keybindigns                                                         :Keybindings:
 #+begin_src emacs-lisp
+(defun start-term-zsh-or-bash ()
+  "Start zsh, if available, or bash using `ansi-term'."
+  (interactive)
+  (let ((zsh "/bin/zsh")
+        (bash "/bin/bash"))
+    (if (file-executable-p zsh)
+        (ansi-term zsh)
+      (ansi-term bash))))
+
+
 (use-package emacs
   :ensure nil
   :bind (
@@ -1461,12 +1471,12 @@ This function is useful for creating labels from text, such as converting figure
          ([mouse-9] . bury-buffer) ; put the current buffer at the end of the buffer list
          ([C-f3] . unbury-buffer) ; change the buffert at the end of the buffer list to the current buffer
          ([mouse-8] . unbury-buffer) ; change the buffert at the end of the buffer list to the current buffer
-         ([f4] . (lambda () (interactive) (kill-buffer (current-buffer)))) ;C-x k
+         ([f4] . kill-current-buffer) ;C-x k
          ([C-f11] . browse-default-dir)
          ([S-f11] . browse-default-dir-in-emacs)
          ([C-S-f11] . open-terminal-default-dir)
          ("C-z" . eshell)
-         ("M-z" . (lambda () (interactive) (ansi-term "/bin/zsh")))
+         ("M-z" . start-term-zsh-or-bash)
          ("C-c o" . other-frame) ; When there are multiple frames, change to another frame
          ("C-c r" . revert-buffer)
          ("C-x C-b" . ibuffer)
