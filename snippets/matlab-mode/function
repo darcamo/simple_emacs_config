@@ -21,6 +21,6 @@ function [${3:Output arguments}] = ${1:Function Name}(${2:Input Arguments})
 %  cdfplothigh(randn(10000,1))
 
 % Author:
-%   `(darlan/get-user-name-and-email)`
+%   `(darcamo/get-user-name-and-email)`
 % Last change:
 %   $Id: $

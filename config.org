@@ -12,9 +12,6 @@ LLMs
 - [[https://www.infoworld.com/article/3700869/14-llms-that-arent-chatgpt.html][14 LLMs que não são chatGPT]]
 
 
-
-TODO: Replace my =toggle-current-window-dedication= function with the native (in Emacs 30)
-=toggle-window-dedicated= function.
 TODO: Emacs 30 use-package now has a =:vc= keyword to install packages from git. Should I go
       back to standard package manager in Emacs? Once you use it (instead of elpaca), you
       can use =package-vc-upgrade-all= to update VC installed packages.
@@ -52,7 +49,7 @@ used for the first time they should be "configured".
 (put 'projectile-project-compilation-cmd 'safe-local-variable 'stringp)
 (put 'projectile-project-run-cmd 'safe-local-variable 'stringp)
 (put 'user-mail-address 'safe-local-variable 'stringp)
-(put 'reftex-default-bibliography 'safe-local-variable 'darlan/list-of-strings-p)
+(put 'reftex-default-bibliography 'safe-local-variable 'darcamo/list-of-strings-p)
 (put 'abbrev-file-name 'safe-local-variable 'stringp)
 (put 'TeX-master 'safe-local-variable 'stringp)
 (put 'ispell-skip-html 'safe-local-variable 'booleanp)
@@ -73,7 +70,7 @@ used for the first time they should be "configured".
 #+end_src
 
 * Set the theme and apearance                                            :Appearance:
-** Theme                                                                 :Theme:font:
+** Theme                                                                :Theme:font:
 Good themes:
 - wombat (nativo)
 - doom opera
@@ -104,7 +101,7 @@ Good themes:
 
 ;; Note that `font-info' cannot be called when Emacs daemon is
 ;; starting because we don't have a frame yet.
-(defun darlan/set-my-default-font()
+(defun darcamo/set-my-default-font()
   "Set my default font."
   (if  (font-info "Menlo")
       (set-face-attribute 'default nil :family "Menlo" :height 150)
@@ -117,11 +114,11 @@ Good themes:
   :ensure nil
   :hook
   ;; The server-after-make-frame-hook only run functions when emacs daemon creates a frame
-  (server-after-make-frame . darlan/set-my-default-font)
+  (server-after-make-frame . darcamo/set-my-default-font)
   :config
   ;; If not running as a daemon, just set my fonts directly
   (unless (daemonp)
-    (darlan/set-my-default-font)))
+    (darcamo/set-my-default-font)))
 #+end_src
 
 ** Customize user interface
@@ -144,7 +141,7 @@ Good themes:
 (setq-default indicate-buffer-boundaries 'left)
 #+end_src
 
-** Enable tab-bar-mode                                                       :TabBar:
+** Enable tab-bar-mode                                                      :TabBar:
 Alternate between tabs with C-<tab>
 #+begin_src emacs-lisp
 (use-package tab-bar
@@ -215,7 +212,7 @@ Alternative modeline similar to powerline
 
 https://github.com/dbordak/telephone-line
 * Completion framework [0/2]                                      :Completion:
-** COMMENT Ido Mode                                                         :IdoMode:
+** COMMENT Ido Mode                                                        :IdoMode:
 #+begin_src emacs-lisp
 (ido-mode 1)
 (ido-everywhere)
@@ -231,7 +228,7 @@ https://github.com/dbordak/telephone-line
   (imenu-flatten 'group))
 #+end_src
 
-** Vertico and orderless                                          :Orderless:Vertico:
+** Vertico and orderless                                         :Orderless:Vertico:
 Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 *** Basic configuration
 #+begin_src emacs-lisp
@@ -338,7 +335,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   (vertico-mouse-mode))
 #+end_src
 
-** Marginalia                                                            :Marginalia:
+** Marginalia                                                           :Marginalia:
 #+begin_src emacs-lisp
 (use-package marginalia
   :ensure t
@@ -355,7 +352,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   (marginalia-mode))
 #+end_src
 
-** all-the-icons-completion                                             :AllTheIcons:
+** all-the-icons-completion                                            :AllTheIcons:
 #+begin_src emacs-lisp
 (use-package all-the-icons-completion
 :ensure t
@@ -367,7 +364,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 )
 #+end_src
 
-** Consult                                                      :Keybindings:Consult:
+** Consult                                                     :Keybindings:Consult:
 
 Use "M-x" e digite "^consult" para ver os diversos comandos.
 
@@ -500,7 +497,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
   )
 #+end_src
 
-** Consult-dir                                                              :Consult:
+** Consult-dir                                                             :Consult:
 #+begin_src emacs-lisp
 (use-package consult-dir
   :ensure t
@@ -511,7 +508,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
          ))
 #+end_src
 
-** COMMENT Consult-project                                                  :Consult:
+** COMMENT Consult-project                                                 :Consult:
 #+begin_src emacs-lisp
 (use-package consult-project
   :ensure (consult-project :type git :host github :repo "Qkessler/consult-project")
@@ -520,7 +517,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
   )
 #+end_src
 
-** consult-jump-project                                                     :Consult:
+** consult-jump-project                                                    :Consult:
 Quickly jump between projects, their files and buffers with consult.
 
 #+begin_src emacs-lisp
@@ -530,11 +527,11 @@ Quickly jump between projects, their files and buffers with consult.
   )
 #+end_src
 
-** Other useful consult commands                                            :Consult:
+** Other useful consult commands                                           :Consult:
 - consult-minor-mode-men
   - Filter the groups with "g", "i", "l" and "o"
 
-** Embark                                                        :Keybindings:Embark:
+** Embark                                                       :Keybindings:Embark:
 Note: During a prefix key (e.g. =C-x=, =C-c=, etc) you can use =C-h= to see all possible
 completions for that prefix key. This is nicer than which key because you can use search.
 
@@ -585,7 +582,7 @@ action is performed (you will still be in the minibuffer)
   (embark-collect-mode . consult-preview-at-point-mode))
 #+end_src
 
-** Corfu                                                                      :Corfu:
+** Corfu                                                                     :Corfu:
 #+begin_src emacs-lisp
 (use-package corfu
   :ensure t
@@ -645,7 +642,7 @@ action is performed (you will still be in the minibuffer)
   (add-to-list 'corfu-margin-formatters #'kind-icon-margin-formatter))
 #+end_src
 
-** Acronyms                                                          :Acronym:abbrev:
+** Acronyms                                                         :Acronym:abbrev:
 Code to define many acronymms that I use
 #+begin_src emacs-lisp
 
@@ -828,7 +825,7 @@ Code to define many acronymms that I use
   )
 #+end_src
 
-** Yasnippets                                                            :Yasnippets:
+** Yasnippets                                                           :Yasnippets:
 *** Config
 Veja aqui
 https://github.com/MatthewZMD/.emacs.d#yasnippet-1
@@ -858,7 +855,7 @@ Tip: Check the =yas-describe-tables= command
 *** Some helper functions used in my snippets
 #+begin_src emacs-lisp
 ;; This method is used in the 'comment' yasnippets template
-(defun darlan/get-comment-block-start ()
+(defun darcamo/get-comment-block-start ()
   "Insert the correct comment start string for a block comment.
   This method is used in the 'comment' yasnippets template."
   (interactive)
@@ -872,7 +869,7 @@ Tip: Check the =yas-describe-tables= command
   )
 
 ;; This method is used in the 'comment' yasnippets template
-(defun darlan/get-comment-block-end ()
+(defun darcamo/get-comment-block-end ()
   "Insert the correct comment end string for a block comment.
   This method is used in the 'comment' yasnippets template."
   (interactive)
@@ -881,7 +878,7 @@ Tip: Check the =yas-describe-tables= command
 
 
 ;; Get user name and e-mail address
-(defun darlan/get-user-name-and-email ()
+(defun darcamo/get-user-name-and-email ()
   "Get the user full name and e-mail address from the variables
       'user-full-name' and 'user-mail-address'. This is useful for
       yasnippets. You can use this function in your snippets and if you
@@ -896,15 +893,15 @@ Tip: Check the =yas-describe-tables= command
 * darcamo function
 #+begin_src emacs-lisp
 ;; Got from http://stackoverflow.com/questions/17325713/looking-for-a-replace-in-string-function-in-elisp
-(defun darlan-replace-in-string (what with in)
+(defun darcamo-replace-in-string (what with in)
   (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
 
-(defun darlan/list-of-strings-p (arg)
+(defun darcamo/list-of-strings-p (arg)
   "Return t if arg is a list of strings"
   (every 'stringp arg)
   )
 
-(defun darlan/string-to-ascii (string)
+(defun darcamo/string-to-ascii (string)
   "Change a string containing unicode characters to the
         equivalent ascii string. Note that not all characters are
         replaced, only the ones I usually don't want."
@@ -922,7 +919,7 @@ Tip: Check the =yas-describe-tables= command
    string)
   )
 
-(defun darlan/string-to-ascii-region (beg end)
+(defun darcamo/string-to-ascii-region (beg end)
   "Change the selected text containing unicode characters to the
         equivalent text in ascii. Note that not all characters are
         replaced, only the ones I usually don't want."
@@ -931,12 +928,12 @@ Tip: Check the =yas-describe-tables= command
     (save-restriction
       (narrow-to-region beg end)
       (save-excursion
-        (setq replacement (darlan/string-to-ascii (buffer-substring beg end)))
+        (setq replacement (darcamo/string-to-ascii (buffer-substring beg end)))
         (delete-region beg end)
         (goto-char beg)
         (insert replacement)))))
 
-(defun darlan/surround-region (beg end leftPart rightPart)
+(defun darcamo/surround-region (beg end leftPart rightPart)
   "Surround a region with the content of the leftPart and
       rightPart variables."
   (interactive "r")
@@ -947,7 +944,7 @@ Tip: Check the =yas-describe-tables= command
     (goto-char (point-max))
     (insert rightPart)))
 
-(defun darlan/surround-region-dowim (leftPart rightPart)
+(defun darcamo/surround-region-dowim (leftPart rightPart)
   "Surround a region with the content of the leftPart and
       rightPart variables. If the region is not active, the region
       between the current point and the point given by forward-word
@@ -958,20 +955,20 @@ Tip: Check the =yas-describe-tables= command
              mark-active)
         ;; Region active code
         (progn (setq beg (region-beginning) end (region-end))
-               (darlan/surround-region beg end leftPart rightPart)
+               (darcamo/surround-region beg end leftPart rightPart)
                )
       ;; Region inactive code: beg = current point, end = end of the word
       (progn
         (setq beg (point))
         (forward-word)
         (setq end (point))
-        (darlan/surround-region beg end leftPart rightPart)
+        (darcamo/surround-region beg end leftPart rightPart)
         )
       )
     )
   )
 
-(defun darlan/surround-with-command ()
+(defun darcamo/surround-with-command ()
   "Usefull to surround a region with a command (in MATLAB shell
       buffers, for instance). If the command if not provided it will be
       asked in the minibuffer."
@@ -980,7 +977,7 @@ Tip: Check the =yas-describe-tables= command
     (setq command (read-from-minibuffer "Command Name: "))
     (setq leftPart (concat command "("))
     (setq rightPart ")")
-    (darlan/surround-region-dowim leftPart rightPart)
+    (darcamo/surround-region-dowim leftPart rightPart)
     )
   )
 
@@ -989,14 +986,6 @@ Tip: Check the =yas-describe-tables= command
   (interactive "sDoi Number: ")
   (browse-url (concat "http://dx.doi.org/" url)))
 
-(defun toggle-current-window-dedication ()
-  (interactive)
-  (let* ((window    (selected-window))
-         (dedicated (window-dedicated-p window)))
-    (set-window-dedicated-p window (not dedicated))
-    (message "Window %sdedicated to %s"
-             (if dedicated "no longer " "")
-             (buffer-name))))
 
 ;; Time functions
 (defun replace-nth-element (lista index valor)
@@ -1246,9 +1235,7 @@ of the file associated with the current buffer."
 ;; Test if a buffer exists
 (defun buffer-exists (bufname)
   (not
-   (eq nil (get-buffer bufname))
-   )
-  )
+   (eq nil (get-buffer bufname))))
 
 
 ;; Dictionaries / Synonyms / Wikipedia
@@ -1256,9 +1243,9 @@ of the file associated with the current buffer."
 ;; Wikipedia
 (defun lookup-wikipedia ()
   "Look up the word's in Wikipedia.
-              This command generates a url for Wikipedia.com and switches you
-              to browser. If a region is active (a phrase), lookup that
-              phrase."
+
+This command generates a url for Wikipedia.com and switches you to
+browser. If a region is active (a phrase), lookup that phrase."
   (interactive)
   (let (myword myurl)
     (setq myword
@@ -1268,61 +1255,51 @@ of the file associated with the current buffer."
 
     (setq myword (replace-regexp-in-string " " "_" myword))
     (setq myurl (concat "http://en.wikipedia.org/wiki/" myword))
-    (browse-url myurl)
-    ))
+    (browse-url myurl)))
 
 
 (defun system-type-is-linux ()
   "Return t if running on Linux."
   (interactive)
   "Return true if system is Linux"
-  (string-equal system-type "gnu/linux")
-  )
+  (string-equal system-type "gnu/linux"))
+
 
 (defun system-type-is-windows ()
   "Return t if running on Windows."
   (interactive)
   "Return true if system Windows"
-  (string-equal system-type "windows-nt")
-  )
+  (string-equal system-type "windows-nt"))
+
 
 (defun system-type-is-macos ()
     "Return t if running on macOS."
   (interactive)
   "Return true if system MacOS"
-  (string-equal system-type "darwin")
-  )
+  (string-equal system-type "darwin"))
 
-;; whitespace <-> Underline
-(defun darlan/change-to-space (arg)
-  "Remove underline in ARG and replace it with a space."
-  (replace-regexp-in-string "_" " " arg))
 
-(defun darlan/change-to-underline (arg)
-  "Remove a space in ARG and replace it with underline."
-  (replace-regexp-in-string " " "_" arg))
+(defun darcamo/change-to-label (start end)
+  "Change the text from START to END to lowercase and replace spaces with underscores.
 
-(defun darlan/change-to-label (start end)
-  "Remove os espaços e muda para lower case. Isso é útil para transformar um caption de uma figura em algo útil para o label dela, por exemplo"
+This function is useful for creating labels from text, such as converting figure captions."
   (interactive "r")
   (save-excursion
     (save-restriction
       (narrow-to-region start end)
+      ;; Replace spaces with underscores
       (goto-char (point-min))
       (while (search-forward " " nil t) (replace-match "_" nil t))
 
-      ;; Ate aqui já substituiu espaços por underlines. Agora vamos colocar em lowercase
+      ;; Convert text to lowercase and insert
       (let ((label (downcase (buffer-substring-no-properties start end))))
         (delete-region start end)
-        (goto-char (point-min))
         (insert label)
-        )
-      )
-    )
-  )
+        ))))
+
 
 ;; Find duplicated words in a buffer
-(defun darlan/find-duplicated-words ()
+(defun darcamo/find-duplicated-words ()
   "Search forward for for a duplicated word."
   (interactive)
   (message "Searching for for duplicated words ...")
@@ -1334,47 +1311,19 @@ of the file associated with the current buffer."
       (message "Found duplicated word.")
     (message "End of buffer")))
 
-;; ;; Autoremote
-;; ;; This will read the file "my-autoremote-key.el.gpg", which define the
-;; ;; variable 'my-cellphone-autoremote-key' and set my autoremote key (a
-;; ;; string) to it.
-;; ;;
-;; ;; Note that I have disabled reading gpg files during emacs initialization
-;; ;; to increese initialization time. Thus, we run this in after-init-hook
-;; (add-hook 'after-init-hook
-;;           '(lambda ()
-;;              (load-file "~/.emacs.d/my-autoremote-key.el.gpg")
-;;              ))
-
-;; ;; org-link-escape is used to "urlify" the message
-;; ;; url-retrieve-synchronously is used to send the autoremote request
-;; (defun darlan/send-region-to-moto-x-cellphone-clipboard (start end)
-;;   "Send text to Moto X clipboard through Autoremote"
-;;   (interactive "r")
-;;   (let (mensagem)
-;;     (if (and transient-mark-mode
-;;              mark-active)
-;;         (progn (setq start (region-beginning) end (region-end))
-;;                (setq mensagem (buffer-substring start end))
-;;                )
-;;       (setq mensagem (read-from-minibuffer "Texto para enviar: "))
-;;       )
-;;     (url-retrieve-synchronously
-;;      (concat (concat "http://autoremotejoaomgcd.appspot.com/sendmessage?key=" my-cellphone-autoremote-key "&message=copy=:=" mensagem) "&ttl=30")
-;;      )))
-
 
 ;; Get a safe filename from a string
 ;; These two functions were obtained from
 ;; https://lists.gnu.org/archive/html/help-gnu-emacs/2012-07/msg00146.html
 ;; I renamed them only to make it easier to find them with smex and change
 ;; them to interactive
-(defun darlan/alphanumericp (ch)
+(defun darcamo/alphanumericp (ch)
   (find ch "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"))
 
-(defun darlan/clean-filename (name)
+
+(defun darcamo/clean-filename (name)
   (interactive "sNome ")
-  (setq m(remove-if-not (lambda (ch) (or (darlan/alphanumericp ch) (find ch "-_.")))
+  (setq m(remove-if-not (lambda (ch) (or (darcamo/alphanumericp ch) (find ch "-_.")))
                         (substitute ?- 32 name)))
   (message m)
   )
@@ -1502,7 +1451,7 @@ of the file associated with the current buffer."
 )
 #+end_src
 
-** Keybindigns                                                          :Keybindings:
+** Keybindigns                                                         :Keybindings:
 #+begin_src emacs-lisp
 (use-package emacs
   :ensure nil
@@ -1527,7 +1476,7 @@ of the file associated with the current buffer."
          ("C-x x v" . visual-line-mode)
 
          ;; Use "pause" to set a window as dedicated
-         ([pause] . toggle-current-window-dedication)
+         ([pause] . toggle-window-dedicated)
          )
   )
 
@@ -1540,7 +1489,7 @@ of the file associated with the current buffer."
 ;; (global-set-key (kbd "M-I") 'imenu)  ;; Use Alt+Shift+i for standard imenu
 #+end_src
 
-** Extra packages                                                       :Keybindings:
+** Extra packages                                                      :Keybindings:
 #+begin_src emacs-lisp
 (use-package diminish
  :ensure t)
@@ -1678,7 +1627,7 @@ of the file associated with the current buffer."
   )
 #+end_src
 
-** ace window: Easily jump to any window with "C-x o"                           :Ace:
+** ace window: Easily jump to any window with "C-x o"                          :Ace:
 Replace the standard ~other-window~ (=C-x o=) function with ace-window.
 
 Note that with a prefix argument (=C-u=) ace-window swaps to current and the other window.
@@ -1707,7 +1656,7 @@ o - maximize current window
   )
 #+end_src
 
-** Find-file-at-point                                                          :ffap:
+** Find-file-at-point                                                         :ffap:
 Replace regular find-file and related functions with ffap versions
 #+begin_src emacs-lisp
 (use-package ffap
@@ -1716,7 +1665,7 @@ Replace regular find-file and related functions with ffap versions
   )
 #+end_src
 
-*** Disable ffap bindings in dired-mode buffers                               :Dired:
+*** Disable ffap bindings in dired-mode buffers                              :Dired:
 Getting the file name at point is problematic in dired buffers, since it requires me to
 delete the text in order to use the completion system to open a file.
 #+begin_src emacs-lisp
@@ -1729,7 +1678,7 @@ delete the text in order to use the completion system to open a file.
   )
 #+end_src
 
-** sudo-edit                                                                   :sudo:
+** sudo-edit                                                                  :sudo:
 #+begin_src emacs-lisp
 (use-package sudo-edit
   :ensure t
@@ -1832,7 +1781,7 @@ https://github.com/Artawower/file-info.el
 #+end_src
 
 * Version control
-** Magit                                                                      :Magit:
+** Magit                                                                     :Magit:
 #+begin_src emacs-lisp
 (use-package transient
   :ensure (transient :type git :host github :repo "magit/transient")
@@ -1904,7 +1853,7 @@ See [[https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html][this
   )
 #+end_src
 
-** magit-todos                                                                :Magit:
+** magit-todos                                                               :Magit:
 #+begin_src emacs-lisp
 (use-package magit-todos
   :ensure t
@@ -2008,7 +1957,7 @@ There is also lsp-grammarly, but it requires an account.
   )
 #+end_src
 
-** Keybindings                                                          :Keybindings:
+** Keybindings                                                         :Keybindings:
 #+begin_src emacs-lisp
 (use-package emacs
   :ensure nil
@@ -2274,7 +2223,7 @@ There is also lsp-grammarly, but it requires an account.
     (unfill-paragraph)))
 #+end_src
 
-*** Keybindings                                                         :Keybindings:
+*** Keybindings                                                        :Keybindings:
 #+begin_src emacs-lisp
 ;; Local Keybinding
 (defun my-org-at-citation-p ()
@@ -2344,7 +2293,7 @@ There is also lsp-grammarly, but it requires an account.
   )
 #+end_src
 
-** Agenda                                                                    :Agenda:
+** Agenda                                                                   :Agenda:
 *** Config
 #+begin_src emacs-lisp
 ;; My agenda super-agenda groups -> Used in my custom command to show the agenda
@@ -2577,7 +2526,7 @@ There is also lsp-grammarly, but it requires an account.
   ;;   )
 #+end_src
 
-** Babel                                                                      :Babel:
+** Babel                                                                     :Babel:
 #+begin_src emacs-lisp
 (use-package org
   :defer t
@@ -2635,7 +2584,7 @@ There is also lsp-grammarly, but it requires an account.
   )
 #+end_src
 
-** Capture                                                                  :Capture:
+** Capture                                                                 :Capture:
 *** Config
 #+begin_src emacs-lisp
 (setq my-financas-table-line-template "| | %^{Nome do gasto} | %^u | %^{Valor no débito} | %^{Valor no cartão} |")
@@ -2863,7 +2812,7 @@ There is also lsp-grammarly, but it requires an account.
 ;; in org-export that replaces the unicode character for non-breaking space with
 ;; the appropriated value such that it can be used instead of `\nbsp{}`.
 ;; NOTE: You can enter the unicode non-breaking space with `C-x 8 SPC`
-(defun darlan/replace-unicode-non-break-space-org-filter (text backend info)
+(defun darcamo/replace-unicode-non-break-space-org-filter (text backend info)
   "Replace the unicode character for nonbreaking space with '~' in latex,
 '&nbsp;' in HTML, and a regular space in other backends."
   (if (org-export-derived-backend-p backend 'latex)
@@ -2882,7 +2831,7 @@ There is also lsp-grammarly, but it requires an account.
 
 
 ;; use speaker notes that work both with reveal.js and beamer
-(defun darlan/replace-notes-environment (text backend info)
+(defun darcamo/replace-notes-environment (text backend info)
   "Replace '\begin{notes} content \end{notes}' in beamer export
 with a \note{content}. This is useful when you are creating
 presentations in org-mode with both reveal and beamer. You can
@@ -2922,8 +2871,8 @@ reveal."
 (use-package ox
   :defer t
   :config
-  (add-to-list 'org-export-filter-body-functions 'darlan/replace-unicode-non-break-space-org-filter)
-  (add-to-list 'org-export-filter-special-block-functions 'darlan/replace-notes-environment)
+  (add-to-list 'org-export-filter-body-functions 'darcamo/replace-unicode-non-break-space-org-filter)
+  (add-to-list 'org-export-filter-special-block-functions 'darcamo/replace-notes-environment)
   :custom
   (org-export-with-broken-links  'mark)
   :hook
@@ -3066,7 +3015,7 @@ reveal."
     (orgtbl-to-generic table (org-combine-plists params2 params))))
 
 
-(defun darlan/save-buffer-and-export-to-last-target ()
+(defun darcamo/save-buffer-and-export-to-last-target ()
   "Save the burrent buffer and export org-mode buffer to the last exported target"
   (interactive)
   (progn
@@ -3078,12 +3027,12 @@ reveal."
   )
 #+end_src
 
-*** Keybindings                                                         :Keybindings:
+*** Keybindings                                                       :Keybindings:
 #+begin_src emacs-lisp
 (use-package org
   :defer t
   :bind (:map org-mode-map
-              ([f9] . darlan/save-buffer-and-export-to-last-target)
+              ([f9] . darcamo/save-buffer-and-export-to-last-target)
               ))
 #+end_src
 
@@ -3098,7 +3047,7 @@ reveal."
 )
 #+end_src
 
-*** Jira                                                                       :Jira:
+*** Jira                                                                     :Jira:
 #+begin_src emacs-lisp
 (use-package ox-jira
   :ensure t
@@ -3378,7 +3327,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 
 #+end_src
 
-** Keybindings                                                          :Keybindings:
+** Keybindings                                                         :Keybindings:
 #+begin_src emacs-lisp
 (use-package org
   :defer t
@@ -3399,7 +3348,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 (add-to-list 'org-structure-template-alist (cons "n" "notes"))
 #+end_src
 
-** Appearance                                                            :Appearance:
+** Appearance                                                           :Appearance:
 *** Different link colors depending on link type
 #+begin_src emacs-lisp
 (use-package org
@@ -3584,7 +3533,7 @@ Try addapting the example below
         ))
 #+end_example
 
-** all-the-icons-ibuffer                                                :AllTheIcons:
+** all-the-icons-ibuffer                                               :AllTheIcons:
 #+begin_src emacs-lisp
 (use-package all-the-icons-ibuffer
   :ensure t
@@ -4256,7 +4205,7 @@ This is an association list of regexp and major mode function. If the page URL m
               )
   )
 
-(defun darlan/set-up-outline-minor-mode (local-outline-regexp)
+(defun darcamo/set-up-outline-minor-mode (local-outline-regexp)
   "Set the outline-regex to local-outline-regexp"
   (set (make-local-variable 'outline-regexp) local-outline-regexp)
   (outline-minor-mode t)
@@ -4367,7 +4316,7 @@ back to the org file.
  )
 #+end_src
 
-** Handle ansi colors in compilation buffer                             :Compilation:
+** Handle ansi colors in compilation buffer                            :Compilation:
 #+begin_src emacs-lisp
 (use-package emacs
   :ensure nil
@@ -4399,7 +4348,7 @@ back to the org file.
   )
 #+end_src
 
-** Popper-mode                                                          :Compilation:
+** Popper-mode                                                         :Compilation:
 
 To set which buffers should be a popup, see the =popper-reference-buffers= varaible.
 
@@ -4448,7 +4397,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
   )
 #+end_src
 
-** COMMENT Compilation buffer always at the bottom                      :Compilation:
+** COMMENT Compilation buffer always at the bottom                     :Compilation:
 #+begin_src emacs-lisp
 ;; display-buffer-at-bottom
 (add-to-list 'display-buffer-alist
@@ -4458,7 +4407,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
 #+end_src
 
 ** Syntax check
-*** COMMENT Flycheck                                                       :Flycheck:
+*** COMMENT Flycheck                                                      :Flycheck:
 https://www.flycheck.org/en/latest/index.html
 
 #+begin_src emacs-lisp
@@ -4473,7 +4422,7 @@ https://www.flycheck.org/en/latest/index.html
   )
 #+end_src
 
-*** Flymake                                                                 :Flymake:
+*** Flymake                                                                :Flymake:
 **** General Configuration
 #+begin_src emacs-lisp
 (use-package flymake
@@ -4679,14 +4628,14 @@ You need to innstall =yamllint= using your OS package manager
   (save-place-mode 1))
 #+end_src
 
-** COMMENT Integration with org (create org-links)                          :OrgMode:
+** COMMENT Integration with org (create org-links)                         :OrgMode:
 #+begin_src emacs-lisp
 (use-package org-pdftools
   :ensure t
   :hook (org-mode . org-pdftools-setup-link))
 #+end_src
 
-** Keybindings                                                          :Keybindings:
+** Keybindings                                                         :Keybindings:
 #+begin_src emacs-lisp
 (use-package pdf-view
   :defer t
@@ -4781,7 +4730,7 @@ You need to innstall =yamllint= using your OS package manager
   )
 #+end_src
 
-** Icons in dired                                                       :AllTheIcons:
+** Icons in dired                                                      :AllTheIcons:
 #+begin_src emacs-lisp
 ;; ;; Use the nice icons from treemacs in dired buffers
 ;; (use-package treemacs-icons-dired
@@ -4969,7 +4918,7 @@ Configuration specific to a language should be in that language configuration he
   )
 #+end_src
 
-** Consult-LSP                                                          :Consult:LSP:
+** Consult-LSP                                                         :Consult:LSP:
 #+begin_src emacs-lisp
 (use-package consult-lsp
   :ensure t
@@ -4990,7 +4939,7 @@ Configuration specific to a language should be in that language configuration he
   )
 #+end_src
 
-** LSP-UI                                                                       :LSP:
+** LSP-UI                                                                      :LSP:
 #+begin_src emacs-lisp
 (use-package lsp-ui
   :ensure t
@@ -5068,7 +5017,7 @@ To add support to more server, see the =eglot-server-programs= variable.
 : (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
 : (define-key eglot-mode-map (kbd "C-c h") 'eldoc)
 : (define-key eglot-mode-map (kbd "<f6>") 'xref-find-definitions)
-** Consult-Eglot                                                      :Consult:Eglot:
+** Consult-Eglot                                                     :Consult:Eglot:
 #+begin_src emacs-lisp
 (use-package consult-eglot
   :ensure t
@@ -5208,7 +5157,7 @@ Set a buffer to read-only when this minor mode is active
 
 #+end_src
 
-** Dape mode                                                                  :debug:
+** Dape mode                                                                 :debug:
 Note: Here I'm onnly keepinng genenral configuration for dape.
 
 For C++ configuration see [[*Dape C++ - Debug protocol][Dape C++ - Debug protocol]]
@@ -5277,7 +5226,7 @@ In each language configuration what needs to use apheleia for formatting, you mi
 entry to =apheleia-formatters= and =apheleia-mode-alist=.
 * C++                                                               :CPP:Programming:
 Note: Use =C-c C-k= to toggle between line comments and block comments.
-** Doxygen                                                                  :doxygen:
+** Doxygen                                                                 :doxygen:
 *** Use conf-mode in Doxyfile
 #+begin_src emacs-lisp
 (add-to-list 'auto-mode-alist '("Doxyfile" . conf-mode))
@@ -5399,7 +5348,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 ;; c-c++-lsp-enable-semantic-highlight nil
 #+end_src
 
-** Change eglot-server-program to configure clangd                     :Eglot:clangd:
+** Change eglot-server-program to configure clangd                    :Eglot:clangd:
 #+begin_src emacs-lisp
 ;; https://www.reddit.com/r/emacs/comments/18eeu1f/configure_clangd_in_eglot_to_not_add_headers/
 (use-package eglot
@@ -5529,7 +5478,7 @@ You can use the code below for that.
   )
 #+end_src
 
-*** Detect filename in compilation-mode for qmltestrunner errors        :Compilation:
+*** Detect filename in compilation-mode for qmltestrunner errors       :Compilation:
 #+begin_src emacs-lisp
 (use-package compile
   :config
@@ -5541,7 +5490,7 @@ You can use the code below for that.
   )
 #+end_src
 
-*** Formatting QML buffers with apheleia                               :QML:apheleia:
+*** Formatting QML buffers with apheleia                              :QML:apheleia:
 #+begin_src elisp
 (use-package qml-mode
   :after apheleia
@@ -5588,7 +5537,7 @@ You can use the code below for that.
 
 Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting processes with emacs]]
 - This could be used to start the squish server
-*** Add qmlls to eglot-server-programs                                        :Eglot:
+*** Add qmlls to eglot-server-programs                                       :Eglot:
 #+begin_src emacs-lisp
 (use-package eglot
   :config
@@ -5633,7 +5582,7 @@ uses the =.ts= extension for itsa (translation) language files.
                               (cmake-integration-keybindings))))))
 #+end_src
 
-** COMMENT Dap-debug (C++) - Debug Protocol                                   :debug:
+** COMMENT Dap-debug (C++) - Debug Protocol                                  :debug:
 There are two alternatives for using dap-debug with c++:
 - [[https://emacs-lsp.github.io/dap-mode/page/configuration/#lldb][LLDB]] -> use ~(require 'dap-lldb)~
 - [[https://emacs-lsp.github.io/dap-mode/page/configuration/#vscode-cpptools][vscode-cpptools]] -> use ~(require 'dap-cpptools)~
@@ -5653,7 +5602,7 @@ it is running ~dap-debug-edit-template~ to configure the template before running
 
 To use the debugger, run ~dap-debug-edit-template~, edit the template and evaluate it.
 
-** Dape C++ - Debug protocol                                                  :debug:
+** Dape C++ - Debug protocol                                                 :debug:
 Note: You need to install =cpptools= extension. See [[https://github.com/svaante/dape#c-and-c---cppdbg][here]] for instructions. In summary, just
 download a [[https://github.com/microsoft/vscode-cpptools/releases][release]], and unpack the =vsix= file, Then =chmod +x
 debugAdapters/bin/OpenDebugAD7=.
@@ -5680,7 +5629,7 @@ debugAdapters/bin/OpenDebugAD7=.
   )
 #+end_src
 
-** TODO Other packages to investigate                                 :Investigate:
+** TODO Other packages to investigate                                :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
 * Python                                                         :Programming:Python:
@@ -5811,7 +5760,7 @@ completion).
   )
 #+end_src
 
-** Anaconda support                                                        :Anaconda:
+** Anaconda support                                                       :Anaconda:
 #+begin_src emacs-lisp
 (use-package conda
   :ensure t
@@ -5848,8 +5797,8 @@ completion).
   :hook ((python-base-mode . pyvenv-auto-run)))
 #+end_src
 
-** pyright as language server                                                   :LSP:
-*** COMMENT LSP                                                                 :LSP:
+** pyright as language server                                                  :LSP:
+*** COMMENT LSP                                                                :LSP:
 Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 #+begin_src emacs-lisp
 (use-package lsp-pyright
@@ -5861,7 +5810,7 @@ Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
 ;;   :ensure t)
 #+end_src
 
-*** Eglot                                                                     :Eglot:
+*** Eglot                                                                    :Eglot:
 #+begin_src emacs-lisp
 (use-package eglot
   :config
@@ -5878,7 +5827,7 @@ report which dependencies are installed was a bit of a hassle, but I think my fa
 solution so far has been to configure the virtual environment through the
 pyrightconfig.json file at the root of my project, and just have this file ignored by git.
 #+end_quote
-** Ruff                                                                        :Ruff:
+** Ruff                                                                       :Ruff:
 Ruff provides:
 - linting
 - formatting
@@ -5924,7 +5873,7 @@ not accessed" notes, add the following:
 (advice-add 'eglot--report-to-flymake :filter-args #'my-filter-eglot-diagnostics)
 #+end_src
 
-*** COMMENT LSP                                                                 :LSP:
+*** COMMENT LSP                                                                :LSP:
 
 #+begin_src emacs-lisp
 (use-package eglot
@@ -5944,7 +5893,7 @@ not accessed" notes, add the following:
           ))
 #+end_src
 
-** COMMENT Dap-debug (Python)                                                 :debug:
+** COMMENT Dap-debug (Python)                                                :debug:
 +You need to install ~ptvsd>=4.2~ in your virtual environment+
 
 You need to install ~debugpy~ in your virtual environment
@@ -5957,7 +5906,7 @@ You need to install ~debugpy~ in your virtual environment
   )
 #+end_src
 
-** Dape Python - Debug Protocol                                               :debug:
+** Dape Python - Debug Protocol                                              :debug:
 Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] in your python environment. Then running =dape= should be enough.
 
 ** code-cells-mode
@@ -6210,7 +6159,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
   )
 #+end_src
 
-** Auctex General config                                                     :auctex:
+** Auctex General config                                                    :auctex:
 #+begin_src emacs-lisp
 (use-package latex
   :demand t ;; Prevent the automatic deferred loading introduced by
@@ -6439,7 +6388,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
       )
 #+end_src
 
-** LSP for Latex                                                                :LSP:
+** LSP for Latex                                                               :LSP:
 #+begin_src emacs-lisp
 (use-package lsp-latex
   ;; NOTE: You need to install texlab for LSP to work with latex
@@ -6458,7 +6407,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
 
 ** TODO Tectonic
 Investigate the use of lsp and latex with the [[https://github.com/tectonic-typesetting/tectonic][Tectonic]] engine
-** Beamer                                                                    :Beamer:
+** Beamer                                                                   :Beamer:
 #+begin_src emacs-lisp
 (define-derived-mode beamer-mode
   LaTeX-mode "Beamer-Mode" "A derived mode from LaTeX-mode for latex buffers with beamer presentations."
@@ -6940,7 +6889,7 @@ You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
   )
 #+end_src
 
-** Bibtex                                                                    :Bibtex:
+** Bibtex                                                                   :Bibtex:
 #+begin_src emacs-lisp
 (use-package bibtex
   :defer t
@@ -6951,7 +6900,7 @@ You can use ~C-c C-x @~ to insert a citation (~org-cite-insert~ command).
   :config
   (bibtex-set-dialect 'biblatex)
   :hook
-  (bibtex-mode . (lambda () (darlan/set-up-outline-minor-mode "@")))
+  (bibtex-mode . (lambda () (darcamo/set-up-outline-minor-mode "@")))
   )
 #+end_src
 
@@ -6987,10 +6936,10 @@ These commands work together: for example, =crossref-lookup= displays a list of 
   )
 #+end_src
 
-** TODO Bibtex-completions                                              :Investigate:
+** TODO Bibtex-completions                                             :Investigate:
 Used by org-roam-bibtex
 
-** TODO Org-ref or citar [0/1]                 :AllTheIcons:Citar:Investigate:OrgRef:
+** TODO Org-ref or citar [0/1]                :AllTheIcons:Citar:Investigate:OrgRef:
 NOTE:
 - citar uses two caches to speed up library display; one for the global bibliography, and
   another for local files specific to a buffer. This is great for performance, but means
@@ -7059,7 +7008,7 @@ Some useful keybindings
 *** TODO Configure note support in citar (integrated with org-roam)
 https://github.com/bdarcus/citar#notes
 
-** TODO Org-noter                                            :Investigate:OrgNoter:
+** TODO Org-noter                                             :Investigate:OrgNoter:
 * Mail with mu4e                                                          :Mail:mu4e:
 Note: =C-c C-p= in message mode takes a screenshot and attach to the e-mail
 
@@ -7117,7 +7066,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 ;;        ))))
 #+end_src
 
-** Common email config and some helper functions                                :epa:
+** Common email config and some helper functions                               :epa:
 #+begin_src emacs-lisp
 ;; The my-define-mail-variables function just define some variables
 ;; that are used in the rest of the mu4e configuration
@@ -7372,7 +7321,7 @@ See more in https://github.com/chenyanming/calibredb.el
 - TIP: To add a file to the library use =calibredb-add=
   - After that use "=s f=" to fetch the metadata.
 
-** configuration                                                        :AllTheIcons:
+** configuration                                                       :AllTheIcons:
 #+begin_src emacs-lisp
 (use-package calibredb
   :ensure t

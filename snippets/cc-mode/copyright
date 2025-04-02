@@ -4,7 +4,7 @@
 # --
 /********************************************************
 *   FILE: `(buffer-name)`
-*   AUTHOR: `(darlan/get-user-name-and-email)`
+*   AUTHOR: `(darcamo/get-user-name-and-email)`
 *   Decription :
 *       ${1:main module}
 *

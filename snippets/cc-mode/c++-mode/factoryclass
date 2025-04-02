@@ -14,7 +14,7 @@
  * \brief Factory class to create a ${2:Block Class} object.
  *
  * \see FactoryBase
- * @author `(darlan/get-user-name-and-email)`
+ * @author `(darcamo/get-user-name-and-email)`
  */
 class $2Factory : FactoryBase
 {

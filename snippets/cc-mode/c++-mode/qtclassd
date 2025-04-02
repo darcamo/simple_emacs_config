@@ -12,7 +12,7 @@
 /**
  * \brief ***** PUT CLASS DESCRIPTION HERE *****
  *
- * @author `(darlan/get-user-name-and-email)`
+ * @author `(darcamo/get-user-name-and-email)`
  */
 class ${2:ClassName} : public ${3:$$(yas/choose-value '("QMainWindow" "QWidget" "QDialog"))}, private Ui::${5:Form Class Name}
 {
