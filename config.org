@@ -1867,6 +1867,9 @@ https://github.com/Artawower/file-info.el
 (add-hook 'magit-mode-hook #'evz/setup-magit-submodule-update-all)
 #+end_src
 
+*** Magit with Difftastic
+See [[https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html][this link]].
+
 ** Git timemachine
 #+begin_src emacs-lisp
 (use-package git-timemachine
@@ -3798,7 +3801,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   ;; Since headlines with ATTACH will have an ID, org-roam would consider them as
   ;; nodes. This exclude all headlines with the ATTACH tag from the Org-roam
   ;; database to avoid that.
-  (org-roam-db-node-include-function (lambda () (not (member "ATTACH" (org-get-tags)))))
+  ;; (org-roam-db-node-include-function (lambda () (not (member "ATTACH" (org-get-tags)))))
 
   (org-roam-capture-templates `(
                                 ("d" "default" plain "Criado em %u\n\n%?" :if-new
@@ -4426,6 +4429,7 @@ the other one separately.
 #+end_src
 
 ** COMMENT shackle
+THIS MPACKAGE IS INTERFERING WITH TRANSIENT PACKAGE when using `:choices`.
 
 NOTE: Shackle provides a nicer way to handle buffers, compared to change
 =display-buffer-alist= directly.
