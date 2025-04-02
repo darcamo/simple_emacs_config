@@ -7566,6 +7566,7 @@ Useful commands:
                                :host "localhost:11434"                ;Where it's running
                                :models '(DeepSeek-R1
                                          Qwen2.5-Coder:7b
+                                         Qwen2.5-Coder:32b
                                          mistral:latest
                                          dolphin-mixtral:latest
                                          openchat:latest
