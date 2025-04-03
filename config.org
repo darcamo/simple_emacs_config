@@ -867,10 +867,11 @@ Tip: Check the =yas-describe-tables= command
 (defun darcamo-replace-in-string (what with in)
   (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
 
+
 (defun darcamo/list-of-strings-p (arg)
   "Return t if arg is a list of strings"
-  (every 'stringp arg)
-  )
+  (every 'stringp arg))
+
 
 (defun darcamo/string-to-ascii (string)
   "Change a string containing unicode characters to the
@@ -887,8 +888,8 @@ Tip: Check the =yas-describe-tables= command
      ("’" . "'")
      ("‘" . "'")
      )
-   string)
-  )
+   string))
+
 
 (defun darcamo/string-to-ascii-region (beg end)
   "Change the selected text containing unicode characters to the
@@ -904,6 +905,7 @@ Tip: Check the =yas-describe-tables= command
         (goto-char beg)
         (insert replacement)))))
 
+
 (defun darcamo/surround-region (beg end leftPart rightPart)
   "Surround a region with the content of the leftPart and
       rightPart variables."
@@ -915,72 +917,68 @@ Tip: Check the =yas-describe-tables= command
     (goto-char (point-max))
     (insert rightPart)))
 
+
 (defun darcamo/surround-region-dowim (leftPart rightPart)
-  "Surround a region with the content of the leftPart and
-      rightPart variables. If the region is not active, the region
-      between the current point and the point given by forward-word
-      will be used."
+  "Surround a region with the content of LEFTPART and RIGHTPART variables.
+
+If the region is not active, the region between the current point and
+the point given by `forward-word' will be used."
   (interactive)
   (let (beg end)
-    (if (and transient-mark-mode
-             mark-active)
+    (if (and transient-mark-mode mark-active)
         ;; Region active code
         (progn (setq beg (region-beginning) end (region-end))
-               (darcamo/surround-region beg end leftPart rightPart)
-               )
+               (darcamo/surround-region beg end leftPart rightPart))
       ;; Region inactive code: beg = current point, end = end of the word
-      (progn
-        (setq beg (point))
-        (forward-word)
-        (setq end (point))
-        (darcamo/surround-region beg end leftPart rightPart)
-        )
-      )
-    )
-  )
+      (setq beg (point))
+      (forward-word)
+      (setq end (point))
+      (darcamo/surround-region beg end leftPart rightPart))))
+
 
 (defun darcamo/surround-with-command ()
-  "Usefull to surround a region with a command (in MATLAB shell
-      buffers, for instance). If the command if not provided it will be
-      asked in the minibuffer."
+  "Usefull to surround a region with a command.
+
+If the command if not provided it will be asked in the minibuffer."
   (interactive)
-  (let (command rightPart leftPart)
-    (setq command (read-from-minibuffer "Command Name: "))
-    (setq leftPart (concat command "("))
-    (setq rightPart ")")
-    (darcamo/surround-region-dowim leftPart rightPart)
-    )
-  )
+  (let* ((command (read-from-minibuffer "Command Name: "))
+         (leftPart (concat command "("))
+         (rightPart ")"))
+    (darcamo/surround-region-dowim leftPart rightPart)))
+
 
 (defun browse-doi-url (url)
-  "Open the url corresponding to the specified DOI number in the browser"
+  "Open the URL corresponding to the specified DOI number in the browser."
   (interactive "sDoi Number: ")
   (browse-url (concat "http://dx.doi.org/" url)))
 
 
 ;; Time functions
 (defun replace-nth-element (lista index valor)
-  "Replace the elemented pointed by 'index' in the list 'lista'
-        with the value of 'value'"
-  (replace lista (list valor) :start1 index)
-  )
+  "Replace the element at position INDEX in LISTA with VALOR."
+  (replace lista (list valor) :start1 index))
+
 
 (defun get-current-year()
+  "Get the current year."
   (interactive)
-  (format-time-string "%Y" (current-time))
-  )
+  (format-time-string "%Y" (current-time)))
+
 
 (defun get-current-month()
+  "Get the current month."
   (interactive)
-  (capitalize (format-time-string "%B" (current-time)))
-  )
+  (capitalize (format-time-string "%B" (current-time))))
+
 
 (defun get-me-an-org-id-for-the-month (categoryName)
-  "Used only in my template for the finances of the month. It
-        return a suitable ID for the month sub-headline."
+  "Generate an org ID for my monthly expenses for CATEGORYNAME.
+
+This is used only in my template for the finances of the month. It
+return a suitable ID for the month sub-headline."
   (interactive)
-  (concat (get-current-month) (get-current-year) categoryName)
-  )
+  (concat (get-current-month) (get-current-year) categoryName))
+
 
 (defun get-today-org-time-stamp ()
   "Insert a `time-stamp' for today.
@@ -988,8 +986,8 @@ Tip: Check the =yas-describe-tables= command
 The format is the same format that `org-mode' uses for inactive
 timestamps."
   (interactive)
-  (format-time-string "[%Y-%m-%d %a]" (current-time))
-  )
+  (format-time-string "[%Y-%m-%d %a]" (current-time)))
+
 
 (defun get-previous-month()
   "Get the name of the previous month."
@@ -1000,9 +998,8 @@ timestamps."
                                   ;; por 0. Com isso ao aplicar encode-time e em seguida format-time-string
                                   ;; eu vou pegar o mês anterior ao invés do mez atual (funciona até mesmo
                                   ;; para janeiro).
-                                  (apply 'encode-time ( replace-nth-element (decode-time) 3 0))
-                                  ))
-  )
+                                  (apply 'encode-time ( replace-nth-element (decode-time) 3 0)))))
+
 
 (defun get-previous-month-year()
   "Get the year of the previous month.
@@ -1014,17 +1011,15 @@ This will be equal to the current yar except when we are in january"
                                   ;; por 0. Com isso ao aplicar encode-time e em seguida format-time-string
                                   ;; eu vou pegar o ano do mês anterior (igual ao ano atual, exceto se
                                   ;; estivermos em janeiro, quando ele retorna o ano anterior)
-                                  (apply 'encode-time ( replace-nth-element (decode-time) 3 0))
-                                  ))
-  )
+                                  (apply 'encode-time ( replace-nth-element (decode-time) 3 0)))))
+
 
 (defun get-filebrowse-program-linux ()
   "Get the name of the file browser app to use to open a folder outside Emacs."
   (cond
    ((executable-find "nautilus") "nautilus")
-   ((executable-find "dolphin") "dolphin")
-   )
-  )
+   ((executable-find "dolphin") "dolphin")))
+
 
 (defun browse-dir-linux (dir-as-string)
   "Open filebrowser in the DIR-AS-STRING directory in Linux."
@@ -1034,9 +1029,8 @@ This will be equal to the current yar except when we are in january"
    "*scratch*"
    ;; Trocar nautilus por pcmanfm para o lxde
    ;; (concat "xdg-open " (expand-file-name dir-as-string))
-   (concat (get-filebrowse-program-linux) " " (expand-file-name dir-as-string))
-   )
-  )
+   (concat (get-filebrowse-program-linux) " " (expand-file-name dir-as-string))))
+
 
 (defun browse-dir-macos (dir-as-string)
   "Open filebrowser in the DIR-AS-STRING directory in MacOS."
@@ -1045,8 +1039,8 @@ This will be equal to the current yar except when we are in january"
    "browse"
    "*scratch*"
    ;; Trocar nautilus por pcmanfm para o lxde
-   (concat "open -a Finder " (expand-file-name dir-as-string)))
-  )
+   (concat "open -a Finder " (expand-file-name dir-as-string))))
+
 
 (defun browse-dir-windows (dir-as-string)
   "Open file explorer in the DIR-AS-STRING directory."
@@ -1055,8 +1049,8 @@ This will be equal to the current yar except when we are in january"
    "browse"
    "*scratch*"
    ;; Trocar nautilus por pcmanfm para o lxde
-   (concat "start " (expand-file-name dir-as-string)))
-  )
+   (concat "start " (expand-file-name dir-as-string))))
+
 
 ;; Browse Directory
 (defun browse-dir (dir-as-string)
@@ -1066,6 +1060,7 @@ This will be equal to the current yar except when we are in january"
    ((system-type-is-windows) (browse-dir-windows dir-as-string))
    (t (message "browse-dir: Unknown system type"))))
 
+
 ;; Use essa para abrir links sftp com o nautilus, como sftp://darlan@<server>/home/blabla
 (defun browse-dir-sftp (dir-as-string)
   (start-process-shell-command
@@ -1073,16 +1068,21 @@ This will be equal to the current yar except when we are in january"
    "*scratch*"
    (concat "nautilus --no-desktop " dir-as-string)))
 
+
 (defun browse-default-dir  ()
   "Open filebrowser in the default directory."
   (interactive)
   (browse-dir default-directory))
 
+
 (defun browse-default-dir-in-emacs ()
-  "Open the default directory in emacs with dired, which is the
-              directory of the file associated with the current buffer."
+  "Open the default directory in Emacs with Dired.
+
+The default directory is the directory of the file associated with the
+current buffer."
   (interactive)
   (dired default-directory))
+
 
 (defun get-terminal-fullpath ()
   "Return the path to the installed terminal emulator.
@@ -1090,71 +1090,66 @@ This will be equal to the current yar except when we are in january"
 First it will try the tilix terminal emulator. If not installed
 it will try gnome-terminal and if that is not installed it will
 then try lxterminal."
-  (cond
-   ((executable-find "kitty") "kitty")
-   ((executable-find "tilix") "tilix")
-   ((executable-find "gnome-terminal") "gnome-terminal")
-   ((executable-find "konsole") "konsole")
-   ((executable-find "lxterminal") "lxterminal")
-   ))
+  (seq-find
+   'executable-find
+   '("kitty" "tilix" "gnome-terminal" "konsole" "lxterminal" "xterm")))
+
 
 (defun linux-terminal-dir (dir-as-string)
-  "Open terminal in the provided directory"
+  "Open terminal in directory DIR-AS-STRING."
   (start-process-shell-command
    "browse"
    "*scratch*"
    ;; (concat (get-terminal-fullpath) " " (concat "--working-directory \"" (expand-file-name dir-as-string) "\""))
-   (concat (get-terminal-fullpath))
-   ))
+   (concat (get-terminal-fullpath))))
+
 
 (defun linux-terminal-default-dir ()
-  "Open terminal in the default directory, which is the directory
-of the file associated with the current buffer."
+  "Open terminal in the default directory."
   (interactive)
   (linux-terminal-dir default-directory))
 
 
 (defun macos-terminal-dir (dir-as-string)
-  "docstring"
+  "Open terminal in directory DIR-AS-STRING."
   (interactive)
   (start-process-shell-command
    "browse"
    "*scratch*"
    ;; (concat (get-terminal-fullpath) " " (concat "--working-directory \"" (expand-file-name dir-as-string) "\""))
-   (concat "open -n -a Terminal " dir-as-string)
-   )
-  )
+   (concat "open -n -a Terminal " dir-as-string)))
+
 
 (defun macos-terminal-default-dir ()
-  "docstring"
+  "Open terminal in the default directory."
   (interactive)
-  (macos-terminal-dir default-directory)
-  )
+  (macos-terminal-dir default-directory))
+
 
 (defun open-terminal-default-dir ()
-  "docstring"
+    "Open terminal in the default directory."
   (interactive)
   (if (system-type-is-linux)
       (linux-terminal-default-dir)
-    (macos-terminal-default-dir)
-    )
-  )
+    (macos-terminal-default-dir)))
 
-;; Ver PDF
+
 (defun ver-pdf-no-evince (pdf &optional page)
+  "Open a PDF using evince in page PAGE."
   (start-process-shell-command
    "evince"
    "*scratch*"
    (if page
        (format "evince -i %s %s" page pdf)
-     (format "evince %s" pdf))
-   ))
+     (format "evince %s" pdf))))
+
 
 (defun ver-pdf-no-acroread (pdf)
   (start-process-shell-command
    "acroread"
    "*scratch*"
    (concat "acroread " pdf)))
+
 
 ;; You need to have a script called pdfxchange
 (defun ver-pdf-no-pdfxchange (pdf)
@@ -1164,54 +1159,51 @@ of the file associated with the current buffer."
    (concat "pdfxchange " pdf)))
 
 
-
 ;; Abrir no OpenOffice
 (defun abrir-no-openoffice (documento)
+  "Open document DOCUMENTO using openoffice."
   (start-process-shell-command
    "openoffice"
    "*scratch*"
    (concat "libreoffice.org -o " "\"" documento "\"")))
 
 
-
 ;; Ver vídeo
 (defun ver-arquivo-de-video (video-file)
+  "Open a video file VIDEO-FILE using vlc."
   (start-process-shell-command
    "vlc"
    "*scratch*"
-   (concat "vlc " (surround-with-quotes video-file)))
-  )
+   (concat "vlc " (surround-with-quotes video-file))))
+
 
 (defun surround-with-quotes (filename)
-  "Surround a given filename with quotes. This is useful to pass that file name to functions to be executed in the shell, since we would have to scape some characters otherwise."
-  (message (concat "\"" filename "\""))
-  )
+  "Surround a given FILENAME with quotes.
+
+This is useful to pass that file name to functions to be executed in the
+shell, since we would have to scape some characters otherwise."
+  (message (concat "\"" filename "\"")))
+
 
 ;; Run shell command from given folder
 (defun run-shell-command-from-folder (command folder)
-  "Run a given command from the specified folder."
+  "Run a given COMMAND from the specified FOLDER."
   (interactive)
-  ;; (let (var1)
-  ;;   (setq var1 some)
-
-  ;;   )
   (start-process-shell-command
    command
    "*scratch*"
    ;; (concat "/usr/bin/nautilus --no-desktop " (concat "\"" (expand-file-name dir-as-string) "\""))
-   (concat "cd " (expand-file-name folder) " && " command)
-   )
-  )
+   (concat "cd " (expand-file-name folder) " && " command)))
 
-;; Test if a buffer exists
+
 (defun buffer-exists (bufname)
+  "Test if buffffer BUFNAME exists."
   (not
    (eq nil (get-buffer bufname))))
 
 
 ;; Dictionaries / Synonyms / Wikipedia
 
-;; Wikipedia
 (defun lookup-wikipedia ()
   "Look up the word's in Wikipedia.
 
@@ -1265,8 +1257,7 @@ This function is useful for creating labels from text, such as converting figure
       ;; Convert text to lowercase and insert
       (let ((label (downcase (buffer-substring-no-properties start end))))
         (delete-region start end)
-        (insert label)
-        ))))
+        (insert label)))))
 
 
 ;; Find duplicated words in a buffer
@@ -1281,23 +1272,6 @@ This function is useful for creating labels from text, such as converting figure
        "\\b\\([^@ \n\t]+\\)[ \n\t]+\\1\\b" nil 'move)
       (message "Found duplicated word.")
     (message "End of buffer")))
-
-
-;; Get a safe filename from a string
-;; These two functions were obtained from
-;; https://lists.gnu.org/archive/html/help-gnu-emacs/2012-07/msg00146.html
-;; I renamed them only to make it easier to find them with smex and change
-;; them to interactive
-(defun darcamo/alphanumericp (ch)
-  (find ch "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"))
-
-
-(defun darcamo/clean-filename (name)
-  (interactive "sNome ")
-  (setq m(remove-if-not (lambda (ch) (or (darcamo/alphanumericp ch) (find ch "-_.")))
-                        (substitute ?- 32 name)))
-  (message m)
-  )
 #+end_src
 
 * General Usability                                       :General:Usability:Utility:
