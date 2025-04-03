@@ -5353,7 +5353,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   )
 #+end_src
 
-** CMake-mode
+** CMake-mode                                                                :CMake:
 #+begin_src emacs-lisp
 (use-package cmake-mode
   :defer t
@@ -5367,6 +5367,11 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
                       ((equal (file-name-nondirectory (buffer-file-name)) "CMakePresets.json") (cmake-integration-keybindings))
                       ((equal (file-name-nondirectory (buffer-file-name)) "CMakeUserPresets.json") (cmake-integration-keybindings))
                       ((equal (file-name-nondirectory (buffer-file-name)) "ConanPresets.json") (cmake-integration-keybindings))))))
+#+end_src
+
+** CMake language server                                               :CMake:Eglot:
+#+begin_src emacs-lisp
+(add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("cmake-language-server")))
 #+end_src
 
 ** Ninja Mode
