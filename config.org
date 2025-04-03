@@ -1717,6 +1717,21 @@ Check https://github.com/Artawower/turbo-log
 
 ** TODO file-info
 https://github.com/Artawower/file-info.el
+
+** helpful
+A better Emacs *help* buffer
+
+#+begin_src emacs-lisp
+(use-package helpful
+  :ensure t
+  :bind
+  (("C-h f" . #'helpful-callable)
+   ("C-h v" . #'helpful-variable)
+   ("C-h k" . #'helpful-key)
+   ("C-h x" . #'helpful-command))
+  )
+#+end_src
+
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src emacs-lisp
 ;; (setq scroll-step 1)
