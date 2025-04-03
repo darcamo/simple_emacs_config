@@ -211,7 +211,7 @@ displaying correctly, call =nerd-icons-install-fonts= to install the fonts.
 Alternative modeline similar to powerline
 
 https://github.com/dbordak/telephone-line
-* Completion framework [0/2]                                      :Completion:
+* Completion framework                                                   :Completion:
 ** COMMENT Ido Mode                                                        :IdoMode:
 #+begin_src emacs-lisp
 (ido-mode 1)
@@ -228,39 +228,28 @@ https://github.com/dbordak/telephone-line
   (imenu-flatten 'group))
 #+end_src
 
-** Vertico and orderless                                         :Orderless:Vertico:
+** Vertico                                                                 :Vertico:
 Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 *** Basic configuration
 #+begin_src emacs-lisp
-;; We want case-insensitive filenames, since we will use vertigo to
-;; filter filenames anyway
-(setq read-file-name-completion-ignore-case t)
-
 ;; Enable vertico
 (use-package vertico
   :ensure t
   :custom
-  ;; Different scroll margin
-  ;; (vertico-scroll-margin 0)
-
-  ;; Show more candidates
-  ;; (vertico-count 20)
-
-  ;; Grow and shrink the Vertico minibuffer
-  ;; (vertico-resize t)
-
-  ;; Optionally enable cycling for `vertico-next' and `vertico-previous'.
-  (vertico-cycle t)
+  ;; (vertico-scroll-margin 0) ;; Different scroll margin
+  ;; (vertico-count 20) ;; Show more candidates
+  ;; (vertico-resize t) ;; Grow and shrink the Vertico minibuffer
+  (vertico-cycle t)  ;; Enable cycling for `vertico-next/previous'
   :init
   (vertico-mode)
-  :bind (
-         :map vertico-map
-         ;; Note that you can also use C-M-f and C-M-b to move cursor between directories
-         ("C-l" . backward-kill-sexp))
+  :bind ( :map vertico-map
+          ;; Note that you can also use C-M-f and C-M-b to move cursor between directories
+          ("C-l" . backward-kill-sexp))
   :hook
   ;; Clean up file path when typing
   (rfn-eshadow-update-overlay . vertico-directory-tidy)
   )
+
 
 ;; Persist history over Emacs restarts. Vertico sorts by history position.
 (use-package savehist
@@ -268,63 +257,24 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   (savehist-mode))
 
 
-
-
-;; Quick keys for selecting a candidate using Avy-style
-(use-package vertico-quick
-  :bind (:map vertico-map
-              ("M-q" . vertico-quick-insert)
-              ("C-q" . vertico-quick-exit)
-              ))
-
-
-;; Optionally use the `orderless' completion style. See
-;; `+orderless-dispatch' in the Consult wiki for an advanced Orderless style
-;; dispatcher. Additionally enable `partial-completion' for file path
-;; expansion. `partial-completion' is important for wildcard support.
-;; Multiple files can be opened at once with `find-file' if you enter a
-;; wildcard. You may also give the `initials' completion style a try.
-(use-package orderless
-  :ensure t
-  :init
-  ;; Configure a custom style dispatcher (see the Consult wiki)
-  ;; (setq orderless-style-dispatchers '(+orderless-dispatch)
-  ;;       orderless-component-separator #'orderless-escapable-split-on-space)
-  (setq completion-styles '(orderless basic)
-        completion-category-defaults nil
-        completion-category-overrides '((file (styles basic partial-completion)))))
-
-
-
-
-
 ;; A few more useful configurations...
 (use-package emacs
-  :ensure nil
-  :init
-  ;; Add prompt indicator to `completing-read-multiple'.
-  ;; We display [CRM<separator>], e.g., [CRM,] if the separator is a comma.
-  (defun crm-indicator (args)
-    (cons (format "[CRM%s] %s"
-                  (replace-regexp-in-string
-                   "\\`\\[.*?]\\*\\|\\[.*?]\\*\\'" ""
-                   crm-separator)
-                  (car args))
-          (cdr args)))
-  (advice-add #'completing-read-multiple :filter-args #'crm-indicator)
+  :custom
+  (enable-recursive-minibuffers t)  ;; Enable recursive minibuffers
+
+  ;; Hide commands in M-x which do not work in the current mode.  Vertico
+  ;; commands are hidden in normal buffers. This setting is useful beyond
+  ;; Vertico.
+  (read-extended-command-predicate #'command-completion-default-include-p)
 
   ;; Do not allow the cursor in the minibuffer prompt
-  (setq minibuffer-prompt-properties
-        '(read-only t cursor-intangible t face minibuffer-prompt))
-  (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+  (minibuffer-prompt-properties
+   '(read-only t cursor-intangible t face minibuffer-prompt))
 
-  ;; Emacs 28: Hide commands in M-x which do not work in the current mode.
-  ;; Vertico commands are hidden in normal buffers.
-  ;; (setq read-extended-command-predicate
-  ;;       #'command-completion-default-include-p)
 
-  ;; Enable recursive minibuffers
-  (setq enable-recursive-minibuffers t))
+  ;; (add-hook 'minibuffer-setup-hook #'cursor-intangible-mode)
+
+  )
 #+end_src
 
 *** COMMENT Extra packages: vertico-mouse
@@ -333,6 +283,27 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   :after vertico
   :init
   (vertico-mouse-mode))
+#+end_src
+
+** Orderless                                                             :Orderless:
+#+begin_src emacs-lisp
+;; We want case-insensitive filenames, since we will use vertigo to
+;; filter filenames anyway
+(use-package emacs
+  :custom
+  (read-file-name-completion-ignore-case t))
+
+
+;; Optionally use the `orderless' completion style.
+(use-package orderless
+  :ensure t
+  :custom
+  ;; Configure a custom style dispatcher (see the Consult wiki)
+  ;; (orderless-style-dispatchers '(+orderless-consult-dispatch orderless-affix-dispatch))
+  ;; (orderless-component-separator #'orderless-escapable-split-on-space)
+  (completion-styles '(orderless basic))
+  (completion-category-defaults nil)
+  (completion-category-overrides '((file (styles partial-completion)))))
 #+end_src
 
 ** Marginalia                                                           :Marginalia:
