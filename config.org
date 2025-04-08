@@ -1277,12 +1277,6 @@ This function is useful for creating labels from text, such as converting figure
 * General Usability                                       :General:Usability:Utility:
 ** Configuration
 #+begin_src emacs-lisp
-(use-package conf-mode
-  ;; :ensure nil
-  :mode
-  ("\\PKGBUILD$" . conf-mode)
-  )
-
 (use-package emacs
   :ensure nil
   :mode
@@ -1318,24 +1312,6 @@ This function is useful for creating labels from text, such as converting figure
       `(("." . ,(expand-file-name "~/tmp/emacs/auto-save/"))))
 ;; xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
-;; Note that if page-break-lines is enabled in org-mode buffers it
-;; breaks the org-roam buffer for some reason. Therefore, only enabled
-;; it in programming modes
-(use-package page-break-lines
-  :ensure t
-  ;; :config
-  ;; ;;(global-page-break-lines-mode)
-  ;; (add-to-list 'page-break-lines-modes 'c++-mode)
-  ;; (add-to-list 'page-break-lines-modes ' c++-ts-mode)
-  ;; (add-to-list 'page-break-lines-modes 'python-mode)
-  ;; (add-to-list 'page-break-lines-modes 'python-ts-mode)
-  ;; (add-to-list 'page-break-lines-modes 'org-mode)
-  :custom
-  (page-break-lines-lighter "")
-  :hook
-  ;; (org-mode . page-break-lines-mode)
-  (prog-mode . page-break-lines-mode)
-  )
 
 ;; Indicate in the (right) fringe which lines were wrapped by visual-line-mode
 (setq visual-line-fringe-indicators '(left-curly-arrow right-curly-arrow))
@@ -1350,14 +1326,19 @@ This function is useful for creating labels from text, such as converting figure
               (adaptive-wrap-prefix-mode))
             )
           )
+#+end_src
 
+** winner-mode
+#+begin_src emacs-lisp
 ;; Winner mode
 (use-package winner
   :config
   (winner-mode)
   )
+#+end_src
 
-
+** rainbow-delimiters
+#+begin_src emacs-lisp
 (use-package rainbow-delimiters
   :ensure t
   :defer t
@@ -1372,10 +1353,18 @@ This function is useful for creating labels from text, such as converting figure
   (set-face-foreground 'rainbow-delimiters-depth-8-face "#999")  ; medium gray
   (set-face-foreground 'rainbow-delimiters-depth-9-face "#666")  ; dark gray
   :hook
-  (prog-mode . rainbow-delimiters-mode)
-  )
+  (prog-mode . rainbow-delimiters-mode))
 #+end_src
 
+** conf-mode                                                               :Doxygen:
+#+begin_src emacs-lisp
+(use-package conf-mode
+  ;; :ensure nil
+  :mode
+  ("\\PKGBUILD$" . conf-mode)
+  ("\\Doxyfile" . conf-mode)
+  )
+#+end_src
 ** Ediff: use single frame
 #+begin_src emacs-lisp
 (use-package emacs
@@ -1433,23 +1422,17 @@ This function is useful for creating labels from text, such as converting figure
 ;; (global-set-key (kbd "M-I") 'imenu)  ;; Use Alt+Shift+i for standard imenu
 #+end_src
 
-** Extra packages                                                      :Keybindings:
-#+begin_src emacs-lisp
-(use-package diminish
- :ensure t)
-
-;; While autorevert is a native functionality, we use "use-package" here as a way to diminish its modline
-(use-package autorevert
-  :defer t
-  :diminish auto-revert-mode
-  )
-
+** which-key
+#+begin_src elisp
 (use-package which-key
   :ensure t
   :config (which-key-mode)
   :diminish which-key-mode
   )
+#+end_src
 
+** windmove                                                            :Keybindings:
+#+begin_src emacs-lisp
 (use-package windmove
   :bind
   ;; Note that windmove has the "(windmove-default-keybindings 'shift)"
@@ -1461,12 +1444,28 @@ This function is useful for creating labels from text, such as converting figure
   ("<S-up>" . windmove-up)
   ("<S-down>" . windmove-down)
   )
+#+end_src
 
-(use-package goto-last-change
+** Multiple Cursors                                                    :Keybindings:
+#+begin_src emacs-lisp
+(use-package multiple-cursors
   :ensure t
-  :bind ("C-x C-n" . goto-last-change)
-  )
+  :bind
+  ("C-S-c C-S-c" . mc/edit-lines)
+  ("C-S-c C-S-l" . mc/mark-all-like-this)
+  ("C->" . mc/mark-next-like-this)
+  ("C-<" . mc/mark-previous-like-this))
 
+
+(use-package ace-mc
+  :ensure t
+  :bind (
+         ("C-)" . ace-mc-add-multiple-cursors)
+         ("C-M-)" . ace-mc-add-single-cursor)))
+#+end_src
+
+** git-gutter
+#+begin_src emacs-lisp
 (use-package git-gutter
   :ensure t
   :config
@@ -1474,35 +1473,39 @@ This function is useful for creating labels from text, such as converting figure
   ;; The default is " GitGutter", but I don't want to waste
   ;; space in the modeline with that
   (setq git-gutter:lighter ""))
+#+end_src
 
+** Go to last change                                                   :Keybindings:
+#+begin_src emacs-lisp
+(use-package goto-last-change
+  :ensure t
+  :bind ("C-x C-n" . goto-last-change))
+#+end_src
+
+** comment-dwim-2                                                      :Keybindings:
+#+begin_src emacs-lisp
 (use-package comment-dwim-2
   :ensure t
   :bind ("M-;" . comment-dwim-2)
   :config
   (setq comment-dwim-2--inline-comment-behavior 'reindent-comment))
+#+end_src
+
+** Extra packages                                                      :Keybindings:
+#+begin_src emacs-lisp
+(use-package diminish
+ :ensure t)
+
+;; While autorevert is a native functionality, we use "use-package" here as a way to diminish its modline
+(use-package autorevert
+  :defer t
+  :diminish auto-revert-mode)
 
 (use-package discover-my-major
   :ensure t
   :bind
   ;; Discover Major mode keybindings with 'discover-my-major'
   ("C-h C-m" . discover-my-major)
-  )
-
-(use-package multiple-cursors
-  :ensure t
-  :bind
-  ("C-S-c C-S-c" . mc/edit-lines)
-  ("C-S-c C-S-l" . mc/mark-all-like-this)
-  ("C->" . mc/mark-next-like-this)
-  ("C-<" . mc/mark-previous-like-this)
-  )
-
-(use-package ace-mc
-  :ensure t
-  :bind (
-         ("C-)" . ace-mc-add-multiple-cursors)
-         ("C-M-)" . ace-mc-add-single-cursor)
-         )
   )
 
 (use-package drag-stuff
@@ -4492,6 +4495,18 @@ You need to have [[https://zealdocs.org/][zeal]] installed.
   )
 #+end_src
 
+** page-break-lines
+#+begin_src emacs-lisp
+;; Note that if page-break-lines is enabled in org-mode buffers it
+;; breaks the org-roam buffer for some reason. Therefore, only enabled
+;; it in programming modes
+(use-package page-break-lines
+  :ensure t
+  :custom
+  (page-break-lines-lighter "")
+  :hook
+  (prog-mode . page-break-lines-mode))
+#+end_src
 * Eldoc
 Replace HTML characters with plain text ones in eldoc buffers.
 
@@ -5203,11 +5218,6 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
 * C++                                                               :CPP:Programming:
 Note: Use =C-c C-k= to toggle between line comments and block comments.
 ** Doxygen                                                                 :doxygen:
-*** Use conf-mode in Doxyfile
-#+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("Doxyfile" . conf-mode))
-#+end_src
-
 *** Doxygen with tree-sitter
 Enable doxygen syntax highlighting using tree-sitter.
 
@@ -7267,7 +7277,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
   )
 #+end_src
 
-** Extra packages
+** Extra mu4e packages
 *** mu4e-column-faces
 This package makes mu4e much more beautiful
 #+begin_src emacs-lisp
