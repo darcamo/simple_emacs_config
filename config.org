@@ -1357,17 +1357,6 @@ This function is useful for creating labels from text, such as converting figure
   (winner-mode)
   )
 
-;; Add some visual indicator (pulse) where the cursor is with some movement commands
-;; taken from https://karthinks.com/software/batteries-included-with-emacs/
-(defun pulse-line (&rest _)
-  "Pulse the current line."
-  (pulse-momentary-highlight-one-line (point)))
-
-
-
-(dolist (command '(scroll-up-command scroll-down-command
-                                     recenter-top-bottom other-window))
-  (advice-add command :after #'pulse-line))
 
 (use-package rainbow-delimiters
   :ensure t
@@ -1692,6 +1681,19 @@ You can open links by clicking or with the =C-c RET= keybinding.
   (add-to-list 'auto-insert-alist
                (cons '("qmldir" "Basic qmldir template")
                      "qmldir"))
+  )
+#+end_src
+
+** pulsar
+#+begin_src emacs-lisp
+(use-package pulsar
+  :ensure t
+  :config
+  (add-to-list 'pulsar-pulse-functions 'jump-to-register)
+  (add-to-list 'pulsar-pulse-functions 'pixel-scroll-interpolate-down)
+  (add-to-list 'pulsar-pulse-functions 'pixel-scroll-interpolate-up)
+
+  (pulsar-global-mode 1)
   )
 #+end_src
 
