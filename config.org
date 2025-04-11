@@ -7446,7 +7446,10 @@ Don't forget to call ~copilot-install-server~.
   :hook ((c-mode-common . copilot-mode)
          (c-ts-base-mode . copilot-mode)
          (python-ts-mode . copilot-mode)
-         (qml-mode . copilot-mode))
+         (qml-mode . copilot-mode)
+         (emacs-lisp-mode . copilot-mode))
+  :custom
+  (copilot-indent-offset-warning-disable t)
   :custom-face
   (copilot-overlay-face ((t (:foreground "DeepSkyBlue")))))
 #+end_src
