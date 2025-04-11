@@ -1,2 +1,2 @@
-;; I use elpaca, instead of the built-in package manager
+;; -*- lexical-binding: t; -*-
 (setq package-enable-at-startup nil)
