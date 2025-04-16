@@ -5358,6 +5358,13 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 
 ** CMake-mode                                                                :CMake:
 #+begin_src emacs-lisp
+(defun darcamo/is-cmake-presets-file ()
+  "Check if FILENAME is the name of a cmake presets file."
+  (if-let* ((buffer-name (buffer-file-name))
+            (filename (file-name-nondirectory buffer-name)))
+      (if (member filename '("CMakePresets.json" "CMakeUserPresets.json" "ConanPresets.json")) t nil)))
+
+
 (use-package cmake-mode
   :defer t
   :ensure t
@@ -5366,10 +5373,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   (cmake-ts-mode . cmake-integration-keybindings)
   (compilation-mode . cmake-integration-keybindings)
   ;; Enable cmake-integration-keybindings in json mode only for the three file names
-  (json-mode . (lambda () (cond
-                      ((equal (file-name-nondirectory (buffer-file-name)) "CMakePresets.json") (cmake-integration-keybindings))
-                      ((equal (file-name-nondirectory (buffer-file-name)) "CMakeUserPresets.json") (cmake-integration-keybindings))
-                      ((equal (file-name-nondirectory (buffer-file-name)) "ConanPresets.json") (cmake-integration-keybindings))))))
+  (json-mode . (lambda () (when (darcamo/is-cmake-presets-file) (cmake-integration-keybindings)))))
 #+end_src
 
 ** CMake language server                                               :CMake:Eglot:
