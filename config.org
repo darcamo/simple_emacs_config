@@ -3492,6 +3492,34 @@ This is controlled by the variables
   )
 #+end_src
 
+*** Some font-lock rules for info buffers
+#+begin_src emacs-lisp
+(defun darcamo/fontify-info-buffer ()
+  "Some custom font-lock rules to make info buffers prettier."
+  ;; Fontify text between ‘ and ’ in Info buffers.
+  (font-lock-add-keywords
+   nil
+   '(("‘\\(.*?\\)’\\|“\\(.*?\\)”"
+      (1 'font-lock-string-face t t) ; Fontify text between ‘ and ’
+      (2 'bold t t))))
+
+  ;; Fontify anything between < and >
+  (font-lock-add-keywords
+   nil
+   '(("<\\(.*?\\)>"
+      (1 'font-lock-variable-name-face))))
+
+  ;; Fontify 'Function' and function names in Info buffers.
+  (font-lock-add-keywords
+   nil
+   '((" -- \\(Function\\): \\([a-zA-Z0-9-]+\\)"
+      (1 'font-lock-keyword-face)  ; Highlight 'Function'
+      (2 'font-lock-function-name-face))))
+  )
+
+
+(add-hook 'Info-mode-hook #'darcamo/fontify-info-buffer)
+#+end_src
 ** Specific faces for TODO keywords
 https://www.i3s.unice.fr/~malapert/emacs_orgmode.html
 
