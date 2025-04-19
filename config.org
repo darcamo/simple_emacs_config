@@ -4152,6 +4152,19 @@ See the docstring of [[help:edit-indirect-region][edit-indirect-region]] for det
   :ensure t)
 #+end_src
 
+* eww
+** Syntax highlight for code blocks in eww
+#+begin_src emacs-lisp
+(use-package shr-tag-pre-highlight
+  :ensure t
+  :commands shr-tag-pre-highlight
+  :hook
+  (eww-mode . (lambda () (require 'shr-tag-pre-highlight)))
+  :config
+  (add-to-list 'shr-external-rendering-functions
+               '(pre . shr-tag-pre-highlight)))
+#+end_src
+
 * Atomic-chrome: Edit text-fields in the browser
 https://github.com/alpha22jp/atomic-chrome
 
