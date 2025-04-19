@@ -4153,6 +4153,20 @@ See the docstring of [[help:edit-indirect-region][edit-indirect-region]] for det
 #+end_src
 
 * eww
+** Modify a few shr faces
+#+begin_src emacs-lisp
+(use-package shr
+  :defer t
+  :config
+  ;; Use the same color as org-code for the shr-code face
+  (let ((color (plist-get (custom-face-attributes-get 'org-code nil) :foreground)))
+    (set-face-attribute 'shr-code nil :foreground color))
+
+  (set-face-attribute 'shr-h1 nil :height 1.5)
+  (set-face-attribute 'shr-h2 nil :height 1.2)
+  )
+#+end_src
+
 ** Syntax highlight for code blocks in eww
 #+begin_src emacs-lisp
 (use-package shr-tag-pre-highlight
