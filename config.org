@@ -7465,7 +7465,16 @@ You can compile with =C-c C-c=.
 
 See [[https://github.com/abrochard/mermaid-mode?tab=readme-ov-file#usage][Usage]] for the keybindings.
 
-* Co-pilot                                                                  :copilot:
+* x509-mode
+https://github.com/jobbflykt/x509-mode
+
+Open a certificate, public key, etc., and then just call =x509-dwim=.
+#+begin_src emacs-lisp
+(use-package x509-mode
+  :ensure t)
+#+end_src
+
+* Co-pilot                                                              :LLM:copilot:
 ** Completions in buffer
 https://github.com/copilot-emacs/copilot.el
 
@@ -7507,26 +7516,6 @@ Don't forget to call ~copilot-install-server~.
   (
    ("C-x c" . copilot-chat-transient)
    ))
-#+end_src
-
-* COMMENT prodigy: Starting processes with emacs
-#+begin_src emacs-lisp
-(use-package prodigy
-  :ensure t
-
-  ;; Define services
-  )
-#+end_src
-
-Note: There is also the nice package [[https://github.com/emacs-taskrunner/emacs-taskrunner][emacs-taskrunner]].
-
-* x509-mode
-https://github.com/jobbflykt/x509-mode
-
-Open a certificate, public key, etc., and then just call =x509-dwim=.
-#+begin_src emacs-lisp
-(use-package x509-mode
-  :ensure t)
 #+end_src
 
 * gptel                                                                  :LLM:ollama:
