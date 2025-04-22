@@ -4922,6 +4922,9 @@ version can’t be used, fall back to the original major mode.
      (toml "https://github.com/tree-sitter/tree-sitter-toml")
      (yaml "https://github.com/ikatyang/tree-sitter-yaml")
      (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+     (doxygen
+       "https://github.com/tree-sitter-grammars/tree-sitter-doxygen"
+       "v1.1.0")
      ))
   ;; Indentation
   (c-ts-mode-indent-offset 4)
