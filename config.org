@@ -6059,6 +6059,7 @@ Note: Run =npm i -g vscode-langservers-extracted= to install the json language s
 #+begin_src emacs-lisp
 (use-package json-mode
   ;; :commands json-mode
+  :commands (json-mode)
   :ensure t
   ;; :hook
   ;; (json-mode . lsp)
@@ -7514,6 +7515,7 @@ https://github.com/jobbflykt/x509-mode
 Open a certificate, public key, etc., and then just call =x509-dwim=.
 #+begin_src emacs-lisp
 (use-package x509-mode
+  :commands (x509-dwim)
   :ensure t)
 #+end_src
 
