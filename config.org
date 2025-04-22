@@ -5301,7 +5301,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 (add-to-list 'auto-mode-alist '("\\.c++m\\'" . c++-mode)) ;; One of extensions used for module file
 #+end_src
 
-** Load the package with use-package
+** cmake-integration package                                           :CMake:Dired:
 #+begin_src emacs-lisp
 (define-minor-mode cmake-integration-keybindings
   "A minor-mode for adding keybindings to compile C++ code using cmake-integration package."
@@ -5427,8 +5427,24 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   (cmake-mode . cmake-integration-keybindings)
   (cmake-ts-mode . cmake-integration-keybindings)
   (compilation-mode . cmake-integration-keybindings)
+  )
+#+end_src
+
+** CMake Presets mode
+#+begin_src emacs-lisp
+(use-package cmakepresets-mode
+  :ensure (cmakepresets-mode :type git :host github :protocol ssh
+                             :repo "darcamo/cmakepresets-mode" :depth nil)
+  :mode
+  ("CMakePresets\\.json" . cmakepresets-mode)
+  ("CMakeUserPresets\\.json" . cmakepresets-mode)
+  ("ConanPresets\\.json" . cmakepresets-mode)
+  :hook
   ;; Enable cmake-integration-keybindings in json mode only for the three file names
-  (json-mode . (lambda () (when (darcamo/is-cmake-presets-file) (cmake-integration-keybindings)))))
+  (cmakepresets-mode . cmake-integration-keybindings)
+
+  (json-mode . (lambda () (when (darcamo/is-cmake-presets-file) (cmakepresets-mode))))
+  )
 #+end_src
 
 ** CMake language server                                               :CMake:Eglot:
