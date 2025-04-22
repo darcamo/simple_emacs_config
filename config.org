@@ -7495,7 +7495,7 @@ execute the code.
   )
 #+end_src
 
-* Mermaid
+* COMMENT Mermaid
 Note: You need to install [[https://github.com/mermaid-js/mermaid-cli][mermaid-cli]].
 
 The CLI executable is =mmdc=.
