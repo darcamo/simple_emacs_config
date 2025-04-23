@@ -7568,14 +7568,18 @@ Don't forget to call ~copilot-install-server~.
 
 * gptel                                                                  :LLM:ollama:
 ** General configuration
+You can limit the conversation context to an Org heading with the command
+gptel-org-set-topic. (This sets an Org property (GPTEL_TOPIC) under the heading. You can
+also add this property manually instead.)
+
 #+begin_src emacs-lisp
 (use-package gptel
   :ensure t
   :commands (gptel-menu gptel-send gptel gptel-mode gptel-set-topic gptel--convert-markdown->org)
   :bind
   ("C-c <return>" . gptel-send)
-  ;; :custom
-  ;; (gptel-default-mode 'org-mode)
+  :custom
+  (gptel-default-mode 'org-mode)
   :config
   (setq-default gptel-model 'Qwen2.5-Coder:7b ;; Pick your default model
                 gptel-expert-commands t
@@ -7631,6 +7635,25 @@ Pres "=+=" (possible multiple times) to to expand the explanation.
   :defer t
   :config
   (keymap-set embark-general-map "?" #'gptel-quick)
+  )
+#+end_src
+** COMMENT Corsair
+Provide functions to easily add content to gptel context.
+
+The idea is good, but I didn't like how it works.
+
+#+begin_src emacs-lisp
+(use-package corsair
+  :ensure t
+  :defer t
+  :bind
+  (("C-c g c" . #'corsair-open-chat-buffer)                    ;; Open chat buffer
+   ("C-c g a c" . #'corsair-accumulate-file-path-and-contents) ;; Accumulate file path and contents
+   ("C-c g a n" . #'corsair-accumulate-file-name)              ;; Accumulate file name
+   ("C-c g a v" . #'corsair-accumulate-file-path)              ;; Accumulate file path
+   ("C-c g a w" . #'corsair-accumulate-selected-text)          ;; Accumulate selected text
+   ("C-c g a D" . #'corsair-drop-accumulated-buffer)           ;; Drop chat buffer
+   ("C-c g f" . #'corsair-insert-file-or-folder-contents))     ;; Insert file or folder contents
   )
 #+end_src
 
