@@ -7540,7 +7540,7 @@ Don't forget to call ~copilot-install-server~.
          ("C-<return>" . copilot-accept-completion)
          ;; ("C-<right>" . copilot-accept-completion-by-word)
          ("<tab>" . copilot-accept-completion-by-word)
-         ("C-<SPC>" . copilot-accept-completion-by-line)
+         ("C-<end>" . copilot-accept-completion-by-line)
          ;; ("C-M-i" . my/copilot-tab)
          )
   :hook ((c-mode-common . copilot-mode)
