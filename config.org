@@ -7567,13 +7567,7 @@ Don't forget to call ~copilot-install-server~.
 #+end_src
 
 * gptel                                                                  :LLM:ollama:
-Useful commands:
-- gptel-send
-  - use C-u before for a menu
-- gptel
-- gptel-abort
-- gptel-set-topic
-
+** General configuration
 #+begin_src emacs-lisp
 (use-package gptel
   :ensure t
@@ -7605,7 +7599,6 @@ Useful commands:
   (gptel-make-gh-copilot "Copilot"))
 #+end_src
 
-
 Note: You can customize the =gptel-directives= variable.
 You can also customize =gptel-temperature=.
 
@@ -7621,6 +7614,29 @@ You can also customize =gptel-temperature=.
   :              (frob response)))
 - Note: When the gptel-send transient menu is open, you can use =C-x C-s= to save the
   current choice as default. THIS WORKS IN ANY TRANSIENT MENU!.
+** gptel quick
+Just put the cursor in a word, or select something and call =gptel-quick= to ask the current
+model in gptel to explain it in a post frame.
+
+Pres "=+=" (possible multiple times) to to expand the explanation.
+
+#+begin_src emacs-lisp
+(use-package gptel-quick
+  :ensure (gptel-quick :type git :host github :repo "karthink/gptel-quick")
+  :commands (gptel-quick)
+  )
+
+
+(use-package embark
+  :defer t
+  :config
+  (keymap-set embark-general-map "?" #'gptel-quick)
+  )
+#+end_src
+
+** COMMENT magit-gptcommit
+https://github.com/douo/magit-gptcommit?tab=readme-ov-file
+
 * COMMENT Ellama                                                         :LLM:ollama:
 https://www.rahuljuliato.com/posts/ellama
 #+begin_src emacs-lisp
