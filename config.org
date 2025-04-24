@@ -7550,6 +7550,7 @@ Don't forget to call ~copilot-install-server~.
          (emacs-lisp-mode . copilot-mode))
   :custom
   (copilot-indent-offset-warning-disable t)
+  (copilot-max-char-warning-disable t)
   :custom-face
   (copilot-overlay-face ((t (:foreground "DeepSkyBlue")))))
 #+end_src
