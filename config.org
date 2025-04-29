@@ -7607,10 +7607,10 @@ confirmation.
   :commands (gptel-menu gptel-send gptel gptel-mode gptel-set-topic gptel--convert-markdown->org)
   :bind
   (("C-c <return>" . gptel-send)
-  :map gptel-mode-map
-  ("S-<right>" . windmove-right)
-  ("S-<left>" . windmove-left)
-  )
+   :map gptel-mode-map
+   ("S-<right>" . windmove-right)
+   ("S-<left>" . windmove-left)
+   )
   :custom
   (gptel-default-mode 'org-mode)
   :config
