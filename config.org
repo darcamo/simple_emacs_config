@@ -7529,6 +7529,11 @@ https://github.com/copilot-emacs/copilot.el
 Don't forget to call ~copilot-install-server~.
 
 #+begin_src emacs-lisp
+(defun darcamo/is-scratch-buffer ()
+  "Check if the buffer name is `*scratch*'."
+  (string-equal (buffer-name) "*scratch*"))
+
+
 (use-package copilot
   :ensure (:host github :repo "copilot-emacs/copilot.el")
   :bind (
@@ -7547,7 +7552,7 @@ Don't forget to call ~copilot-install-server~.
          (c-ts-base-mode . copilot-mode)
          (python-ts-mode . copilot-mode)
          (qml-mode . copilot-mode)
-         (emacs-lisp-mode . copilot-mode))
+         (emacs-lisp-mode . (lambda () (unless (darcamo/is-scratch-buffer) (copilot-mode)))))
   :custom
   (copilot-indent-offset-warning-disable t)
   (copilot-max-char-warning-disable t)
