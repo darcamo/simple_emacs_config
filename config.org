@@ -7621,7 +7621,17 @@ confirmation.
                                           llama3
                                           )
                                 :stream t))
-  (gptel-make-gh-copilot "Copilot"))
+  ;; Add a copilot backend
+  (gptel-make-gh-copilot "Copilot")
+
+  ;; Add a tool to query the current time
+  (gptel-make-tool
+   :name "current_time"
+   :function (lambda ()
+               (current-time-string))
+   :description "Return the current local time (including current time and date), as a human-readable string."
+   :category "emacs")
+  )
 #+end_src
 
 Note: You can customize the =gptel-directives= variable.
