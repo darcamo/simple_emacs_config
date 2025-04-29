@@ -7589,6 +7589,18 @@ You can add a selected region, buffer or file to gptel's context from the menu, 
 command. Directories will have their files added recursively after prompting for
 confirmation.
 
+*Note about Qwen3 model*
+- The model has a "think mode" and a "No Think mode"
+  - Thinking Mode: In this mode, the model takes time to reason step by step before
+    delivering the final answer. This is ideal for complex problems that require deeper
+    thought.
+  - Non-Thinking Mode: Here, the model provides quick, near-instant responses, suitable
+    for simpler questions where speed is more important than depth.
+- Add =/think= in the prompt to enable think mode (on by default in qwen3:30b-a3b), and add
+  =/no_think= in the prompt to disable it
+- See mode in https://qwenlm.github.io/blog/qwen3/
+
+
 #+begin_src emacs-lisp
 (use-package gptel
   :ensure t
@@ -7602,12 +7614,13 @@ confirmation.
   :custom
   (gptel-default-mode 'org-mode)
   :config
-  (setq-default gptel-model 'Qwen2.5-Coder:7b ;; Pick your default model
+  (setq-default gptel-model 'qwen3:30b-a3b ;; Pick your default model
                 gptel-expert-commands t
                 gptel-backend (gptel-make-ollama
                                   "Ollama"                               ;Any name of your choosing
                                 :host "localhost:11434"                ;Where it's running
                                 :models '(DeepSeek-R1
+                                          qwen3:30b-a3b
                                           Qwen2.5-Coder:7b
                                           Qwen2.5-Coder:32b
                                           mistral:latest
