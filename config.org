@@ -5448,6 +5448,19 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 
   (json-mode . (lambda () (when (darcamo/is-cmake-presets-file) (cmakepresets-mode))))
   )
+
+;; Customize consult-imenu-config to display our presets nicely in consult-imenu
+(use-package consult-imenu
+  :defer t
+  :config
+  (add-to-list 'consult-imenu-config '(cmakepresets-mode
+                                       :toplevel "Configure"
+                                       :types
+                                       ((?c "Configure")
+                                        (?b "Build")
+                                        (?t "Test")
+                                        (?p "Package")
+                                        (?w "Workflow")))))
 #+end_src
 
 ** CMake language server                                               :CMake:Eglot:
