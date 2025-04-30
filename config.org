@@ -7639,6 +7639,8 @@ confirmation.
    :map gptel-mode-map
    ("S-<right>" . windmove-right)
    ("S-<left>" . windmove-left)
+   ("S-<up>" . windmove-up)
+   ("S-<down>" . windmove-down)
    )
   :custom
   (gptel-default-mode 'org-mode)
