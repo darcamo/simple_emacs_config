@@ -1272,6 +1272,11 @@ This function is useful for creating labels from text, such as converting figure
        "\\b\\([^@ \n\t]+\\)[ \n\t]+\\1\\b" nil 'move)
       (message "Found duplicated word.")
     (message "End of buffer")))
+
+
+(defun darcamo/is-scratch-buffer ()
+  "Check if the buffer name is `*scratch*'."
+  (string-equal (buffer-name) "*scratch*"))
 #+end_src
 
 * General Usability                                       :General:Usability:Utility:
@@ -4331,6 +4336,17 @@ back to the org file.
   :ensure nil
   :hook
   (prog-mode . display-line-numbers-mode))
+#+end_src
+
+** breadcrumbs
+The breadcrumb package uses information from imenu. Hence, as long as the major mode has
+imenu support breadcrumbs should work.
+#+begin_src elisp
+(use-package breadcrumb
+  :ensure t
+  :hook
+  (prog-mode . (lambda () (unless (darcamo/is-scratch-buffer) (breadcrumb-local-mode))))
+  )
 #+end_src
 
 ** Some pretty symbols
@@ -7548,11 +7564,6 @@ https://github.com/copilot-emacs/copilot.el
 Don't forget to call ~copilot-install-server~.
 
 #+begin_src emacs-lisp
-(defun darcamo/is-scratch-buffer ()
-  "Check if the buffer name is `*scratch*'."
-  (string-equal (buffer-name) "*scratch*"))
-
-
 (use-package copilot
   :ensure (:host github :repo "copilot-emacs/copilot.el")
   :bind (
