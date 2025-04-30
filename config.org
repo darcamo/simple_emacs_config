@@ -4877,7 +4877,7 @@ DIR must include a .project file to be considered a project."
   )
 #+end_src
 
-** Make project ignore the .venv folder
+** Make project ignore the .venv folder                                       :venv:
 #+begin_src emacs-lisp
 (add-to-list 'project-vc-ignores "./.venv/")
 #+end_src
@@ -5860,7 +5860,7 @@ completion).
   )
 #+end_src
 
-** Anaconda support                                                       :Anaconda:
+** Anaconda support                                                  :Anaconda:venv:
 #+begin_src emacs-lisp
 (use-package conda
   :ensure t
@@ -5878,7 +5878,7 @@ completion).
   )
 #+end_src
 
-** pyvenv: Virtual Environment
+** pyvenv: Virtual Environment                                                :venv:
 #+begin_src emacs-lisp
 ;; Call pyvenv-activate and specify the folder with the virtual environment
 (use-package pyvenv
@@ -5896,6 +5896,11 @@ completion).
   :ensure t
   :hook ((python-base-mode . pyvenv-auto-run)))
 #+end_src
+
+** uv-mode                                                                    :venv:
+https://github.com/z80dev/uv-mode
+
+If you decide to try it, you should probably comment out pyvenv package.
 
 ** pyright as language server                                                  :LSP:
 *** COMMENT LSP                                                                :LSP:
