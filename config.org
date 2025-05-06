@@ -5522,6 +5522,34 @@ main file.
   (fancy-compilation-default-face ((t (:background nil)))))
 #+end_src
 
+** My custom fontify rules in compilation buffer
+#+begin_src emacs-lisp
+(use-package emacs
+  :config
+  (let* (
+         (cmake-progress-regexp "\\[\\([0-9]+/[0-9]+\\)\\]")
+         (path-regexp "\\(\\(/\\|~/\\|../\\)[^[:space:]]+\\)")
+         ;; Only matches if it's either in the beginning of the line or if
+         ;; there is a space before the path. This avoids some false positivies.
+         ;; (path-beginning-of-line (concat "\\(?:^\\| \\)" path-regexp))
+         (path-inside-quotes (format "'%s'" path-regexp))
+         (path-inside-double-quotes (format "\"%s\"" path-regexp))
+         (keywords `(
+                     (,path-inside-quotes (1 'font-lock-string-face t))
+                     (,path-inside-double-quotes (1 'font-lock-string-face t))
+                     ;; (,path-beginning-of-line (1 'font-lock-string-face t))
+                     ;; Note that more specific regexps are added later
+                     (,cmake-progress-regexp (1 'font-lock-warning-face t))
+                     ))
+         )
+
+    (font-lock-add-keywords 'compilation-mode keywords)
+    ))
+#+end_src
+;; (use-package emacs
+;;   :custom
+;;   (compilation-environment '("TERM=xterm-256color")))
+
 ** Qt and QML
 
 *** COMMENT qml-ts-mode (Has imenu support, but syntax highlight is still pretty low)
