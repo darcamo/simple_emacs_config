@@ -5512,6 +5512,16 @@ main file.
   )
 #+end_src
 
+** Color in compilation buffer (fancy compilation mode)
+#+begin_src emacs-lisp
+(use-package fancy-compilation
+  :ensure t
+  :config
+  (fancy-compilation-mode)
+  :custom-face
+  (fancy-compilation-default-face ((t (:background nil)))))
+#+end_src
+
 ** Qt and QML
 
 *** COMMENT qml-ts-mode (Has imenu support, but syntax highlight is still pretty low)
