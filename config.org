@@ -5550,6 +5550,25 @@ main file.
 ;;   :custom
 ;;   (compilation-environment '("TERM=xterm-256color")))
 
+** Outline minor mode in compilation buffers (for cmake)
+Set =outline-regexp= in a local variable to ="\\[\\([0-9]+/[0-9]+\\)\\]"=.
+
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :hook
+  (compilation-mode . (lambda ()
+                        (let* (;; Messages during configure start with "--"
+                               (cmake-configure-regexp "\\(--\\)")
+                               ;; Messages during build start with "[<number>/<number>]" (ninja generator)
+                               (cmake-build-regexp "\\[\\([0-9]+/[0-9]+\\)\\]")
+                               (regexp-list (list cmake-configure-regexp cmake-build-regexp))
+                               (full-outline-regexp (string-join regexp-list "\\|"))
+                               )
+                          (setq outline-regexp full-outline-regexp)
+                          (outline-minor-mode)))))
+#+end_src
+
 ** Qt and QML
 
 *** COMMENT qml-ts-mode (Has imenu support, but syntax highlight is still pretty low)
