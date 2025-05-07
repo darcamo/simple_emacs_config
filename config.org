@@ -6023,16 +6023,18 @@ adding a filter to eglot--report-to-flymake. For example, to remove Pyright's "v
 not accessed" notes, add the following:
 #+end_quote
 
+The code below is from https://github.com/erickgnavar/flymake-ruff
+It's broken in more recent Emacs versions because eglot--report-to-flymake signature changed.
 #+begin_src emacs-lisp
-(defun my-filter-eglot-diagnostics (diags)
-    "Drop Pyright 'variable not accessed' notes from DIAGS."
-    (list (seq-remove (lambda (d)
-                        (and (eq (flymake-diagnostic-type d) 'eglot-note)
-                             (s-starts-with? "Pyright:" (flymake-diagnostic-text d))
-                             (s-ends-with? "is not accessed" (flymake-diagnostic-text d))))
-                      (car diags))))
+;; (defun my-filter-eglot-diagnostics (diags version)
+;;     "Drop Pyright 'variable not accessed' notes from DIAGS."
+;;     (list (seq-remove (lambda (d)
+;;                         (and (eq (flymake-diagnostic-type d) 'eglot-note)
+;;                              (s-starts-with? "Pyright:" (flymake-diagnostic-text d))
+;;                              (s-ends-with? "is not accessed" (flymake-diagnostic-text d))))
+;;                       (car diags))))
 
-(advice-add 'eglot--report-to-flymake :filter-args #'my-filter-eglot-diagnostics)
+;; (advice-add 'eglot--report-to-flymake :filter-args #'my-filter-eglot-diagnostics)
 #+end_src
 
 *** COMMENT LSP                                                                :LSP:
