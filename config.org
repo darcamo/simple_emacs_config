@@ -6123,12 +6123,12 @@ Standard keybindings
   (emacs-lisp-mode  . (lambda () (setq fill-column 80))))
 #+end_src
 
-** ert buffer always at bottom
+** COMMENT ert buffer always at bottom
 #+begin_src emacs-lisp
 (add-to-list 'display-buffer-alist
                '("\\*ert\\*"
                  (display-buffer-at-bottom)
-                 (window-height . 0.25)
+                 (window-height . 0.28)
                  ))
 #+end_src
 
