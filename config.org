@@ -1555,7 +1555,10 @@ This function is useful for creating labels from text, such as converting figure
   :config
   ;; Stop pairing single quotes in elisp
   (sp-local-pair 'emacs-lisp-mode "'" nil :actions nil)
-  ;; (sp-local-pair 'org-mode "[" nil :actions nil)
+  (sp-local-pair 'org-mode "=" "=" :actions '(wrap))
+  (sp-local-pair 'org-mode "~" "~" :actions '(wrap))
+  (sp-local-pair 'org-mode "*" "*" :actions '(wrap))
+  (sp-local-pair 'org-mode "/" "/" :actions '(wrap))
   )
 
 (use-package unfill
