@@ -5447,14 +5447,12 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   )
 #+end_src
 
-** CMake Presets mode
+** CMake Presets mode                                                        :CMake:
 #+begin_src emacs-lisp
 (use-package cmakepresets-mode
   :ensure (cmakepresets-mode :type git :host github :protocol ssh
                              :repo "darcamo/cmakepresets-mode" :depth nil)
   :mode
-  ("CMakePresets\\.json" . cmakepresets-mode)
-  ("CMakeUserPresets\\.json" . cmakepresets-mode)
   ("ConanPresets\\.json" . cmakepresets-mode)
   :hook
   ;; Enable cmake-integration-keybindings in json mode only for the three file names
@@ -6153,10 +6151,9 @@ Standard keybindings
 Note: Run =npm i -g vscode-langservers-extracted= to install the json language server.
 
 #+begin_src emacs-lisp
-(use-package json-mode
-  ;; :commands json-mode
-  :commands (json-mode)
-  :ensure t
+(use-package emacs
+  :mode
+  ("\\.json\\'" . json-ts-mode)
   ;; :hook
   ;; (json-mode . lsp)
   ;; :bind (
