@@ -6118,7 +6118,9 @@ Standard keybindings
               ([M-f9] . ert)
               )
   :custom
-  (flycheck-emacs-lisp-load-path 'inherit))
+  (flycheck-emacs-lisp-load-path 'inherit)
+  :hook
+  (emacs-lisp-mode  . (lambda () (setq fill-column 80))))
 #+end_src
 
 ** ert buffer always at bottom
