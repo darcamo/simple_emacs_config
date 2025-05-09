@@ -3007,7 +3007,7 @@ reveal."
   )
 #+end_src
 
-*** Keybindings                                                       :Keybindings:
+*** Keybindings                                                        :Keybindings:
 #+begin_src emacs-lisp
 (use-package org
   :defer t
@@ -3027,7 +3027,7 @@ reveal."
 )
 #+end_src
 
-*** Jira                                                                     :Jira:
+*** Jira                                                                      :Jira:
 #+begin_src emacs-lisp
 (use-package ox-jira
   :ensure t
@@ -3497,7 +3497,7 @@ This is controlled by the variables
   )
 #+end_src
 
-*** Some font-lock rules for info buffers
+*** Some font-lock rules for Info buffers                                     :Info:
 #+begin_src emacs-lisp
 (defun darcamo/fontify-info-buffer ()
   "Some custom font-lock rules to make info buffers prettier."
@@ -4384,7 +4384,7 @@ imenu support breadcrumbs should work.
 ;;   )
 #+end_src
 
-** Scroll down compilation buffer
+** Scroll down compilation buffer                                      :Compilation:
 #+begin_src emacs-lisp
 (use-package emacs
   :ensure nil
@@ -4444,7 +4444,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
   )
 #+end_src
 
-** Compilation buffer always at the bottom                     :Compilation:
+** Compilation buffer always at the bottom                             :Compilation:
 #+begin_src emacs-lisp
 ;; display-buffer-at-bottom
 (add-to-list 'display-buffer-alist
@@ -4455,7 +4455,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
 #+end_src
 
 ** Syntax check
-*** COMMENT Flycheck                                                      :Flycheck:
+*** COMMENT Flycheck                                                     :Flycheck:
 https://www.flycheck.org/en/latest/index.html
 
 #+begin_src emacs-lisp
@@ -4470,7 +4470,7 @@ https://www.flycheck.org/en/latest/index.html
   )
 #+end_src
 
-*** Flymake                                                                :Flymake:
+*** Flymake                                                               :Flymake:
 **** General Configuration
 #+begin_src emacs-lisp
 (use-package flymake
@@ -5113,7 +5113,7 @@ Set ~gdb-debuginfod-enable-setting~ to nil
   )
 #+end_src
 
-** COMMENT dap-mode -> Debugger Adapter Protocol                          :LSP:debug:
+** COMMENT dap-mode -> Debugger Adapter Protocol                         :LSP:debug:
 For c++ see [[*Dap-debug (C++)][Dap-debug (C++)]]
 For Python see [[*Dap-debug (Python)][Dap-debug (Python)]]
 
@@ -5510,7 +5510,7 @@ main file.
   )
 #+end_src
 
-** Color in compilation buffer (fancy compilation mode)
+** Color in compilation buffer (fancy compilation mode)                :Compilation:
 #+begin_src emacs-lisp
 (use-package fancy-compilation
   :ensure t
@@ -5520,7 +5520,7 @@ main file.
   (fancy-compilation-default-face ((t (:background nil)))))
 #+end_src
 
-** My custom fontify rules in compilation buffer
+** My custom fontify rules in compilation buffer                       :Compilation:
 #+begin_src emacs-lisp
 (use-package emacs
   :config
@@ -5784,7 +5784,7 @@ debugAdapters/bin/OpenDebugAD7=.
   )
 #+end_src
 
-** TODO Other packages to investigate                                :Investigate:
+** TODO Other packages to investigate                                  :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
 * Python                                                         :Programming:Python:
@@ -7044,7 +7044,7 @@ Layer darcamo-preview-latex
 ;;   )
 #+end_src
 
-* TODO References: Bibtex, bibtex-completions, org-ref [0/3]    :References:
+* TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
 Veja a nota [[file:~/org/org-roam-notes/20210305171627-leituras_de_papers_e_outros_documentos.org][Leituras de papers e outros documentos]]
 
 ** Set my default bibliograph folder and files (used by native org-cite)
