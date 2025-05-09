@@ -5597,7 +5597,9 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
               ([f8] . cmake-integration-cmake-reconfigure)
               )
   :hook
-  (qml-ts-mode . (lambda () (setq fill-column 120)))
+  (qml-ts-mode . (lambda ()
+                   (require 'qml-integration)
+                   (setq fill-column 120)))
   )
 #+end_src
 
