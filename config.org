@@ -4622,15 +4622,11 @@ Code from https://emacs.stackexchange.com/questions/80740/how-to-correctly-forma
 #+end_src
 
 * YAML                                                                         :YAML:
-** yaml-mode
+** yaml-ts-mode
 #+begin_src emacs-lisp
-(use-package yaml-mode
-  :ensure t
-  :defer t
-  :hook
-  (yaml-mode . lsp)
+(use-package emacs
   :mode
-  (".clang-tidy" . yaml-mode)
+  (".clang-tidy" . yaml-ts-mode)
   )
 #+end_src
 
@@ -4648,6 +4644,8 @@ It seems you use this as a minnor-mode (it does not replace yaml-mode
 #+begin_src emacs-lisp
 (use-package yaml-pro
   :ensure t
+  :hook
+  (yaml-ts-mode . yaml-pro-ts-mode)
   )
 #+end_src
 
