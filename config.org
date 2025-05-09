@@ -4939,6 +4939,7 @@ version can’t be used, fall back to the original major mode.
      (doxygen
        "https://github.com/tree-sitter-grammars/tree-sitter-doxygen"
        "v1.1.0")
+     (qmljs "https://github.com/yuja/tree-sitter-qmljs")
      ))
   ;; Indentation
   (c-ts-mode-indent-offset 4)
@@ -5567,21 +5568,33 @@ Set =outline-regexp= in a local variable to ="\\[\\([0-9]+/[0-9]+\\)\\]"=.
 
 ** Qt and QML
 
-*** COMMENT qml-ts-mode (Has imenu support, but syntax highlight is still pretty low)
+*** qml-ts-mode (Has imenu support, but syntax highlight is still pretty low)
 Alternative mode for qml, using tree-sitter.
 
-NOTE: You need to manually install the tree-sitter grammar for it. See [[https://github.com/yuja/tree-sitter-qmljs][tree-sitter-qmljs]].
-You can use the code below for that.
-: git clone https://github.com/yuja/tree-sitter-qmljs.git
-: cd tree-sitter-qmljs
-: gcc ./src/parser.c ./src/scanner.c -fPIC -I./ --shared -o libtree-sitter-qmljs.so
-: cp libtree-sitter-qmljs.so ~/.emacs.d/tree-sitter/
+NOTE: You need to manually install the tree-sitter grammar for it. Add an entry to
+=treesit-language-source-alist= with
+: (qmljs "https://github.com/yuja/tree-sitter-qmljs")
+and then call =treesit-install-language-grammar= and specify =qmljs= as the language.
 
 #+begin_src emacs-lisp
 (use-package qml-ts-mode
-  :ensure (qml-ts-mode :type git :host github :repo "xhcoding/qml-ts-mode")
-  ;; :bind
-  ;; (("M-s p" . consult-project))
+  :ensure (qml-ts-mode :type git :host github :protocol ssh
+                       :repo "darcamo/qml-ts-mode" :depth nil)
+  :bind (:map qml-ts-mode-map
+              ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
+              ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
+              ([f10] . cmake-integration-run-last-target)
+              ([M-f10] . cmake-integration-run-last-target-with-arguments)
+              ([C-f9] . cmake-integration-run-ctest)  ;; Compile only the current source file
+              ([M-f10] . qml-integration-choose-qml-style)
+              ([C-f10] . qml-integration-run-qmlscene)
+              ([S-f10] . qml-integration-run-qmltestrunner)
+              ([S-C-f10] . qml-integration-run-qmllint)
+              ([M-f8] . cmake-integration-select-configure-preset)
+              ([f8] . cmake-integration-cmake-reconfigure)
+              )
+  :hook
+  (qml-ts-mode . (lambda () (setq fill-column 120)))
   )
 #+end_src
 
@@ -5604,30 +5617,6 @@ You can use the code below for that.
   :mode
   ;; Set mode of qml.qrc file to xml-mode
   (".qrc" . xml-mode)
-  )
-#+end_src
-
-*** QML-Mode package
-#+begin_src emacs-lisp
-(use-package qml-mode
-  :ensure t
-  :bind ( :map qml-mode-map
-          ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
-          ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
-          ([f10] . cmake-integration-run-last-target)
-          ([M-f10] . cmake-integration-run-last-target-with-arguments)
-          ([C-f9] . cmake-integration-run-ctest)  ;; Compile only the current source file
-          ([M-f10] . qml-integration-choose-qml-style)
-          ([C-f10] . qml-integration-run-qmlscene)
-          ([S-f10] . qml-integration-run-qmltestrunner)
-          ([S-C-f10] . qml-integration-run-qmllint)
-          ([M-f8] . cmake-integration-select-configure-preset)
-          ([f8] . cmake-integration-cmake-reconfigure)
-          )
-  :hook
-  (qml-mode . (lambda () (setq comment-start "// ")
-                (setq comment-end "")
-                (setq fill-column 120)))
   )
 #+end_src
 
