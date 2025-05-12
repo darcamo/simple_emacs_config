@@ -5599,8 +5599,18 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
   :hook
   (qml-ts-mode . (lambda ()
                    (require 'qml-integration)
-                   (setq fill-column 120)))
-  )
+                   (setq fill-column 120))))
+
+  (use-package consult-imenu
+  :defer t
+  :config
+  (add-to-list 'consult-imenu-config '(qml-ts-mode
+                                       :toplevel "Component"
+                                       :types
+                                       ((?c "Component")
+                                        (?f "Function")
+                                        (?p "Property")
+                                        (?s "Signal")))))
 #+end_src
 
 *** Janus Colors
