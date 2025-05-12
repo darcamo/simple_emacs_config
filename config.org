@@ -5599,6 +5599,7 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
   :hook
   (qml-ts-mode . (lambda ()
                    (require 'qml-integration)
+                   (require 'apheleia)
                    (setq fill-column 120))))
 
   (use-package consult-imenu
@@ -5649,24 +5650,22 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
 
 *** Formatting QML buffers with apheleia                              :QML:apheleia:
 #+begin_src elisp
-(use-package qml-mode
+(use-package qml-ts-mode
   :after apheleia
   :config
   (push '(qmlformat . ("/home/moreirad/git_files/soft-clients/build/Debug/deps/Qt5/5.15.16/bin/qmlformat" "--inplace" file))
         apheleia-formatters)
 
-  (add-to-list 'apheleia-mode-alist '(qml-mode . qmlformat))
-  :bind (:map qml-mode-map
+  (add-to-list 'apheleia-mode-alist '(qml-ts-mode . qmlformat))
+  :bind (:map qml-ts-mode-map
               ;; Save the buffer to file, format the file and reload the disk
-              ("C-c C-l ==" . (lambda () (interactive)
-                                (save-buffer)
-                                (apheleia-format-buffer 'qmlformat)
-                                ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
-                                (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
-                                (revert-buffer t t t)
-                                ))
-              )
-  )
+              ("C-c f" . (lambda () (interactive)
+                           (save-buffer)
+                           (apheleia-format-buffer 'qmlformat)
+                           ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
+                           (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
+                           (revert-buffer t t t)
+                           ))))
 #+end_src
 
 *** Squish
