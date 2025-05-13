@@ -5610,7 +5610,7 @@ Set =outline-regexp= in a local variable to ="\\[\\([0-9]+/[0-9]+\\)\\]"=.
                           (outline-minor-mode)))))
 #+end_src
 
-** Qt and QML
+** Qt and QML                                                               :QML:Qt:
 
 *** qml-ts-mode (Has imenu support, but syntax highlight is still pretty low)
 Alternative mode for qml, using tree-sitter.
