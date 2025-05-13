@@ -2522,6 +2522,15 @@ There is also lsp-grammarly, but it requires an account.
 
 ** Babel                                                                     :Babel:
 #+begin_src emacs-lisp
+(defun get-plantuml-jar-path ()
+  "Get the path of the plantuml jar file."
+  (let* ((distro-name (get-linux-distro-name))
+         (is-ubuntu? (string= "Ubuntu" distro-name)))
+    (if is-ubuntu?
+        "/usr/share/plantuml/plantuml.jar"
+      "/usr/share/java/plantuml/plantuml.jar")))
+
+
 (use-package org
   :defer t
   :custom
@@ -2540,7 +2549,7 @@ There is also lsp-grammarly, but it requires an account.
   (org-ditaa-jar-path "/usr/share/java/ditaa/ditaa-0.11.jar")
 
   ;; Change this to the appropriated jar location
-  (org-plantuml-jar-path "/usr/share/java/plantuml/plantuml.jar")
+  (org-plantuml-jar-path (get-plantuml-jar-path))
 
   :bind
   ( :map org-mode-map
