@@ -869,14 +869,15 @@ Tip: Check the =yas-describe-tables= command
 
 
 (defun darcamo/list-of-strings-p (arg)
-  "Return t if arg is a list of strings"
+  "Return t if ARG is a list of strings."
   (every 'stringp arg))
 
 
 (defun darcamo/string-to-ascii (string)
-  "Change a string containing unicode characters to the
-        equivalent ascii string. Note that not all characters are
-        replaced, only the ones I usually don't want."
+  "Change a STRING containing unicode characters to ASCII.
+
+Note that not all characters are replaced, but only the ones I usually
+don't want."
   (s-replace-all
    '(
      ("“" . "\"")
@@ -892,9 +893,9 @@ Tip: Check the =yas-describe-tables= command
 
 
 (defun darcamo/string-to-ascii-region (beg end)
-  "Change the selected text containing unicode characters to the
-        equivalent text in ascii. Note that not all characters are
-        replaced, only the ones I usually don't want."
+  "Change text in BEG and END from unicode to ascii.
+
+ Note that not all characters are replaced, only the ones I usually don't want."
   (interactive "r")
   (let (replacement)
     (save-restriction
@@ -907,8 +908,7 @@ Tip: Check the =yas-describe-tables= command
 
 
 (defun darcamo/surround-region (beg end leftPart rightPart)
-  "Surround a region with the content of the leftPart and
-      rightPart variables."
+  "Surround the region (BEG, END) with LEFTPART and RIGHTPART."
   (interactive "r")
   (save-restriction
     (narrow-to-region beg end)
@@ -1052,8 +1052,8 @@ This will be equal to the current yar except when we are in january"
    (concat "start " (expand-file-name dir-as-string))))
 
 
-;; Browse Directory
 (defun browse-dir (dir-as-string)
+  "Open the file browser in directory DIR-AS-STRING."
   (cond
    ((system-type-is-linux) (browse-dir-linux dir-as-string))
    ((system-type-is-macos) (browse-dir-macos dir-as-string))
@@ -1061,8 +1061,10 @@ This will be equal to the current yar except when we are in january"
    (t (message "browse-dir: Unknown system type"))))
 
 
-;; Use essa para abrir links sftp com o nautilus, como sftp://darlan@<server>/home/blabla
 (defun browse-dir-sftp (dir-as-string)
+  "Use nautilus to open the ftp link in DIR-AS-STRING.
+
+This works with something like sftp://darlan@<server>/home/blabla."
   (start-process-shell-command
    "browse"
    "*scratch*"
@@ -1127,7 +1129,7 @@ then try lxterminal."
 
 
 (defun open-terminal-default-dir ()
-    "Open terminal in the default directory."
+  "Open terminal in the default directory."
   (interactive)
   (if (system-type-is-linux)
       (linux-terminal-default-dir)
@@ -1145,6 +1147,7 @@ then try lxterminal."
 
 
 (defun ver-pdf-no-acroread (pdf)
+  "Open a PDF using acroread."
   (start-process-shell-command
    "acroread"
    "*scratch*"
@@ -1153,6 +1156,7 @@ then try lxterminal."
 
 ;; You need to have a script called pdfxchange
 (defun ver-pdf-no-pdfxchange (pdf)
+    "Open a PDF using pdfxchange."
   (start-process-shell-command
    "pdfxchange"
    "*scratch*"
@@ -1236,10 +1240,17 @@ browser. If a region is active (a phrase), lookup that phrase."
 
 
 (defun system-type-is-macos ()
-    "Return t if running on macOS."
+  "Return t if running on macOS."
   (interactive)
   "Return true if system MacOS"
   (string-equal system-type "darwin"))
+
+
+(defun get-linux-distro-name ()
+  "Return the Linux distribution name by reading /etc/os-release."
+  (when (system-type-is-linux)
+    (let ((command "awk -F= '/^NAME/{print $2}' /etc/os-release | tr -d '\"'"))
+      (string-trim (shell-command-to-string command)))))
 
 
 (defun darcamo/change-to-label (start end)
