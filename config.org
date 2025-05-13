@@ -5446,12 +5446,21 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 
 ** Change eglot-server-program to configure clangd                    :Eglot:clangd:
 #+begin_src emacs-lisp
+(defun get-clangd-path ()
+  "Get the path of the clangd language server."
+  (let* ((distro-name (get-linux-distro-name))
+         (is-ubuntu? (string= "Ubuntu" distro-name)))
+    (if is-ubuntu?
+        "clangd-19"
+      "clangd")))
+
+
 ;; https://www.reddit.com/r/emacs/comments/18eeu1f/configure_clangd_in_eglot_to_not_add_headers/
 (use-package eglot
   :config
   (add-to-list 'eglot-server-programs
-               '((c-ts-mode c++-ts-mode c-mode c++-mode)
-                 . ("clangd"
+               `((c-ts-mode c++-ts-mode c-mode c++-mode)
+                 . (,(get-clangd-path)
                     "-j=12"
                     "--log=error"
                     "--malloc-trim"
