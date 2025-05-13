@@ -4862,19 +4862,31 @@ The code below will make emacs recognize a folder with a =.project= file as a pr
 (cl-defmethod project-root ((project (head local)))
   (cdr project))
 
+
+(defun get-fd-program ()
+  "Get the name of the fd program."
+  (let* ((distro-name (get-linux-distro-name))
+         (is-ubuntu? (string= "Ubuntu" distro-name)))
+    (if is-ubuntu?
+        "fdfind"
+      "fd")))
+
+
 (defun mu--project-files-in-directory (dir)
   "Use `fd' to list files in DIR."
   (let* ((default-directory dir)
          (localdir (file-local-name (expand-file-name dir)))
-         (command (format "fd -t f -0 . %s" localdir)))
+         (command (format "%s -t f -0 . %s" (get-fd-program) localdir)))
     (project--remote-file-names
      (sort (split-string (shell-command-to-string command) "\0" t)
            #'string<))))
+
 
 (cl-defmethod project-files ((project (head local)) &optional dirs)
   "Override `project-files' to use `fd' in local projects."
   (mapcan #'mu--project-files-in-directory
           (or dirs (list (project-root project)))))
+
 
 (defun mu-project-try-local (dir)
   "Determine if DIR is a non-Git project.
@@ -4882,11 +4894,11 @@ DIR must include a .project file to be considered a project."
   (let ((root (locate-dominating-file dir ".project")))
     (and root (cons 'local root))))
 
+
 (use-package project
   :defer t
   :config
-  (add-to-list 'project-find-functions 'mu-project-try-local)
-  )
+  (add-to-list 'project-find-functions 'mu-project-try-local))
 #+end_src
 
 ** Make project ignore the .venv folder                                       :venv:
