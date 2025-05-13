@@ -5694,7 +5694,7 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
 (use-package qml-ts-mode
   :after apheleia
   :config
-  (push '(qmlformat . ("/home/moreirad/git_files/soft-clients/build/Debug/deps/Qt5/5.15.16/bin/qmlformat" "--inplace" file))
+  (push '(qmlformat . ("~/Qt/6.9.0/gcc_64/bin/qmlformat" "--inplace" file))
         apheleia-formatters)
 
   (add-to-list 'apheleia-mode-alist '(qml-ts-mode . qmlformat))
