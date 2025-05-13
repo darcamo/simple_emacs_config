@@ -4473,7 +4473,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
 (add-to-list 'display-buffer-alist
                '("\\*compilation\\*"
                  (display-buffer-at-bottom)
-                 (window-height . 0.25)
+                 (window-height . 0.28)
                  ))
 #+end_src
 
