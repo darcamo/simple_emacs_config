@@ -5698,8 +5698,16 @@ Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting process
 (use-package eglot
   :config
   (add-to-list 'eglot-server-programs
-               '((qml-mode)
-                 . ("qmlls6"))))
+               '((qml-ts-mode)
+                 . ("~/Qt/6.9.0/gcc_64/bin/qmlls")))
+  :hook
+  (qml-ts-mode . (lambda ()
+                   ;; imenu from qml-ts-mode is better than the one provided by
+                   ;; eglot (with qmlls). Hence, we disably this capability in
+                   ;; eglot to keep using the one from qml-ts-mode
+                   (set (make-local-variable 'eglot-ignored-server-capabilities) '(:documentSymbolProvider))
+                   (eglot-ensure))))
+#+end_src
 
 *** Qt Translations Mode
 Usually, something named "anything.ts" will use the typescript major mode, but Qt also
