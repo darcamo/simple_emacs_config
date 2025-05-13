@@ -5608,10 +5608,10 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
   (add-to-list 'consult-imenu-config '(qml-ts-mode
                                        :toplevel "Component"
                                        :types
-                                       ((?c "Component")
-                                        (?f "Function")
-                                        (?p "Property")
-                                        (?s "Signal")))))
+                                       ((?c "Component" 'font-lock-type-face)
+                                        (?f "Function" 'font-lock-function-name-face)
+                                        (?p "Property" 'font-lock-property-name-face)
+                                        (?s "Signal" 'font-lock-function-name-face)))))
 #+end_src
 
 *** Janus Colors
