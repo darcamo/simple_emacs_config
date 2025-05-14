@@ -5557,6 +5557,8 @@ main file.
 #+begin_src emacs-lisp
 (use-package fancy-compilation
   :ensure t
+  :custom
+  (fancy-compilation-quiet-prelude nil)
   :config
   (fancy-compilation-mode)
   :custom-face
