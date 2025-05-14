@@ -5086,6 +5086,8 @@ To add support to more server, see the =eglot-server-programs= variable.
   :commands eglot-ensure
   :custom
   (eldoc-echo-area-use-multiline-p nil)
+  :custom-face
+  (eglot-highlight-symbol-face ((t (:underline (:style dots)))))
   :bind
   (:map eglot-mode-map
         ("C-c C-l ==" . eglot-format-buffer)
