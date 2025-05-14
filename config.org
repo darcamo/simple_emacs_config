@@ -7737,7 +7737,7 @@ confirmation.
     for simpler questions where speed is more important than depth.
 - Add =/think= in the prompt to enable think mode (on by default in qwen3:30b-a3b), and add
   =/no_think= in the prompt to disable it
-- See mode in https://qwenlm.github.io/blog/qwen3/
+- See more in https://qwenlm.github.io/blog/qwen3/ and https://simonwillison.net/2025/Apr/29/qwen-3/
 
 
 #+begin_src emacs-lisp
@@ -7761,6 +7761,8 @@ confirmation.
                                   "Ollama"                               ;Any name of your choosing
                                 :host "localhost:11434"                ;Where it's running
                                 :models '(DeepSeek-R1
+                                          qwen3:8b
+                                          qwen3:14b
                                           qwen3:30b-a3b
                                           Qwen2.5-Coder:7b
                                           Qwen2.5-Coder:32b
