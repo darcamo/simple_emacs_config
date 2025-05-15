@@ -7756,6 +7756,8 @@ confirmation.
    )
   :custom
   (gptel-default-mode 'org-mode)
+  :hook
+  (gptel-mode . toggle-truncate-lines)
   :config
   (setq-default gptel-model 'qwen3:30b-a3b ;; Pick your default model
                 gptel-expert-commands t
