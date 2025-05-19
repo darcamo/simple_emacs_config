@@ -5441,6 +5441,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   (push '(c++-mode . "darcamo") c-default-style)
   :hook
   (c-mode-common . (lambda () (setq fill-column 120)))
+  (c-ts-base-mode . (lambda () (setq fill-column 120)))
   )
 
 ;; c-c++-lsp-enable-semantic-highlight nil
