@@ -1,8 +1,8 @@
 {
-    "version": 4,
+    "version": 10,
     "cmakeMinimumRequired": {
         "major": 3,
-        "minor": 23,
+        "minor": 31,
         "patch": 0
     },
     "buildPresets": [
@@ -10,13 +10,13 @@
             "name": "my default",
             "displayName": "Darlan default build preset",
             "inherits": "default",
-            "jobs": 4
+            "jobs": 12
         },
         {
             "name": "my release",
             "displayName": "Darlan release build preset",
             "inherits": "release",
-            "jobs": 4
+            "jobs": 12
         }
     ]
 }
