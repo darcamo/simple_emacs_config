@@ -287,13 +287,6 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 
 ** Orderless                                                             :Orderless:
 #+begin_src emacs-lisp
-;; We want case-insensitive filenames, since we will use vertigo to
-;; filter filenames anyway
-(use-package emacs
-  :custom
-  (read-file-name-completion-ignore-case t))
-
-
 ;; Optionally use the `orderless' completion style.
 (use-package orderless
   :ensure t
@@ -303,7 +296,7 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   ;; (orderless-component-separator #'orderless-escapable-split-on-space)
   (completion-styles '(orderless basic))
   (completion-category-defaults nil)
-  (completion-category-overrides '((file (styles partial-completion)))))
+  (completion-category-overrides '((file (styles basic partial-completion)))))
 #+end_src
 
 ** Marginalia                                                           :Marginalia:
