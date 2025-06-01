@@ -3972,23 +3972,6 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
     ))
 #+end_src
 
-** Clearner backlinks buffer
-The code below will replace a function in org-roam such that only the start of a file is
-shown in the backlink buffer
-#+begin_src emacs-lisp
-(defun org-roam-preview-get-contents (file pt)
-  "Get preview content for FILE at PT."
-  (save-excursion
-    (org-roam-with-temp-buffer file
-      (org-with-wide-buffer
-       (goto-char pt)
-       (let ((beg (progn (org-roam-end-of-meta-data t)
-                         (point)))
-             (end (progn (end-of-paragraph-text)
-                         (point))))
-         (string-trim (buffer-substring-no-properties beg end)))))))
-#+end_src
-
 ** consult-org-roam                                                        :Consult:
 https://github.com/jgru/consult-org-roam
 #+begin_src emacs-lisp
