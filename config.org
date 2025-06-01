@@ -3971,7 +3971,30 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
     (find-file (org-ref-get-pdf-filename key))
     ))
 #+end_src
+** Roam buffer improvements
+#+begin_src emacs-lisp
+(defun darcamo/go-to-next-backlink ()
+  "Go to the next link pointint to `org-roam-buffer-current-node'."
+  (interactive)
+  (let ((search-invisible t)
+        (id (slot-value org-roam-buffer-current-node 'id)))
+    (forward-char 1)
+    (search-forward (format "[[id:%s" id))))
 
+
+(defun darcamo/go-to-previous-backlink ()
+  "Go to the next link pointint to `org-roam-buffer-current-node'."
+  (interactive)
+  (let ((search-invisible t)
+        (id (slot-value org-roam-buffer-current-node 'id)))
+    (search-backward (format "[[id:%s" id))))
+
+
+(use-package org-roam
+  :bind (:map org-roam-mode-map
+              ("C-n" . darcamo/go-to-next-backlink)
+              ("C-p" . darcamo/go-to-previous-backlink)))
+#+end_src
 ** consult-org-roam                                                        :Consult:
 https://github.com/jgru/consult-org-roam
 #+begin_src emacs-lisp
