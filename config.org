@@ -1806,6 +1806,24 @@ A better Emacs *help* buffer
 *** Magit with Difftastic
 See [[https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html][this link]].
 
+*** Magit-delta
+You need to install the =delta= program in the machine.
+
+In Arch Linux, the name of the package is =git-delta=.
+
+#+begin_src emacs-lisp
+(defun has-delta? ()
+  "Return t if the delta program is installed."
+  (if (executable-find "delta")
+      t
+    nil))
+
+(when (has-delta?)
+  ;; We only add the magit-delta package if delta is installed in the machine.
+  (use-package magit-delta
+  :ensure t
+  :hook (magit-mode . magit-delta-mode)))
+#+end_src
 ** Git timemachine
 #+begin_src emacs-lisp
 (use-package git-timemachine
