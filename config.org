@@ -7859,8 +7859,43 @@ The idea is good, but I didn't like how it works.
   )
 #+end_src
 
-** COMMENT magit-gptcommit
-https://github.com/douo/magit-gptcommit?tab=readme-ov-file
+* COMMENT mcp - model context protocol
+#+begin_src emacs-lisp
+(use-package mcp
+  :ensure (mcp :type git :host github :repo "lizqwerscott/mcp.el")
+  :config
+  (let* ((allowed-filesystem-directories "/home/darlan/Downloads/")
+  (filesystem-args (append '("-y" "@modelcontextprotocol/server-filesystem") allowed-filesystem-directories)))
+  (setq mcp-hub-servers
+      '(("filesystem" . (:command "npx" :args filesystem-args))
+        ("fetch" . (:command "uvx" :args ("mcp-server-fetch")))
+        ;; ("calculator" . (:command "uvx" :args ("mcp-server-calculator")))
+        ;; ("qdrant" . (:url "http://localhost:8000/sse"))
+        ;; ("graphlit" . (
+        ;;                 :command "npx"
+        ;;                 :args ("-y" "graphlit-mcp-server")
+        ;;                 :env (
+        ;;                       :GRAPHLIT_ORGANIZATION_ID "your-organization-id"
+        ;;                       :GRAPHLIT_ENVIRONMENT_ID "your-environment-id"
+        ;;                       :GRAPHLIT_JWT_SECRET "your-jwt-secret")))
+        ))
+  )
+
+
+
+  )
+
+  ;; (add-hook 'after-init-hook
+  ;;         #'mcp-hub-start-all-server)
+
+  (defun gptel-mcp-register-tool ()
+  (interactive)
+  (let ((tools (mcp-hub-get-all-tool :asyncp t :categoryp t)))
+    (mapcar #'(lambda (tool)
+                (apply #'gptel-make-tool
+                       tool))
+            tools)))
+#+end_src
 
 * COMMENT Ellama                                                         :LLM:ollama:
 https://www.rahuljuliato.com/posts/ellama
