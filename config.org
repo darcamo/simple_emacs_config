@@ -4111,6 +4111,166 @@ The package =org-roam-gc= seems useful if you start using roam dailies.
 
 The package =org-roam-rewrite= has commands for renaming nodes, rewriting links and deleting
 nodes with redirection so you can refactor notes without leaving broken links.
+
+* COMMENT Denote                                                                     :Denote:
+** General configuration
+#+begin_src emacs-lisp
+(use-package denote
+  :ensure t
+  :hook
+  ( ;; If you use Markdown or plain text files, then you want to make
+   ;; the Denote links clickable (Org renders links as buttons right
+   ;; away)
+   (text-mode . denote-fontify-links-mode-maybe)
+   ;; Apply colours to Denote names in Dired.  This applies to all
+   ;; directories.  Check `denote-dired-directories' for the specific
+   ;; directories you may prefer instead.  Then, instead of
+   ;; `denote-dired-mode', use `denote-dired-mode-in-directories'.
+   (dired-mode . denote-dired-mode))
+  :bind
+  ;; Denote DOES NOT define any key bindings.  This is for the user to
+  ;; decide.  For example:
+  ( :map global-map
+    ([f6] . denote-open-or-create)
+    ("C-c n n" . denote)
+    ("C-c n d" . denote-dired)
+    ("C-c n g" . denote-grep)
+    ;; If you intend to use Denote with a variety of file types, it is
+    ;; easier to bind the link-related commands to the `global-map', as
+    ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
+    ;; `markdown-mode-map', and/or `text-mode-map'.
+    ("C-c n l" . denote-link)
+    ("C-c n L" . denote-add-links)
+    ("C-c n b" . denote-backlinks)
+    ("C-c n B" . denote-refs-mode) ;; Toggle showing links and backlinks in Denote notes (after front matter).
+    ("C-c n q c" . denote-query-contents-link) ; create link that triggers a grep
+    ("C-c n q f" . denote-query-filenames-link) ; create link that triggers a dired
+    ;; Note that `denote-rename-file' can work from any context, not just
+    ;; Dired bufffers.  That is why we bind it here to the `global-map'.
+    ("C-c n r" . denote-rename-file)
+    ("C-c n R" . denote-rename-file-using-front-matter)
+
+    ;; Key bindings specifically for Dired.
+    :map dired-mode-map
+    ("C-c C-d C-i" . denote-dired-link-marked-notes)
+    ("C-c C-d C-r" . denote-dired-rename-files)
+    ("C-c C-d C-k" . denote-dired-rename-marked-files-with-keywords)
+    ("C-c C-d C-R" . denote-dired-rename-marked-files-using-front-matter))
+
+  :custom
+  (xref-search-program 'ripgrep)
+
+  (denote-directory (expand-file-name "~/org/denote/"))
+    ;; (setq denote-save-buffers nil)
+  ;; (setq denote-known-keywords '("emacs" "philosophy" "politics" "economics"))
+  ;; (setq denote-infer-keywords t)
+  ;; (setq denote-sort-keywords t)
+  ;; (setq denote-prompts '(title keywords))
+  ;; (setq denote-excluded-directories-regexp nil)
+  ;; (setq denote-excluded-keywords-regexp nil)
+  ;; (setq denote-rename-confirmations '(rewrite-front-matter modify-file-name))
+
+  ;; Pick dates, where relevant, with Org's advanced interface:
+  (denote-date-prompt-use-org-read-date t)
+
+
+  ;; ;; Prefer ripgrep, then ugrep, and fall back to regular grep.
+  ;; (setq xref-search-program
+  ;;       (cond
+  ;;        ((or (executable-find "ripgrep")
+  ;;             (executable-find "rg"))
+  ;;         'ripgrep)
+  ;;        ((executable-find "ugrep")
+  ;;         'ugrep)
+  ;;        (t
+  ;;         'grep)))
+
+
+  :config
+  ;; Automatically rename Denote buffers using the `denote-rename-buffer-format'.
+  (denote-rename-buffer-mode 1)
+  )
+#+end_src
+
+** Consult Denote                                                          :Consult:
+#+begin_src emacs-lisp
+(use-package consult-denote
+  :ensure t
+  :bind
+  (("C-c n f" . consult-denote-find)
+   ("C-c n g" . consult-denote-grep))
+  :config
+  (consult-denote-mode 1))
+#+end_src
+
+** Denote menu
+Just call =list-denotes=.
+
+In the tabulated list, call =denote-menu-filter-*= functions to filter and
+=denote-menu-clear-filters= to clear the filters.
+
+#+begin_src emacs-lisp
+(use-package denote-menu
+  :ensure t
+  :bind
+  ( :map global-map
+    ("C-c n t" . list-denotes)
+    :map denote-menu-mode-map
+    ("+" . denote-menu-filter-by-keyword)
+    ("-" . denote-menu-filter-out-keyword)
+    ("r" . denote-menu-filter)
+    ("c" . denote-menu-clear-filters)
+    ("/" . denote-menu-clear-filters)))
+#+end_src
+
+** Denote refs
+Add a comment after the front matter with the backlinks.
+
+Use =denote-refs-mode= in a denote file to toggle the minnor mode.
+
+#+begin_src emacs-lisp
+(use-package denote-refs
+:ensure t
+:commands (denote-refs-mode)
+;; :config
+;; denote-refs-mode
+)
+#+end_src
+
+** Denote Journal
+Note that in the calendar view you can use ="F"= on a date with a journal to go to the
+journal entry, and ="N"= to create a new entry.
+
+TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal-entry-using-org-capture][documentation]] about how to create a journal entry using capture.
+
+#+begin_src emacs-lisp
+(use-package denote-journal
+  :ensure t
+  ;; Bind those to some key for your convenience.
+  :commands ( denote-journal-new-entry
+	          denote-journal-new-or-existing-entry
+	          denote-journal-link-or-create-entry )
+  :hook (calendar-mode . denote-journal-calendar-mode)
+  :bind
+  (
+  ("C-c n j j" . denote-journal-new-or-existing-entry)
+  ("C-c n j l" . denote-journal-link-or-create-entry)
+  )
+
+  :custom
+  ;; %F format gives the iso date -> see docstring for `format-time-string'
+  (denote-journal-title-format "%F")
+
+  ;; Use the "journal" subdirectory of the `denote-directory'.  Set this
+  ;; to nil to use the `denote-directory' instead.
+  ;; (denote-journal-directory (expand-file-name "journal" denote-directory))
+
+  ;; Default keyword for new journal entries. It can also be a list of
+  ;; strings.
+  ;; (denote-journal-keyword "journal")
+  )
+#+end_src
+
 * Markdown                                                                 :markdown:
 ** General config
 #+begin_src emacs-lisp
