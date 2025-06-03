@@ -3784,7 +3784,11 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   ;; size after ":" indicates what is shown, but anything after that
   ;; size can still be matched during completion even if it is not
   ;; shown.
-  (org-roam-node-display-template (concat (propertize "${backlinkscount:6}" 'face 'org-checkbox) "${title:60} " (propertize "${id:8} " 'face 'org-tag) (propertize "${tags:*}" 'face 'org-tag)))
+  (org-roam-node-display-template (let ((backlinks-count (propertize "${backlinkscount:6}" 'face 'org-checkbox))
+                                        (title (propertize "${title:60} " 'face 'org-document-title))
+                                        (id (propertize "${id:8} " 'face 'org-cite))
+                                        (tags (propertize "${tags:*}" 'face 'org-tag)))
+                                    (concat backlinks-count title id tags)))
 
   ;; It's nice to type [[something<cursor>]] and use `complete-symbol' for org-roam to complete with a note.
   (org-roam-completion-everywhere t)
@@ -3868,7 +3872,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
                                 ("gN" "NCR" plain "Criado em %u\n\n- Links :: [[id:06bb82e9-6eb6-4e32-a953-f08adf08d428][NCR]]\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:NCR:"))
                                  :unnarrowed t :immediate-finish t)
-                                 ("gn" "NTN" plain "Criado em %u\n\n- Links :: [[id:49bcec38-0a18-47d6-8bde-102587d6fcad][NTN]]\n\n%?" :if-new
+                                ("gn" "NTN" plain "Criado em %u\n\n- Links :: [[id:49bcec38-0a18-47d6-8bde-102587d6fcad][NTN]]\n\n%?" :if-new
                                  (file+head ,my--note-filename-format ,(my--get-note-title-template ":GTEL:NTN:"))
                                  :unnarrowed t :immediate-finish t)
 
