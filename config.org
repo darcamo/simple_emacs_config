@@ -6045,6 +6045,11 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 
 NOTE: Run the =run-python= command to run a python interpreter (with
 completion).
+** Use python-ts-mode instead of regular python-mode
+#+begin_src emacs-lisp
+(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+#+end_src
+
 ** Helper functions
 #+begin_src emacs-lisp
 
