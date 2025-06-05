@@ -6423,6 +6423,14 @@ Note: Run =npm i -g vscode-langservers-extracted= to install the json language s
 ;;   ("C-c n r" . json-navigator-navigate-region)))
 #+end_src
 
+* Protobuf
+#+begin_src emacs-lisp
+(use-package protobuf-mode
+  :ensure t
+  :defer t
+  )
+#+end_src
+
 * PCoIP log-file mode
 #+begin_src emacs-lisp
 ;; You need to have the package already installed somewhere where Emacs can find it.
