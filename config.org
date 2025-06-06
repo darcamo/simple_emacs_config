@@ -1346,7 +1346,7 @@ This function is useful for creating labels from text, such as converting figure
   )
 #+end_src
 
-** rainbow-delimiters
+** COMMENT rainbow-delimiters
 #+begin_src emacs-lisp
 (use-package rainbow-delimiters
   :ensure t
