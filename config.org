@@ -6394,6 +6394,25 @@ Standard keybindings
   )
 #+end_src
 
+* Typescript
+Note: See configuration in https://github.com/llemaitre19/jtsx and set keybindings.
+
+#+begin_src emacs-lisp
+;; (use-package emacs
+;;   :mode
+;;   ("\\.ts$" . typescript-ts-mode)
+;;   )
+
+(use-package jtsx
+:ensure t
+:mode
+;; ("\\.tsx" . tsx-ts-mode)
+("\\.jsx$" . jtsx-jsx-mode)
+("\\.tsx$" . jtsx-tsx-mode)
+("\\.ts$" . jtsx-typescript-mode)
+)
+#+end_src
+
 * CSV
 #+begin_src emacs-lisp
 (use-package csv-mode
