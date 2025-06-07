@@ -5890,7 +5890,7 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
 (use-package qml-ts-mode
   :after apheleia
   :config
-  (push '(qmlformat . ("~/Qt/6.9.0/gcc_64/bin/qmlformat" "--inplace" file))
+  (push '(qmlformat . ("~/Qt/6.9.1/gcc_64/bin/qmlformat" "--inplace" file))
         apheleia-formatters)
 
   (add-to-list 'apheleia-mode-alist '(qml-ts-mode . qmlformat))
@@ -5936,7 +5936,7 @@ Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting process
   :config
   (add-to-list 'eglot-server-programs
                '((qml-ts-mode)
-                 . ("~/Qt/6.9.0/gcc_64/bin/qmlls")))
+                 . ("~/Qt/6.9.1/gcc_64/bin/qmlls")))
   :hook
   (qml-ts-mode . (lambda ()
                    ;; imenu from qml-ts-mode is better than the one provided by
