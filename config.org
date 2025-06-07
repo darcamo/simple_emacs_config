@@ -5156,7 +5156,7 @@ version can’t be used, fall back to the original major mode.
      (css "https://github.com/tree-sitter/tree-sitter-css")
      (elisp "https://github.com/Wilfred/tree-sitter-elisp")
      (html "https://github.com/tree-sitter/tree-sitter-html")
-     (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+     ;; (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
      (json "https://github.com/tree-sitter/tree-sitter-json")
      (make "https://github.com/alemuller/tree-sitter-make")
      (python "https://github.com/tree-sitter/tree-sitter-python")
@@ -6393,7 +6393,7 @@ Standard keybindings
   )
 #+end_src
 
-* Typescript
+* Javascript and Typescript
 Note: See configuration in https://github.com/llemaitre19/jtsx and set keybindings.
 
 #+begin_src emacs-lisp
@@ -6408,7 +6408,7 @@ Note: See configuration in https://github.com/llemaitre19/jtsx and set keybindin
 ;; ("\\.tsx" . tsx-ts-mode)
 ("\\.jsx$" . jtsx-jsx-mode)
 ("\\.tsx$" . jtsx-tsx-mode)
-("\\.ts$" . jtsx-typescript-mode)
+;; ("\\.ts$" . jtsx-typescript-mode)
 )
 #+end_src
 
