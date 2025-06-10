@@ -23,7 +23,9 @@
  '(magit-todos-exclude-globs '(".git/" "debug-adapters"))
  '(package-selected-packages nil)
  '(safe-local-variable-values
-   '((squish-suites-folder . "squish_tests")
+   '((qml-integration-qt-install-bin-folder . "~/Qt/6.9.1/gcc_64/bin")
+     (qml-integration-qt-install-bin-folder . "~/Qt/6.9.0/gcc_64/bin/")
+     (squish-suites-folder . "squish_tests")
      (squish-suite-folder . "squish_tests")
      (qml-integration-import-directories "." "imports"
                                          "~/git_files/soft-clients/desktop_app/ui_session_common_qt/janus/Resources"
