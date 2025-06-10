@@ -211,6 +211,21 @@ displaying correctly, call =nerd-icons-install-fonts= to install the fonts.
 Alternative modeline similar to powerline
 
 https://github.com/dbordak/telephone-line
+
+** show-font
+https://elpa.gnu.org/packages/show-font.html
+
+Use the =show-font-tabulated= to see a preview of the many fonts.
+
+Use =show-font-select-preview= to preview a single font.
+
+#+begin_src emacs-lisp
+(use-package show-font
+  :ensure t
+  :commands (show-font-tabulated show-font-select-preview)
+  )
+#+end_src
+
 * Completion framework                                                   :Completion:
 ** COMMENT Ido Mode                                                        :IdoMode:
 #+begin_src emacs-lisp
