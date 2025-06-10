@@ -4792,7 +4792,7 @@ You need to have [[https://zealdocs.org/][zeal]] installed.
   :config
   ;; Add more docsets beyond the standard library
   (add-to-list 'zeal-at-point-mode-alist '(c++-mode . ("cpp" "Boost")))
-  (add-to-list 'zeal-at-point-mode-alist '(c++-ts-mode . ("cpp" "Boost")))
+  (add-to-list 'zeal-at-point-mode-alist '(c++-ts-mode . ("cpp" "Boost" "Qt")))
   (add-to-list 'zeal-at-point-mode-alist '(python-mode . ("python3" "NumPy" "SciPy" "Pandas")))
   (add-to-list 'zeal-at-point-mode-alist '(python-ts-mode . ("python3" "NumPy" "SciPy" "Pandas")))
   )
