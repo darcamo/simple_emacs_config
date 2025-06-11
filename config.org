@@ -6475,17 +6475,17 @@ Note: Run =npm i -g vscode-langservers-extracted= to install the json language s
 (use-package pcoip-log-mode
   :commands (pcoip-log-mode pcoip-view-log)
   :hook
-  (pcoip-log-mode . pcoip-view-log) ;; Switch to tabulated view -> This must come first to run last
+  ;; (pcoip-log-mode . pcoip-view-log) ;; Switch to tabulated view -> This must come first to run last
   (pcoip-log-mode . view-mode)
   (pcoip-log-mode . read-only-mode)
   (pcoip-log-mode . auto-revert-tail-mode)
   (pcoip-log-mode . display-line-numbers-mode)
-  (pcoip-log-mode . (lambda ()
-                      (add-to-list 'prettify-symbols-alist '("00000000-0000-0000-0000-000000000000" . "※"))
-                      (prettify-symbols-mode)))
-  :init
-  ;; (add-to-list 'auto-mode-alist (cons (concat "^/tmp/Teradici/" (getenv "USER") "/PCoIPClient/logs/" ) 'pcoip-log-mode)))
-  (add-to-list 'auto-mode-alist (cons (concat "^/tmp/Teradici/" "TERADICI" "/PCoIPClient/logs/" ) 'pcoip-log-mode)))
+  ;; (pcoip-log-mode . (lambda ()
+  ;;                     (add-to-list 'prettify-symbols-alist '("00000000-0000-0000-0000-000000000000" . "※"))
+  ;;                     (prettify-symbols-mode)))
+  :mode
+  ("^/tmp/Teradici/.*/PCoIPClient/logs/" . pcoip-log-mode)
+  )
 
 #+end_src
 
