@@ -5885,6 +5885,9 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
   :mode
   ;; Set mode of qml.qrc file to xml-mode
   (".qrc" . xml-mode)
+  :custom
+  (qml-integration-qt-install-bin-folder "~/Qt/6.9.1/gcc_64/bin/")
+  (qml-integration-qmlscene-program "qml")
   )
 #+end_src
 
