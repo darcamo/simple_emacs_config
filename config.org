@@ -6391,6 +6391,18 @@ Standard keybindings
   :hook
   (emacs-lisp-mode  . (lambda () (setq fill-column 80))))
 #+end_src
+** Formatter for elisp code: elisp-autofmt
+https://codeberg.org/ideasman42/emacs-elisp-autofmt
+
+NOTE: You need to create an empty =.elisp-autofmt= file in order for =elisp-autofmt-mode= to
+reformat the buffer on save.
+#+begin_src emacs-lisp
+(use-package elisp-autofmt
+  :ensure t
+  :commands (elisp-autofmt-mode elisp-autofmt-buffer)
+  :hook (emacs-lisp-mode . elisp-autofmt-mode)
+  )
+#+end_src
 
 ** COMMENT ert buffer always at bottom
 #+begin_src emacs-lisp
@@ -6399,16 +6411,6 @@ Standard keybindings
                  (display-buffer-at-bottom)
                  (window-height . 0.28)
                  ))
-#+end_src
-
-** COMMENT Formatter for elisp code
-#+begin_src emacs-lisp
-(use-package elisp-autofmt
-  :commands (elisp-autofmt-mode elisp-autofmt-buffer)
-  ;; :custom
-  ;; (elisp-autofmt-python-bin "python3")
-  ;; :hook (emacs-lisp-mode . elisp-autofmt-mode)
-  )
 #+end_src
 
 * Javascript and Typescript
