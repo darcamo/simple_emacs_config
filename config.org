@@ -5654,6 +5654,19 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 ;; c-c++-lsp-enable-semantic-highlight nil
 #+end_src
 
+** Modify c++-ts-mode to fix syntax highlight
+This is only necessary while =c-ts-mode= is not updated to include a few module related
+keywords: =import=, =export= and =module.
+#+begin_src emacs-lisp
+(use-package c-ts-mode
+  :defer t
+  :config
+  (add-to-list 'c-ts-mode--c++-operator-keywords "import")
+  (add-to-list 'c-ts-mode--c++-operator-keywords "export")
+  (add-to-list 'c-ts-mode--c++-operator-keywords "module")
+  )
+#+end_src
+
 ** Change eglot-server-program to configure clangd                    :Eglot:clangd:
 #+begin_src emacs-lisp
 (defun get-clangd-path ()
