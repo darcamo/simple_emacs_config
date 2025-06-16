@@ -5591,6 +5591,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   (cmake-integration-include-subproject-targets-during-completion nil)
   (cmake-integration-hide-utility-targets-during-completion t)
   (cmake-integration-generator "Ninja")
+  (cmake-integration-use-separated-compilation-buffer-for-each-target t)
   :hook
   (c++-mode . cmake-integration-keybindings)
   (c-ts-base-mode . cmake-integration-keybindings)
