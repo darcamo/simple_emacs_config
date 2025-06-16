@@ -547,8 +547,12 @@ action is performed (you will still be in the minibuffer)
   ;; Hide the mode line of the Embark live/completions buffers
   (add-to-list 'display-buffer-alist
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
-                 nil
-                 (window-parameters (mode-line-format . none)))))
+                 nil  ;; I don't need any specific action functions
+                 ;; The following lines are the "action alist" passed to
+                 ;; display-buffer. For now, I only want to remove the
+                 ;; mode-line.
+                 (window-parameters (mode-line-format . none))
+                 )))
 
 ;; Consult users will also want the embark-consult package.
 (use-package embark-consult
@@ -1762,6 +1766,22 @@ A better Emacs *help* buffer
    ("C-h k" . #'helpful-key)
    ("C-h x" . #'helpful-command))
   )
+#+end_src
+
+** Setting display-buffer-alist: bottom-buffer-manager
+Here I only define an "action function" that I can use when adding an entry to
+=display-buffer-alist=. When this "action function" is used, it will try to display the
+buffer in the following order of preference:
+- If there is already a window displaying the buffer, use that.
+- If there is a window displaying the =*compilation*= buffer, use that.
+- If none of the above, display the buffer at bottom.
+
+
+#+begin_src emacs-lisp
+(use-package bottom-buffer-manager
+  :ensure (bottom-buffer-manager :type git :host github :protocol ssh
+                                 :repo "darcamo/bottom-buffer-manager" :depth nil)
+  :commands (bottom-buffer-manager-display-action-function))
 #+end_src
 
 * Scrolling and mouse                                               :Mouse:Scrolling:
@@ -3921,7 +3941,10 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
 
   (add-to-list 'display-buffer-alist
                '("\\*org-roam\\*"
-                 (display-buffer-in-direction)
+                 display-buffer-in-direction
+                 ;; The following lines are the "action alist" passed to
+                 ;; display-buffer. For now, I only want to remove the
+                 ;; mode-line.
                  (direction . right)
                  (window-width . 0.33)
                  (window-height . fit-window-to-buffer)))
@@ -4676,10 +4699,12 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
 
 ** Compilation buffer always at the bottom                             :Compilation:
 #+begin_src emacs-lisp
-;; display-buffer-at-bottom
 (add-to-list 'display-buffer-alist
                '("\\*compilation\\*"
-                 (display-buffer-at-bottom)
+                 bottom-buffer-manager-display-action-function
+                 ;; The following lines are the "action alist" passed to
+                 ;; display-buffer. For now, I only want to remove the
+                 ;; mode-line.
                  (window-height . 0.28)
                  ))
 #+end_src
@@ -5604,6 +5629,20 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   :hook
   (dired-mode . cmake-integration-keybindings)
   )
+
+
+(use-package bottom-buffer-manager
+  :defer t
+  :config
+  (add-to-list 'bottom-buffer-manager-match-strings "*Running - "))
+
+(add-to-list 'display-buffer-alist
+             '("\\*Running - .*"
+               bottom-buffer-manager-display-action-function
+               ;; Following are the display-buffer parameters
+               (window-height . 0.28)
+               ))
+
 #+end_src
 
 ** General configuration
@@ -5903,6 +5942,13 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
   (qml-integration-qt-install-bin-folder "~/Qt/6.9.1/gcc_64/bin/")
   (qml-integration-qmlscene-program "qml")
   )
+
+(use-package bottom-buffer-manager
+  :defer t
+  :config
+  (add-to-list 'bottom-buffer-manager-match-strings "Viewing qml file")
+  (add-to-list 'bottom-buffer-manager-match-strings "Linting qml file")
+  (add-to-list 'bottom-buffer-manager-match-strings "Running test file"))
 #+end_src
 
 *** Detect filename in compilation-mode for qmltestrunner errors       :Compilation:
@@ -6422,7 +6468,10 @@ reformat the buffer on save.
 #+begin_src emacs-lisp
 (add-to-list 'display-buffer-alist
                '("\\*ert\\*"
-                 (display-buffer-at-bottom)
+                 bottom-buffer-manager-display-action-function
+                 ;; The following lines are the "action alist" passed to
+                 ;; display-buffer. For now, I only want to remove the
+                 ;; mode-line.
                  (window-height . 0.28)
                  ))
 #+end_src
@@ -7508,7 +7557,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 
 (add-to-list 'display-buffer-alist
              '("mu4e"
-               (display-buffer-in-tab)
+               display-buffer-in-tab
                (tab-name . "E-Mail")
                ))
 
@@ -7830,7 +7879,7 @@ See more in https://github.com/chenyanming/calibredb.el
 #+begin_src emacs-lisp
 (add-to-list 'display-buffer-alist
              '("calibredb"
-               (display-buffer-in-tab)
+               display-buffer-in-tab
                (tab-name . "CalibreDB")
                ))
 
