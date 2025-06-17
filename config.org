@@ -5148,7 +5148,7 @@ DIR must include a .project file to be considered a project."
 (add-to-list 'project-vc-ignores "./.venv/")
 #+end_src
 
-* Tree-sitter                                                            :CPP:Python:
+* Tree-sitter                                                 :CPP:Python:treesitter:
 https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 
 NOTE: If you want to use tree-sitter major modes in place of the regular major modes, you
@@ -5162,22 +5162,6 @@ their corresponding -ts- one. Ex:
 :    (json-mode . json-ts-mode)
 :    (css-mode . css-ts-mode)
 :    (python-mode . python-ts-mode)))
-** COMMENT treesit-auto
-Automatically install and use tree-sitter major modes in Emacs 29+. If the tree-sitter
-version can’t be used, fall back to the original major mode.
-
-#+begin_src emacs-lisp
-(use-package treesit-auto
-  :ensure t
-  :custom
-  (treesit-auto-install 'prompt)
-  :config
-  (treesit-auto-add-to-auto-mode-alist 'all)
-  (delete 'markdown treesit-auto-langs)
-  (global-treesit-auto-mode)
-  )
-#+end_src
-
 ** Configuration
 #+begin_src emacs-lisp
 (use-package tree-sitter
@@ -5694,17 +5678,33 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 ;; c-c++-lsp-enable-semantic-highlight nil
 #+end_src
 
-** Modify c++-ts-mode to fix syntax highlight
+** Modify c++-ts-mode to fix syntax highlight                           :treesitter:
 This is only necessary while =c-ts-mode= is not updated to include a few module related
 keywords: =import=, =export= and =module.
+
+*NOTE*: This was added in [2025-06-16 seg]. Try commenting-out this customization to see if
+the =c++-ts-mode= was updated to fontify module names and the new keywords properly.
+
 #+begin_src emacs-lisp
+(defvar darcamo/cpp-font-lock-module-rules
+  (treesit-font-lock-rules
+   :language 'cpp
+   :feature 'type
+   :override t
+   '((module_name (identifier)) @font-lock-constant-face))
+  "Custom C++ font-lock rules for C++ treesit mode matching the module name.")
+
+
 (use-package c-ts-mode
   :defer t
   :config
   (add-to-list 'c-ts-mode--c++-operator-keywords "import")
   (add-to-list 'c-ts-mode--c++-operator-keywords "export")
   (add-to-list 'c-ts-mode--c++-operator-keywords "module")
-  )
+  :hook
+  (c++-ts-mode . (lambda () (setq-local treesit-font-lock-settings
+                                   (append treesit-font-lock-settings
+					                       darcamo/cpp-font-lock-module-rules)))))
 #+end_src
 
 ** Change eglot-server-program to configure clangd                    :Eglot:clangd:
@@ -5876,7 +5876,7 @@ Set =outline-regexp= in a local variable to ="\\[\\([0-9]+/[0-9]+\\)\\]"=.
 
 ** Qt and QML                                                               :QML:Qt:
 
-*** qml-ts-mode (Has imenu support, but syntax highlight is still pretty low)
+*** qml-ts-mode (Has imenu support, but syntax highlight is still pretty low) :treesitter:
 Alternative mode for qml, using tree-sitter.
 
 NOTE: You need to manually install the tree-sitter grammar for it. Add an entry to
