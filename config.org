@@ -1214,8 +1214,7 @@ shell, since we would have to scape some characters otherwise."
 
 (defun buffer-exists (bufname)
   "Test if buffffer BUFNAME exists."
-  (not
-   (eq nil (get-buffer bufname))))
+  (bufferp (get-buffer bufname)))
 
 
 ;; Dictionaries / Synonyms / Wikipedia
