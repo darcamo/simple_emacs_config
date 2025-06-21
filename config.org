@@ -6046,6 +6046,7 @@ uses the =.ts= extension for itsa (translation) language files.
 (use-package conanfile-mode
   :hook
   (cmake-mode . cmake-integration-keybindings)
+  (conanfile-mode . cmake-integration-keybindings)
   :mode
   ("conanfile\\.txt" . conanfile-mode)
   )
