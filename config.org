@@ -1802,6 +1802,14 @@ buffer in the following order of preference:
 #+end_src
 
 * Version control
+** git-modes: Major mode for gitconfig, gitignore and gitattributes
+package: git-modes
+#+begin_src emacs-lisp
+(use-package git-modes
+  :ensure t
+  :defer t)
+#+end_src
+
 ** Magit                                                                     :Magit:
 #+begin_src emacs-lisp
 (use-package transient
