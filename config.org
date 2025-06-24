@@ -1390,6 +1390,7 @@ This function is useful for creating labels from text, such as converting figure
   :mode
   ("\\PKGBUILD$" . conf-mode)
   ("\\Doxyfile" . conf-mode)
+  ("\\.ini" . conf-windows-mode)
   )
 #+end_src
 ** Ediff: use single frame
