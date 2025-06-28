@@ -5582,24 +5582,46 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 
 ** cmake-integration package                                           :CMake:Dired:
 #+begin_src emacs-lisp
-(define-minor-mode cmake-integration-keybindings
+(defun is-cmake-project? ()
+  "Determine if the current directory is a CMake project."
+  (interactive)
+  (if-let* ((project (project-current))
+            (project-root (project-root project))
+            (cmakelist-path (expand-file-name "CMakeLists.txt" project-root)))
+      (file-exists-p cmakelist-path)))
+
+
+(defun cmake-integration-keybindings-mode-turn-on-in-cmake-projects ()
+  "Turn on `cmake-integration-keybindings-mode' in CMake projects."
+  (when (is-cmake-project?)
+    (cmake-integration-keybindings-mode 1)))
+
+      
+(define-minor-mode cmake-integration-keybindings-mode
   "A minor-mode for adding keybindings to compile C++ code using cmake-integration package."
   nil
   "cmake"
   '(
-    ([f5] . cmake-integration-transient)
-    ([M-f9] . cmake-integration-save-and-compile)
-    ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
-    ([C-f9] . cmake-integration-run-ctest)
-    ([f10] . cmake-integration-run-last-target)
+    ([f5] . cmake-integration-transient)                         ;; Open main transient menu
+    ([M-f9] . cmake-integration-save-and-compile)                ;; Ask for the target name and compile it
+    ([f9] . cmake-integration-save-and-compile-last-target)      ;; Recompile the last target
+    ([C-f9] . cmake-integration-run-ctest)                       ;; Run CTest
+    ([f10] . cmake-integration-run-last-target)                  ;; Run the target (using any previously set command line parameters)
     ([S-f10] . kill-compilation)
-    ([C-f10] . cmake-integration-debug-last-target)
-    ([M-f10] . cmake-integration-run-last-target-with-arguments)
-    ([M-f8] . cmake-integration-select-configure-preset)
-    ([f8] . cmake-integration-cmake-reconfigure)
+    ([C-f10] . cmake-integration-debug-last-target)              ;; Debug the target (using any previously set command line parameters)
+    ([M-f10] . cmake-integration-run-last-target-with-arguments) ;; Ask for command line parameters to run the target
+    ([M-f8] . cmake-integration-select-configure-preset)         ;; Ask for a preset name and call CMake to configure the project
+    ([f8] . cmake-integration-cmake-reconfigure)                 ;; Call CMake to configure the project using the last chosen preset
     )
   )
 
+(define-globalized-minor-mode global-cmake-integration-keybindings-mode
+  cmake-integration-keybindings-mode cmake-integration-keybindings-mode-turn-on-in-cmake-projects)
+
+
+(global-cmake-integration-keybindings-mode)
+
+  
 (use-package cmake-integration
   :ensure (cmake-integration :type git :host github :protocol ssh
                              :repo "darcamo/cmake-integration" :depth nil)
@@ -5609,18 +5631,10 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   (cmake-integration-hide-utility-targets-during-completion t)
   (cmake-integration-generator "Ninja")
   (cmake-integration-use-separated-compilation-buffer-for-each-target t)
-  :hook
-  (c++-mode . cmake-integration-keybindings)
-  (c-ts-base-mode . cmake-integration-keybindings)
   )
 
 ;;;###autoload
 (autoload 'cmake-integration-transient "cmake-integration" nil t)
-
-(use-package dired
-  :hook
-  (dired-mode . cmake-integration-keybindings)
-  )
 
 
 (use-package bottom-buffer-manager
@@ -5748,11 +5762,7 @@ the =c++-ts-mode= was updated to fontify module names and the new keywords prope
 #+begin_src emacs-lisp
 (use-package emacs
   :mode
-  ("CMakeLists.txt" . cmake-ts-mode)
-  :hook
-  (cmake-ts-mode . cmake-integration-keybindings)
-  (compilation-mode . cmake-integration-keybindings)
-  )
+  ("CMakeLists.txt" . cmake-ts-mode))
 #+end_src
 
 ** CMake Presets mode                                                        :CMake:
@@ -5770,9 +5780,6 @@ the =c++-ts-mode= was updated to fontify module names and the new keywords prope
   :mode
   ("ConanPresets\\.json" . cmakepresets-mode)
   :hook
-  ;; Enable cmake-integration-keybindings in json mode only for the three file names
-  (cmakepresets-mode . cmake-integration-keybindings)
-
   (json-mode . (lambda () (when (darcamo/is-cmake-presets-file) (cmakepresets-mode))))
   )
 
@@ -6053,21 +6060,9 @@ uses the =.ts= extension for itsa (translation) language files.
   )
 
 (use-package conanfile-mode
-  :hook
-  (cmake-mode . cmake-integration-keybindings)
-  (conanfile-mode . cmake-integration-keybindings)
   :mode
   ("conanfile\\.txt" . conanfile-mode)
   )
-
-(use-package python
-  :hook
-  (python-mode . (lambda () (when (buffer-file-name)
-                         (when (equal (file-name-nondirectory (buffer-file-name)) "conanfile.py")
-                           (cmake-integration-keybindings)))))
-  (python-ts-mode . (lambda () (when (buffer-file-name)
-                            (when (equal (file-name-nondirectory (buffer-file-name)) "conanfile.py")
-                              (cmake-integration-keybindings))))))
 #+end_src
 
 ** COMMENT Dap-debug (C++) - Debug Protocol                                  :debug:
