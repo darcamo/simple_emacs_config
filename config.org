@@ -5762,7 +5762,8 @@ the =c++-ts-mode= was updated to fontify module names and the new keywords prope
 #+begin_src emacs-lisp
 (use-package emacs
   :mode
-  ("CMakeLists.txt" . cmake-ts-mode))
+  ("CMakeLists.txt" . cmake-ts-mode)
+  ("\\.cmake" . cmake-ts-mode))
 #+end_src
 
 ** CMake Presets mode                                                        :CMake:
