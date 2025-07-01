@@ -1492,17 +1492,6 @@ This function is useful for creating labels from text, such as converting figure
          ("C-M-)" . ace-mc-add-single-cursor)))
 #+end_src
 
-** git-gutter
-#+begin_src emacs-lisp
-(use-package git-gutter
-  :ensure t
-  :config
-  (global-git-gutter-mode +1)
-  ;; The default is " GitGutter", but I don't want to waste
-  ;; space in the modeline with that
-  (setq git-gutter:lighter ""))
-#+end_src
-
 ** Go to last change                                                   :Keybindings:
 #+begin_src emacs-lisp
 (use-package goto-last-change
@@ -1803,6 +1792,17 @@ buffer in the following order of preference:
 #+end_src
 
 * Version control
+** git-gutter
+#+begin_src emacs-lisp
+(use-package git-gutter
+  :ensure t
+  :config
+  (global-git-gutter-mode +1)
+  ;; The default is " GitGutter", but I don't want to waste
+  ;; space in the modeline with that
+  (setq git-gutter:lighter ""))
+#+end_src
+
 ** git-modes: Major mode for gitconfig, gitignore and gitattributes
 package: git-modes
 #+begin_src emacs-lisp
@@ -8158,6 +8158,14 @@ The idea is good, but I didn't like how it works.
    ("C-c g a D" . #'corsair-drop-accumulated-buffer)           ;; Drop chat buffer
    ("C-c g f" . #'corsair-insert-file-or-folder-contents))     ;; Insert file or folder contents
   )
+#+end_src
+** gptel-commit
+#+begin_src emacs-lisp
+(use-package gptel-commit
+  :ensure (gptel-commit :type git :host github :repo "lakkiy/gptel-commit")
+  :after (gptel magit)
+  :custom
+  (gptel-commit-stream t))
 #+end_src
 
 * COMMENT mcp - model context protocol
