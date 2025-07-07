@@ -5593,7 +5593,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 
 (defun cmake-integration-keybindings-mode-turn-on-in-cmake-projects ()
   "Turn on `cmake-integration-keybindings-mode' in CMake projects."
-  (when (is-cmake-project?)
+  (when (and (is-cmake-project?) (not (eq major-mode 'qml-ts-mode)))
     (cmake-integration-keybindings-mode 1)))
 
       
