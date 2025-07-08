@@ -196,15 +196,14 @@ displaying correctly, call =nerd-icons-install-fonts= to install the fonts.
 ** Change some of the hi-lock faces
 #+begin_src elisp
 (use-package hi-lock
-  :custom-face
-  ;; Set the foreground of some of the hi-lock faces that only specify the background
-  (hi-yellow ((t (:foreground "black"))))
-  (hi-pink ((t (:foreground "black"))))
-  (hi-green ((t (:foreground "black"))))
-  (hi-blue ((t (:foreground "black"))))
+  :defer t
   :custom
   (hi-lock-face-defaults '("hi-yellow" "hi-pink" "hi-green" "hi-blue" "hi-salmon" "hi-aquamarine"))
-  )
+  :config
+  (set-face-attribute 'hi-yellow nil :foreground "black")
+  (set-face-attribute 'hi-pink nil :foreground "black")
+  (set-face-attribute 'hi-green nil :foreground "black")
+  (set-face-attribute 'hi-blue nil :foreground "black"))
 #+end_src
 
 ** COMMENT Telephone Line
