@@ -5803,6 +5803,35 @@ the =c++-ts-mode= was updated to fontify module names and the new keywords prope
 (add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("cmake-language-server")))
 #+end_src
 
+** Format CMake buffers                                                   :apheleia:
+#+begin_src emacs-lisp
+(defun darcamo/format-cmake-buffer ()
+  "Format a cmake buffer using cmake-format with apheleia.
+
+This saves the buffer, formats it, and then reloads the disk version."
+  (interactive)
+
+  (save-buffer)
+  (apheleia-format-buffer 'cmakeformat)
+  ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
+  (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
+  (revert-buffer t t t)
+  )
+
+
+(use-package emacs
+  :after apheleia
+  :config
+  (push '(cmakeformat . ("cmake-format" "--in-place" file))
+        apheleia-formatters)
+  (add-to-list 'apheleia-mode-alist '(cmake-ts-mode . cmakeformat)))
+
+
+(use-package cmake-ts-mode
+  :bind (:map cmake-ts-mode-map
+              ;; Save the buffer to file, format the file and reload the disk
+              ("C-c f" . darcamo/format-cmake-buffer)))
+#+end_src
 ** Ninja Mode
 Note: =ninja-mode= was previously included in the [[https://github.com/ninja-build/ninja/commits/master/][ninja repository]], but on [2024-11-11 Mon]
 it was moved to its [[https://github.com/ninja-build/ninja-emacs/issues][own repository]]. Because of that, just =use-package ninja-mode= with
