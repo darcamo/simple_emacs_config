@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+#name : TARGET_INCLUDE_DIRECTORIES(targetname library_name)
+# contributor: Darlan Cavalcante Moreira
+# --
+target_include_directories(${1:Executable name}
+    PRIVATE
+        ${2:Directory})
+$0
