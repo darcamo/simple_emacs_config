@@ -8248,8 +8248,35 @@ https://www.rahuljuliato.com/posts/ellama
 #+end_src
 
 Veja também [[https://www.reddit.com/r/emacs/comments/1e37cer/elisa_100/][elisa]].
-* Gemini  Code Completion                                                       :LLM:
-https://github.com/shishimaru/gemini-code-completion.el
+* Aidermacs                                                                     :LLM:
+#+begin_src emacs-lisp
+(defun darcamo/get-aider-key ()
+  "Get my openrouter API key for usage with aider."
+  (let ((entry (auth-source-search :host "openrouter.ai" :max 1)))
+    (if entry
+        (let ((secret (funcall (plist-get (car entry) :secret))))
+          (when secret
+            (if (stringp secret)
+                secret
+              (error "Secret is not a string"))))
+      (error "No entry found for 'api.openai.com'"))))
+
+
+(use-package aidermacs
+  :ensure t
+  :bind (("C-c a" . aidermacs-transient-menu))
+  :config
+  ;; ; Set API_KEY in .bashrc, that will automatically picked up by aider or in elisp
+  ;; (setenv "ANTHROPIC_API_KEY" "sk-...")
+  ; defun my-get-openrouter-api-key yourself elsewhere for security reasons
+  (setenv "OPENROUTER_API_KEY" (darcamo/get-aider-key))
+  :custom
+  ; See the Configuration section below
+  (aidermacs-default-chat-mode 'architect)
+  ;; (aidermacs-default-model "openrouter/openai/gpt-4o"))
+  (aidermacs-default-model "openrouter/google/gemini-2.5-flash-preview-05-20"))
+#+end_src
+
 * Texpresso
 Live Latex
 https://github.com/let-def/texpresso
