@@ -5595,7 +5595,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   (when (and (is-cmake-project?) (not (eq major-mode 'qml-ts-mode)))
     (cmake-integration-keybindings-mode 1)))
 
-      
+
 (define-minor-mode cmake-integration-keybindings-mode
   "A minor-mode for adding keybindings to compile C++ code using cmake-integration package."
   nil
@@ -5620,11 +5620,15 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 
 (global-cmake-integration-keybindings-mode)
 
-  
+
 (use-package cmake-integration
   :ensure (cmake-integration :type git :host github :protocol ssh
                              :repo "darcamo/cmake-integration" :depth nil)
   :defer t
+  :commands (cmake-integration-conan-manage-remotes
+             cmake-integration-conan-list-packages-in-local-cache
+             cmake-integration-search-in-conan-center
+             cmake-integration-transient)
   :custom
   (cmake-integration-include-subproject-targets-during-completion nil)
   (cmake-integration-hide-utility-targets-during-completion t)
@@ -5647,7 +5651,6 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
                ;; Following are the display-buffer parameters
                (window-height . 0.28)
                ))
-
 #+end_src
 
 ** General configuration
