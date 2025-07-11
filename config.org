@@ -1811,6 +1811,7 @@ package: git-modes
 #+end_src
 
 ** Magit                                                                     :Magit:
+*** General configuration
 #+begin_src emacs-lisp
 (use-package transient
   :ensure (transient :type git :host github :repo "magit/transient")
@@ -1844,7 +1845,13 @@ package: git-modes
 
 (add-hook 'magit-mode-hook #'evz/setup-magit-submodule-update-all)
 #+end_src
-
+*** Enable smartparens-mode in git-commit-mode
+#+begin_src emacs-lisp
+(use-package magit
+  :hook
+  (git-commit-mode . smartparens-mode)
+  )
+#+end_src
 *** Magit with Difftastic
 See [[https://tsdh.org/posts/2022-08-01-difftastic-diffing-with-magit.html][this link]].
 
