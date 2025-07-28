@@ -4180,7 +4180,7 @@ The package =org-roam-gc= seems useful if you start using roam dailies.
 The package =org-roam-rewrite= has commands for renaming nodes, rewriting links and deleting
 nodes with redirection so you can refactor notes without leaving broken links.
 
-* COMMENT Denote                                                                     :Denote:
+* COMMENT Denote                                                             :Denote:
 ** General configuration
 #+begin_src emacs-lisp
 (use-package denote
@@ -4725,7 +4725,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
 #+end_src
 
 ** Syntax check
-*** COMMENT Flycheck                                                     :Flycheck:
+*** COMMENT Flycheck                                                      :Flycheck:
 https://www.flycheck.org/en/latest/index.html
 
 #+begin_src emacs-lisp
@@ -4740,7 +4740,7 @@ https://www.flycheck.org/en/latest/index.html
   )
 #+end_src
 
-*** Flymake                                                               :Flymake:
+*** Flymake                                                                :Flymake:
 **** General Configuration
 #+begin_src emacs-lisp
 (use-package flymake
