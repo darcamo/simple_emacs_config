@@ -3835,7 +3835,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   ;; shown.
   (org-roam-node-display-template (let ((backlinks-count (propertize "${backlinkscount:6}" 'face 'org-checkbox))
                                         (title (propertize "${title:70} " 'face 'org-document-title))
-                                        (hierarchy (propertize "${hierarchy:60} " 'face 'org-document-title))
+                                        (hierarchy (propertize "${hierarchy:80} " 'face 'org-document-title))
                                         (id (propertize "${id:8} " 'face 'org-cite))
                                         (tags (propertize "${tags:*}" 'face 'org-tag)))
                                     ;; (concat backlinks-count title id tags)
@@ -3993,7 +3993,8 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
     (let ((level (org-roam-node-level node)))
       (concat
        (when (> level 0) (concat (org-roam-node-file-title node) " > "))
-       (when (> level 1) (concat (string-join (org-roam-node-olp node) " > ") " > "))
+       ;; (when (> level 1) (concat (string-join (org-roam-node-olp node) " > ") " > "))
+       (when (> level 1) (concat "... > "))
        (org-roam-node-title node))))
 
   ;; org-roam-title is the face used for the titles in the backlinks buffer
