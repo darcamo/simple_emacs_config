@@ -8287,6 +8287,7 @@ Veja também [[https://www.reddit.com/r/emacs/comments/1e37cer/elisa_100/][elisa
   :custom
   ; See the Configuration section below
   (aidermacs-default-chat-mode 'architect)
+  (aidermacs-watch-files t)
   ;; (aidermacs-default-model "openrouter/openai/gpt-4o"))
   (aidermacs-default-model "openrouter/google/gemini-2.5-flash-preview-05-20"))
 #+end_src
