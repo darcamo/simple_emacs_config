@@ -5610,7 +5610,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   "cmake"
   '(
     ([f5] . cmake-integration-transient)                         ;; Open main transient menu
-    ([M-f9] . cmake-integration-save-and-compile)                ;; Ask for the target name and compile it
+    ([M-f9] . cmake-integration-select-current-target)                ;; Ask for the target name and compile it
     ([f9] . cmake-integration-save-and-compile-last-target)      ;; Recompile the last target
     ([C-f9] . cmake-integration-run-ctest)                       ;; Run CTest
     ([f10] . cmake-integration-run-last-target)                  ;; Run the target (using any previously set command line parameters)
@@ -5867,6 +5867,9 @@ main file.
   :config
   (add-to-list 'cc-search-directories "~/git_files/cppsim/src")
   (add-to-list 'cc-search-directories "~/git_files/cppsim/tests")
+  (add-to-list 'cc-search-directories "../api")
+  (add-to-list 'cc-search-directories "../include")
+  (add-to-list 'cc-search-directories "../src")
   )
 #+end_src
 
