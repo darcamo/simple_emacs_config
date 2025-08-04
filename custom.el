@@ -20,11 +20,9 @@
       (regexp
        . "[0-9]+-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\\.[0-9][0-9][0-9]Z"))))
  '(lsp-clangd-version "16.02")
- '(magit-todos-exclude-globs '(".git/" "debug-adapters"))
  '(package-selected-packages nil)
  '(safe-local-variable-values
    '((qml-integration-qt-install-bin-folder . "~/Qt/6.9.1/gcc_64/bin")
-     (qml-integration-qt-install-bin-folder . "~/Qt/6.9.0/gcc_64/bin/")
      (squish-suites-folder . "squish_tests")
      (squish-suite-folder . "squish_tests")
      (qml-integration-import-directories "." "imports"
