@@ -5873,6 +5873,7 @@ main file.
   (add-to-list 'cc-search-directories "../api")
   (add-to-list 'cc-search-directories "../include")
   (add-to-list 'cc-search-directories "../src")
+  (add-to-list 'cc-search-directories "../inc")
   )
 #+end_src
 
