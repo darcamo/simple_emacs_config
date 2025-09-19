@@ -8032,8 +8032,9 @@ Open a certificate, public key, etc., and then just call =x509-dwim=.
   :ensure t)
 #+end_src
 
-* Co-pilot                                                              :LLM:copilot:
-** Completions in buffer
+* LLMs                                                                          :LLM:
+** Co-pilot                                                            :LLM:copilot:
+*** Completions in buffer
 https://github.com/copilot-emacs/copilot.el
 
 Don't forget to call ~copilot-install-server~.
@@ -8064,7 +8065,7 @@ Don't forget to call ~copilot-install-server~.
   :custom-face
   (copilot-overlay-face ((t (:foreground "DeepSkyBlue")))))
 #+end_src
-** Chat
+*** Chat
 #+begin_src emacs-lisp
 (use-package copilot-chat
   :ensure (:host github :repo "chep/copilot-chat.el")
@@ -8077,8 +8078,8 @@ Don't forget to call ~copilot-install-server~.
    ))
 #+end_src
 
-* gptel                                                                  :LLM:ollama:
-** General configuration
+** gptel                                                                :LLM:ollama:
+*** General configuration
 You can limit the conversation context to an Org heading with the command
 gptel-org-set-topic. (This sets an Org property (GPTEL_TOPIC) under the heading. You can
 also add this property manually instead.)
@@ -8167,7 +8168,7 @@ You can also customize =gptel-temperature=.
   :              (frob response)))
 - Note: When the gptel-send transient menu is open, you can use =C-x C-s= to save the
   current choice as default. THIS WORKS IN ANY TRANSIENT MENU!.
-** gptel quick
+*** gptel quick
 Just put the cursor in a word, or select something and call =gptel-quick= to ask the current
 model in gptel to explain it in a post frame.
 
@@ -8186,7 +8187,7 @@ Pres "=+=" (possible multiple times) to to expand the explanation.
   (keymap-set embark-general-map "?" #'gptel-quick)
   )
 #+end_src
-** COMMENT Corsair
+*** COMMENT Corsair
 Provide functions to easily add content to gptel context.
 
 The idea is good, but I didn't like how it works.
@@ -8205,7 +8206,7 @@ The idea is good, but I didn't like how it works.
    ("C-c g f" . #'corsair-insert-file-or-folder-contents))     ;; Insert file or folder contents
   )
 #+end_src
-** gptel-commit
+*** gptel-commit
 #+begin_src emacs-lisp
 (use-package gptel-commit
   :ensure (gptel-commit :type git :host github :repo "lakkiy/gptel-commit")
@@ -8214,7 +8215,7 @@ The idea is good, but I didn't like how it works.
   (gptel-commit-stream t))
 #+end_src
 
-* COMMENT mcp - model context protocol
+** COMMENT mcp - model context protocol
 #+begin_src emacs-lisp
 (use-package mcp
   :ensure (mcp :type git :host github :repo "lizqwerscott/mcp.el")
@@ -8252,7 +8253,7 @@ The idea is good, but I didn't like how it works.
             tools)))
 #+end_src
 
-* COMMENT Ellama                                                         :LLM:ollama:
+** COMMENT Ellama                                                       :LLM:ollama:
 https://www.rahuljuliato.com/posts/ellama
 #+begin_src emacs-lisp
 (use-package ellama
@@ -8266,6 +8267,20 @@ https://www.rahuljuliato.com/posts/ellama
 #+end_src
 
 Veja também [[https://www.reddit.com/r/emacs/comments/1e37cer/elisa_100/][elisa]].
+
+** Eca - Editor Code Assistant
+https://github.com/editor-code-assistant/eca-emacs
+
+Note: Run =eca-install-server= to install the server.
+
+Just run =eca= to start. This will open an "eca" buffer.
+
+#+begin_src emacs-lisp
+(use-package eca
+  :ensure (eca :type git :host github :repo "editor-code-assistant/eca-emacs")
+  )
+#+end_src
+
 * Aidermacs                                                                     :LLM:
 #+begin_src emacs-lisp
 (defun darcamo/get-aider-key ()
