@@ -1772,6 +1772,28 @@ buffer in the following order of preference:
   :commands (bottom-buffer-manager-display-action-function))
 #+end_src
 
+** tldr client
+A [[https://github.com/tldr-pages/tldr][tldr]] client for Emacs.
+- https://github.com/kuanyui/tldr.el
+
+
+#+begin_src emacs-lisp
+(use-package tldr
+  :ensure t
+  :commands (tldr)
+  ;; :custom
+  ;; (tldr-enabled-categories '("common" "linux"))
+)
+#+end_src
+
+Usage
+
+- =M-x tldr=
+- Use =C-c C-b=, =C-c C-f= or =r=, =l=, or =[=, =]= to navigate in lookup history.
+- Use =SPC= to lookup another command
+- Notice that at the first time using, it will automatically download the latest tldr docs to local.
+- You can use =M-x tldr-update-docs= to update docs.
+
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src emacs-lisp
 ;; (setq scroll-step 1)
