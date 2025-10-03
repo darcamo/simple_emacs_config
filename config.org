@@ -1794,6 +1794,14 @@ Usage
 - Notice that at the first time using, it will automatically download the latest tldr docs to local.
 - You can use =M-x tldr-update-docs= to update docs.
 
+** Systemd
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :ensure nil
+  :mode
+  ("\\.service\\'" . conf-mode))
+#+end_src
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src emacs-lisp
 ;; (setq scroll-step 1)
