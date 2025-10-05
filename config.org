@@ -5343,6 +5343,7 @@ To add support to more server, see the =eglot-server-programs= variable.
          (python-ts-mode . eglot-ensure)
          (cmake-mode . eglot-ensure)
          (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
+         (json-ts-mode . eglot-ensure)
          )
   :commands eglot-ensure
   :custom
