@@ -67,7 +67,8 @@ used for the first time they should be "configured".
 (setenv "PATH" (concat (getenv "PATH") ":~/.local/bin"))
 (setq exec-path (append exec-path '("~/.local/bin")))
 (setenv "LD_LIBRARY_PATH" "$SQUISH_DIR/lib:$LD_LIBRARY_PATH" t)
-* Path for remote execution with TRAMP
+#+end_src
+
 * Path for remote execution with TRAMP                                        :TRAMP:
 This is specially useful with docker.
 
