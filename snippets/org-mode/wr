@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# contributor : Darlan Cavalcante Moreira <darcamo@gmail.com>
+# name: writing-rewrite
+# description: Useful in Gptel buffer, to be used in the beginning of a prompt to use my writing assistant preset.
+# key: wr
+# --
+@writing Improve the text below
+

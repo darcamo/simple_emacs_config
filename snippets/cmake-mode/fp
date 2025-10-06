@@ -1,0 +1,6 @@
+# -*- mode: snippet -*-
+#name : FIND_PACKAGE
+# contributor: Darlan Cavalcante Moreira
+# --
+find_package(${1:package} REQUIRED)
+$0
