@@ -67,6 +67,18 @@ used for the first time they should be "configured".
 (setenv "PATH" (concat (getenv "PATH") ":~/.local/bin"))
 (setq exec-path (append exec-path '("~/.local/bin")))
 (setenv "LD_LIBRARY_PATH" "$SQUISH_DIR/lib:$LD_LIBRARY_PATH" t)
+* Path for remote execution with TRAMP
+* Path for remote execution with TRAMP                                        :TRAMP:
+This is specially useful with docker.
+
+#+begin_src emacs-lisp
+(use-package tramp
+  :defer t
+  :config
+  ;; The path here is specific to a given remote, but this also acts as an
+  ;; example in case I need to add more paths
+  (add-to-list 'tramp-remote-path "/home/ubuntu/.local/bin")
+  )
 #+end_src
 
 * Set the theme and apearance                                            :Appearance:
