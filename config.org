@@ -8121,7 +8121,7 @@ Don't forget to call ~copilot-install-server~.
    ))
 #+end_src
 
-** gptel                                                                :LLM:ollama:
+** gptel                                                  :LLM:copilot:gptel:ollama:
 *** General configuration
 You can limit the conversation context to an Org heading with the command
 gptel-org-set-topic. (This sets an Org property (GPTEL_TOPIC) under the heading. You can
@@ -8184,6 +8184,7 @@ confirmation.
                                           qwen3:8b
                                           qwen3:14b
                                           qwen3:30b-a3b
+                                          qwen3:32b
                                           Qwen2.5-Coder:7b
                                           Qwen2.5-Coder:32b
                                           mistral:latest
@@ -8282,7 +8283,45 @@ The idea is good, but I didn't like how it works.
   :custom
   (gptel-commit-stream t))
 #+end_src
+*** gptel Presets
+- TIP: You can apply a preset to a single query by including @preset-name in the prompt,
+  where preset-name is the name of the preset. (The oneshot scope option in gptel's
+  transient menus is another way to do this, see the FAQ.)
+- TIP2: Type just =@= and then use =complete-symbol= to complete with a preset name. You can
+  also type part of it's name.
 
+#+begin_src emacs-lisp
+(use-package gptel
+  :defer t
+  :config
+  (gptel-make-preset 'writing
+    :system "You are a skilled writing assistant with expertise in grammar, style, tone, and clarity. Your role is to provide constructive feedback and tailored suggestions to improve the quality of the text. Focus on enhancing readability, coherence, and flow while maintaining the original intent of the author."
+    :description "A preset to use when working on improving text quality."
+    :backend "Copilot"
+    :model 'gpt-4o
+    ;; :tools '("read_buffer" "spell_check" "grammar_check")
+    )
+
+  (gptel-make-preset 'programming                       ;preset name, a symbol
+    :description "A preset setting system message for programming tasks"
+    :system "You are an expert coding assistant. Your role is to provide high-quality code solutions, refactorings, and explanations."
+    ;; :tools '("read_buffer" "modify_buffer") ;gptel tools or tool names
+    )
+  (gptel-make-preset 'gpt4coding                       ;preset name, a symbol
+    :description "A preset optimized for coding tasks" ;for your reference
+    :backend "Copilot"                     ;gptel backend or backend name
+    :model 'gpt-4o
+    ;; system "You are an expert coding assistant. Your role is to provide high-quality code solutions, refactorings, and explanations."
+    ;; :tools '("read_buffer" "modify_buffer") ;gptel tools or tool names
+    :parents '(programming)
+    )
+  ;; (gptel-make-preset 'websearch
+  ;;   :description  "Haiku with basic web search capability."
+  ;;   :backend "Copilot"                     ;gptel backend or backend name
+  ;;   :model 'gpt-4o
+  ;;   :tools        '("search_web" "read_url" "get_youtube_meta"))
+  )
+#+end_src
 ** COMMENT mcp - model context protocol
 #+begin_src emacs-lisp
 (use-package mcp
