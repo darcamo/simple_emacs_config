@@ -8145,6 +8145,20 @@ confirmation.
 
 
 #+begin_src emacs-lisp
+;; NOTE: You need to add the line below to the .authinfo.gpg file
+;; machine openrouter.ai login gptel-apikey password <API-KEY>
+(defun darcamo/get-gptel-openrouter-key ()
+  "Get my openrouter API key for usage with aider."
+  (let* (
+         (entry (auth-source-search :host "openrouter.ai" :user "gptel-apikey" :max 1)))
+    (if entry
+        (let ((secret (funcall (plist-get (car entry) :secret))))
+          (when secret
+            (if (stringp secret)
+                secret
+              (error "Secret is not a string"))))
+      (error "No entry found for 'api.openai.com'"))))
+
 (use-package gptel
   :ensure t
   :commands (gptel-menu gptel-send gptel gptel-mode gptel-set-topic gptel--convert-markdown->org)
@@ -8185,6 +8199,17 @@ confirmation.
                                 :stream t))
   ;; Add a copilot backend
   (gptel-make-gh-copilot "Copilot")
+
+  (gptel-make-openai "OpenRouter"
+    :host "openrouter.ai"
+    :endpoint "/api/v1/chat/completions"
+    :stream t
+    :key 'darcamo/get-gptel-openrouter-key
+    :models '(openai/gpt-4o
+              openai/gpt-5
+              google/gemini-2.5-flash
+              google/gemini-2.5-pro
+              ))
 
   ;; Add a tool to query the current time
   (gptel-make-tool
@@ -8326,9 +8351,11 @@ Just run =eca= to start. This will open an "eca" buffer.
 
 * Aidermacs                                                                     :LLM:
 #+begin_src emacs-lisp
+;; NOTE: You need to add the line below to the .authinfo.gpg file
+;; machine openrouter.ai login aider-apikey password <API-KEY>
 (defun darcamo/get-aider-key ()
   "Get my openrouter API key for usage with aider."
-  (let ((entry (auth-source-search :host "openrouter.ai" :max 1)))
+  (let ((entry (auth-source-search :host "openrouter.ai" :user "aider-apikey" :max 1)))
     (if entry
         (let ((secret (funcall (plist-get (car entry) :secret))))
           (when secret
