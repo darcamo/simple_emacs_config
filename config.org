@@ -5920,7 +5920,7 @@ main file.
   (fancy-compilation-default-face ((t (:background nil)))))
 #+end_src
 
-** My custom fontify rules in compilation buffer                       :Compilation:
+** My custom fontify rules to add colors to compilation buffer         :Compilation:
 #+begin_src emacs-lisp
 (use-package emacs
   :config

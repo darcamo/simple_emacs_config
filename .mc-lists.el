@@ -26,6 +26,7 @@
         dabbrev-expand
         delete-horizontal-space
         dired-next-line
+        dired-previous-line
         dired-unmark-backward
         down-list
         electric-newline-and-maybe-indent
@@ -39,6 +40,7 @@
         markdown-outdent-or-delete
         nxml-electric-slash
         org-beginning-of-line
+        org-ctrl-c-star
         org-cycle
         org-emphasize
         org-end-of-line
