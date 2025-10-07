@@ -8478,7 +8478,7 @@ https://www.rahuljuliato.com/posts/ellama
 
 Veja também [[https://www.reddit.com/r/emacs/comments/1e37cer/elisa_100/][elisa]].
 
-** Eca - Editor Code Assistant
+** COMMENT Eca - Editor Code Assistant
 https://github.com/editor-code-assistant/eca-emacs
 
 Note: Run =eca-install-server= to install the server.
