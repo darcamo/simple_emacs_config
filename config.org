@@ -5850,6 +5850,10 @@ the =c++-ts-mode= was updated to fontify module names and the new keywords prope
   ("ConanPresets\\.json" . cmakepresets-mode)
   :hook
   (json-mode . (lambda () (when (darcamo/is-cmake-presets-file) (cmakepresets-mode))))
+  :config
+  (add-to-list 'eglot-server-programs
+               '((cmakepresets-mode)
+                 . ("vscode-json-languageserver" "--stdio")))
   )
 
 ;; Customize consult-imenu-config to display our presets nicely in consult-imenu
