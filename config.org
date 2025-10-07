@@ -64,9 +64,27 @@ used for the first time they should be "configured".
 
 * Path for programs to run in subprocesses
 #+begin_src emacs-lisp
-(setenv "PATH" (concat (getenv "PATH") ":~/.local/bin"))
-(setq exec-path (append exec-path '("~/.local/bin")))
+(setenv "ORGANIZATION" "HP Development Company, L.P.")
 (setenv "LD_LIBRARY_PATH" "$SQUISH_DIR/lib:$LD_LIBRARY_PATH" t)
+
+(defun darcamo/add-folder-to-path (folder)
+  "Update PATH environment var and `exec-path` with the provided FOLDER.
+
+FOLDER is expanded using `expand-file-name`."
+  (let* ((expanded-folder (expand-file-name folder))
+         (new-path (concat expanded-folder ":" (getenv "PATH")))
+         (new-exec-path (cons expanded-folder exec-path)))
+    (setenv "PATH" new-path)
+    (setq exec-path new-exec-path)))
+
+(defun darcamo/add-node-folder-to-path (node-version)
+  "Set up PATH and `exec-path` for NODE-VERSION using nvm."
+  (darcamo/add-folder-to-path (format "~/.nvm/versions/node/%s/bin" node-version)))
+;; Add node installed with nvm to path:
+(darcamo/add-node-folder-to-path "v24.9.0")
+
+;; Add .local/bin to path, since have a few programs there
+(darcamo/add-folder-to-path "~/.local/bin")
 #+end_src
 
 * Path for remote execution with TRAMP                                        :TRAMP:
