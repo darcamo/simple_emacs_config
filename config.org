@@ -8162,26 +8162,33 @@ Don't forget to call ~copilot-install-server~.
    ))
 #+end_src
 ** COMMENT Codeium
+I haven't really tried codeium yet. It seems I can only use their service and the Emacs
+support might not be maintained.
 #+begin_src emacs-lisp
-;; (use-package codeium
-;;   :ensure (codeium :type git :host github :repo "Exafunction/codeium.el")
-;;   :commands (codeium-diagnose)
-;;   :init
-;;   ;; ;; use globally
-;;   ;; (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
+(use-package codeium
+  :ensure (codeium :type git :host github :repo "Exafunction/codeium.el")
+  :commands (codeium-diagnose)
+  :init
+  ;; ;; use globally
+  ;; (add-to-list 'completion-at-point-functions #'codeium-completion-at-point)
 
-;;   ;; (add-hook 'python-mode-hook
-;;   ;;     (lambda ()
-;;   ;;         (setq-local completion-at-point-functions '(codeium-completion-at-point))))
+  ;; (add-hook 'python-mode-hook
+  ;;     (lambda ()
+  ;;         (setq-local completion-at-point-functions '(codeium-completion-at-point))))
 
-;;   ;; :config
-;;   ;;   (setq use-dialog-box nil) ;; do not use popup boxes
-;;   )
+  ;; :config
+  ;;   (setq use-dialog-box nil) ;; do not use popup boxes
+  )
 #+end_src
 
 Official codieum package seems to not be maitained.
 Checkout [[https://github.com/jeff-phil/comingle.el][comingle.el]] (a fork) instead.
 ** COMMENT minuet
+https://github.com/milanglacier/minuet-ai.el
+
+Code completion as-you-type from popular LLMs including OpenAI, Gemini, Claude, Ollama,
+Llama.cpp, Codestral, and more.
+
 #+begin_src emacs-lisp
 (use-package minuet
   :ensure t
@@ -8491,7 +8498,22 @@ Just run =eca= to start. This will open an "eca" buffer.
   )
 #+end_src
 
-* Aidermacs                                                                     :LLM:
+** COMMENT Cli agents - ai-code-interface
+https://github.com/tninja/ai-code-interface.el
+
+#+begin_src emacs-lisp
+(use-package ai-code-interface
+  :ensure (ai-code-interface :type git :host github :repo "tninja/ai-code-interface.el")
+  :config
+  ;; (ai-code-set-backend  'claude-code-ide) ;; use claude-code-ide as backend
+  ;; Enable global keybinding for the main menu
+  (global-set-key (kbd "C-c a") #'ai-code-menu)
+  ;; Optional: Set up Magit integration for AI commands in Magit popups
+  (with-eval-after-load 'magit
+    (ai-code-magit-setup-transients)))
+#+end_src
+
+** COMMENT Aidermacs                                                              :LLM:
 #+begin_src emacs-lisp
 ;; NOTE: You need to add the line below to the .authinfo.gpg file
 ;; machine openrouter.ai login aider-apikey password <API-KEY>
