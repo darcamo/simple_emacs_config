@@ -1837,7 +1837,7 @@ Usage
 - You can use =M-x tldr-update-docs= to update docs.
 
 ** Systemd
-
+*** Use conf-mode for .service files
 #+begin_src emacs-lisp
 (use-package emacs
   :ensure nil
@@ -8119,6 +8119,7 @@ Don't forget to call ~copilot-install-server~.
 #+begin_src emacs-lisp
 (use-package copilot
   :ensure (:host github :repo "copilot-emacs/copilot.el")
+  :commands (copilot-diagnose copilot-login copilot-mode)
   :bind (
          :map copilot-mode-map
          ("C-M-S-i" . copilot-complete)
