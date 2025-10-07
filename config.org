@@ -7,7 +7,7 @@
 LLMs
 - ollama
 - gpf4all
-- [[https://claude.ai/login?returnTo=%2F][cloude]]
+- [[https://claude.ai/login?returnTo=%2F][claude.ai]]
 - [[https://www.phind.com/search?home=true][phind]]
 - [[https://www.infoworld.com/article/3700869/14-llms-that-arent-chatgpt.html][14 LLMs que não são chatGPT]]
 
@@ -16,10 +16,6 @@ TODO: Emacs 30 use-package now has a =:vc= keyword to install packages from git.
       back to standard package manager in Emacs? Once you use it (instead of elpaca), you
       can use =package-vc-upgrade-all= to update VC installed packages.
 
-TODO: Use ~dired-hide-details-mode~
-
-TODO: Check superword-mode
-
 TODO: Check the project-vc-extra-root-markers variable
 TODO: Check the python-shell-dedicated variable
 
@@ -27,11 +23,7 @@ TODO: *Check the* compilation-hidden-output variable
 TODO: try the [[https://github.com/emacs-tree-sitter/ts-fold][ts-fold]] package
 
 
-My hand-crafted Emacs configuration
-
-init-time atual do emacs: ~1.2
-
-Enable lexical binding
+Enable lexical binding in tangled configuration
 #+begin_src emacs-lisp
 ;; -*- lexical-binding: t; -*-
 #+end_src
@@ -815,10 +807,8 @@ Code to define many acronymms that I use
 
 ** Fill with comment
 #+begin_src emacs-lisp
-;; Fill with comment
 (defun fill-with-comment(&optional character)
-  "Insert as many comment characters as necessary to go untill
-      fill-column."
+  "Fill with CHARACTER until `fill-column'."
   (interactive)
   (when (null character)
     (setq character "x"))
@@ -881,7 +871,8 @@ Tip: Check the =yas-describe-tables= command
 ;; This method is used in the 'comment' yasnippets template
 (defun darcamo/get-comment-block-start ()
   "Insert the correct comment start string for a block comment.
-  This method is used in the 'comment' yasnippets template."
+
+This method is used in the 'comment' yasnippets template."
   (interactive)
   (if (equal ";" comment-start)
       ;; For emacs-lisp mode, we want two ';' symbols.
@@ -895,7 +886,8 @@ Tip: Check the =yas-describe-tables= command
 ;; This method is used in the 'comment' yasnippets template
 (defun darcamo/get-comment-block-end ()
   "Insert the correct comment end string for a block comment.
-  This method is used in the 'comment' yasnippets template."
+
+This method is used in the 'comment' yasnippets template."
   (interactive)
   (string-trim comment-end)
   )
@@ -903,12 +895,14 @@ Tip: Check the =yas-describe-tables= command
 
 ;; Get user name and e-mail address
 (defun darcamo/get-user-name-and-email ()
-  "Get the user full name and e-mail address from the variables
-      'user-full-name' and 'user-mail-address'. This is useful for
-      yasnippets. You can use this function in your snippets and if you
-      need to change the email address for a project, for example, just
-      change the variable 'user-mail-address' in a file variable or a
-      directory variable, instead of changing the snippets."
+  "Get the user full name and e-mail address.
+
+Get the user full name and e-mail address from the variables
+'user-full-name' and 'user-mail-address'. This is useful for yasnippets.
+You can use this function in your snippets and if you need to change the
+email address for a project, for example, just change the variable
+'user-mail-address' in a file variable or a directory variable, instead
+of changing the snippets."
   (interactive)
   (concat user-full-name " <" user-mail-address ">")
   )
