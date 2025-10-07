@@ -5633,6 +5633,11 @@ In each language configuration what needs to use apheleia for formatting, you mi
 entry to =apheleia-formatters= and =apheleia-mode-alist=.
 * C++                                                               :CPP:Programming:
 Note: Use =C-c C-k= to toggle between line comments and block comments.
+** Use c++-ts-mode instead of regular c++-mode
+#+begin_src emacs-lisp
+(add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
+#+end_src
+
 ** Doxygen                                                                 :doxygen:
 *** Doxygen with tree-sitter
 Enable doxygen syntax highlighting using tree-sitter.
