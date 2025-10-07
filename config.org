@@ -1844,6 +1844,12 @@ Usage
   :mode
   ("\\.service\\'" . conf-mode))
 #+end_src
+*** Mode for journalctl output
+#+begin_src emacs-lisp
+(use-package journalctl-mode
+  :ensure t
+)
+#+end_src
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src emacs-lisp
 ;; (setq scroll-step 1)
