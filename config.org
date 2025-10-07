@@ -343,6 +343,17 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   (marginalia-mode))
 #+end_src
 
+** completion-preview-mode
+#+begin_src emacs-lisp
+(use-package emacs
+  :config
+  (global-completion-preview-mode)
+  :bind ( :map completion-preview-active-mode-map
+          ("M-n" . 'completion-preview-next-candidate)
+          ("M-p" . 'completion-preview-prev-candidate)
+          )
+  )
+#+end_src
 ** all-the-icons-completion                                            :AllTheIcons:
 #+begin_src emacs-lisp
 (use-package all-the-icons-completion
