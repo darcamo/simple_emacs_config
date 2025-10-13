@@ -1884,6 +1884,19 @@ package: git-modes
   :defer t)
 #+end_src
 
+** gitignore-templates: Creating gitignore files
+Just call =gitignore-templates-new-file= to create a =.gitignore= file, or
+=gitignore-templates-insert= to insert the content in the current buffer.
+
+In both cases you are prompted for a language.
+
+#+begin_src emacs-lisp
+(use-package gitignore-templates
+  :ensure t
+  :commands (gitignore-templates-insert gitignore-templates-new-file)
+  )
+#+end_src
+
 ** Magit                                                                     :Magit:
 *** General configuration
 #+begin_src emacs-lisp
