@@ -5409,6 +5409,7 @@ To add support to more server, see the =eglot-server-programs= variable.
          (python-mode . eglot-ensure)
          (python-ts-mode . eglot-ensure)
          (cmake-mode . eglot-ensure)
+         (cmake-ts-mode . eglot-ensure)
          (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
          (json-ts-mode . eglot-ensure)
          )
