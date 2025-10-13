@@ -8278,6 +8278,22 @@ confirmation.
 - See more in https://qwenlm.github.io/blog/qwen3/ and https://simonwillison.net/2025/Apr/29/qwen-3/
 
 
+Gemini API
+#+begin_quote
+https://www.reddit.com/r/emacs/comments/1l40fii/comment/mw5xnw0/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+
+You can generate up to 25 Gemini API Keys through AI Studio: https://aistudio.google.com/
+that can be used with gptel.
+
+Without billing setup, the API keys are rate limited but can switch between the 25 keys
+for more. Casual users won't have a problem.
+
+Watch out, with billing enabled and the huge gemini context, you can rack up big bills
+quickly. So not recommended to set up billing if you are just experimenting.
+#+end_quote
+
+
+
 #+begin_src emacs-lisp
 ;; NOTE: You need to add the line below to the .authinfo.gpg file
 ;; machine openrouter.ai login gptel-apikey password <API-KEY>
@@ -8292,6 +8308,17 @@ confirmation.
                 secret
               (error "Secret is not a string"))))
       (error "No entry found for 'api.openai.com'"))))
+
+
+(defun darcamo/set-gptel-default-model (backend model)
+  "Set the default BACKEND and MODEL in gptel.
+
+BACKEND is the string used when you registered a backend, while MODEL is
+a symbol."
+  (if-let* ((backend-data (cdr (assoc backend gptel--known-backends))))
+      (setq-default gptel-model model
+                    gptel-backend backend-data)))
+
 
 (use-package gptel
   :ensure t
@@ -8309,29 +8336,28 @@ confirmation.
   :hook
   (gptel-mode . toggle-truncate-lines)
   :config
-  (setq-default gptel-model 'qwen3:30b-a3b ;; Pick your default model
-                gptel-expert-commands t
-                gptel-backend (gptel-make-ollama
-                                  "Ollama"                               ;Any name of your choosing
-                                :host "localhost:11434"                ;Where it's running
-                                :models '(DeepSeek-R1
-                                          qwen3:8b
-                                          qwen3:14b
-                                          qwen3:30b-a3b
-                                          qwen3:32b
-                                          Qwen2.5-Coder:7b
-                                          Qwen2.5-Coder:32b
-                                          mistral:latest
-                                          dolphin-mixtral:latest
-                                          openchat:latest
-                                          codellama:7b
-                                          codellama:34b
-                                          vicuna:13b-16k
-                                          vicuna:latest
-                                          mixtral:latest
-                                          llama3
-                                          )
-                                :stream t))
+  (gptel-make-ollama
+      "Ollama"                               ;Any name of your choosing
+    :host "localhost:11434"                ;Where it's running
+    :models '(DeepSeek-R1
+              qwen3:8b
+              qwen3:14b
+              qwen3:30b-a3b
+              qwen3:32b
+              Qwen2.5-Coder:7b
+              Qwen2.5-Coder:32b
+              mistral:latest
+              dolphin-mixtral:latest
+              openchat:latest
+              codellama:7b
+              codellama:34b
+              vicuna:13b-16k
+              vicuna:latest
+              mixtral:latest
+              llama3
+              )
+    :stream t)
+
   ;; Add a copilot backend
   (gptel-make-gh-copilot "Copilot")
 
@@ -8349,8 +8375,8 @@ confirmation.
                                                      google/gemini-2.5-pro
                                                      google/gemini-2.5-flash
                                                      )))
-
-
+  (setq-default gptel-expert-commands t)
+  (darcamo/set-gptel-default-model "Ollama" 'qwen3:14b)
 
   ;; Add a tool to query the current time
   (gptel-make-tool
