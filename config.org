@@ -623,6 +623,7 @@ action is performed (you will still be in the minibuffer)
   ;; This is recommended since dabbrev can be used globally (M-/).
   :init
   (global-corfu-mode)
+  (corfu-popupinfo-mode)
 
   :bind (:map corfu-map
               ("<end>" . corfu-last)
@@ -649,6 +650,7 @@ action is performed (you will still be in the minibuffer)
 
 ;; https://github.com/jdtsmith/kind-icon
 ;; Add nice icons in corfu popup
+;; Call kind-icon-preview-all` to see them all
 (use-package kind-icon
   :ensure t
   :after corfu
