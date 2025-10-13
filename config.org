@@ -8327,11 +8327,17 @@ confirmation.
     :endpoint "/api/v1/chat/completions"
     :stream t
     :key 'darcamo/get-gptel-openrouter-key
-    :models '(openai/gpt-4o
-              openai/gpt-5
-              google/gemini-2.5-flash
-              google/gemini-2.5-pro
-              ))
+    :models (gptel-openrouter-get-annotated-models '(openai/gpt-4o
+                                                     openai/gpt-5
+                                                     openai/gpt-5-codex
+                                                     anthropic/claude-sonnet-4
+                                                     qwen/qwen3-coder
+                                                     moonshotai/kimi-k2
+                                                     google/gemini-2.5-pro
+                                                     google/gemini-2.5-flash
+                                                     )))
+
+
 
   ;; Add a tool to query the current time
   (gptel-make-tool
@@ -8358,6 +8364,17 @@ You can also customize =gptel-temperature=.
   :              (frob response)))
 - Note: When the gptel-send transient menu is open, you can use =C-x C-s= to save the
   current choice as default. THIS WORKS IN ANY TRANSIENT MENU!.
+*** gptel-openrouter
+Emacs package to make it easy to add OpenRouter models to gptel with extra information
+that gptel can display.
+
+#+begin_src emacs-lisp
+(use-package gptel-openrouter
+  :ensure (gptel-openrouter :type git :host github :protocol ssh
+                            :repo "darcamo/gptel-openrouter" :depth nil)
+  :defer t)
+#+end_src
+
 *** gptel quick
 Just put the cursor in a word, or select something and call =gptel-quick= to ask the current
 model in gptel to explain it in a post frame.
