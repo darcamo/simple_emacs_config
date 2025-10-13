@@ -5457,6 +5457,15 @@ Set ~gdb-debuginfod-enable-setting~ to nil
   )
 #+end_src
 
+** Make gdb show the main function on startup
+#+begin_src emacs-lisp
+(use-package gdb-mi
+  :defer t
+  :custom
+  (gdb-show-main t)
+  )
+#+end_src
+
 ** COMMENT dap-mode -> Debugger Adapter Protocol                         :LSP:debug:
 For c++ see [[*Dap-debug (C++)][Dap-debug (C++)]]
 For Python see [[*Dap-debug (Python)][Dap-debug (Python)]]
