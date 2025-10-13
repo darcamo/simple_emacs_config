@@ -2005,6 +2005,13 @@ In Arch Linux, the name of the package is =git-delta=.
   )
 #+end_src
 
+** COMMENT consult-gh
+#+begin_src emacs-lisp
+(use-package consult-gh
+  :ensure t
+  :after consult)
+#+end_src
+
 * COMMENT Emacs server
 #+begin_src emacs-lisp
 (require 'server)
