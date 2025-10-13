@@ -6605,7 +6605,8 @@ reformat the buffer on save.
   :ensure t
   :commands (elisp-autofmt-mode elisp-autofmt-buffer)
   :hook (emacs-lisp-mode . elisp-autofmt-mode)
-  )
+  :bind ( :map emacs-lisp-mode-map
+          ("C-c f" . 'elisp-autofmt-buffer)))
 #+end_src
 
 ** COMMENT ert buffer always at bottom
