@@ -1786,6 +1786,7 @@ A better Emacs *help* buffer
 #+begin_src emacs-lisp
 (use-package helpful
   :ensure t
+  :defer t
   :bind
   (("C-h f" . #'helpful-callable)
    ("C-h v" . #'helpful-variable)
@@ -1844,6 +1845,7 @@ Usage
 #+begin_src emacs-lisp
 (use-package journalctl-mode
   :ensure t
+  :commands (journalctl journalctl-transient)
 )
 #+end_src
 * Scrolling and mouse                                               :Mouse:Scrolling:
@@ -4438,6 +4440,7 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
 #+begin_src emacs-lisp
 (use-package markdown-mode
   :ensure t
+  :defer t
   :custom
   (markdown-fontify-code-blocks-natively t)
   :config
