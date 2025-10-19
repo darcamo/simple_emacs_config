@@ -8162,9 +8162,11 @@ Don't forget to call ~copilot-install-server~.
   :ensure (:host github :repo "copilot-emacs/copilot.el")
   :commands (copilot-diagnose copilot-login copilot-mode)
   :bind (
+         ;; Some keybinding suggestions: https://github.com/copilot-emacs/copilot.el/issues/103
          :map copilot-mode-map
          ("C-M-S-i" . copilot-complete)
          :map copilot-completion-map
+         ("C-g" . 'copilot-clear-overlay)
          ("C-<next>" . copilot-next-completion)
          ("C-<prior>" . copilot-previous-completion)
          ("C-<return>" . copilot-accept-completion)
@@ -8184,7 +8186,15 @@ Don't forget to call ~copilot-install-server~.
   :custom-face
   (copilot-overlay-face ((t (:foreground "DeepSkyBlue")))))
 #+end_src
-*** Chat
+
+TODO Check the copilot-disable-display-predicates variable
+- If could ne a nice way to set-up some "snooze" mode which makes copilot not suggest
+  completions for some time
+
+
+TODO Check the copilot-clear-overlay-ignore-commands variable
+
+*** COMMENT Chat
 #+begin_src emacs-lisp
 (use-package copilot-chat
   :ensure (:host github :repo "chep/copilot-chat.el")
