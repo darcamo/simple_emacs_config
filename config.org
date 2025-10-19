@@ -8321,14 +8321,22 @@ quickly. So not recommended to set up billing if you are just experimenting.
       (error "No entry found for 'api.openai.com'"))))
 
 
+(defun darcamo/set-gptel-default-backend-from-name (backend-name)
+  "Set the default backend in gptel to be the one with BACKEND-NAME.
+
+BACKEND is the string used when you registered a backend, while MODEL is
+a symbol."
+  (if-let* ((backend-data (cdr (assoc backend-name gptel--known-backends))))
+      (setq-default gptel-backend backend-data)))
+
+
 (defun darcamo/set-gptel-default-model (backend model)
   "Set the default BACKEND and MODEL in gptel.
 
 BACKEND is the string used when you registered a backend, while MODEL is
 a symbol."
-  (if-let* ((backend-data (cdr (assoc backend gptel--known-backends))))
-      (setq-default gptel-model model
-                    gptel-backend backend-data)))
+  (darcamo/set-gptel-default-backend-from-name backend)
+  (setq-default gptel-model model))
 
 
 (use-package gptel
@@ -8377,7 +8385,8 @@ a symbol."
     :endpoint "/api/v1/chat/completions"
     :stream t
     :key 'darcamo/get-gptel-openrouter-key
-    :models (gptel-openrouter-get-annotated-models '(openai/gpt-4o
+    :models (gptel-openrouter-get-annotated-models '(x-ai/grok-code-fast-1
+                                                     openai/gpt-4o
                                                      openai/gpt-5
                                                      openai/gpt-5-codex
                                                      anthropic/claude-sonnet-4
@@ -8387,8 +8396,14 @@ a symbol."
                                                      google/gemini-2.5-flash
                                                      )))
   (setq-default gptel-expert-commands t)
-  (darcamo/set-gptel-default-model "Ollama" 'qwen3:14b)
+  ;; (darcamo/set-gptel-default-model "OpenRouter" 'google/gemini-2.5-flash)
+  (darcamo/set-gptel-default-model "Copilot" 'gpt-4o)
 
+  ;; Branching context
+  (setq gptel-org-branching-context t)
+  (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
+  (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
+  
   ;; Add a tool to query the current time
   (gptel-make-tool
    :name "current_time"
@@ -8397,6 +8412,25 @@ a symbol."
    :description "Return the current local time (including current time and date), as a human-readable string."
    :category "emacs")
   )
+
+
+(defface gptel-prompt-prefix-face
+  '((t :inherit font-lock-type-face :underline t :extend t))
+  "Face used on gptel prompt prefix .")
+
+(defface gptel-response-prefix-face
+  '((t :inherit font-lock-warning-face :underline t :extend t))
+  "Face used on gptel response prefix .")
+
+(defun darcamo/fontify-gptel-org-buffers ()
+  "Font-lock rules to fontify @user and @assistant in gptel buffers."
+  ;; Fontify the gptel prompt and response prefixes
+  (font-lock-add-keywords nil
+                          `((,(alist-get 'org-mode gptel-prompt-prefix-alist) . 'gptel-prompt-prefix-face)
+                            (,(alist-get 'org-mode gptel-response-prefix-alist) . 'gptel-response-prefix-face))
+                          nil))
+
+(add-hook 'gptel-mode-hook #'darcamo/fontify-gptel-org-buffers)
 #+end_src
 
 Note: You can customize the =gptel-directives= variable.
