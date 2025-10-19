@@ -8378,11 +8378,11 @@ a symbol."
 
 
 (defface gptel-prompt-prefix-face
-  '((t :inherit font-lock-type-face :underline t :extend t))
+  '((t :inherit font-lock-type-face :underline t :extend t :height 1.4))
   "Face used on gptel prompt prefix .")
 
 (defface gptel-response-prefix-face
-  '((t :inherit font-lock-warning-face :underline t :extend t))
+  '((t :inherit font-lock-warning-face :underline t :extend t :height 1.4))
   "Face used on gptel response prefix .")
 
 (defun darcamo/fontify-gptel-org-buffers ()
