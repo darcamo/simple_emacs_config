@@ -6744,6 +6744,17 @@ https://writequit.org/articles/working-with-logs-in-emacs.html
 ;;   )
 #+end_src
 
+* TZCPY
+#+begin_src emacs-lisp
+(use-package tzcpy
+  ;; :ensure (tzcpy :type git :host git :repo "git@github.azc.ext.hp.com:darlan-moreira/tzcpy.git")
+  :commands (tzcpy-view-available-versions tzcpy-show-current-context)
+  :custom
+  (tzcpy-python-folder (expand-file-name "~/git_files/docs/examples/"))
+  (tzcpy-default-endpoint-id "endpoint-4cc54e20e99c41f0a2d5a6a9df2c7f15")
+  )
+#+end_src
+
 * COMMENT Latex                                                               :Latex:
 ** Some useful functions
 #+begin_src emacs-lisp
