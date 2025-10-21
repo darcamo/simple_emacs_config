@@ -4914,10 +4914,11 @@ https://github.com/tarsius/hl-todo
   )
 #+end_src
 
-** Consult documentation in zeal
+** Consult documentation in zeal (dash documentation)
 See https://github.com/jinzhu/zeal-at-point
 
-You need to have [[https://zealdocs.org/][zeal]] installed.
+You need to have [[https://zealdocs.org/][zeal]] installed. See also the [[https://github.com/dash-docs-el/helm-dash][helm-dash]] package as an alternative, which
+does not need zeal.
 
 #+begin_src emacs-lisp
 (use-package zeal-at-point
