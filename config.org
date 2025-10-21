@@ -4949,7 +4949,7 @@ does not need zeal.
   (prog-mode . page-break-lines-mode))
 #+end_src
 * Eldoc
-Replace HTML characters with plain text ones in eldoc buffers.
+** Replace HTML characters with plain text ones in eldoc buffers.
 
 Code from https://emacs.stackexchange.com/questions/80740/how-to-correctly-format-nbsp-in-eldoc-using-eglot
 #+begin_src emacs-lisp
@@ -4988,7 +4988,13 @@ Code from https://emacs.stackexchange.com/questions/80740/how-to-correctly-forma
 
 (advice-add 'eldoc-display-in-buffer :around #'rb--eldoc-preprocess)
 #+end_src
-
+** eldoc-box
+#+begin_src emacs-lisp
+(use-package eldoc-box
+  :ensure t
+  :bind (("C-h ." . eldoc-box-help-at-point))
+  )
+#+end_src
 * YAML                                                                         :YAML:
 ** yaml-ts-mode
 #+begin_src emacs-lisp
