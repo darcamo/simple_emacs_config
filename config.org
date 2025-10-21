@@ -6634,6 +6634,7 @@ Note: See configuration in https://github.com/llemaitre19/jtsx and set keybindin
 * JSON
 Note: Run =npm i -g vscode-langservers-extracted= to install the json language server.
 
+** Use json-ts-mode for .json files
 #+begin_src emacs-lisp
 (use-package emacs
   :mode
@@ -6652,6 +6653,16 @@ Note: Run =npm i -g vscode-langservers-extracted= to install the json language s
 ;;   ("C-c n n" . json-navigator-navigate-after-point)
 ;;   ("C-c n p" . json-navigator-navigate-after-point)
 ;;   ("C-c n r" . json-navigator-navigate-region)))
+#+end_src
+
+** counsel-jq
+Just run =M-x counsel-jq= in a json buffer. Enter any query and you can see a live preview. Pressing enter will put the result in a new buffer.
+
+#+begin_src elisp
+(use-package counsel-jq
+  :ensure t
+  :commands (counsel-jq)
+)
 #+end_src
 
 * Protobuf
