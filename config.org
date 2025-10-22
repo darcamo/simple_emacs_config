@@ -8335,7 +8335,8 @@ a symbol."
   :ensure t
   :commands (gptel-menu gptel-send gptel gptel-mode gptel-set-topic gptel--convert-markdown->org)
   :bind
-  (("C-c <return>" . gptel-send)
+  (("C-c g" . gptel)
+   ("C-c <return>" . gptel-send)
    :map gptel-mode-map
    ("S-<right>" . windmove-right)
    ("S-<left>" . windmove-left)
