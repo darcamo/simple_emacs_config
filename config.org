@@ -8078,7 +8078,20 @@ Allow working inside containers. I haven't tested it yet.
 
 https://github.com/johannes-mueller/devcontainer-mode
 
-* Dockerfile-mode                                                            :Docker:
+* Docker                                                                     :Docker:
+** Docker package
+Manage docker from Emacs.
+https://github.com/Silex/docker.el
+
+#+begin_src emacs-lisp
+(use-package docker
+  :ensure t
+  :commands (docker)
+  ;; :bind ("C-c d" . docker)
+  )
+#+end_src
+
+** Dockerfile-mode package                                                  :Docker:
 #+begin_src emacs-lisp
 (use-package dockerfile-mode
   :ensure t
