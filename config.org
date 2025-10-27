@@ -1795,7 +1795,21 @@ A better Emacs *help* buffer
   )
 #+end_src
 
-** Setting display-buffer-alist: bottom-buffer-manager
+** Controlling how buffers are displayed (display-buffer-alist)
+*** Make manual switch to buffer respect display actions
+#+begin_src emacs-lisp
+;; This means that when switching the buffer it respects display actions
+;; specified by `display-buffer-overriding-action', `display-buffer-alist' and
+;; other display related variables. So `switch-to-buffer' will display the
+;; buffer in the window specified by the rules from these variables.
+(setopt switch-to-buffer-obey-display-actions t)
+#+end_src
+*** What happens when switching to buffers in dedicated windows
+#+begin_src emacs-lisp
+(setopt switch-to-buffer-in-dedicated-window t)
+#+end_src
+
+*** Setting display-buffer-alist: bottom-buffer-manager
 Here I only define an "action function" that I can use when adding an entry to
 =display-buffer-alist=. When this "action function" is used, it will try to display the
 buffer in the following order of preference:
@@ -7701,11 +7715,6 @@ Emacs now supports oauth2 authentication. See
 https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuration_for_office_365/
 ** Make mu4e start in a dedicated tab which is closed and mu4e exits
 #+begin_src emacs-lisp
-;; mu4e uses switch-to-buffer internally and it is only affected by
-;; display-buffer-alist if switch-to-buffer-obey-display-actions is
-;; set to t
-(setq switch-to-buffer-obey-display-actions t)
-
 (add-to-list 'display-buffer-alist
              '("mu4e"
                display-buffer-in-tab
