@@ -5,7 +5,7 @@
         "minor": 0,
         "patch": 0
     },
-    "$schema": "https://raw.githubusercontent.com/Kitware/CMake/refs/heads/master/Help/manual/presets/schema.json",
+    "$schema": "https://cmake.org/cmake/help/latest/_downloads/3e2d73bff478d88a7de0de736ba5e361/schema.json",
     "buildPresets": [
         {
             "name": "my default",
