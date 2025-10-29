@@ -4065,11 +4065,11 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
 
   (add-to-list 'display-buffer-alist
                '("\\*org-roam\\*"
-                 display-buffer-in-direction
+                 display-buffer-in-side-window
                  ;; The following lines are the "action alist" passed to
                  ;; display-buffer. For now, I only want to remove the
                  ;; mode-line.
-                 (direction . right)
+                 (side . right)
                  (window-width . 0.33)
                  (window-height . fit-window-to-buffer)))
   :bind (([f6] . org-roam-node-find)
