@@ -1447,8 +1447,8 @@ This function is useful for creating labels from text, such as converting figure
   (let ((zsh "/bin/zsh")
         (bash "/bin/bash"))
     (if (file-executable-p zsh)
-        (ansi-term zsh)
-      (ansi-term bash))))
+        (eat zsh)
+      (eat bash))))
 
 
 (use-package emacs
@@ -1861,6 +1861,55 @@ Usage
   :ensure t
   :commands (journalctl journalctl-transient)
 )
+#+end_src
+* Shell integration
+** eat
+TODO: https://codeberg.org/akib/emacs-eat
+
+To start Eat, run M-x eat. Eat has four input modes:
+
+- *"semi-char" mode*: This is the default input mode. Most keys are bound to send the key to
+  the terminal, except the following keys: =C-\=, =C-c=, =C-x=, =C-g=, =C-h=, =C-M-c=, =C-u=, =C-q=, =M-x=,
+  =M-:=, =M-!=, =M-&= and some other keys (see the user option =eat-semi-char-non-bound-keys= for
+  the complete list). The following special keybinding are available:
+
+  + C-q: Send next key to the terminal.
+  + C-y: Like `yank', but send the text to the terminal.
+  + M-y: Like `yank-pop', but send the text to the terminal.
+  + C-c C-k: Kill process.
+  + C-c C-e: Switch to "emacs" input mode.
+  + C-c M-d: Switch to "char" input mode.
+  + C-c C-l: Switch to "line" input mode.
+
+- *"emacs" mode*: No special keybinding, except the following:
+
+  + C-c C-j: Switch to "semi-char" input mode.
+  + C-c M-d: Switch to "char" input mode.
+  + C-c C-l: Switch to "line" input mode.
+  + C-c C-k: Kill process.
+
+- *"char" mode*: All supported keys are bound to send the key to the terminal, except =C-M-m=
+  or =M-RET=, which is bound to switch to "semi-char" input mode.
+
+- *"line" mode*: Similar to Comint, Shell mode and Term line mode. In this input mode,
+  terminal input is sent one line at once, and you can edit input line using the usual
+  Emacs commands.
+
+  + C-c C-e: Switch to "emacs" input mode
+  + C-c C-j: Switch to "semi-char" input mode.
+  + C-c M-d: Switch to "char" input mode.
+
+#+begin_src emacs-lisp
+(use-package eat
+  :ensure t
+  :commands (eat)
+  :config
+  ;; For `eat-eshell-mode'.
+  (add-hook 'eshell-load-hook #'eat-eshell-mode)
+
+  ;; For `eat-eshell-visual-command-mode'.
+  (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
+  )
 #+end_src
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src emacs-lisp
@@ -8418,7 +8467,7 @@ a symbol."
   (setq gptel-org-branching-context t)
   (setf (alist-get 'org-mode gptel-prompt-prefix-alist) "@user\n")
   (setf (alist-get 'org-mode gptel-response-prefix-alist) "@assistant\n")
-  
+
   ;; Add a tool to query the current time
   (gptel-make-tool
    :name "current_time"
