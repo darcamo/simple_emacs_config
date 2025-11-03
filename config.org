@@ -6419,6 +6419,7 @@ If you decide to try it, you should probably comment out pyvenv package.
 (use-package eglot
   :config
   (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) "basedpyright-langserver" "--stdio"))
   )
 #+end_src
 
