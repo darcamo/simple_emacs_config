@@ -5385,70 +5385,6 @@ their corresponding -ts- one. Ex:
 ;;          (python-mode . tree-sitter-hl-mode)))
 #+end_src
 
-* COMMENT LSP                                                       :LSP:Programming:
-** General configuration
-
-Configuration specific to a language should be in that language configuration heading
-
-#+begin_src emacs-lisp
-;; Note that this must come before the use-package for LSP to have an effect
-(setq lsp-keymap-prefix "C-c C-l")
-
-(use-package lsp-mode
-  :ensure t
-  :hook (;; replace XXX-mode with concrete major-mode (e. g. python-mode)
-         (c-mode-common . lsp-deferred)
-         (python-mode . (lambda ()
-                          (require 'lsp-pyright)
-                          (lsp-deferred)))
-         (cmake-mode . lsp-deferred)
-         ;; if you want which-key integration
-         (lsp-mode . lsp-enable-which-key-integration))
-  :commands lsp
-  :custom
-  (lsp-file-watch-threshold 6000)
-  (lsp-enable-snippet t)
-  ;; See https://emacs-lsp.github.io/lsp-mode/page/performance/#performance
-  (read-process-output-max (* 1024 1024)) ;; 1mb
-  )
-#+end_src
-
-** Consult-LSP                                                         :Consult:LSP:
-#+begin_src emacs-lisp
-(use-package consult-lsp
-  :ensure t
-  :bind (
-         :map c-mode-base-map (
-                            ("M-i" . consult-lsp-file-symbols)
-                            ;; ("M-i" . consult-imenu)
-                            ("M-I" . consult-lsp-symbols)
-                            ("C-c ! L" . consult-lsp-diagnostics)
-                            )
-         :map python-mode-map (
-                            ("M-i" . consult-lsp-file-symbols)
-                            ;; ("M-i" . consult-imenu)
-                            ("M-I" . consult-lsp-symbols)
-                            ("C-c ! L" . consult-lsp-diagnostics)
-                            )
-         )
-  )
-#+end_src
-
-** LSP-UI                                                                      :LSP:
-#+begin_src emacs-lisp
-(use-package lsp-ui
-  :ensure t
-  :commands (lsp-ui-doc-glance)
-  :custom
-  ; Position of the popup shown by lsp-ui-doc-glance -> C-c C-l h g
-  (lsp-ui-doc-position 'at-point)
-  (lsp-ui-doc-enable nil) ;; You can use "C-c C-l h g" to see the doc
-  (lsp-ui-doc-header t)
-  (lsp-ui-doc-max-height 20)
-  (lsp-ui-doc-max-width 250)
-)
-#+end_src
-
 * Eglot                                                                       :Eglot:
 
 Eglot here relies on Emacs' built-in functionality as well. =xref-find-references= is bound
@@ -6478,18 +6414,6 @@ https://github.com/z80dev/uv-mode
 If you decide to try it, you should probably comment out pyvenv package.
 
 ** pyright as language server                                                  :LSP:
-*** COMMENT LSP                                                                :LSP:
-Note: The configuration to load LSP on python mode is in [[*LSP][LSP]].
-#+begin_src emacs-lisp
-(use-package lsp-pyright
-  :ensure t
-  :defer t)
-
-;; https://github.com/fredcamps/lsp-jedi
-;; (use-package lsp-jedi
-;;   :ensure t)
-#+end_src
-
 *** Eglot                                                                    :Eglot:
 #+begin_src emacs-lisp
 (use-package eglot
