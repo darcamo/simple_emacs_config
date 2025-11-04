@@ -5672,6 +5672,29 @@ it does not, then apheleia can be used instead.
 
 In each language configuration what needs to use apheleia for formatting, you might add an
 entry to =apheleia-formatters= and =apheleia-mode-alist=.
+* Taskrunner
+The [[https://github.com/emacs-taskrunner/emacs-taskrunner][emacs-taskrunner]] library provide ways to gather tasks from different build systems and
+run these tasks. However, it does not directly have function for the user and instead
+relies on other packages to provide user-facing functions using ivy or helm. But we can
+create a simple wrapper using completing-read to not require any of these extra packages.
+#+begin_src emacs-lisp
+(use-package taskrunner
+  :ensure t
+  :defer t
+  :commands (taskrunner-get-tasks-sync)
+  :bind
+  ([C-f5] . vanilla-taskrunner)
+  :init
+  ;; Small snippet taken from https://github.com/emacs-taskrunner/emacs-taskrunner/issues/6
+  (defun vanilla-taskrunner (&optional ask)
+    (interactive "P")
+    (let ((task (completing-read "Task to run: "
+                                 (taskrunner-get-tasks-sync)
+                                 nil
+                                 t)))
+      (when task
+        (taskrunner-run-task task default-directory ask)))))
+#+end_src
 * C++                                                               :CPP:Programming:
 Note: Use =C-c C-k= to toggle between line comments and block comments.
 ** Use c++-ts-mode instead of regular c++-mode
