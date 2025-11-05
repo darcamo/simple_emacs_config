@@ -6006,8 +6006,6 @@ the =c++-ts-mode= was updated to fontify module names and the new keywords prope
   :mode
   ("CMakeLists.txt" . cmake-ts-mode)
   ("\\.cmake" . cmake-ts-mode)
-  :custom
-  (cmake-ts-mode-indent-offset 4)
   )
 #+end_src
 
