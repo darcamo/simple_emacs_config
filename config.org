@@ -107,6 +107,13 @@ Good themes:
   :ensure t
   :config
   ;; (load-theme 'wombat)
+
+  ;; Note: There a bug in doom-material-dark theme where I get an error in the
+  ;; first startup after modifying my configuration. This is probably related to
+  ;; the recent change in Emacs 31 where the variables with face names where
+  ;; deprecated (it was indeed very confusing to have variables, even if they
+  ;; evaluated to the corresponding face, because you could specify them with
+  ;; and without the quote).
   (load-theme 'doom-material-dark t)
   )
 
@@ -207,14 +214,27 @@ The keybindinds all start with =C-x t=
   :init (doom-modeline-mode 1)
   :config
   (set-face-attribute 'mode-line-inactive nil :background "#303030" :overline t)
-  ;; (set-face-background 'mode-line-active "SaddleBrown")
   (set-face-background 'mode-line-active "#403030")
   ;; (set-face-background 'mode-line-active "#400101")
+  ;; :custom
+  ;; (doom-modeline-minor-modes t)
   )
 #+end_src
 
 *NOTE*: Doom modeline now uses [[https://github.com/rainstormstudio/nerd-icons.el][nerd-icons]] instead of [[https://github.com/domtronn/all-the-icons.el][all-the-icons]]. If the icons are not
 displaying correctly, call =nerd-icons-install-fonts= to install the fonts.
+
+** Collapse multiple minor mode lighters
+Note: This is not really useful when using doom-modeline, since it does not show the
+minor-mode lighters by default, and even if you set =doom-modeline-minor-modes= to =t= it will
+not respect the new =mode-line-collapse-minor-modes= variable
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :custom
+  (mode-line-collapse-minor-modes t)
+  )
+#+end_src
 
 ** Change some of the hi-lock faces
 #+begin_src elisp
@@ -3570,7 +3590,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 (add-to-list 'org-structure-template-alist (cons "n" "notes"))
 #+end_src
 
-** Appearance                                                           :Appearance:
+** Org-mode Appearance                                                  :Appearance:
 *** Different link colors depending on link type
 #+begin_src emacs-lisp
 (use-package org
@@ -6436,8 +6456,10 @@ https://github.com/z80dev/uv-mode
 
 If you decide to try it, you should probably comment out pyvenv package.
 
-** pyright as language server                                                  :LSP:
+** Set language server in eglot                                                :LSP:
 *** Eglot                                                                    :Eglot:
+Add both =pyright-langserver= and =basedpyright-langserver=. The order is important. It
+basedpyright is available it will be used, if not, then eglot will try using pyright.
 #+begin_src emacs-lisp
 (use-package eglot
   :config
