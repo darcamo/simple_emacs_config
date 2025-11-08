@@ -126,6 +126,7 @@ Good themes:
   (org-todo ((t (:foreground "tomato"))))
   (bold ((t (:weight extrabold))))
   (italic ((t (:foreground "Orange"))))
+  (header-line-active ((t (:foreground "GoldenRod"))))
   )
 
 
