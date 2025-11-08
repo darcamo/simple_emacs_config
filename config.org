@@ -1412,6 +1412,27 @@ The keybindinds all start with =C-x t=
 | o     | tab-next                   |
 | p     | project-other-tab-command  |
 | r     | tab-rename                 |
+** Enable tab-line-mode
+When the tab-line-mode is enabled, each window displays a tab line on its top screen line.
+The tab line is a row of tabs showing buffers that where previously shown in the current
+window.
+
+You can move between the buffers with:
+- =tab-line-switch-to-next-tab= (=C-x C-<right>=)
+- =tab-line-switch-to-prev-tab= (=C-x C-<left>=)
+
+
+You can also change the order of the tabs with:
+- =tab-line-move-tab-forward= (=C-x M-<right>=)
+- =tab-line-move-tab-backward= (=C-x M-<left>=)
+
+
+#+begin_src emacs-lisp
+(use-package tab-line
+  :init
+  (global-tab-line-mode)
+  )
+#+end_src
 
 ** winner-mode
 #+begin_src emacs-lisp
