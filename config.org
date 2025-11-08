@@ -92,7 +92,7 @@ This is specially useful with docker.
   )
 #+end_src
 
-* Set the theme and apearance                                            :Appearance:
+* Appearance                                                              :Appearance:
 ** Theme                                                                :Theme:font:
 Good themes:
 - wombat (nativo)
@@ -171,42 +171,6 @@ Good themes:
 (setq-default indicate-buffer-boundaries 'left)
 #+end_src
 
-** Enable tab-bar-mode                                                      :TabBar:
-Alternate between tabs with C-<tab>
-#+begin_src emacs-lisp
-(use-package tab-bar
-:init
-(tab-bar-mode)
-:custom
-;; Only show tabs if there is more than one tab
-(tab-bar-show 1)
-(tab-bar-tab-hints t)
-(tab-bar-select-tab-modifiers '(meta)) ;; Press M-<digit> to change to that tab
-:config
-;; Use the foreground and background colors of the highlight face for the active bar
-;; (set-face-attribute 'tab-bar-tab nil :foreground nil :background nil :inherit 'highlight)
-(set-face-attribute 'tab-bar-tab nil :foreground "Black" :background "GoldenRod" :inherit 'highlight)
-;; (set-face-attribute 'tab-bar-tab nil :box t)
-:bind
-;; tab-list command display all tabs for easy vialization and switching
-;; Note that there is also the "C-x t RET" keybinding to switch to a tab by name
-("C-x t l" . tab-list)
-)
-#+end_src
-
-The keybindinds all start with =C-x t=
-| t C-f | find-file-other-tab        |
-| REF   | tag-bar-select-tab-by-name |
-| 0     | tab-close                  |
-| 1     | tab-close-other            |
-| 2     | tab-new                    |
-| b     | switch-to-buffer-other-tab |
-| d     | dired-other-tab            |
-| f     | find-file-other-tab        |
-| m     | tab-move                   |
-| o     | tab-next                   |
-| p     | project-other-tab-command  |
-| r     | tab-rename                 |
 ** Doom Modeline
 #+begin_src emacs-lisp
 (use-package doom-modeline
@@ -1411,6 +1375,42 @@ This function is useful for creating labels from text, such as converting figure
             )
           )
 #+end_src
+** Enable tab-bar-mode                                                      :TabBar:
+Alternate between tabs with C-<tab>
+#+begin_src emacs-lisp
+(use-package tab-bar
+:init
+(tab-bar-mode)
+:custom
+;; Only show tabs if there is more than one tab
+(tab-bar-show 1)
+(tab-bar-tab-hints t)
+(tab-bar-select-tab-modifiers '(meta)) ;; Press M-<digit> to change to that tab
+:config
+;; Use the foreground and background colors of the highlight face for the active bar
+;; (set-face-attribute 'tab-bar-tab nil :foreground nil :background nil :inherit 'highlight)
+(set-face-attribute 'tab-bar-tab nil :foreground "Black" :background "GoldenRod" :inherit 'highlight)
+;; (set-face-attribute 'tab-bar-tab nil :box t)
+:bind
+;; tab-list command display all tabs for easy vialization and switching
+;; Note that there is also the "C-x t RET" keybinding to switch to a tab by name
+("C-x t l" . tab-list)
+)
+#+end_src
+
+The keybindinds all start with =C-x t=
+| t C-f | find-file-other-tab        |
+| REF   | tag-bar-select-tab-by-name |
+| 0     | tab-close                  |
+| 1     | tab-close-other            |
+| 2     | tab-new                    |
+| b     | switch-to-buffer-other-tab |
+| d     | dired-other-tab            |
+| f     | find-file-other-tab        |
+| m     | tab-move                   |
+| o     | tab-next                   |
+| p     | project-other-tab-command  |
+| r     | tab-rename                 |
 
 ** winner-mode
 #+begin_src emacs-lisp
