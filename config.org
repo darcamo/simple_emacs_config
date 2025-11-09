@@ -8690,7 +8690,7 @@ https://www.rahuljuliato.com/posts/ellama
 
 Veja também [[https://www.reddit.com/r/emacs/comments/1e37cer/elisa_100/][elisa]].
 
-** COMMENT Eca - Editor Code Assistant
+** Eca - Editor Code Assistant
 https://github.com/editor-code-assistant/eca-emacs
 
 Note: Run =eca-install-server= to install the server.
@@ -8700,6 +8700,7 @@ Just run =eca= to start. This will open an "eca" buffer.
 #+begin_src emacs-lisp
 (use-package eca
   :ensure (eca :type git :host github :repo "editor-code-assistant/eca-emacs")
+  :commands (eca)
   )
 #+end_src
 
