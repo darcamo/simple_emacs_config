@@ -26,3 +26,8 @@ straight
 tramp
 transient
 tree-sitter/
+eca/
+elisp-autofmt-cache/
+places
+url
+.cask
