@@ -77,6 +77,10 @@ FOLDER is expanded using `expand-file-name`."
 
 ;; Add .local/bin to path, since have a few programs there
 (darcamo/add-folder-to-path "~/.local/bin")
+
+(defvar qt-location (expand-file-name "~/Qt/6.10.0/gcc_64") "Base location where I installed Qt")
+(setenv "QTWEBENGINE_RESOURCES_PATH" (expand-file-name "resources" qt-location))
+(setenv "QTWEBENGINE_LOCALES_PATH" (expand-file-name "translations/qtwebengine_locales/" qt-location))
 #+end_src
 
 * Path for remote execution with TRAMP                                        :TRAMP:
@@ -6222,7 +6226,7 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
   ;; Set mode of qml.qrc file to xml-mode
   (".qrc" . xml-mode)
   :custom
-  (qml-integration-qt-install-bin-folder "~/Qt/6.9.1/gcc_64/bin/")
+  (qml-integration-qt-install-bin-folder (expand-file-name "bin/" qt-location))
   (qml-integration-qmlscene-program "qml")
   )
 
@@ -6251,7 +6255,7 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
 (use-package qml-ts-mode
   :after apheleia
   :config
-  (push '(qmlformat . ("~/Qt/6.9.1/gcc_64/bin/qmlformat" "--inplace" file))
+  (push `(qmlformat . (,(expand-file-name "bin/qmlformat" qt-location) "--inplace" file))
         apheleia-formatters)
 
   (add-to-list 'apheleia-mode-alist '(qml-ts-mode . qmlformat))
@@ -6296,8 +6300,8 @@ Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting process
 (use-package eglot
   :config
   (add-to-list 'eglot-server-programs
-               '((qml-ts-mode)
-                 . ("~/Qt/6.9.1/gcc_64/bin/qmlls")))
+               `((qml-ts-mode)
+                 . (,(expand-file-name "bin/qmlls" qt-location))))
   :hook
   (qml-ts-mode . (lambda ()
                    ;; imenu from qml-ts-mode is better than the one provided by
