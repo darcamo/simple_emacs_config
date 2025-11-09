@@ -96,40 +96,75 @@ This is specially useful with docker.
 ** Theme                                                                :Theme:font:
 Good themes:
 - wombat (nativo)
+- tango-dark
 - doom opera
 - doom monokai pro
 - doom monokai spectrum
 - doom oceanic next
 - material dark
 - doom tomorrow night
+- darktooth-theme
+
+
+*Note*: Leave only one of the sub-trees below uncommented
+*** Darktooth
+#+begin_src emacs-lisp
+(use-package darktooth-theme
+  :ensure t
+  :config
+  (load-theme 'darktooth-dark)
+
+  ;; For some reason, darktooth uses the same foreground/background for the
+  ;; active and inactive tabs, which makes it impossible to distinguish between
+  ;; them,
+  (custom-theme-set-faces
+   'darktooth-dark
+   '(tab-bar-tab-inactive ((t (:foreground "#D5C4A1" :background "#36312E"))))
+   )
+  )
+#+end_src
+
+*** COMMENT Wombat
+#+begin_src emacs-lisp
+(use-package emacs
+  :config
+  (load-theme 'wombat)
+  )
+#+end_src
+
+*** COMMENT Doom Themes
 #+begin_src emacs-lisp
 (use-package doom-themes
   :ensure t
   :config
-  ;; (load-theme 'wombat)
-
   ;; Note: There a bug in doom-material-dark theme where I get an error in the
   ;; first startup after modifying my configuration. This is probably related to
   ;; the recent change in Emacs 31 where the variables with face names where
   ;; deprecated (it was indeed very confusing to have variables, even if they
   ;; evaluated to the corresponding face, because you could specify them with
   ;; and without the quote).
-  (load-theme 'doom-material-dark t)
-  )
+  (load-theme 'doom-material-dark t))
+#+end_src
 
-(use-package emacs
-  :ensure nil
-  :custom-face
-  (cursor ((t (:background "#c96"))))
-  (isearch ((t (:background "#c60" :foreground "#eee"))))
-  (fringe ((t (:foreground "goldenrod"))))
-  (org-todo ((t (:foreground "tomato"))))
-  (bold ((t (:weight extrabold))))
-  (italic ((t (:foreground "Orange"))))
-  (header-line-active ((t (:foreground "GoldenRod"))))
-  )
+** COMMENT Change some individual faces
+NOTE: It might be better to do this for each theme that needs tweaks using
+custom-theme-set-faces.
+#+begin_src emacs-lisp
+;; (use-package emacs
+;;   :ensure nil
+;;   :custom-face
+;;   (cursor ((t (:background "#c96"))))
+;;   (isearch ((t (:background "#c60" :foreground "#eee"))))
+;;   (fringe ((t (:foreground "goldenrod"))))
+;;   (org-todo ((t (:foreground "tomato"))))
+;;   (bold ((t (:weight extrabold))))
+;;   (italic ((t (:foreground "Orange"))))
+;;   (header-line-active ((t (:foreground "GoldenRod"))))
+;;   )
+#+end_src
 
-
+** Default Font
+#+begin_src emacs-lisp
 ;; Note that `font-info' cannot be called when Emacs daemon is
 ;; starting because we don't have a frame yet.
 (defun darcamo/set-my-default-font()
@@ -152,35 +187,13 @@ Good themes:
     (darcamo/set-my-default-font)))
 #+end_src
 
-** Customize user interface
-#+begin_src emacs-lisp
-(menu-bar-mode 0)
-;; (when (display-graphic-p)
-  (tool-bar-mode 0)
-  (scroll-bar-mode 0)
-  ;; )
-
-(setq inhibit-startup-screen t)
-(column-number-mode)
-#+end_src
-
-** Customize apearance
-#+begin_src emacs-lisp
-;; Show stray whitespace.
-;; (setq-default show-trailing-whitespace t)
-(setq-default indicate-empty-lines t)
-(setq-default indicate-buffer-boundaries 'left)
-#+end_src
-
 ** Doom Modeline
+NOTE: If you need to modify some modeline face, it might be better to do it for each theme
+that needs tweaks using custom-theme-set-faces.
 #+begin_src emacs-lisp
 (use-package doom-modeline
   :ensure t
   :init (doom-modeline-mode 1)
-  :config
-  (set-face-attribute 'mode-line-inactive nil :background "#303030" :overline t)
-  (set-face-background 'mode-line-active "#403030")
-  ;; (set-face-background 'mode-line-active "#400101")
   ;; :custom
   ;; (doom-modeline-minor-modes t)
   )
@@ -213,11 +226,6 @@ not respect the new =mode-line-collapse-minor-modes= variable
   (set-face-attribute 'hi-green nil :foreground "black")
   (set-face-attribute 'hi-blue nil :foreground "black"))
 #+end_src
-
-** COMMENT Telephone Line
-Alternative modeline similar to powerline
-
-https://github.com/dbordak/telephone-line
 
 ** show-font
 https://elpa.gnu.org/packages/show-font.html
@@ -1343,6 +1351,13 @@ This function is useful for creating labels from text, such as converting figure
   ;; This controls how `toggle-truncate-lines` work. By default it
   ;; will truncate on any character (when word-wrap is nil).
   (word-wrap t)
+
+  (inhibit-startup-screen t)
+
+  ;; Indicate empty lines and buffer boundaries
+  (indicate-empty-lines t)
+  (indicate-buffer-boundaries 'left)
+
   :init
   ;; Enable recentf-mode to save recent files
   ;; With this minor-mode emacs will save recent files when it exits
@@ -1353,6 +1368,15 @@ This function is useful for creating labels from text, such as converting figure
 
   ;; Treat 'y' or <CR> as yes, 'n' as no.
   (fset 'yes-or-no-p 'y-or-n-p)
+
+  (column-number-mode)
+
+  ;; Disable menu-bar, tool-bar and scroll-bar
+  (menu-bar-mode 0)
+  ;; (when (display-graphic-p)
+  (tool-bar-mode 0)
+  (scroll-bar-mode 0)
+  ;; )
   )
 
 ;; xxxxx Save backup files (files endind with ~) to specific directory xxxxxxxxx
@@ -1380,23 +1404,21 @@ This function is useful for creating labels from text, such as converting figure
 Alternate between tabs with C-<tab>
 #+begin_src emacs-lisp
 (use-package tab-bar
-:init
-(tab-bar-mode)
-:custom
-;; Only show tabs if there is more than one tab
-(tab-bar-show 1)
-(tab-bar-tab-hints t)
-(tab-bar-select-tab-modifiers '(meta)) ;; Press M-<digit> to change to that tab
-:config
-;; Use the foreground and background colors of the highlight face for the active bar
-;; (set-face-attribute 'tab-bar-tab nil :foreground nil :background nil :inherit 'highlight)
-(set-face-attribute 'tab-bar-tab nil :foreground "Black" :background "GoldenRod" :inherit 'highlight)
-;; (set-face-attribute 'tab-bar-tab nil :box t)
-:bind
-;; tab-list command display all tabs for easy vialization and switching
-;; Note that there is also the "C-x t RET" keybinding to switch to a tab by name
-("C-x t l" . tab-list)
-)
+  :init
+  (tab-bar-mode)
+  :custom
+  ;; Only show tabs if there is more than one tab
+  (tab-bar-show 1)
+  (tab-bar-tab-hints t)
+  (tab-bar-select-tab-modifiers '(meta)) ;; Press M-<digit> to change to that tab
+  ;; :config
+  ;; Use the foreground and background colors of the highlight face for the active bar
+  ;; (set-face-attribute 'tab-bar-tab nil :foreground "Black" :background "GoldenRod" :inherit 'highlight)
+  :bind
+  ;; tab-list command display all tabs for easy vialization and switching
+  ;; Note that there is also the "C-x t RET" keybinding to switch to a tab by name
+  ("C-x t l" . tab-list)
+  )
 #+end_src
 
 The keybindinds all start with =C-x t=
