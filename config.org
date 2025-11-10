@@ -1573,6 +1573,7 @@ You can also change the order of the tabs with:
          ;; Note that "C-x x t" calls `toggle-truncate-lines`. Thus, I
          ;; set "C-x x v" to toggle visual-line-mode
          ("C-x x v" . visual-line-mode)
+         ("C-<dead-grave>" . window-toggle-side-windows)
 
          ;; Use "pause" to set a window as dedicated
          ([pause] . toggle-window-dedicated)
