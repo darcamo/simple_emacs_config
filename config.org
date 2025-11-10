@@ -158,7 +158,14 @@ Good themes:
 (use-package timu-macos-theme
   :ensure t
   :config
-  (load-theme 'timu-macos t))
+  (load-theme 'timu-macos t)
+
+  (custom-theme-set-faces
+   'timu-macos
+   ;; The background colors for the success/error faces are the same color used
+   ;; in the magit faces for add/remove highlight in the theme.
+   '(fancy-compilation-complete-success-face ((t (:foreground "#222327" :background "#6adf73"))))
+   '(fancy-compilation-complete-error-face ((t (:foreground "#222327" :background "#ff6e65"))))))
 #+end_src
 
 ** COMMENT Change some individual faces
