@@ -108,10 +108,13 @@ Good themes:
 - material dark
 - doom tomorrow night
 - darktooth-theme
-
+- zenburn
+- spacemacs-theme
+- kaolin-themes
+- timu-macos-theme
 
 *Note*: Leave only one of the sub-trees below uncommented
-*** Darktooth
+*** COMMENT Darktooth
 #+begin_src emacs-lisp
 (use-package darktooth-theme
   :ensure t
@@ -148,6 +151,14 @@ Good themes:
   ;; evaluated to the corresponding face, because you could specify them with
   ;; and without the quote).
   (load-theme 'doom-material-dark t))
+#+end_src
+
+*** timu-macos-theme
+#+begin_src emacs-lisp
+(use-package timu-macos-theme
+  :ensure t
+  :config
+  (load-theme 'timu-macos t))
 #+end_src
 
 ** COMMENT Change some individual faces
