@@ -165,7 +165,11 @@ Good themes:
    ;; The background colors for the success/error faces are the same color used
    ;; in the magit faces for add/remove highlight in the theme.
    '(fancy-compilation-complete-success-face ((t (:foreground "#222327" :background "#6adf73"))))
-   '(fancy-compilation-complete-error-face ((t (:foreground "#222327" :background "#ff6e65"))))))
+   '(fancy-compilation-complete-error-face ((t (:foreground "#222327" :background "#ff6e65"))))
+
+   ;; The difference between active and inactive tabs is to subtle. Here we make the active tab standout.
+   '(tab-bar-tab ((t (:foreground "black" :background "GoldenRod"))))
+   ))
 #+end_src
 
 ** COMMENT Change some individual faces
