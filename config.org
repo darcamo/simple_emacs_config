@@ -169,6 +169,11 @@ Good themes:
 
    ;; The difference between active and inactive tabs is to subtle. Here we make the active tab standout.
    '(tab-bar-tab ((t (:foreground "black" :background "GoldenRod"))))
+
+   ;; The background of the cursor and isearch faces is too similar. This causes
+   ;; the character ar the cursor during a search to be invisible. Hence, we
+   ;; change the cursor background color to something different.
+   '(cursor ((t (:background "#88c0d0"))))
    ))
 #+end_src
 
