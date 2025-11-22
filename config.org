@@ -57,7 +57,7 @@ used for the first time they should be "configured".
 * Path for programs to run in subprocesses
 #+begin_src emacs-lisp
 (setenv "ORGANIZATION" "HP Development Company, L.P.")
-(setenv "LD_LIBRARY_PATH" "$SQUISH_DIR/lib:$LD_LIBRARY_PATH" t)
+;; (setenv "LD_LIBRARY_PATH" "$SQUISH_DIR/lib:$LD_LIBRARY_PATH" t)
 
 (defun darcamo/add-folder-to-path (folder)
   "Update PATH environment var and `exec-path` with the provided FOLDER.
