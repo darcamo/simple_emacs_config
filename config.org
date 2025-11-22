@@ -175,6 +175,8 @@ Good themes:
    ;; the character ar the cursor during a search to be invisible. Hence, we
    ;; change the cursor background color to something different.
    '(cursor ((t (:background "#88c0d0"))))
+
+   '(org-todo ((t (:foreground "IndianRed"))))
    ))
 #+end_src
 
