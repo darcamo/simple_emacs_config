@@ -1632,11 +1632,12 @@ You can also change the order of the tabs with:
   ("C-<" . mc/mark-previous-like-this))
 
 
-(use-package ace-mc
-  :ensure t
-  :bind (
-         ("C-)" . ace-mc-add-multiple-cursors)
-         ("C-M-)" . ace-mc-add-single-cursor)))
+;; TODO: Find better keybindings and uncomment the code below
+;; (use-package ace-mc
+;;   :ensure t
+;;   :bind (
+;;          ("C-)" . ace-mc-add-multiple-cursors)
+;;          ("C-M-)" . ace-mc-add-single-cursor)))
 #+end_src
 
 ** Go to last change                                                   :Keybindings:
@@ -5035,28 +5036,78 @@ https://www.flycheck.org/en/latest/index.html
   (json-mode . flymake-json-load))
 #+end_src
 
-** Enable folding in programming buffers
+** Enable folding with treesit-fold or hs-minor-mode in programming buffers
+The idea is to use the threesitter-fold package in treesiter
 #+begin_src emacs-lisp
-;; (use-package origami
-;;   :ensure t
-;;   :hook
-;;   (prog-mode . origami-mode)
-;;   :bind (
-;;          :map origami-mode-map
-;;          ("<backtab>" . origami-recursively-toggle-node) ;; Shift+TAB
-;;          ("C-S-<iso-lefttab>" . origami-show-only-node)  ;; Ctrl+Shift+TAB
-;;          ))
+(defun darcamo/treesit-fold-ready-p ()
+  "Return non-nil if the current buffer has a tree-sitter parser."
+  (treesit-parser-list))
 
-(use-package emacs
+
+(defun darcamo/fold-toggle ()
+  "Toggle code folding using Tree-sitter or `hs-minor-mode'."
+  (interactive)
+  (if (darcamo/treesit-fold-ready-p)
+      (treesit-fold-toggle)
+    (hs-toggle-hiding)))
+
+
+(defun darcamo/fold-hide-block ()
+  "Hide the current block using Tree-sitter or `hs-minor-mode'."
+  (interactive)
+  (if (darcamo/treesit-fold-ready-p)
+      (treesit-fold-close)
+    (hs-hide-block)))
+
+
+(defun darcamo/fold-show-block ()
+  "Show the current block using Tree-sitter or `hs-minor-mode'."
+  (interactive)
+  (if (darcamo/treesit-fold-ready-p)
+      (treesit-fold-open)
+    (hs-show-block)))
+
+
+(defun darcamo/fold-hide-all ()
+  "Hide everything using Tree-sitter or `hs-minor-mode'."
+  (interactive)
+  (if (darcamo/treesit-fold-ready-p)
+      (treesit-fold-close-all)
+    (hs-hide-all)))
+
+
+(defun darcamo/fold-show-all ()
+  "Show everything using Tree-sitter or `hs-minor-mode'."
+  (interactive)
+  (if (darcamo/treesit-fold-ready-p)
+      (treesit-fold-open-all)
+    (hs-show-all)))
+
+
+(defvar darcamo/folding-keybindings-mode-map
+  (let ((map (make-sparse-keymap)))
+    (define-key map (kbd "<backtab>") #'darcamo/fold-toggle) ;; Shift+TAB
+    (define-key map (kbd "C-(") #'darcamo/fold-hide-block)
+    (define-key map (kbd "C-)") #'darcamo/fold-show-block)
+    (define-key map (kbd "C-M-(") #'darcamo/fold-hide-all)
+    (define-key map (kbd "C-M-)") #'darcamo/fold-show-all)
+    map)
+  "Keymap for `darcamo/folding-keybindings-mode`.")
+
+
+(define-minor-mode darcamo/folding-keybindings-mode
+  "A minor-mode for adding keybindings to folding."
+  :keymap darcamo/folding-keybindings-mode-map
+  :require 'treesit-fold
+  (if (treesit-parser-list)
+      (treesit-fold-indicators-mode)
+    (hs-minor-mode)))
+
+
+(use-package treesit-fold
+  :ensure t
   :hook
-  (prog-mode . hs-minor-mode)
-  :bind (
-         :map prog-mode-map
-         ("<backtab>" . hs-toggle-hiding) ;; Shift+TAB
-         ("C-(" . hs-toggle-hiding)
-         ("C-S-<iso-lefttab>" . hs-show-all)  ;; Ctrl+Shift+TAB
-         ("C-M-(" . hs-show-all)
-         ))
+  (prog-mode . darcamo/folding-keybindings-mode))
 #+end_src
 
 ** Obvious-mode
