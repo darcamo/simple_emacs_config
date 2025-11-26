@@ -5041,7 +5041,7 @@ The idea is to use the threesitter-fold package in treesiter
 #+begin_src emacs-lisp
 (defun darcamo/treesit-fold-ready-p ()
   "Return non-nil if the current buffer has a tree-sitter parser."
-  (treesit-parser-list))
+  (and (treesit-parser-list) treesit-fold-mode))
 
 
 (defun darcamo/fold-toggle ()
@@ -5103,6 +5103,10 @@ The idea is to use the threesitter-fold package in treesiter
       (treesit-fold-indicators-mode)
     (hs-minor-mode)))
 
+
+(use-package emacs
+  :custom
+  (hs-show-indicators t))
 
 (use-package treesit-fold
   :ensure t
@@ -6272,7 +6276,8 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
   (qml-ts-mode . (lambda ()
                    (require 'qml-integration)
                    (require 'apheleia)
-                   (setq fill-column 120))))
+                   (setq fill-column 120)
+                   (hs-minor-mode))))
 
   (use-package consult-imenu
   :defer t
