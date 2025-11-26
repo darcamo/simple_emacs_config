@@ -6405,6 +6405,8 @@ uses the =.ts= extension for itsa (translation) language files.
   :ensure (qt-translations-mode :type git :host github :protocol ssh
                                 :repo "darcamo/qt-translations-mode" :depth nil)
   :commands (qt-translations-mode)
+  :hook
+  (qt-translations-mode . darcamo/folding-keybindings-mode)
   :mode
   ("translations/.*\\.ts" . qt-translations-mode))
 #+end_src
