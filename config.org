@@ -5428,6 +5428,41 @@ You need to innstall =yamllint= using your OS package manager
  )
 #+end_src
 
+** Imenu support
+#+begin_src emacs-lisp
+(use-package dired-imenu
+  :ensure t)
+#+end_src
+
+** Add more colors to dired based on file type
+https://github.com/Fuco1/dired-hacks?tab=readme-ov-file#dired-rainbow
+#+begin_src emacs-lisp
+(use-package dired-rainbow
+  :ensure t
+  :config
+
+  ;; (dired-rainbow-define dot-files "gray" "\\..*")
+
+  (dired-rainbow-define uninteresting font-lock-comment-face
+                        ("git" "gitignore" "gitattributes" "gitmodules" "git-blame-ignore-revs"
+                        "clang-format" "clang-tidy"
+                        "dir-locals.el"
+                        "lock"
+                        "shellcheckrc"
+                        ))
+
+
+                                        ; highlight executable files, but not directories
+  (dired-rainbow-define-chmod executable-unix font-lock-function-name-face "-[rw-]+x.*")
+
+  ;; .sh files
+  (dired-rainbow-define bash-files font-lock-function-name-face ("sh"))
+
+  ;; ;; Text files
+  ;; (dired-rainbow-define text font-lock-string-face ("org" "md" "txt"))
+  )
+#+end_src
+
 * Project                                                                   :Project:
 Emacs already has a notion of a "project" with native =project.el=
 
