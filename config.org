@@ -177,6 +177,9 @@ Good themes:
    '(cursor ((t (:background "#88c0d0"))))
 
    '(org-todo ((t (:foreground "IndianRed"))))
+
+   ;; Add foreground color to region face (face used when marking text)
+   '(region ((t (:distant-foreground "white" :background "gray27"))))
    ))
 #+end_src
 
