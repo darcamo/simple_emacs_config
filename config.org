@@ -5967,6 +5967,13 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
     )
   )
 
+(use-package transient
+  :defer t
+  :config
+  ;; Make [f5] close all transient menus
+  (define-key transient-map (kbd "<f5>") 'transient-quit-all))
+
+
 (define-globalized-minor-mode global-cmake-integration-keybindings-mode
   cmake-integration-keybindings-mode cmake-integration-keybindings-mode-turn-on-in-cmake-projects)
 
