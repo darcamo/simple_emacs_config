@@ -81,6 +81,7 @@
         pixel-scroll-interpolate-down
         pixel-scroll-precision
         pixel-scroll-start-momentum
+        save-some-buffers
         undo-redo
         wdired-finish-edit
         ))
