@@ -5955,7 +5955,7 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   "cmake"
   '(
     ([f5] . cmake-integration-transient)                         ;; Open main transient menu
-    ([M-f9] . cmake-integration-select-current-target)                ;; Ask for the target name and compile it
+    ([M-f9] . cmake-integration-select-current-target)           ;; Ask for the target name and compile it
     ([f9] . cmake-integration-save-and-compile-last-target)      ;; Recompile the last target
     ([C-f9] . cmake-integration-run-ctest)                       ;; Run CTest
     ([f10] . cmake-integration-run-last-target)                  ;; Run the target (using any previously set command line parameters)
@@ -5981,7 +5981,9 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   :commands (cmake-integration-conan-manage-remotes
              cmake-integration-conan-list-packages-in-local-cache
              cmake-integration-search-in-conan-center
-             cmake-integration-transient)
+             cmake-integration-transient
+             cmake-integration-automatic-persistence-mode
+             )
   :custom
   (cmake-integration-include-subproject-targets-during-completion nil)
   (cmake-integration-hide-utility-targets-during-completion t)
