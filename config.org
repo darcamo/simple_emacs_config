@@ -5996,6 +5996,9 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
   (cmake-integration-hide-utility-targets-during-completion t)
   (cmake-integration-generator "Ninja")
   (cmake-integration-use-separated-compilation-buffer-for-each-target t)
+
+  :config
+  (cmake-integration-automatic-persistence-mode)
   )
 
 ;;;###autoload
