@@ -6495,6 +6495,16 @@ completion).
 #+begin_src emacs-lisp
 (add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
 #+end_src
+** Make eglot not provide imenu entries
+The language server I'm using for Python adds too much to imenu (it adds all variables). I
+prefer the imenu entries computed from tree-sitter.
+#+begin_src emacs-lisp
+(use-package python
+  :hook
+  (python-ts-mode . (lambda () (set
+                           (make-local-variable 'eglot-ignored-server-capabilities)
+                           '(:documentSymbolProvider)))))
+#+end_src
 
 ** Helper functions
 #+begin_src emacs-lisp
