@@ -6582,7 +6582,12 @@ prefer the imenu entries computed from tree-sitter.
               ([C-f10] . python-pytest-run-def-at-point-treesit)
               ([S-f10] . python-pytest)
               ([C-S-f10] . python-pytest-dispatch)
-              ))
+              )
+  :config
+  (add-to-list 'display-buffer-alist
+               '("\\*pytest\\*.*"
+                 bottom-buffer-manager-display-action-function))
+  )
 #+end_src
 ** Configuration and keybindings
 #+begin_src emacs-lisp
