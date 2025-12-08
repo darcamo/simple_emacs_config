@@ -8791,6 +8791,15 @@ The idea is good, but I didn't like how it works.
   ;;   :tools        '("search_web" "read_url" "get_youtube_meta"))
   )
 #+end_src
+*** gptel-agent
+#+begin_src emacs-lisp
+(use-package gptel-agent
+  :ensure (gptel-agent :type git :host github :repo "karthink/gptel-agent")
+  :custom
+  (gptel-agent-dirs '("~/.emacs.d/elpaca/repos/gptel-agent/agents/"))
+  :config (gptel-agent-update)
+  )
+#+end_src
 ** COMMENT mcp - model context protocol
 #+begin_src emacs-lisp
 (use-package mcp
