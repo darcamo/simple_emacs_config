@@ -8599,8 +8599,12 @@ a symbol."
    )
   :custom
   (gptel-default-mode 'org-mode)
+  (gptel-highlight-methods '(face))
+  :custom-face
+  (gptel-response-highlight ((t (:background "gray24" :extend t))))
   :hook
   (gptel-mode . toggle-truncate-lines)
+  (gptel-mode . gptel-highlight-mode)
   :config
   (gptel-make-ollama
       "Ollama"                               ;Any name of your choosing
