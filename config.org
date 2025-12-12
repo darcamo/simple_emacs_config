@@ -5931,92 +5931,6 @@ YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
 (add-to-list 'auto-mode-alist '("\\.c++m\\'" . c++-mode)) ;; One of extensions used for module file
 #+end_src
 
-** cmake-integration package                                           :CMake:Dired:
-#+begin_src emacs-lisp
-(defun is-cmake-project? ()
-  "Determine if the current directory is a CMake project."
-  (interactive)
-  (if-let* ((project (project-current))
-            (project-root (project-root project))
-            (cmakelist-path (expand-file-name "CMakeLists.txt" project-root)))
-      (file-exists-p cmakelist-path)))
-
-
-(defun cmake-integration-keybindings-mode-turn-on-in-cmake-projects ()
-  "Turn on `cmake-integration-keybindings-mode' in CMake projects."
-  (when (and (is-cmake-project?) (not (eq major-mode 'qml-ts-mode)))
-    (cmake-integration-keybindings-mode 1)))
-
-
-(define-minor-mode cmake-integration-keybindings-mode
-  "A minor-mode for adding keybindings to compile C++ code using cmake-integration package."
-  nil
-  "cmake"
-  '(
-    ([f5] . cmake-integration-transient)                         ;; Open main transient menu
-    ([M-f9] . cmake-integration-select-current-target)           ;; Ask for the target name and compile it
-    ([f9] . cmake-integration-save-and-compile-last-target)      ;; Recompile the last target
-    ([C-f9] . cmake-integration-run-ctest)                       ;; Run CTest
-    ([f10] . cmake-integration-run-last-target)                  ;; Run the target (using any previously set command line parameters)
-    ([S-f10] . kill-compilation)
-    ([C-f10] . cmake-integration-debug-last-target)              ;; Debug the target (using any previously set command line parameters)
-    ([M-f10] . cmake-integration-run-last-target-with-arguments) ;; Ask for command line parameters to run the target
-    ([M-f8] . cmake-integration-select-configure-preset)         ;; Ask for a preset name and call CMake to configure the project
-    ([f8] . cmake-integration-cmake-reconfigure)                 ;; Call CMake to configure the project using the last chosen preset
-    )
-  )
-
-(use-package transient
-  :defer t
-  :config
-  ;; Make [f5] close all transient menus
-  (define-key transient-map (kbd "<f5>") 'transient-quit-all))
-
-
-(define-globalized-minor-mode global-cmake-integration-keybindings-mode
-  cmake-integration-keybindings-mode cmake-integration-keybindings-mode-turn-on-in-cmake-projects)
-
-
-(global-cmake-integration-keybindings-mode)
-
-
-(use-package cmake-integration
-  :ensure (cmake-integration :type git :host github :protocol ssh
-                             :repo "darcamo/cmake-integration" :depth nil)
-  :defer t
-  :commands (cmake-integration-conan-manage-remotes
-             cmake-integration-conan-list-packages-in-local-cache
-             cmake-integration-search-in-conan-center
-             cmake-integration-transient
-             cmake-integration-automatic-persistence-mode
-             )
-  :custom
-  (cmake-integration-include-subproject-targets-during-completion nil)
-  (cmake-integration-hide-utility-targets-during-completion t)
-  (cmake-integration-generator "Ninja")
-  (cmake-integration-use-separated-compilation-buffer-for-each-target t)
-
-  :config
-  (cmake-integration-automatic-persistence-mode)
-  )
-
-;;;###autoload
-(autoload 'cmake-integration-transient "cmake-integration" nil t)
-
-
-(use-package bottom-buffer-manager
-  :defer t
-  :config
-  (add-to-list 'bottom-buffer-manager-match-strings "*Running - "))
-
-(add-to-list 'display-buffer-alist
-             '("\\*Running - .*"
-               bottom-buffer-manager-display-action-function
-               ;; Following are the display-buffer parameters
-               (window-height . 0.28)
-               ))
-#+end_src
-
 ** General configuration
 #+begin_src emacs-lisp
 (use-package c-ts-mode
@@ -6124,85 +6038,6 @@ the =c++-ts-mode= was updated to fontify module names and the new keywords prope
   )
 #+end_src
 
-** CMake-ts-mode                                                             :CMake:
-#+begin_src emacs-lisp
-(use-package emacs
-  :mode
-  ("CMakeLists.txt" . cmake-ts-mode)
-  ("\\.cmake" . cmake-ts-mode)
-  )
-#+end_src
-
-** CMake Presets mode                                                        :CMake:
-#+begin_src emacs-lisp
-(defun darcamo/is-cmake-presets-file ()
-  "Check if FILENAME is the name of a cmake presets file."
-  (if-let* ((buffer-name (buffer-file-name))
-            (filename (file-name-nondirectory buffer-name)))
-      (if (member filename '("CMakePresets.json" "CMakeUserPresets.json" "ConanPresets.json")) t nil)))
-
-
-(use-package cmakepresets-mode
-  :ensure (cmakepresets-mode :type git :host github :protocol ssh
-                             :repo "darcamo/cmakepresets-mode" :depth nil)
-  :mode
-  ("ConanPresets\\.json" . cmakepresets-mode)
-  :hook
-  (json-mode . (lambda () (when (darcamo/is-cmake-presets-file) (cmakepresets-mode))))
-  :config
-  (add-to-list 'eglot-server-programs
-               '((cmakepresets-mode)
-                 . ("vscode-json-languageserver" "--stdio")))
-  )
-
-;; Customize consult-imenu-config to display our presets nicely in consult-imenu
-(use-package consult-imenu
-  :defer t
-  :config
-  (add-to-list 'consult-imenu-config '(cmakepresets-mode
-                                       :toplevel "Configure"
-                                       :types
-                                       ((?c "Configure")
-                                        (?b "Build")
-                                        (?t "Test")
-                                        (?p "Package")
-                                        (?w "Workflow")))))
-#+end_src
-
-** CMake language server                                               :CMake:Eglot:
-#+begin_src emacs-lisp
-(add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("cmake-language-server")))
-#+end_src
-
-** Format CMake buffers                                                   :apheleia:
-#+begin_src emacs-lisp
-(defun darcamo/format-cmake-buffer ()
-  "Format a cmake buffer using cmake-format with apheleia.
-
-This saves the buffer, formats it, and then reloads the disk version."
-  (interactive)
-
-  (save-buffer)
-  (apheleia-format-buffer 'cmakeformat)
-  ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
-  (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
-  (revert-buffer t t t)
-  )
-
-
-(use-package emacs
-  :after apheleia
-  :config
-  (push '(cmakeformat . ("cmake-format" "--in-place" file))
-        apheleia-formatters)
-  (add-to-list 'apheleia-mode-alist '(cmake-ts-mode . cmakeformat)))
-
-
-(use-package cmake-ts-mode
-  :bind (:map cmake-ts-mode-map
-              ;; Save the buffer to file, format the file and reload the disk
-              ("C-c f" . darcamo/format-cmake-buffer)))
-#+end_src
 ** Ninja Mode
 Note: =ninja-mode= was previously included in the [[https://github.com/ninja-build/ninja/commits/master/][ninja repository]], but on [2024-11-11 Mon]
 it was moved to its [[https://github.com/ninja-build/ninja-emacs/issues][own repository]]. Because of that, just =use-package ninja-mode= with
@@ -6247,55 +6082,7 @@ main file.
   (fancy-compilation-default-face ((t (:background nil)))))
 #+end_src
 
-** My custom fontify rules to add colors to compilation buffer         :Compilation:
-#+begin_src emacs-lisp
-(use-package emacs
-  :config
-  (let* (
-         (cmake-progress-regexp "\\[\\([0-9]+/[0-9]+\\)\\]")
-         (path-regexp "\\(\\(/\\|~/\\|../\\)[^[:space:]]+\\)")
-         ;; Only matches if it's either in the beginning of the line or if
-         ;; there is a space before the path. This avoids some false positivies.
-         ;; (path-beginning-of-line (concat "\\(?:^\\| \\)" path-regexp))
-         (path-inside-quotes (format "'%s'" path-regexp))
-         (path-inside-double-quotes (format "\"%s\"" path-regexp))
-         (keywords `(
-                     (,path-inside-quotes (1 'font-lock-string-face t))
-                     (,path-inside-double-quotes (1 'font-lock-string-face t))
-                     ;; (,path-beginning-of-line (1 'font-lock-string-face t))
-                     ;; Note that more specific regexps are added later
-                     (,cmake-progress-regexp (1 'font-lock-warning-face t))
-                     ))
-         )
-
-    (font-lock-add-keywords 'compilation-mode keywords)
-    ))
-#+end_src
-;; (use-package emacs
-;;   :custom
-;;   (compilation-environment '("TERM=xterm-256color")))
-
-** Outline minor mode in compilation buffers (for cmake)
-Set =outline-regexp= in a local variable to ="\\[\\([0-9]+/[0-9]+\\)\\]"=.
-
-
-#+begin_src emacs-lisp
-(use-package emacs
-  :hook
-  (compilation-mode . (lambda ()
-                        (let* (;; Messages during configure start with "--"
-                               (cmake-configure-regexp "\\(--\\)")
-                               ;; Messages during build start with "[<number>/<number>]" (ninja generator)
-                               (cmake-build-regexp "\\[\\([0-9]+/[0-9]+\\)\\]")
-                               (regexp-list (list cmake-configure-regexp cmake-build-regexp))
-                               (full-outline-regexp (string-join regexp-list "\\|"))
-                               )
-                          (setq outline-regexp full-outline-regexp)
-                          (outline-minor-mode)))))
-#+end_src
-
 ** Qt and QML                                                               :QML:Qt:
-
 *** qml-ts-mode (Has imenu support, but syntax highlight is still pretty low) :treesitter:
 Alternative mode for qml, using tree-sitter.
 
@@ -6478,6 +6265,216 @@ uses the =.ts= extension for itsa (translation) language files.
 ** TODO Other packages to investigate                                  :Investigate:
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
+* CMake                                                                       :CMake:
+** CMake-ts-mode                                                             :CMake:
+#+begin_src emacs-lisp
+(use-package emacs
+  :mode
+  ("CMakeLists.txt" . cmake-ts-mode)
+  ("\\.cmake" . cmake-ts-mode)
+  :hook
+  (cmake-ts-mode . (lambda () (setq fill-column 80)))
+  )
+#+end_src
+
+** cmake-integration package                                           :CMake:Dired:
+#+begin_src emacs-lisp
+(use-package cmake-integration
+  :ensure (cmake-integration :type git :host github :protocol ssh
+                             :repo "darcamo/cmake-integration" :depth nil)
+  :defer t
+  :custom
+  ;; (cmake-integration-include-subproject-targets-during-completion nil)
+  ;; (cmake-integration-hide-utility-targets-during-completion t)
+  (cmake-integration-generator "Ninja")
+  (cmake-integration-use-separated-compilation-buffer-for-each-target t)
+
+  :config
+  (cmake-integration-automatic-persistence-mode))
+#+end_src
+
+** Add keybindings for cmake-integration
+#+begin_src emacs-lisp
+(use-package cmake-integration-project-mode
+  :ensure (cmake-integration-project-mode :type git :host github :protocol ssh
+                                          :repo "darcamo/cmake-integration" :depth nil)
+  :defer nil
+  :config
+  (global-cmake-integration-project-mode)
+  ;; Don't enable cmake-integration-project in QML buffers
+  (add-to-list 'cmake-integration-project-ignored-major-modes 'qml-ts-mode)
+  :bind (:map cmake-integration-project-mode-map
+              ([f5] . cmake-integration-transient)                         ;; Open main transient menu
+              ([M-f9] . cmake-integration-select-current-target)           ;; Ask for the target name and compile it
+              ([f9] . cmake-integration-save-and-compile-last-target)      ;; Recompile the last target
+              ([C-f9] . cmake-integration-run-ctest)                       ;; Run CTest
+              ([f10] . cmake-integration-run-last-target)                  ;; Run the target (using any previously set command line parameters)
+              ([S-f10] . kill-compilation)
+              ([C-f10] . cmake-integration-debug-last-target)              ;; Debug the target (using any previously set command line parameters)
+              ([M-f10] . cmake-integration-run-last-target-with-arguments) ;; Ask for command line parameters to run the target
+              ([M-f8] . cmake-integration-select-configure-preset)         ;; Ask for a preset name and call CMake to configure the project
+              ([f8] . cmake-integration-cmake-reconfigure)                 ;; Call CMake to configure the project using the last chosen preset
+              ))
+#+end_src
+** Make <f5> quit all transient menus
+#+begin_src emacs-lisp
+(use-package transient
+  :defer t
+  :config
+  ;; Make [f5] close all transient menus
+  (define-key transient-map (kbd "<f5>") 'transient-quit-all))
+#+end_src
+
+** Make the "Running" buffer appear at the bottom like the compilation buffer
+#+begin_src emacs-lisp
+;; The inclusion of "*Running - " in `bottom-buffer-manager-match-strings`
+;; ensures that buffers with names starting with "*Running - " are displayed in
+;; the same bottom window as compilation buffers (e.g., "*compilation*"), and
+;; conversely.
+(use-package bottom-buffer-manager
+  :defer t
+  :config
+  (add-to-list 'bottom-buffer-manager-match-strings "*Running - "))
+
+;; This will always puts the buffer at the bottom
+(add-to-list 'display-buffer-alist
+             '("\\*Running - .*"
+               bottom-buffer-manager-display-action-function
+               ;; Following are the display-buffer parameters
+               (window-height . 0.28)
+               ))
+#+end_src
+** CMake Presets mode                                                        :CMake:
+#+begin_src emacs-lisp
+(defun darcamo/is-cmake-presets-file ()
+  "Check if FILENAME is the name of a cmake presets file."
+  (if-let* ((buffer-name (buffer-file-name))
+            (filename (file-name-nondirectory buffer-name)))
+      (if (member filename '("CMakePresets.json" "CMakeUserPresets.json" "ConanPresets.json")) t nil)))
+
+
+(use-package cmakepresets-mode
+  :ensure (cmakepresets-mode :type git :host github :protocol ssh
+                             :repo "darcamo/cmakepresets-mode" :depth nil)
+  :mode
+  ("ConanPresets\\.json" . cmakepresets-mode)
+  :hook
+  (json-mode . (lambda () (when (darcamo/is-cmake-presets-file) (cmakepresets-mode))))
+  :config
+  (add-to-list 'eglot-server-programs
+               '((cmakepresets-mode)
+                 . ("vscode-json-languageserver" "--stdio")))
+  )
+
+;; Customize consult-imenu-config to display our presets nicely in consult-imenu
+(use-package consult-imenu
+  :defer t
+  :config
+  (add-to-list 'consult-imenu-config '(cmakepresets-mode
+                                       :toplevel "Configure"
+                                       :types
+                                       ((?c "Configure")
+                                        (?b "Build")
+                                        (?t "Test")
+                                        (?p "Package")
+                                        (?w "Workflow")))))
+#+end_src
+
+*** TODO Disable the symbols from the language server to get imenu entries from cmakepresets-mode
+
+** CMake language server                                               :CMake:Eglot:
+*** Use cmake-language-server
+#+begin_src emacs-lisp
+(add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("cmake-language-server")))
+#+end_src
+
+Note: You can add the content below as a dir-local-variable to configure the language
+server in a project pointing the correct build folder to the cmake-language-server
+#+begin_quote
+((nil . ((eglot-workspace-configuration . (:cmake-language-server
+                                           (:buildDirectory "build/debug/")
+                                           )))))
+#+end_quote
+
+*** TODO Use neocmakelsp
+TODO: See the [[https://github.com/neocmakelsp/neocmakelsp][neocmakelsp]] language server and compare it with [[https://github.com/regen100/cmake-language-server][cmake-language-server]].
+
+** Format CMake buffers                                                   :apheleia:
+#+begin_src emacs-lisp
+(defun darcamo/format-cmake-buffer ()
+  "Format a cmake buffer using cmake-format with apheleia.
+
+This saves the buffer, formats it, and then reloads the disk version."
+  (interactive)
+
+  (save-buffer)
+  (apheleia-format-buffer 'cmakeformat)
+  ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
+  (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
+  (revert-buffer t t t)
+  )
+
+
+(use-package emacs
+  :after apheleia
+  :config
+  (push '(cmakeformat . ("cmake-format" "--in-place" file))
+        apheleia-formatters)
+  (add-to-list 'apheleia-mode-alist '(cmake-ts-mode . cmakeformat)))
+
+
+(use-package cmake-ts-mode
+  :bind (:map cmake-ts-mode-map
+              ;; Save the buffer to file, format the file and reload the disk
+              ("C-c f" . darcamo/format-cmake-buffer)))
+#+end_src
+** My custom fontify rules to add colors to compilation buffer         :Compilation:
+#+begin_src emacs-lisp
+(use-package emacs
+  :config
+  (let* (
+         (cmake-progress-regexp "\\[\\([0-9]+/[0-9]+\\)\\]")
+         (path-regexp "\\(\\(/\\|~/\\|../\\)[^[:space:]]+\\)")
+         ;; Only matches if it's either in the beginning of the line or if
+         ;; there is a space before the path. This avoids some false positivies.
+         ;; (path-beginning-of-line (concat "\\(?:^\\| \\)" path-regexp))
+         (path-inside-quotes (format "'%s'" path-regexp))
+         (path-inside-double-quotes (format "\"%s\"" path-regexp))
+         (keywords `(
+                     (,path-inside-quotes (1 'font-lock-string-face t))
+                     (,path-inside-double-quotes (1 'font-lock-string-face t))
+                     ;; (,path-beginning-of-line (1 'font-lock-string-face t))
+                     ;; Note that more specific regexps are added later
+                     (,cmake-progress-regexp (1 'font-lock-warning-face t))
+                     ))
+         )
+
+    (font-lock-add-keywords 'compilation-mode keywords)
+    ))
+#+end_src
+;; (use-package emacs
+;;   :custom
+;;   (compilation-environment '("TERM=xterm-256color")))
+
+** Outline minor mode in compilation buffers (for cmake)
+Set =outline-regexp= in a local variable to ="\\[\\([0-9]+/[0-9]+\\)\\]"=.
+
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :hook
+  (compilation-mode . (lambda ()
+                        (let* (;; Messages during configure start with "--"
+                               (cmake-configure-regexp "\\(--\\)")
+                               ;; Messages during build start with "[<number>/<number>]" (ninja generator)
+                               (cmake-build-regexp "\\[\\([0-9]+/[0-9]+\\)\\]")
+                               (regexp-list (list cmake-configure-regexp cmake-build-regexp))
+                               (full-outline-regexp (string-join regexp-list "\\|"))
+                               )
+                          (setq outline-regexp full-outline-regexp)
+                          (outline-minor-mode)))))
+#+end_src
+
 * Python                                                         :Programming:Python:
 Olhar esse link: https://gist.github.com/Nathan-Furnal/07413de07b9ac08340a5d33b541e9a6b
 
