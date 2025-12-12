@@ -4276,6 +4276,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   )
 
 (use-package org-roam-dailies
+  :after org-roam
   :custom
   ;;                                                              Time
   ;; (org-roam-dailies-capture-templates '(("d" "default" entry "* %<%I:%M %p>: %?" :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n"))))
@@ -4331,6 +4332,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
 
 
 (use-package org-roam
+  :defer t
   :bind (:map org-roam-mode-map
               ("C-n" . darcamo/go-to-next-backlink)
               ("C-p" . darcamo/go-to-previous-backlink)))
@@ -8795,6 +8797,7 @@ The idea is good, but I didn't like how it works.
 #+begin_src emacs-lisp
 (use-package gptel-agent
   :ensure (gptel-agent :type git :host github :repo "karthink/gptel-agent")
+  :after gptel
   :custom
   (gptel-agent-dirs '("~/.emacs.d/elpaca/repos/gptel-agent/agents/"))
   :config (gptel-agent-update)
@@ -8913,6 +8916,9 @@ https://github.com/tninja/ai-code-interface.el
   ;; (aidermacs-default-model "openrouter/openai/gpt-4o"))
   (aidermacs-default-model "openrouter/google/gemini-2.5-flash-preview-05-20"))
 #+end_src
+
+** Claude Code
+See https://github.com/manzaltu/claude-code-ide.el
 
 * Texpresso
 Live Latex
