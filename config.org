@@ -6382,7 +6382,17 @@ uses the =.ts= extension for itsa (translation) language files.
                                         (?w "Workflow")))))
 #+end_src
 
-*** TODO Disable the symbols from the language server to get imenu entries from cmakepresets-mode
+*** Disable documentSymbolProvider capability in the language server
+This allows getting imenu entries from cmakepresets-mode instead.
+
+#+begin_src emacs-lisp
+(use-package cmakepresets-mode
+  :defer t
+  :hook
+  (cmakepresets-mode . (lambda () (set
+                              (make-local-variable 'eglot-ignored-server-capabilities)
+                              '(:documentSymbolProvider)))))
+#+end_src
 
 ** CMake language server                                               :CMake:Eglot:
 *** Use cmake-language-server
