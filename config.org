@@ -112,6 +112,7 @@ Good themes:
 - spacemacs-theme
 - kaolin-themes
 - timu-macos-theme
+- emacs-theme-gruvbox
 
 *Note*: Leave only one of the sub-trees below uncommented
 *** COMMENT Darktooth
@@ -180,6 +181,15 @@ Good themes:
    ;; Add foreground color to region face (face used when marking text)
    '(region ((t (:distant-foreground "white" :background "gray27"))))
    ))
+#+end_src
+
+*** COMMENT emacs-theme-gruvbox
+#+begin_src emacs-lisp
+(use-package gruvbox-theme
+:ensure t
+:config
+(load-theme 'gruvbox-dark-hard t)
+)
 #+end_src
 
 ** COMMENT Change some individual faces
@@ -6268,7 +6278,7 @@ uses the =.ts= extension for itsa (translation) language files.
 - [[https://github.com/plandes/flex-compile][flex-compile]]
 - [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
 * CMake                                                                       :CMake:
-** CMake-ts-mode                                                             :CMake:
+** CMake-ts-mode
 #+begin_src emacs-lisp
 (use-package emacs
   :mode
@@ -6279,7 +6289,7 @@ uses the =.ts= extension for itsa (translation) language files.
   )
 #+end_src
 
-** cmake-integration package                                           :CMake:Dired:
+** cmake-integration package                                                 :Dired:
 #+begin_src emacs-lisp
 (use-package cmake-integration
   :ensure (cmake-integration :type git :host github :protocol ssh
@@ -6327,7 +6337,7 @@ uses the =.ts= extension for itsa (translation) language files.
   (define-key transient-map (kbd "<f5>") 'transient-quit-all))
 #+end_src
 
-** Make the "Running" buffer appear at the bottom like the compilation buffer
+** Make the "Running" buffer appear at the bottom                      :Compilation:
 #+begin_src emacs-lisp
 ;; The inclusion of "*Running - " in `bottom-buffer-manager-match-strings`
 ;; ensures that buffers with names starting with "*Running - " are displayed in
@@ -6346,7 +6356,7 @@ uses the =.ts= extension for itsa (translation) language files.
                (window-height . 0.28)
                ))
 #+end_src
-** CMake Presets mode                                                        :CMake:
+** CMake Presets mode
 #+begin_src emacs-lisp
 (defun darcamo/is-cmake-presets-file ()
   "Check if FILENAME is the name of a cmake presets file."
@@ -6394,7 +6404,7 @@ This allows getting imenu entries from cmakepresets-mode instead.
                               '(:documentSymbolProvider)))))
 #+end_src
 
-** CMake language server                                               :CMake:Eglot:
+** CMake language server                                                     :Eglot:
 *** Use cmake-language-server
 #+begin_src emacs-lisp
 (add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("cmake-language-server")))
