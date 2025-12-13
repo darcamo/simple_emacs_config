@@ -6418,8 +6418,15 @@ server in a project pointing the correct build folder to the cmake-language-serv
                                            )))))
 #+end_quote
 
-*** TODO Use neocmakelsp
-TODO: See the [[https://github.com/neocmakelsp/neocmakelsp][neocmakelsp]] language server and compare it with [[https://github.com/regen100/cmake-language-server][cmake-language-server]].
+*** Use neocmakelsp
+See the [[https://github.com/neocmakelsp/neocmakelsp][neocmakelsp]] for more.
+
+Install it with
+: cargo install neocmakelsp
+
+#+begin_src emacs-lisp
+(add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("neocmakelsp" "stdio")))
+#+end_src
 
 ** Format CMake buffers                                                   :apheleia:
 #+begin_src emacs-lisp
