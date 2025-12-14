@@ -6404,8 +6404,69 @@ This allows getting imenu entries from cmakepresets-mode instead.
                               '(:documentSymbolProvider)))))
 #+end_src
 
+** Diagnostic function for Flymake using cmakelint
+
+Linting is already done with eglot, but the linter in the language server might not be
+what I want to use. Here we define a diagnostic function for cmake using =cmakelint=.
+
+*Note*: We do not add this diagnostic function to flymake yet. We will tell eglot to remove
+its own and add this one intead later when we configure eglot for CMake.
+
+#+begin_src emacs-lisp
+(defvar-local flymake-cmakelint--proc nil)
+
+
+(defun flymake-cmakelint (report-fn &rest _args)
+  "Flymake backend that runs `cmakelint' on the current buffer."
+  (unless (executable-find "cmakelint")
+    (error "flymake-cmakelint: `cmakelint' not found"))
+  (unless (buffer-file-name)
+    (error "flymake-cmakelint: buffer must visit a file"))
+  (when (process-live-p flymake-cmakelint--proc)
+    (kill-process flymake-cmakelint--proc))
+  (let* ((source (current-buffer))
+         (file (buffer-file-name))
+         (buf (generate-new-buffer " *flymake-cmakelint*")))
+    (setq flymake-cmakelint--proc
+          (make-process
+           :name "flymake-cmakelint"
+           :buffer buf
+           :command (list "cmakelint" file)
+           :noquery t
+           :connection-type 'pipe
+           :sentinel
+           (lambda (proc _event)
+             (when (memq (process-status proc) '(exit signal))
+               (unwind-protect
+                   (let (diags)
+                     (when (buffer-live-p source)
+                       (with-current-buffer buf
+                         (goto-char (point-min))
+                         (while (re-search-forward
+                                 "^\\([^:\n]+\\):\\([0-9]+\\): *\\(.*\\)$"
+                                 nil t)
+                           (when-let* ((line
+                                        (string-to-number (match-string 2)))
+                                       (msg (match-string 3))
+                                       (region
+                                        (flymake-diag-region source line)))
+                             (push (flymake-make-diagnostic
+                                    source
+                                    (car region)
+                                    (cdr region)
+                                    :warning msg)
+                                   diags)))))
+                     (funcall report-fn diags))
+                 (kill-buffer buf))))))))
+
+
+(defun flymake-cmakelint-setup ()
+  "Enable yamllint flymake backend."
+  (add-hook 'flymake-diagnostic-functions #'flymake-cmakelint nil t))
+#+end_src
+
 ** CMake language server                                                     :Eglot:
-*** Use cmake-language-server
+*** COMMENT Use cmake-language-server
 #+begin_src emacs-lisp
 (add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("cmake-language-server")))
 #+end_src
@@ -6424,8 +6485,20 @@ See the [[https://github.com/neocmakelsp/neocmakelsp][neocmakelsp]] for more.
 Install it with
 : cargo install neocmakelsp
 
+Below we add =neocmakelsp= to the list of eglot server programs. We also disable eglots own
+flymake diagnostic function and add the one we have created previously instead.
 #+begin_src emacs-lisp
-(add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("neocmakelsp" "stdio")))
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("neocmakelsp" "stdio")))
+  :hook
+  (eglot-managed-mode
+   .
+   (lambda ()
+     (when (eq major-mode 'cmake-ts-mode)
+       (remove-hook 'flymake-diagnostic-functions #'eglot-flymake-backend t)
+       (flymake-cmakelint-setup)
+       ))))
 #+end_src
 
 ** Format CMake buffers                                                   :apheleia:
