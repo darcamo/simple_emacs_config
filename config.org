@@ -8737,7 +8737,7 @@ a symbol."
     :models (gptel-openrouter-get-annotated-models '(x-ai/grok-code-fast-1
                                                      openai/gpt-4o
                                                      openai/gpt-5
-                                                     openai/gpt-5-codex
+                                                     openai/gpt-5.1-codex
                                                      anthropic/claude-sonnet-4
                                                      qwen/qwen3-coder
                                                      moonshotai/kimi-k2
