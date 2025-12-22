@@ -6313,6 +6313,7 @@ uses the =.ts= extension for itsa (translation) language files.
   ;; (cmake-integration-hide-utility-targets-during-completion t)
   (cmake-integration-generator "Ninja")
   (cmake-integration-use-separated-compilation-buffer-for-each-target t)
+  (cmake-integration-build-dir "build/no-preset")
 
   :config
   (cmake-integration-automatic-persistence-mode))
