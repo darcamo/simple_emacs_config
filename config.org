@@ -6157,7 +6157,10 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
   :commands (qml-integration-choose-qml-style
              qml-integration-run-qmlscene
              qml-integration-run-qmltestrunner
-             qml-integration-run-qmllint)
+             qml-integration-run-qmllint
+             qml-integration-add-qmllint-disable-comment
+             qml-integration-add-qmllint-enable-comment
+             )
   :ensure (qml-integration :type git :host github :protocol ssh
                            :repo "darcamo/qml-integration" :depth nil)
   :mode
@@ -6166,6 +6169,11 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
   :custom
   (qml-integration-qt-install-bin-folder (expand-file-name "bin/" qt-location))
   (qml-integration-qmlscene-program "qml")
+  :bind (
+         :map qml-ts-mode-map
+         ([f5] . qml-integration-add-qmllint-disable-comment)
+         ([C-f5] . qml-integration-add-qmllint-enable-comment)
+         )
   )
 
 (use-package bottom-buffer-manager
