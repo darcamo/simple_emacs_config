@@ -1985,6 +1985,9 @@ Usage
   :commands (journalctl journalctl-transient)
 )
 #+end_src
+** COMMENT draw.io                                                                 :OrgMode:
+https://github.com/4honor/org-drawio
+
 * Shell integration
 ** eat
 TODO: https://codeberg.org/akib/emacs-eat
