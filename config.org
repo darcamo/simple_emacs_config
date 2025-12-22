@@ -6126,7 +6126,11 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
                    (require 'qml-integration)
                    (require 'apheleia)
                    (setq fill-column 120)
-                   (hs-minor-mode))))
+                   (hs-minor-mode)
+
+                   ;; Add more characters that cause automatic reindentation
+                   (setq-local electric-indent-chars '(?\n ?\( ?\) ?{ ?} ?\[ ?\] ?\; ?,))
+                   )))
 
   (use-package consult-imenu
   :defer t
