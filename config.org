@@ -5243,6 +5243,7 @@ Code from https://emacs.stackexchange.com/questions/80740/how-to-correctly-forma
 (use-package emacs
   :mode
   (".clang-tidy" . yaml-ts-mode)
+  (".clangd" . yaml-ts-mode)
   ("\\.ya?ml\\'" . yaml-ts-mode)
   )
 #+end_src
