@@ -5500,7 +5500,6 @@ specify that a folder is a project with the presence of a special file (such as
 ** Make folders with .project file act as a project
 The code below will make emacs recognize a folder with a =.project= file as a project.
 #+begin_src emacs-lisp
-;; Taken from https://manueluberti.eu/emacs/2020/11/14/extending-project/
 (cl-defmethod project-root ((project (head local)))
   (cdr project))
 
@@ -5530,17 +5529,10 @@ The code below will make emacs recognize a folder with a =.project= file as a pr
           (or dirs (list (project-root project)))))
 
 
-(defun mu-project-try-local (dir)
-  "Determine if DIR is a non-Git project.
-DIR must include a .project file to be considered a project."
-  (let ((root (locate-dominating-file dir ".project")))
-    (and root (cons 'local root))))
-
-
 (use-package project
   :defer t
   :config
-  (add-to-list 'project-find-functions 'mu-project-try-local))
+  (add-to-list 'project-vc-extra-root-markers ".project"))
 #+end_src
 
 ** Make project ignore the .venv folder                                       :venv:
