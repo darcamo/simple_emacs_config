@@ -1,0 +1,5 @@
+# -*- mode: snippet -*-
+#name : MIT License
+# --
+`(darcamo/get-comment-block-start)` Copyright (C) `(get-current-year)` `user-full-name` <`user-mail-address`>
+`(darcamo/get-comment-block-start)` SPDX-License-Identifier: MIT
