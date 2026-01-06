@@ -4974,7 +4974,8 @@ the other one separately.
      "\\*Async Shell Command\\*"
      help-mode
      compilation-mode
-     ert-results-mode))
+     ert-results-mode
+     flymake-diagnostics-buffer-mode))
   (popper-display-control 'user)
   (popper-group-function #'popper-group-by-project)
   )
