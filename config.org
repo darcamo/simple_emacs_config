@@ -6368,20 +6368,11 @@ uses the =.ts= extension for itsa (translation) language files.
 #+end_src
 ** CMake Presets mode
 #+begin_src emacs-lisp
-(defun darcamo/is-cmake-presets-file ()
-  "Check if FILENAME is the name of a cmake presets file."
-  (if-let* ((buffer-name (buffer-file-name))
-            (filename (file-name-nondirectory buffer-name)))
-      (if (member filename '("CMakePresets.json" "CMakeUserPresets.json" "ConanPresets.json")) t nil)))
-
-
 (use-package cmakepresets-mode
   :ensure (cmakepresets-mode :type git :host github :protocol ssh
                              :repo "darcamo/cmakepresets-mode" :depth nil)
   :mode
   ("ConanPresets\\.json" . cmakepresets-mode)
-  :hook
-  (json-mode . (lambda () (when (darcamo/is-cmake-presets-file) (cmakepresets-mode))))
   :config
   (add-to-list 'eglot-server-programs
                '((cmakepresets-mode)
@@ -6400,18 +6391,6 @@ uses the =.ts= extension for itsa (translation) language files.
                                         (?t "Test")
                                         (?p "Package")
                                         (?w "Workflow")))))
-#+end_src
-
-*** Disable documentSymbolProvider capability in the language server
-This allows getting imenu entries from cmakepresets-mode instead.
-
-#+begin_src emacs-lisp
-(use-package cmakepresets-mode
-  :defer t
-  :hook
-  (cmakepresets-mode . (lambda () (set
-                              (make-local-variable 'eglot-ignored-server-capabilities)
-                              '(:documentSymbolProvider)))))
 #+end_src
 
 ** Diagnostic function for Flymake using cmakelint
