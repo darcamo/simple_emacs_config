@@ -5641,6 +5641,7 @@ To add support to more server, see the =eglot-server-programs= variable.
         ("C-c C-l =i" . eglot-code-action-organize-imports)
         ("C-c C-l rr" . eglot-rename)
         ("C-c C-l ti" . eglot-inlay-hints-mode)
+        ("C-c C-l i" . eglot-momentary-inlay-hints)
         ("C-c C-l ." . eglot-code-action-quickfix)
         ("C-c C-l aa" . eglot-code-actions)
         ;; "C-c C-l s" prefix for server information commands
