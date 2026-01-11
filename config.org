@@ -2101,6 +2101,17 @@ In both cases you are prompted for a language.
   :custom
   (magit-diff-refine-hunk t)  ;; Note sure about the effect of this one
   (magit-format-file-function 'magit-format-file-nerd-icons)
+
+  ;; Display magit buffer using the full frame
+  ;; (magit-display-buffer-function 'magit-display-buffer-fullframe-status-v1)
+
+  ;; Display buffer using the full column (except in some modes)
+  (magit-display-buffer-function 'magit-display-buffer-fullcolumn-most-v1)
+
+  ;; Make sure magit restore the previous window configuration once we quit
+  ;; magit. This is nice when we set magit-display-buffer-function to something
+  ;; that changes the window configuration.
+  (magit-bury-buffer-function 'magit-restore-window-configuration)
   )
 
 
