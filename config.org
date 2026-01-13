@@ -5157,7 +5157,8 @@ The idea is to use the threesitter-fold package in treesiter
   (hs-show-indicators t))
 
 (use-package treesit-fold
-  :ensure t
+  :ensure (treesit-fold :type git :host github :protocol ssh
+                        :repo "darcamo/treesit-fold" :depth nil)
   :hook
   (prog-mode . darcamo/folding-keybindings-mode))
 #+end_src
