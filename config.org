@@ -4482,15 +4482,6 @@ Veja mais sobre ele
   )
 #+end_src
 
-** Delve
-It provides tools to collect, inspect and edit Org Roam Nodes in a separate application
-buffer.
-
-See in
-https://github.com/publicimageltd/delve
-
-Currently it is not in melpa yet
-
 ** TODO orgnote
 https://github.com/Artawower/orgnote
 
