@@ -1987,6 +1987,34 @@ Usage
 #+end_src
 ** COMMENT draw.io                                                                 :OrgMode:
 https://github.com/4honor/org-drawio
+** symbol-overlay
+Default key-bindings defined in symbol-overlay-map:
+
+| Key    | Function                          |
+|--------+-----------------------------------|
+| "i" -> | symbol-overlay-put                |
+| "n" -> | symbol-overlay-jump-next          |
+| "p" -> | symbol-overlay-jump-prev          |
+| "w" -> | symbol-overlay-save-symbol        |
+| "t" -> | symbol-overlay-toggle-in-scope    |
+| "e" -> | symbol-overlay-echo-mark          |
+| "d" -> | symbol-overlay-jump-to-definition |
+| "s" -> | symbol-overlay-isearch-literally  |
+| "q" -> | symbol-overlay-query-replace      |
+| "r" -> | symbol-overlay-rename             |
+
+#+begin_src emacs-lisp
+(use-package
+ symbol-overlay
+ :ensure t
+ :bind
+ (("M-s h o" . symbol-overlay-put)
+  ("M-s h O" . symbol-overlay-remove-all)
+  :map symbol-overlay-map ("Q" . symbol-overlay-remove-all)
+  ("M-n" . symbol-overlay-switch-forward) ;; Maybe move these two to the global map
+  ("M-p" . symbol-overlay-switch-backward) ;; Maybe move these two to the global map
+  ))
+#+end_src
 
 * Shell integration
 ** eat

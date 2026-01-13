@@ -82,6 +82,7 @@
         pixel-scroll-precision
         pixel-scroll-start-momentum
         save-some-buffers
+        symbol-overlay-remove-all
         undo-redo
         wdired-finish-edit
         ))
