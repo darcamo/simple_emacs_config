@@ -81,6 +81,8 @@ FOLDER is expanded using `expand-file-name`."
 (defvar qt-location (expand-file-name "~/Qt/6.10.1/gcc_64") "Base location where I installed Qt")
 (setenv "QTWEBENGINE_RESOURCES_PATH" (expand-file-name "resources" qt-location))
 (setenv "QTWEBENGINE_LOCALES_PATH" (expand-file-name "translations/qtwebengine_locales/" qt-location))
+
+(setenv "QTFRAMEWORK_BYPASS_LICENSE_CHECK" "1")
 #+end_src
 
 * Path for remote execution with TRAMP                                        :TRAMP:
@@ -2236,6 +2238,8 @@ In Arch Linux, the name of the package is =git-delta=.
 #+end_src
 
 ** COMMENT consult-gh
+There are more packages that add extra functionality to consult-gh (embark integration, pr
+review, etc)
 #+begin_src emacs-lisp
 (use-package consult-gh
   :ensure t
