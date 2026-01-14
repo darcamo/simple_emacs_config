@@ -9003,7 +9003,9 @@ https://github.com/tninja/ai-code-interface.el
     (ai-code-magit-setup-transients)))
 #+end_src
 
-** COMMENT Aidermacs                                                              :LLM:
+** Aider Integration                                                           :LLM:
+
+*** Get my API
 #+begin_src emacs-lisp
 ;; NOTE: You need to add the line below to the .authinfo.gpg file
 ;; machine openrouter.ai login aider-apikey password <API-KEY>
@@ -9017,8 +9019,10 @@ https://github.com/tninja/ai-code-interface.el
                 secret
               (error "Secret is not a string"))))
       (error "No entry found for 'api.openai.com'"))))
+#+end_src
 
-
+*** COMMENT Aidermacs                                                         :LLM:
+#+begin_src emacs-lisp
 (use-package aidermacs
   :ensure t
   :bind (("C-c a" . aidermacs-transient-menu))
@@ -9035,6 +9039,32 @@ https://github.com/tninja/ai-code-interface.el
   (aidermacs-default-model "openrouter/google/gemini-2.5-flash-preview-05-20"))
 #+end_src
 
+*** COMMENT Aider
+https://github.com/tninja/aider.el
+
+#+begin_src emacs-lisp
+(use-package aider
+  :ensure t
+  :bind (("C-c a" . aider-transient-menu))
+  :config
+  ;; For latest claude sonnet model
+  ;; (setq aider-args '("--model" "sonnet" "--no-auto-accept-architect")) ;; add --no-auto-commits if you don't want it
+  (setenv "OPENROUTER_API_KEY" (darcamo/get-aider-key))
+  ;; Or chatgpt model
+  ;; (setq aider-args '("--model" "o4-mini"))
+  ;; (setenv "OPENAI_API_KEY" <your-openai-api-key>)
+  ;; Or use your personal config file
+  ;; (setq aider-args `("--config" ,(expand-file-name "~/.aider.conf.yml")))
+  ;; ;;
+  ;; ;; Optional: Set a key binding for the transient menu
+  ;; (global-set-key (kbd "C-c a") 'aider-transient-menu) ;; for wider screen
+  ;; or use aider-transient-menu-2cols / aider-transient-menu-1col, for narrow screen
+  (aider-magit-setup-transients) ;; add aider magit function to magit menu
+  ;; ;; auto revert buffer
+  ;; (global-auto-revert-mode 1)
+  ;; (auto-revert-mode 1)
+  )
+#+end_src
 ** Claude Code
 See https://github.com/manzaltu/claude-code-ide.el
 
