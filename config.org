@@ -5384,6 +5384,16 @@ You need to innstall =yamllint= using your OS package manager
   )
 #+end_src
 
+* COMMENT Emacs Reader
+It's still missing some basic functionality, like selecting text, but it's very fast and
+can open other formats besides PDF.
+#+begin_src emacs-lisp
+(use-package reader
+  :ensure '(reader :type git :host codeberg :repo "divyaranjan/emacs-reader"
+  	               :files ("*.el" "render-core.so")
+  	               :pre-build ("make" "all")))
+#+end_src
+
 * Dired                                                                       :Dired:
 ** Configuration
 #+begin_src emacs-lisp
