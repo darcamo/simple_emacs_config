@@ -4671,7 +4671,7 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
   :commands (vulpea-find vulpea-db-sync-full-scan vulpea-insert)
   :defer t
   :custom
-  (vulpea-db-sync-directories '("/home/darlan/org/org-roam-notes"))
+  (vulpea-db-sync-directories '("~/org/org-roam-notes"))
   (vulpea-db-autosync-mode +1)
   )
 #+end_src
@@ -4696,6 +4696,8 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
 (use-package vui
   :ensure (vui :type git :host github :repo "d12frosted/vui.el")
   :after vulpea
+  :bind ( :map org-mode-map
+          ("C-c n v" . vulpea-ui-sidebar-toggle))
   )
 
 (use-package vulpea-ui
