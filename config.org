@@ -4660,6 +4660,64 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
   )
 #+end_src
 
+* Vulpea
+
+TODO: Take another look at each individual page (specially for vulpea-journal) for configuration
+
+** General
+#+begin_src emacs-lisp
+(use-package vulpea
+  :ensure t
+  :commands (vulpea-find vulpea-db-sync-full-scan vulpea-insert)
+  :defer t
+  :custom
+  (vulpea-db-sync-directories '("/home/darlan/org/org-roam-notes"))
+  (vulpea-db-autosync-mode +1)
+  )
+#+end_src
+
+** Vulpea consult
+#+begin_src emacs-lisp
+;; Make vulpea-find and friends show a preview
+;;
+;; It also provides a few commands
+;; consult-vulpea-grep	Search vulpea notes using ripgrep with live preview
+;; consult-vulpea-find	Find vulpea note files with live preview
+(use-package consult-vulpea
+  :ensure (consult-vulpea :type git :host github :repo "fabcontigiani/consult-vulpea")
+  :after vulpea
+  :config
+  (consult-vulpea-mode 1)
+  )
+#+end_src
+
+** Vulpea-ui
+#+begin_src emacs-lisp
+(use-package vui
+  :ensure (vui :type git :host github :repo "d12frosted/vui.el")
+  :after vulpea
+  )
+
+(use-package vulpea-ui
+  :after vulpea
+  :ensure (vulpea-ui :type git :host github :repo "d12frosted/vulpea-ui")
+  )
+#+end_src
+
+** Vulpea-journal
+#+begin_src emacs-lisp
+;; https://github.com/d12frosted/vulpea-journal
+;; TODO: Customize vulpea-journal-default-template
+(use-package vulpea-journal
+  :ensure (vulpea-journal :type git :host github :repo "d12frosted/vulpea-journal")
+  :after (vulpea vulpea-ui)
+  :config
+  (vulpea-journal-setup)
+  ;; For some reason it uses a vulpea-directory variable which is not defined
+  (setq vulpea-directory vulpea-default-notes-directory)
+  )
+#+end_src
+
 * Markdown                                                                 :markdown:
 ** General config
 #+begin_src emacs-lisp
