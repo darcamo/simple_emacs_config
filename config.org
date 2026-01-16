@@ -2163,6 +2163,7 @@ In both cases you are prompted for a language.
 
 (add-hook 'magit-mode-hook #'evz/setup-magit-submodule-update-all)
 #+end_src
+
 *** Enable smartparens-mode in git-commit-mode
 #+begin_src emacs-lisp
 (use-package magit
@@ -6346,9 +6347,13 @@ Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting process
 #+begin_src emacs-lisp
 (use-package eglot
   :config
+  ;; Note that the "-E" option passed to qmlls makes it Use the QML_IMPORT_PATH
+  ;; environment variable to look for QML Modules. In other words, it allows you
+  ;; to add custom QML module paths by setting the QML_IMPORT_PATH environment
+  ;; variable before starting Emacs
   (add-to-list 'eglot-server-programs
                `((qml-ts-mode)
-                 . (,(expand-file-name "bin/qmlls" qt-location))))
+                 . (,(expand-file-name "bin/qmlls" qt-location) "-E")))
   :hook
   (qml-ts-mode . (lambda ()
                    ;; imenu from qml-ts-mode is better than the one provided by
