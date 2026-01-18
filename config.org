@@ -2012,6 +2012,7 @@ Default key-bindings defined in symbol-overlay-map:
 | "q" -> | symbol-overlay-query-replace      |
 | "r" -> | symbol-overlay-rename             |
 
+*** General configuration
 #+begin_src emacs-lisp
 (use-package
  symbol-overlay
@@ -2019,10 +2020,27 @@ Default key-bindings defined in symbol-overlay-map:
  :bind
  (("M-s h o" . symbol-overlay-put)
   ("M-s h O" . symbol-overlay-remove-all)
-  :map symbol-overlay-map ("Q" . symbol-overlay-remove-all)
+  :map symbol-overlay-map
+  ("Q" . symbol-overlay-remove-all)
   ("M-n" . symbol-overlay-switch-forward) ;; Maybe move these two to the global map
   ("M-p" . symbol-overlay-switch-backward) ;; Maybe move these two to the global map
+  ("<tab>" . symbol-overlay-jump-next)
+  ("<backtab>" . symbol-overlay-jump-prev)
   ))
+#+end_src
+
+*** Integration with multiple cursors
+For just renaming a symbol, the =symbol-overlay= package already has the functionality of
+renaming. But it might also be interesting to use multiple cursors for more flexibility.
+The =symbol-overlay-mc= package allow quickly adding multiple cursors to the current symbol
+overlay.
+#+begin_src emacs-lisp
+(use-package symbol-overlay-mc
+  :ensure t
+  :bind (
+         :map symbol-overlay-map
+         ("m" . symbol-overlay-mc-mark-all))
+  )
 #+end_src
 
 * Shell integration
