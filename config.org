@@ -6007,7 +6007,7 @@ it does not, then apheleia can be used instead.
 
 In each language configuration what needs to use apheleia for formatting, you might add an
 entry to =apheleia-formatters= and =apheleia-mode-alist=.
-* Taskrunner
+* COMMENT Taskrunner
 The [[https://github.com/emacs-taskrunner/emacs-taskrunner][emacs-taskrunner]] library provide ways to gather tasks from different build systems and
 run these tasks. However, it does not directly have function for the user and instead
 relies on other packages to provide user-facing functions using ivy or helm. But we can
