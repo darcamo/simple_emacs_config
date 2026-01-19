@@ -31,3 +31,5 @@ elisp-autofmt-cache/
 places
 url
 .cask
+/cmake-integration/
+/vulpea.db
