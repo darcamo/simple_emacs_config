@@ -4735,6 +4735,13 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
   (vulpea-journal-setup)
   ;; For some reason it uses a vulpea-directory variable which is not defined
   (setq vulpea-directory vulpea-default-notes-directory)
+
+  :custom
+  (vulpea-journal-default-template
+   ;; Change the folder to "daily", add a "daily" tag, and slightly change
+   ;; the title format. With this, we match the org-roam-dailies setup.
+   '(:file-name "daily/%Y-%m-%d.org" :title "%Y-%m-%d" :tags ("journal" "daily") :head "#+created: %<[%Y-%m-%d]>\n")
+   )
   )
 #+end_src
 
