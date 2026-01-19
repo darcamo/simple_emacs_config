@@ -52,6 +52,8 @@
         picture-end-of-line
         picture-self-insert
         read-only-mode
+        symbol-overlay-jump-next
+        symbol-overlay-jump-prev
         transpose-words
         wdired--self-insert
         wdired-capitalize-word
