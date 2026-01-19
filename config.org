@@ -4355,7 +4355,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   ;;                                                              Time
   ;; (org-roam-dailies-capture-templates '(("d" "default" entry "* %<%I:%M %p>: %?" :target (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n"))))
   (org-roam-dailies-capture-templates '(("d" "default" entry "* %<%H:%M %p>: %?"
-                                         :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :daily:\n"))))
+                                         :if-new (file+head "%<%Y-%m-%d>.org" "#+title: %<%Y-%m-%d>\n#+filetags: :journal:daily:\n"))))
   :bind (
          ("C-c n j" . org-roam-dailies-goto-today)
          ("C-c n g" . org-roam-dailies-goto-date)
@@ -4688,6 +4688,8 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
   :ensure t
   :commands (vulpea-find vulpea-db-sync-full-scan vulpea-insert)
   :defer t
+  :bind ( :map org-mode-map
+          ("C-c n v" . vulpea-ui-sidebar-toggle))
   :custom
   (vulpea-db-sync-directories '("~/org/org-roam-notes"))
   (vulpea-db-autosync-mode +1)
@@ -4714,8 +4716,6 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
 (use-package vui
   :ensure (vui :type git :host github :repo "d12frosted/vui.el")
   :after vulpea
-  :bind ( :map org-mode-map
-          ("C-c n v" . vulpea-ui-sidebar-toggle))
   )
 
 (use-package vulpea-ui
