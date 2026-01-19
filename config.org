@@ -7066,6 +7066,20 @@ reformat the buffer on save.
                  ))
 #+end_src
 
+** ert buffer in side-window
+#+begin_src emacs-lisp
+(add-to-list 'display-buffer-alist
+               '("\\*ert\\*"
+                 display-buffer-in-side-window
+                 ;; The following lines are the "action alist" passed to
+                 ;; display-buffer. For now, I only want to remove the
+                 ;; mode-line.
+                 (side . right)
+                 (slot . 1)
+                 (window-width . 0.22)
+                 (window-height . fit-window-to-buffer)))
+#+end_src
+
 * Javascript and Typescript
 Note: See configuration in https://github.com/llemaitre19/jtsx and set keybindings.
 
