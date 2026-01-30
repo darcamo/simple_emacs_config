@@ -6374,7 +6374,7 @@ and then call =treesit-install-language-grammar= and specify =qmljs= as the lang
 
 Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting processes with emacs]]
 - This could be used to start the squish server
-*** Add qmlls to eglot-server-programs                                       :Eglot:
+*** Add QML language server (qmlls) to eglot-server-programs                :Eglot:
 #+begin_src emacs-lisp
 (use-package eglot
   :config
