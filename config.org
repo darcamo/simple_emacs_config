@@ -4762,6 +4762,8 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
   (set-face-attribute 'markdown-header-face-1 nil :height 1.5)
   (set-face-attribute 'markdown-header-face-2 nil :height 1.3)
   (set-face-attribute 'markdown-header-face-3 nil :underline t)
+  :hook
+  (markdown-mode . (lambda () (setq fill-column 120)))
   )
 #+end_src
 
