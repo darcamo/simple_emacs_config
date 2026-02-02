@@ -2568,6 +2568,9 @@ There is also lsp-grammarly, but it requires an account.
   ;; project and not project themselves.
   (add-to-list 'org-tags-exclude-from-inheritance "Projeto")
 
+  ;; I add the "category" tag to notes that I use to group related notes.
+  (add-to-list 'org-tags-exclude-from-inheritance "category")
+
   :hook
   (org-mode . (lambda () (setq fill-column 90)))
   (org-mode . (lambda () (outline-minor-mode t)))
@@ -4157,7 +4160,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
 )
 #+end_src
 
-* Org-roam                                                                  :OrgRoam:
+* COMMENT Org-roam                                                                  :OrgRoam:
 ** Configuration
 #+begin_src emacs-lisp
 ;; Format of the filename used for my org-roam notes
@@ -4323,9 +4326,6 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
          )
 
   :config
-  ;; I add the "category" tag to notes that I use to group related notes.
-  (add-to-list 'org-tags-exclude-from-inheritance "category")
-
   ;; Define an acessor for the number of backlinks to a note -> we
   ;; will use this in org-roam-node-display-template
   ;; Taken from https://github.com/org-roam/org-roam/wiki/User-contributed-Tricks#showing-the-number-of-backlinks-for-each-node-in-org-roam-node-find
@@ -4692,11 +4692,21 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
   :ensure t
   :commands (vulpea-find vulpea-db-sync-full-scan vulpea-insert)
   :defer t
-  :bind ( :map org-mode-map
-          ("C-c n v" . vulpea-ui-sidebar-toggle))
+  :bind (
+         ([f6] . vulpea-find)
+         :map org-mode-map
+         ("C-c n l" . vulpea-ui-sidebar-toggle)
+         ("C-c n i" . vulpea-insert)
+         ("C-c n t a" . vulpea-buffer-tags-add)
+         ("C-c n t r" . vulpea-buffer-tags-remove)
+         ("C-c n a a" . vulpea-buffer-alias-add)
+         ("C-c n a r" . vulpea-buffer-alias-remove)
+         )
   :custom
   (vulpea-db-sync-directories '("~/org/org-roam-notes"))
   (vulpea-db-autosync-mode +1)
+  (vulpea-buffer-alias-property "ROAM_ALIASES")
+  (vulpea-db-sync-external-method 'fswatch)
   )
 #+end_src
 
@@ -4734,7 +4744,7 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
 ;; TODO: Customize vulpea-journal-default-template
 (use-package vulpea-journal
   :ensure (vulpea-journal :type git :host github :repo "d12frosted/vulpea-journal")
-  :after (vulpea vulpea-ui)
+  ;; :after (vulpea vulpea-ui)
   :config
   (vulpea-journal-setup)
   ;; For some reason it uses a vulpea-directory variable which is not defined
@@ -4746,7 +4756,18 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
    ;; the title format. With this, we match the org-roam-dailies setup.
    '(:file-name "daily/%Y-%m-%d.org" :title "%Y-%m-%d" :tags ("journal" "daily") :head "#+created: %<[%Y-%m-%d]>\n")
    )
-  )
+  :bind
+  (
+   ("C-c n j" . vulpea-journal-today)
+   ("C-c n g" . vulpea-journal-date)))
+#+end_src
+
+#+begin_src emacs-lisp
+(add-to-list 'display-buffer-alist
+             '("^[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\.org$"
+               display-buffer-in-tab
+               (tab-name . "Journal")
+               ))
 #+end_src
 
 * Markdown                                                                 :markdown:
