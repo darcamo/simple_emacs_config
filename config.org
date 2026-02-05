@@ -4689,11 +4689,13 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
 ** General
 #+begin_src emacs-lisp
 (use-package vulpea
-  :ensure t
+  :ensure (vulpea :type git :host github :repo "d12frosted/vulpea")
   :commands (vulpea-find vulpea-db-sync-full-scan vulpea-insert)
   :defer t
   :bind (
          ([f6] . vulpea-find)
+         ("C-c n j" . vulpea-journal-today)
+         ("C-c n g" . vulpea-journal-date)
          :map org-mode-map
          ("C-c n l" . vulpea-ui-sidebar-toggle)
          ("C-c n i" . vulpea-insert)
@@ -4744,22 +4746,16 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
 ;; TODO: Customize vulpea-journal-default-template
 (use-package vulpea-journal
   :ensure (vulpea-journal :type git :host github :repo "d12frosted/vulpea-journal")
-  ;; :after (vulpea vulpea-ui)
+  :after (vulpea vulpea-ui)
   :config
   (vulpea-journal-setup)
-  ;; For some reason it uses a vulpea-directory variable which is not defined
-  (setq vulpea-directory vulpea-default-notes-directory)
-
   :custom
   (vulpea-journal-default-template
    ;; Change the folder to "daily", add a "daily" tag, and slightly change
    ;; the title format. With this, we match the org-roam-dailies setup.
    '(:file-name "daily/%Y-%m-%d.org" :title "%Y-%m-%d" :tags ("journal" "daily") :head "#+created: %<[%Y-%m-%d]>\n")
    )
-  :bind
-  (
-   ("C-c n j" . vulpea-journal-today)
-   ("C-c n g" . vulpea-journal-date)))
+  )
 #+end_src
 
 #+begin_src emacs-lisp
