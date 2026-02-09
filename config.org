@@ -4689,16 +4689,18 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
 ** General
 #+begin_src emacs-lisp
 (use-package vulpea
-  :ensure (vulpea :type git :host github :repo "d12frosted/vulpea")
+  :ensure (vulpea :type git :host github :repo "darcamo/vulpea")
   :commands (vulpea-find vulpea-db-sync-full-scan vulpea-insert)
   :defer t
   :bind (
          ([f6] . vulpea-find)
+         ([C-f6] . consult-vulpea-grep)
          ("C-c n j" . vulpea-journal-today)
          ("C-c n g" . vulpea-journal-date)
          :map org-mode-map
          ("C-c n l" . vulpea-ui-sidebar-toggle)
          ("C-c n i" . vulpea-insert)
+         ("C-c n b" . vulpea-find-backlink)
          ("C-c n t a" . vulpea-buffer-tags-add)
          ("C-c n t r" . vulpea-buffer-tags-remove)
          ("C-c n a a" . vulpea-buffer-alias-add)
