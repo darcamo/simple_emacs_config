@@ -2941,6 +2941,52 @@ There is also lsp-grammarly, but it requires an account.
   ;;   )
 #+end_src
 
+*** go
+https://github.com/pope/ob-go
+
+Tips:
+- You can add imports with =:imports "fmt"=
+- It will wrap your code in a main function, unless you pass =:main no=
+
+
+Full list of options:
+- =:args=
+  * Command line arguments to pass to the executable compiled from the code block. To pass
+    more than one argument, use a list.
+- =:flags=
+  * Flags to pass to the go run command. These are the flags that you would pass to go
+    build.
+- =:main=
+  * If set to no, inhibits the auto wrapping of the main function call. Default: yes
+- =:imports=
+  * Shorthand for supplying imports to the app. This should be used when you’re letting
+    the application handle the main function. To supply more, use a list, like =:imports
+    '("fmt" "time")=.
+- =:package=
+  * Set the package of the file. Requires =:main no=. If not set, and code doesn’t have a
+    explicit package, then main package is declared. Set to nil by using =:package 'discard=
+- =:var=
+  * `ob-go’ also supports Babel variables with some limitations. See `ob-go’ for more
+    information about some of the limitations using :var.
+
+#+begin_src emacs-lisp
+(use-package ob-go
+  :ensure t
+  :defer t
+  :commands (org-babel-execute:go-ts)
+  :config
+
+  ;; The ob-go package defines a `org-babel-execute:go' function, which is what
+  ;; let org-babel execute source blocks with the "go" language. Here we define
+  ;; a the `org-babel-execute:go-ts' function, which will let org-babel know how
+  ;; to execute source blocks with the "go-ts" language, which we use for Go
+  ;; code blocks that use the tree-sitter syntax highlighting.
+  (defun org-babel-execute:go-ts (body params)
+    (org-babel-execute:go body params)
+    )
+  )
+#+end_src
+
 ** Babel                                                                     :Babel:
 #+begin_src emacs-lisp
 (defun get-plantuml-jar-path ()
@@ -3003,6 +3049,7 @@ There is also lsp-grammarly, but it requires an account.
      (latex . t)
      (plantuml . t)
      (java . t)
+     ;; (go . t)  ;; Requires the ob-go emacs package
      ;; (jupyter . t) ;; Requires the 'jupyter' emacs package and this must come last
      ))
   )
@@ -5784,6 +5831,7 @@ To add support to more server, see the =eglot-server-programs= variable.
          (cmake-ts-mode . eglot-ensure)
          (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
          (json-ts-mode . eglot-ensure)
+         (go-ts-mode . eglot-ensure)
          )
   :commands eglot-ensure
   :custom
@@ -7110,6 +7158,48 @@ reformat the buffer on save.
                  (slot . 1)
                  (window-width . 0.22)
                  (window-height . fit-window-to-buffer)))
+#+end_src
+
+* Go                                                                    :Programming:
+Note: Go uses tabs as a convention for indentation. That is why even if you set
+=indent-tabs-mode= to nil, it will still be set to =t= in =go-ts-mode= (the mode sets
+indent-tabs-mode as a local variable).
+
+** General configuration for go
+#+begin_src emacs-lisp
+(defun my-go-run-current-file ()
+  "Run the current Go file."
+  (interactive)
+  (let ((file (buffer-file-name)))
+    (when file
+      (compile (format "go run %s" file)))))
+
+(use-package go-ts-mode
+  :ensure nil
+  :custom
+  (go-ts-mode-indent-offset 4)
+
+  :bind ( :map go-ts-mode-map
+          ([f8] . my-go-run-current-file)
+          ([f9] . compile)
+          ([f10] . recompile)
+          ))
+#+end_src
+
+** Make Emacs recognize a folder with go.mod as project root
+Code from https://go.dev/gopls/editor/emacs
+
+#+begin_src emacs-lisp
+(defun project-find-go-module (dir)
+  (when-let ((root (locate-dominating-file dir "go.mod")))
+    (cons 'go-module root)))
+
+
+(cl-defmethod project-root ((project (head go-module)))
+  (cdr project))
+
+
+(add-hook 'project-find-functions #'project-find-go-module)
 #+end_src
 
 * Javascript and Typescript
