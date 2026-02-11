@@ -2973,7 +2973,7 @@ Full list of options:
 (use-package ob-go
   :ensure t
   :defer t
-  :commands (org-babel-execute:go-ts)
+  :commands (org-babel-execute:go-ts org-babel-execute:go)
   :config
 
   ;; The ob-go package defines a `org-babel-execute:go' function, which is what
@@ -4124,6 +4124,12 @@ https://nobiot.github.io/org-transclusion/
 #+begin_src emacs-lisp
 (use-package org-present
   :ensure t)
+#+end_src
+
+** Map some languages in source code blocks
+#+begin_src elisp
+
+(add-to-list 'org-src-lang-modes '("go" . go-ts))
 #+end_src
 
 * org-remark
