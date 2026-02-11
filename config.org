@@ -8299,12 +8299,14 @@ Some useful keybindings
 https://github.com/bdarcus/citar#notes
 
 ** TODO Org-noter                                             :Investigate:OrgNoter:
-* Mail with mu4e                                                          :Mail:mu4e:
+
+* E-Mail
+** Mail with mu4e                                                           :Mail:mu4e:
 Note: =C-c C-p= in message mode takes a screenshot and attach to the e-mail
 
 Emacs now supports oauth2 authentication. See
 https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuration_for_office_365/
-** Make mu4e start in a dedicated tab which is closed and mu4e exits
+*** Make mu4e start in a dedicated tab which is closed and mu4e exits
 #+begin_src emacs-lisp
 (add-to-list 'display-buffer-alist
              '("mu4e"
@@ -8351,14 +8353,14 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
 ;;        ))))
 #+end_src
 
-** Common email config and some helper functions                               :epa:
+*** Common email config and some helper functions                              :epa:
 #+begin_src emacs-lisp
 ;; The my-define-mail-variables function just define some variables
 ;; that are used in the rest of the mu4e configuration
 (autoload 'my-define-mail-variables (concat user-emacs-directory "common-mail-config.el.gpg"))
 #+end_src
 
-** Mail configuration not specific to mu4e
+*** Mail configuration not specific to mu4e
 #+begin_src emacs-lisp
 (use-package message
   :after mu4e
@@ -8387,7 +8389,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
   )
 #+end_src
 
-** Configuration
+*** Configuration
 #+begin_src emacs-lisp
 (use-package mu4e
   ;; :elpaca nil  ;; mu4e is not found in melpa -> you need to install the "mu" system package
@@ -8571,8 +8573,8 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
   )
 #+end_src
 
-** Extra mu4e packages
-*** mu4e-column-faces
+*** Extra mu4e packages
+**** mu4e-column-faces
 This package makes mu4e much more beautiful
 #+begin_src emacs-lisp
 (use-package mu4e-column-faces
@@ -8582,7 +8584,7 @@ This package makes mu4e much more beautiful
   )
 #+end_src
 
-** TODO org-msg
+*** TODO org-msg
 
 * calibredb                                                   :Calibre:calibre:ebook:
 Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
