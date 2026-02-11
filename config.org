@@ -2941,7 +2941,7 @@ There is also lsp-grammarly, but it requires an account.
   ;;   )
 #+end_src
 
-*** go
+*** go                                                                         :Go:
 https://github.com/pope/ob-go
 
 Tips:
@@ -4126,10 +4126,12 @@ https://nobiot.github.io/org-transclusion/
   :ensure t)
 #+end_src
 
-** Map some languages in source code blocks
+** Map some languages in src blocks                              :CMake:QML:YAML:Go:
 #+begin_src elisp
-
 (add-to-list 'org-src-lang-modes '("go" . go-ts))
+(add-to-list 'org-src-lang-modes '("yaml" . yaml-ts))
+(add-to-list 'org-src-lang-modes '("qml" . qml-ts))
+(add-to-list 'org-src-lang-modes '("cmake" . cmake-ts))
 #+end_src
 
 * org-remark
@@ -7166,7 +7168,7 @@ reformat the buffer on save.
                  (window-height . fit-window-to-buffer)))
 #+end_src
 
-* Go                                                                    :Programming:
+* Go                                                                 :Go:Programming:
 Note: Go uses tabs as a convention for indentation. That is why even if you set
 =indent-tabs-mode= to nil, it will still be set to =t= in =go-ts-mode= (the mode sets
 indent-tabs-mode as a local variable).
