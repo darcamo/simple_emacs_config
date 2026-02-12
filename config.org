@@ -4766,6 +4766,9 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
   (vulpea-db-autosync-mode +1)
   (vulpea-buffer-alias-property "ROAM_ALIASES")
   (vulpea-db-sync-external-method 'fswatch)
+  (vulpea-create-default-template '(:file-name "${timestamp}_${slug}.org"
+                                               :head "#+SETUPFILE: org-roam-setup.org\n\n"
+                                               :properties (("CREATED" . "%<[%Y-%m-%d]>"))))
   )
 #+end_src
 
