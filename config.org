@@ -8619,13 +8619,14 @@ TODO: Check other packages in MELPA with "notmuch" in the name.
   :ensure t
   :commands (notmuch notmuch-mua-new-mail)
   :custom
+  (notmuch-archive-tags '("-inbox" "-unread"))
   (notmuch-fcc-dirs nil)
   (notmuch-always-prompt-for-sender 'nil)
   (notmuch-search-oldest-first nil)
   (notmuch-saved-searches
    '(
      (:name "Inbox (unread)" :query "tag:inbox and tag:unread" :sort-order newest-first :key "i")
-     (:name "inbox" :query "tag:inbox" :sort-order newest-first :key "I")
+     (:name "Inbox" :query "tag:inbox" :sort-order newest-first :key "I")
      (:name "Unread" :query "tag:unread" :sort-order newest-first :key "u")
      (:name
       "flagged"
@@ -8653,6 +8654,9 @@ TODO: Check other packages in MELPA with "notmuch" in the name.
      (:name "Last 7 days clean" :query "date:-7d.. and not tag:trash and not tag:\"Redes Sociais\"" :sort-order newest-first :key "w")
      (:name "Last 7 days full" :query "date:-7d.. and not tag:trash" :sort-order newest-first :key "W")
      (:name "Has attachment" :query "tag:attachment and not tag:trash" :sort-order newest-first :key "A")
+     ;; Gmail has some heuristics to add the "important" tag (Not that the mails
+     ;; I manually add a star have the tag "flagged")
+     (:name "Important" :query "tag:important and not tag:trash" :sort-order newest-first :key "*")
      ;; (:name "LinkedIn (unread)" :query "from:LinkedIn and tag:unread" :sort-order newest-first :key "l")
      ))
   (notmuch-tagging-keys
@@ -8703,7 +8707,7 @@ gmi send --quiet -C "$MAILBOX_PATH" -t
   )
 #+end_src
 
-*** Allow creating Emacs bookmarks for messages
+*** notmuch-bookmarks: Allow creating Emacs bookmarks for messages
 #+begin_src emacs-lisp
 (use-package notmuch-bookmarks
    :after notmuch
@@ -8715,7 +8719,7 @@ gmi send --quiet -C "$MAILBOX_PATH" -t
    (notmuch-bookmarks-annotation-mode))
 #+end_src
 
-*** Allow creating links to messages
+*** ol-notmuch: Allow creating links to messages
 The usual =C-c l= shortcut (org-store-link) can be used to create org-mode links. When
 viewing a message the link is to that message, but when in a =notmuch-search= buffer the
 link is an actual search.
@@ -8737,21 +8741,25 @@ link is an actual search.
   )
 #+end_src
 
-*** notmuch-indicator
+*** notmuch-indicator: Show information in modline
 #+begin_src emacs-lisp
-(use-package notmuch-indicator
-  :ensure t
-  :after notmuch
-  :config
-  (notmuch-indicator-mode 1)
+(use-package
+ notmuch-indicator
+ :ensure t
+ :after notmuch
+ :config (notmuch-indicator-mode 1)
 
-  :custom
-  (notmuch-indicator-args
-      '((:terms "tag:unread and tag:inbox and not tag:\"Redes Sociais\"" :label "U" :label-face success)
-        (:terms "date:today and not tag:trash" :label "T" :label-face warning :counter-face inherit)
-        )
-  )
-  )
+ :custom
+ (notmuch-indicator-args
+  '((:terms
+     "tag:unread and tag:inbox"
+     :label "Unread: "
+     :label-face success)
+    (:terms
+     "date:today and not tag:trash"
+     :label "Today: "
+     :label-face warning
+     :counter-face inherit))))
 #+end_src
 
 * calibredb                                                   :Calibre:calibre:ebook:
