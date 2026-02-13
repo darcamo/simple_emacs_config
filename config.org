@@ -8304,7 +8304,26 @@ https://github.com/bdarcus/citar#notes
 ** TODO Org-noter                                             :Investigate:OrgNoter:
 
 * E-Mail
-** Mail with mu4e                                                           :Mail:mu4e:
+
+** Set some common Email related variables
+
+*** Set some variables containing my E-mail addresses
+#+begin_src emacs-lisp
+;; The my-define-mail-variables function just define some variables
+;; that are used in the rest of the mu4e configuration
+(autoload 'my-define-mail-variables (concat user-emacs-directory "common-mail-config.el.gpg"))
+#+end_src
+
+*** Personal
+#+begin_src emacs-lisp
+(use-package sendmail
+  :custom
+  (user-mail-adress "darcamo@gmail.com")
+  )
+#+end_src
+
+
+** COMMENT Mail with mu4e                                                           :Mail:mu4e:
 Note: =C-c C-p= in message mode takes a screenshot and attach to the e-mail
 
 Emacs now supports oauth2 authentication. See
@@ -8588,6 +8607,152 @@ This package makes mu4e much more beautiful
 #+end_src
 
 *** TODO org-msg
+
+** notmuch
+
+TODO: Check other packages in MELPA with "notmuch" in the name.
+
+*** General configuration to receive E-mail
+#+begin_src emacs-lisp
+(use-package
+  notmuch
+  :ensure t
+  :commands (notmuch notmuch-mua-new-mail)
+  :custom
+  (notmuch-fcc-dirs nil)
+  (notmuch-always-prompt-for-sender 'nil)
+  (notmuch-search-oldest-first nil)
+  (notmuch-saved-searches
+   '(
+     (:name "Inbox (unread)" :query "tag:inbox and tag:unread" :sort-order newest-first :key "i")
+     (:name "inbox" :query "tag:inbox" :sort-order newest-first :key "I")
+     (:name "Unread" :query "tag:unread" :sort-order newest-first :key "u")
+     (:name
+      "flagged"
+      :query "tag:flagged"
+      :sort-order newest-first
+      :key "f")
+     (:name
+      "Sent"
+      :query "tag:sent and not tag:trash"
+      :sort-order newest-first
+      :key "s")
+     (:name
+      "All"
+      :query "not tag:trash"
+      :sort-order newest-first
+      :key "a")
+     (:name
+      "Trash"
+      :query "tag:trash"
+      :sort-order newest-first
+      :search-type 'tree
+      :key "t")
+     (:name "Want to connect" :query "\"I want to connect\"" :sort-order newest-first :key "c")
+     (:name "Today" :query "date:today and not tag:trash" :sort-order newest-first :key "h")
+     (:name "Last 7 days clean" :query "date:-7d.. and not tag:trash and not tag:\"Redes Sociais\"" :sort-order newest-first :key "w")
+     (:name "Last 7 days full" :query "date:-7d.. and not tag:trash" :sort-order newest-first :key "W")
+     (:name "Has attachment" :query "tag:attachment and not tag:trash" :sort-order newest-first :key "A")
+     ;; (:name "LinkedIn (unread)" :query "from:LinkedIn and tag:unread" :sort-order newest-first :key "l")
+     ))
+  (notmuch-tagging-keys
+   '(("a" notmuch-archive-tags "Archive")
+     ("r" notmuch-show-mark-read-tags "Mark read")
+     ("u" ("+unread") "Mark unread")
+     ("f" ("+flagged") "Flag")
+     ("s" ("+spam" "-inbox" "-unread") "Mark as spam")
+     ("t" ("+trash" "-inbox" "-unread") "Delete"))))
+#+end_src
+
+*** Sending E-mail
+Note that you need to create a =gmi-sendmail= file in your PATH and give it executable
+permission. The content is shwon below
+
+#+begin_src bash
+#!/usr/bin/env bash
+MAILBOX_PATH="$HOME/<folder-where-your-email-is>"
+
+# Read email content from stdin and send via gmi
+gmi send --quiet -C "$MAILBOX_PATH" -t
+#+end_src
+
+#+begin_src emacs-lisp
+;; Code from https://zstg.is-a.dev/posts/emacs/notmuch/
+(defun darcamo/sendmail-via-gmi ()
+  "Send mail using the `gmi-sendmail' shell script as the `sendmail' program."
+  (let ((sendmail-program "gmi-sendmail"))
+    (message-send-mail-with-sendmail)))
+
+
+(use-package notmuch
+  :bind
+  ("C-x m" . notmuch-mua-new-mail)
+  :custom
+    (sendmail-program "gmi-sendmail")
+  (message-send-mail-function #'darcamo/sendmail-via-gmi)
+  )
+#+end_src
+
+*** notmuch-addr: Improved address book completions
+#+begin_src emacs-lisp
+(use-package notmuch-addr
+  :ensure t
+  :after notmuch-address
+  :config
+  (notmuch-addr-setup)
+  )
+#+end_src
+
+*** Allow creating Emacs bookmarks for messages
+#+begin_src emacs-lisp
+(use-package notmuch-bookmarks
+   :after notmuch
+   :ensure t
+   :config
+   (notmuch-bookmarks-mode)
+   ;; turn on annotations counting read/unread mails
+   ;; currently requires 'marginalia' installed
+   (notmuch-bookmarks-annotation-mode))
+#+end_src
+
+*** Allow creating links to messages
+The usual =C-c l= shortcut (org-store-link) can be used to create org-mode links. When
+viewing a message the link is to that message, but when in a =notmuch-search= buffer the
+link is an actual search.
+
+#+begin_src emacs-lisp
+(use-package ol-notmuch
+  :ensure t
+  :after notmuch
+  )
+#+end_src
+
+*** notmuch-maildir: Show maildirs in a tree
+#+begin_src emacs-lisp
+(use-package notmuch-maildir
+  :ensure t
+  :after notmuch
+  :hook
+  (notmuch-hello-mode . notmuch-maildir-inject-section)
+  )
+#+end_src
+
+*** notmuch-indicator
+#+begin_src emacs-lisp
+(use-package notmuch-indicator
+  :ensure t
+  :after notmuch
+  :config
+  (notmuch-indicator-mode 1)
+
+  :custom
+  (notmuch-indicator-args
+      '((:terms "tag:unread and tag:inbox and not tag:\"Redes Sociais\"" :label "U" :label-face success)
+        (:terms "date:today and not tag:trash" :label "T" :label-face warning :counter-face inherit)
+        )
+  )
+  )
+#+end_src
 
 * calibredb                                                   :Calibre:calibre:ebook:
 Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
