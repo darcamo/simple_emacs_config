@@ -5183,7 +5183,8 @@ the other one separately.
   (popper-mode +1)
   :custom
   (popper-reference-buffers
-   '("\\*Messages\\*"
+   '("\\*Warnings\\*"
+     "\\*Messages\\*"
      "Output\\*$"
      "\\*Async Shell Command\\*"
      help-mode
