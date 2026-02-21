@@ -5228,6 +5228,14 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
                  ))
 #+end_src
 
+** Always save modified buffers before compilation
+#+begin_src emacs-lisp
+(use-package emacs
+  :custom
+  (compilation-ask-about-save nil)
+  )
+#+end_src
+
 ** Syntax check
 *** COMMENT Flycheck                                                      :Flycheck:
 https://www.flycheck.org/en/latest/index.html
