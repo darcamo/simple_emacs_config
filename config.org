@@ -1845,7 +1845,7 @@ Use the ~world-clock~ command to see the times
 
 #+end_src
 
-** Address Mode: Buttonize URLs and e-mail addresses
+** COMMENT Address Mode: Buttonize URLs and e-mail addresses
 You can open links by clicking or with the =C-c RET= keybinding.
 
 #+begin_src emacs-lisp
