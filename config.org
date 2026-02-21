@@ -1594,6 +1594,8 @@ You can also change the order of the tabs with:
          ([C-f11] . browse-default-dir)
          ([S-f11] . browse-default-dir-in-emacs)
          ([C-S-f11] . open-terminal-default-dir)
+         ;; ("M-[" . switch-to-prev-buffer)
+         ;; ("M-]" . switch-to-next-buffer)
          ("C-z" . eshell)
          ("M-z" . start-term-zsh-or-bash)
          ("C-c o" . other-frame) ; When there are multiple frames, change to another frame
@@ -4814,6 +4816,11 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
   :after (vulpea vulpea-ui)
   :config
   (vulpea-journal-setup)
+  :bind (
+         :map org-mode-map
+         ("M-[" . vulpea-journal-previous)
+         ("M-]" . vulpea-journal-next)
+         )
   :custom
   (vulpea-journal-default-template
    ;; Change the folder to "daily", add a "daily" tag, and slightly change
