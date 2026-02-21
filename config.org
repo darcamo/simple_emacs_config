@@ -8655,8 +8655,8 @@ TODO: Check other packages in MELPA with "notmuch" in the name.
   (notmuch-search-oldest-first nil)
   (notmuch-saved-searches
    '(
-     (:name "Inbox (unread)" :query "tag:inbox and tag:unread" :sort-order newest-first :key "i")
-     (:name "Inbox" :query "tag:inbox" :sort-order newest-first :key "I")
+     (:name "Inbox" :query "tag:inbox" :sort-order newest-first :key "i")
+     (:name "Inbox (unread)" :query "tag:inbox and tag:unread" :sort-order newest-first :key "I")
      (:name "Unread" :query "tag:unread" :sort-order newest-first :key "u")
      (:name
       "flagged"
@@ -8806,6 +8806,25 @@ link is an actual search.
      :label "Today: "
      :label-face warning
      :counter-face inherit))))
+#+end_src
+
+*** Lisp function to call =notmuch new=
+#+begin_src emacs-lisp
+(defun darcamo/call-notmuch-new ()
+  "Call notmuch-new interactively."
+  (interactive)
+  (compile "notmuch new")
+  )
+
+(use-package
+ notmuch
+ :bind
+ (:map
+  notmuch-search-mode-map ;;
+  ([f8] . darcamo/call-notmuch-new)
+
+  :map notmuch-hello-mode-map ;;
+  ([f8] . darcamo/call-notmuch-new)))
 #+end_src
 
 ** COMMENT org-msg
