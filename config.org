@@ -5099,8 +5099,9 @@ Useful keybindings:
               ))
 #+end_src
 
-* General Programming (not including any specific language)             :Programming:
-** Set "C-c &" keybinding for org-mark-ring-goto in programming modes
+* Programming                                                           :Programming:
+** General Programming (not including any specific language)              :Programming:
+*** Set "C-c &" keybinding for org-mark-ring-goto in programming modes
 If in an org-mode file I activated a link that went to a source code, then =C-c &= will go
 back to the org file.
 
@@ -5113,7 +5114,7 @@ back to the org file.
               ("C-c &" . org-mark-ring-goto)))
 #+end_src
 
-** Line numbers
+*** Line numbers
 #+begin_src emacs-lisp
 (use-package display-line-numbers-mode
   :ensure nil
@@ -5121,7 +5122,7 @@ back to the org file.
   (prog-mode . display-line-numbers-mode))
 #+end_src
 
-** breadcrumbs
+*** breadcrumbs
 The breadcrumb package uses information from imenu. Hence, as long as the major mode has
 imenu support breadcrumbs should work.
 #+begin_src elisp
@@ -5132,7 +5133,7 @@ imenu support breadcrumbs should work.
   )
 #+end_src
 
-** Some pretty symbols
+*** Some pretty symbols
 #+begin_src emacs-lisp
 (add-hook
  'prog-mode-hook
@@ -5145,7 +5146,7 @@ imenu support breadcrumbs should work.
  )
 #+end_src
 
-** Handle ansi colors in compilation buffer                            :Compilation:
+*** Handle ansi colors in compilation buffer                           :Compilation:
 #+begin_src emacs-lisp
 (use-package emacs
   :ensure nil
@@ -5167,7 +5168,7 @@ imenu support breadcrumbs should work.
 ;;   )
 #+end_src
 
-** Scroll down compilation buffer                                      :Compilation:
+*** Scroll down compilation buffer                                     :Compilation:
 #+begin_src emacs-lisp
 (use-package emacs
   :ensure nil
@@ -5177,7 +5178,7 @@ imenu support breadcrumbs should work.
   )
 #+end_src
 
-** Popper-mode                                                         :Compilation:
+*** Popper-mode                                                        :Compilation:
 
 To set which buffers should be a popup, see the =popper-reference-buffers= varaible.
 
@@ -5209,7 +5210,7 @@ the other one separately.
   )
 #+end_src
 
-** COMMENT shackle
+*** COMMENT shackle
 THIS MPACKAGE IS INTERFERING WITH TRANSIENT PACKAGE when using `:choices`.
 
 NOTE: Shackle provides a nicer way to handle buffers, compared to change
@@ -5229,7 +5230,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
   )
 #+end_src
 
-** Compilation buffer always at the bottom                             :Compilation:
+*** Compilation buffer always at the bottom                            :Compilation:
 #+begin_src emacs-lisp
 (add-to-list 'display-buffer-alist
                '("\\*compilation\\*"
@@ -5241,7 +5242,7 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
                  ))
 #+end_src
 
-** Always save modified buffers before compilation
+*** Always save modified buffers before compilation
 #+begin_src emacs-lisp
 (use-package emacs
   :custom
@@ -5249,8 +5250,8 @@ NOTE: Shackle provides a nicer way to handle buffers, compared to change
   )
 #+end_src
 
-** Syntax check
-*** COMMENT Flycheck                                                      :Flycheck:
+*** Syntax check
+**** COMMENT Flycheck                                                     :Flycheck:
 https://www.flycheck.org/en/latest/index.html
 
 #+begin_src emacs-lisp
@@ -5265,8 +5266,8 @@ https://www.flycheck.org/en/latest/index.html
   )
 #+end_src
 
-*** Flymake                                                                :Flymake:
-**** General Configuration
+**** Flymake                                                               :Flymake:
+***** General Configuration
 #+begin_src emacs-lisp
 (use-package flymake
   :hook
@@ -5282,7 +5283,7 @@ https://www.flycheck.org/en/latest/index.html
               ("C-c ! P" . flymake-show-project-diagnostics)))
 #+end_src
 
-**** COMMENT flymake-json
+***** COMMENT flymake-json
 #+begin_src emacs-lisp
 (use-package flymake-json
   :ensure t
@@ -5290,7 +5291,7 @@ https://www.flycheck.org/en/latest/index.html
   (json-mode . flymake-json-load))
 #+end_src
 
-** Enable folding with treesit-fold or hs-minor-mode in programming buffers
+*** Enable folding with treesit-fold or hs-minor-mode in programming buffers
 The idea is to use the threesitter-fold package in treesiter
 #+begin_src emacs-lisp
 (defun darcamo/treesit-fold-ready-p ()
@@ -5369,7 +5370,7 @@ The idea is to use the threesitter-fold package in treesiter
   (prog-mode . darcamo/folding-keybindings-mode))
 #+end_src
 
-** Obvious-mode
+*** Obvious-mode
 #+begin_src emacs-lisp
 (use-package obvious
   :ensure (obvious :type git :host github :protocol ssh :repo "alphapapa/obvious.el")
@@ -5380,7 +5381,7 @@ The idea is to use the threesitter-fold package in treesiter
   )
 #+end_src
 
-** Highlight TODO and similar keywords with hl-todo
+*** Highlight TODO and similar keywords with hl-todo
 https://github.com/tarsius/hl-todo
 *Tip*: Check the =hl-todo-keyword-faces= variable for the keywords and colors.
 *Tip2*: Check the navigation methods
@@ -5397,7 +5398,7 @@ https://github.com/tarsius/hl-todo
   )
 #+end_src
 
-** Consult documentation in zeal (dash documentation)
+*** Consult documentation in zeal (dash documentation)
 See https://github.com/jinzhu/zeal-at-point
 
 You need to have [[https://zealdocs.org/][zeal]] installed. See also the [[https://github.com/dash-docs-el/helm-dash][helm-dash]] package as an alternative, which
@@ -5419,7 +5420,7 @@ does not need zeal.
   )
 #+end_src
 
-** page-break-lines
+*** page-break-lines
 #+begin_src emacs-lisp
 ;; Note that if page-break-lines is enabled in org-mode buffers it
 ;; breaks the org-roam buffer for some reason. Therefore, only enabled
@@ -5431,8 +5432,8 @@ does not need zeal.
   :hook
   (prog-mode . page-break-lines-mode))
 #+end_src
-* Eldoc
-** Replace HTML characters with plain text ones in eldoc buffers.
+** Eldoc
+*** Replace HTML characters with plain text ones in eldoc buffers.
 
 Code from https://emacs.stackexchange.com/questions/80740/how-to-correctly-format-nbsp-in-eldoc-using-eglot
 #+begin_src emacs-lisp
@@ -5471,13 +5472,1479 @@ Code from https://emacs.stackexchange.com/questions/80740/how-to-correctly-forma
 
 (advice-add 'eldoc-display-in-buffer :around #'rb--eldoc-preprocess)
 #+end_src
-** eldoc-box
+*** eldoc-box
 #+begin_src emacs-lisp
 (use-package eldoc-box
   :ensure t
   :bind (("C-h ." . eldoc-box-help-at-point))
   )
 #+end_src
+** Eglot                                                                        :Eglot:
+
+Eglot here relies on Emacs' built-in functionality as well. =xref-find-references= is bound
+to =M-?=. Additionally, Eglot provides the following similar commands:
+=eglot-find-declaration=, =eglot-find-implementation=, =eglot-find-typeDefinition=.
+
+| Command                            | Keybinding | Description                                                 |
+|------------------------------------+------------+-------------------------------------------------------------|
+| xref-find-references               | (M-?)      | Find references to the identifier at point                  |
+| xref-go-back                       | (M-,)      | Go back to the previous position in xref history            |
+| xref-go-forward                    | (C-M-,)    | Go to the point where a previous M-, was invoked            |
+| xref-find-apropos                  | (C-M-.)    | Find all meaningful symbols that match PATTERN              |
+| xref-find-definitions-other-frame  | (C-x 5 .)  | Like ‘xref-find-definitions’ but switch to the other frame  |
+| xref-find-definitions-other-window | (C-x 4 .)  | Like ‘xref-find-definitions’ but switch to the other window |
+
+*** General Configuration
+https://joaotavora.github.io/eglot/
+
+To add support to more server, see the =eglot-server-programs= variable.
+
+: (add-hook 'foo-mode-hook 'eglot-ensure)
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :hook (;; replace XXX-mode with concrete major-mode (e. g. python-mode)
+         (c-ts-base-mode . eglot-ensure)
+         (c-mode-common . eglot-ensure)
+         (python-mode . eglot-ensure)
+         (python-ts-mode . eglot-ensure)
+         (cmake-mode . eglot-ensure)
+         (cmake-ts-mode . eglot-ensure)
+         (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
+         (json-ts-mode . eglot-ensure)
+         (go-ts-mode . eglot-ensure)
+         )
+  :commands eglot-ensure
+  :custom
+  (eldoc-echo-area-use-multiline-p nil)
+  :custom-face
+  (eglot-highlight-symbol-face ((t (:underline (:style dots)))))
+  :bind
+  (:map eglot-mode-map
+        ("C-c C-l ==" . eglot-format-buffer)
+        ("C-c C-l =i" . eglot-code-action-organize-imports)
+        ("C-c C-l rr" . eglot-rename)
+        ("C-c C-l ti" . eglot-inlay-hints-mode)
+        ("C-c C-l i" . eglot-momentary-inlay-hints)
+        ("C-c C-l ." . eglot-code-action-quickfix)
+        ("C-c C-l aa" . eglot-code-actions)
+        ;; "C-c C-l s" prefix for server information commands
+        ("C-c C-l se" . eglot-stderr-buffer)
+        ("C-c C-l sE" . eglot-events-buffer)
+        ("C-c C-l sc" . eglot-list-connections)
+        ("C-c C-l sr" . eglot-reconnect)
+        ("C-c C-l d" . eldoc)
+        ))
+#+end_src
+
+- =eglot-mode-map=
+
+  This variable is the keymap for binding Eglot-related command. It is in effect only as
+  long as the buffer is managed by Eglot. By default, it is empty, with the single
+  exception: C-h . is remapped to invoke eldoc-doc-buffer. You can bind additional
+  commands in this map. For example:
+
+: (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
+: (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
+: (define-key eglot-mode-map (kbd "C-c h") 'eldoc)
+: (define-key eglot-mode-map (kbd "<f6>") 'xref-find-definitions)
+*** Consult-Eglot                                                    :Consult:Eglot:
+#+begin_src emacs-lisp
+(use-package consult-eglot
+  :ensure t
+  :bind (
+         :map c-mode-base-map (("M-I" . consult-eglot-symbols))
+         :map c-ts-base-mode-map (("M-I" . consult-eglot-symbols))
+         :map c++-ts-mode-map (("M-I" . consult-eglot-symbols))
+         :map python-mode-map (("M-I" . consult-eglot-symbols))
+         :map python-ts-mode-map (("M-I" . consult-eglot-symbols))
+         )
+  )
+#+end_src
+
+*** Project specific configuration
+See the =eglot-workspace-configuration= variable. [[https://gist.github.com/doolio/8c1768ebf33c483e6d26e5205896217f][Here]] is an example.
+** Debugging                                                                    :debug:
+*** Emphasize current line in gud
+#+begin_src emacs-lisp
+(use-package gud
+  :defer t
+  :custom
+  (gud-highlight-current-line t))
+#+end_src
+
+*** Disable gdb asking if I want to download debuginfo
+Set ~gdb-debuginfod-enable-setting~ to nil
+#+begin_src emacs-lisp
+(use-package gdb-mi
+  :defer t
+  :custom
+  (gdb-debuginfod-enable-setting nil)
+  )
+#+end_src
+
+*** Make gdb show the main function on startup
+#+begin_src emacs-lisp
+(use-package gdb-mi
+  :defer t
+  :custom
+  (gdb-show-main t)
+  )
+#+end_src
+
+*** COMMENT dap-mode -> Debugger Adapter Protocol                         :LSP:debug:
+For c++ see [[*Dap-debug (C++)][Dap-debug (C++)]]
+For Python see [[*Dap-debug (Python)][Dap-debug (Python)]]
+
+Commands you should know to use dap-mode (see more [[https://emacs-lsp.github.io/dap-mode/page/features/][here]])
+| *Command*                              | *Description*                               |
+|--------------------------------------+-------------------------------------------|
+| dap-debug-edit-template              | Edit the debug template (call this first) |
+|--------------------------------------+-------------------------------------------|
+| dap-debug                            |                                           |
+| dap-disconnect                       | kill a running debug session              |
+| dap-delete-session                   | kill and delete a running debug session   |
+|--------------------------------------+-------------------------------------------|
+| dap-next                             |                                           |
+| dap-continue                         |                                           |
+| dap-step-in                          |                                           |
+| dap-step-out                         |                                           |
+|--------------------------------------+-------------------------------------------|
+| dap-eval                             |                                           |
+| dap-eval-region                      |                                           |
+|--------------------------------------+-------------------------------------------|
+| dap-breakpoint-toggle (-add/-delete) |                                           |
+| dap-ui-breakpoints-list              |                                           |
+|--------------------------------------+-------------------------------------------|
+| dap-ui-show-many-windows             |                                           |
+| dap-ui-hide-many-windows             |                                           |
+|--------------------------------------+-------------------------------------------|
+
+**** TODO Check support for launch.json
+https://emacs-lsp.github.io/dap-mode/page/features/#launchjson-support
+
+**** Common configuration for dap-mode
+To use the debugger, run ~dap-debug-edit-template~, edit the template and evaluate it.
+
+#+begin_src emacs-lisp
+(use-package dap-mode
+  ;; :defer t
+  :ensure t
+  :commands (dap-debug dap-debug-edit-template)
+  :config
+  (dap-mode 1)
+
+  ;; Show the many windows when debug start and close them when debug stop
+  (dap-auto-configure-mode)
+
+  ;; The modes below are optional
+  (dap-ui-mode 1)
+  ;; enables mouse hover support
+  (dap-tooltip-mode 1)
+  ;; use tooltips for mouse hover
+  ;; if it is not enabled `dap-mode' will use the minibuffer.
+  (tooltip-mode 1)
+  ;; displays floating panel with debug buttons
+  ;; requies emacs 26+
+  (dap-ui-controls-mode 1)
+
+  ;; (dap-ui-breakpoints-mode 1)
+  ;; (dap-ui-repl-mode 1)
+
+  ;; :bind
+  ;; (:map dap-mode-map
+  ;;       (("<f12>" . dap-debug)
+  ;;        ("<f8>" . dap-continue)
+  ;;        ("<f9>" . dap-next)
+  ;;        ("<M-f11>" . dap-step-in)
+  ;;        ("C-M-<f11>" . dap-step-out)
+  ;;        ("<f7>" . dap-breakpoint-toggle)))
+  )
+#+end_src
+
+**** COMMENT Define a minor-mode that is activated when dap is running (useful to set keybindings)
+Taken from https://emacs-lsp.github.io/dap-mode/page/how-to/
+#+begin_src emacs-lisp
+(define-minor-mode +dap-running-session-mode
+  "A mode for adding keybindings to running sessions"
+  nil
+  nil
+  (make-sparse-keymap)
+  ;; (evil-normalize-keymaps) ;; if you use evil, this is necessary to update the keymaps
+
+  ;; The following code adds to the dap-terminated-hook
+  ;; so that this minor mode will be deactivated when the debugger finishes
+  (when +dap-running-session-mode
+    (let ((session-at-creation (dap--cur-active-session-or-die)))
+      (add-hook 'dap-terminated-hook
+                (lambda (session)
+                  (when (eq session session-at-creation)
+                    (+dap-running-session-mode -1)))))))
+
+;; Activate this minor mode when dap is initialized
+(add-hook 'dap-session-created-hook '+dap-running-session-mode)
+
+;; Activate this minor mode when hitting a breakpoint in another file
+(add-hook 'dap-stopped-hook '+dap-running-session-mode)
+
+;; Activate this minor mode when stepping into code in another file
+(add-hook 'dap-stack-frame-changed-hook (lambda (session)
+                                          (when (dap--session-running session)
+                                            (+dap-running-session-mode 1))))
+#+end_src
+
+Set a buffer to read-only when this minor mode is active
+#+begin_src emacs-lisp
+(add-hook '+dap-running-session-mode-hook 'read-only-mode)
+
+#+end_src
+
+*** Dape mode                                                                 :debug:
+Note: Here I'm onnly keepinng genenral configuration for dape.
+
+For C++ configuration see [[*Dape C++ - Debug protocol][Dape C++ - Debug protocol]]
+For Python configuration see
+
+#+begin_src elisp
+(use-package dape
+  ;; Currently only on github
+  :ensure (dape :type git :host github :repo "svaante/dape")
+  :commands (dape dape-breakpoint-toggle dape-breakpoint-log dape-watch-dwim)
+
+  ;; Add inline variable hints, this feature is highly experimental
+  ;; (setq dape-inline-variables t)
+
+  ;; To remove info buffer on startup
+  ;; (remove-hook 'dape-on-start-hooks 'dape-info)
+
+  ;; To remove repl buffer on startup
+  ;; (remove-hook 'dape-on-start-hooks 'dape-repl)
+
+  ;; By default dape uses gdb keybinding prefix
+  ;; (setq dape-key-prefix "\C-x\C-a")
+
+  ;; Kill compile buffer on build success
+  ;; (add-hook 'dape-compile-compile-hooks 'kill-buffer)
+
+  ;; Projectile users
+  ;; (setq dape-cwd-fn 'projectile-project-root)
+  ;; :custom
+  ;; (dape-buffer-window-arrangement 'gud)
+
+  :config
+  (transient-define-prefix dape-transient ()
+    "Transient for dape."
+    [["Stepping"
+      ("n" "Next" dape-next :transient t)
+      ("i" "Step in" dape-step-in :transient t)
+      ("o" "Step out" dape-step-out :transient t)
+      ("c" "Continue" dape-continue :transient t)
+      ("r" "restart" dape-restart :transient t)]
+     ["Breakpoints"
+      ("bb" "Next" dape-breakpoint-toggle :transient t)
+      ("bd" "Step in" dape-breakpoint-remove-at-point :transient t)
+      ("bD" "Continue" dape-breakpoint-remove-all :transient t)
+      ("bl" "restart" dape-breakpoint-log :transient t)]
+     ["Info"
+      ("si" "Info" dape-breakpoint-toggle :transient t)
+      ("sm" "Memory" dape-breakpoint-remove-at-point :transient t)
+      ("ss" "Select Stack" dape-breakpoint-remove-all :transient t)
+      ("R" "Repl" dape-breakpoint-log :transient t)]
+     ["Quit"
+      ("qq" "Quit" dape-quit :transient nil)
+      ("qk" "Kill" dape-kill :transient nil)]])
+  )
+#+end_src
+
+** Tree-sitter                                                  :CPP:Python:treesitter:
+https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
+
+NOTE: If you want to use tree-sitter major modes in place of the regular major modes, you
+can use the =major-mode-remap-alist= variable. Just set it to map regular major modes with
+their corresponding -ts- one. Ex:
+: (setq major-mode-remap-alist
+:  '((yaml-mode . yaml-ts-mode)
+:    (bash-mode . bash-ts-mode)
+:    (js2-mode . js-ts-mode)
+:    (typescript-mode . typescript-ts-mode)
+:    (json-mode . json-ts-mode)
+:    (css-mode . css-ts-mode)
+:    (python-mode . python-ts-mode)))
+*** Configuration
+#+begin_src emacs-lisp
+(use-package tree-sitter
+  :ensure t
+  :defer t
+  :config
+  (global-tree-sitter-mode)
+  :custom
+  (treesit-font-lock-level 4) ;; Default is 3
+  (treesit-language-source-alist
+   '(
+     (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
+     (c "https://github.com/tree-sitter/tree-sitter-c")
+     (bash "https://github.com/tree-sitter/tree-sitter-bash")
+     ;; (cmake "https://github.com/uyha/tree-sitter-cmake")
+     (css "https://github.com/tree-sitter/tree-sitter-css")
+     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
+     (html "https://github.com/tree-sitter/tree-sitter-html")
+     ;; (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
+     (json "https://github.com/tree-sitter/tree-sitter-json")
+     (make "https://github.com/alemuller/tree-sitter-make")
+     (python "https://github.com/tree-sitter/tree-sitter-python")
+     (toml "https://github.com/tree-sitter/tree-sitter-toml")
+     (yaml "https://github.com/ikatyang/tree-sitter-yaml")
+     (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
+     (doxygen
+       "https://github.com/tree-sitter-grammars/tree-sitter-doxygen"
+       "v1.1.0")
+     (qmljs "https://github.com/yuja/tree-sitter-qmljs")
+     ))
+  ;; Indentation
+  (c-ts-mode-indent-offset 4)
+  )
+
+;; (use-package tree-sitter-langs
+;;   :ensure t
+;;   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
+;;          (c-mode-common . tree-sitter-hl-mode)
+;;          (python-mode . tree-sitter-hl-mode)))
+#+end_src
+
+** C++                                                                :CPP:Programming:
+Note: Use =C-c C-k= to toggle between line comments and block comments.
+*** Use c++-ts-mode instead of regular c++-mode
+#+begin_src emacs-lisp
+(add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
+#+end_src
+
+*** Doxygen                                                                 :doxygen:
+**** Doxygen with tree-sitter
+Enable doxygen syntax highlighting using tree-sitter.
+
+YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
+: git clone https://github.com/tree-sitter-grammars/tree-sitter-doxygen
+: cd tree-sitter-doxygen
+: gcc ./src/parser.c  ./src/scanner.c -fPIC -I./ --shared -o libtree-sitter-doxygen.so
+: cp libtree-sitter-doxygen.so ~/.emacs.d/tree-sitter/
+
+*NOTE:* The =c-ts-mode-enable-doxygen= option was added only in Emacs 31.1.
+#+begin_src emacs-lisp
+(use-package c-ts-mode
+  :custom
+  (c-ts-mode-enable-doxygen t)
+  )
+#+end_src
+
+*** Always consider .h files as C++
+#+begin_src emacs-lisp
+(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
+(add-to-list 'auto-mode-alist '("\\.cppm\\'" . c++-mode)) ;; One of extensions used for module file
+(add-to-list 'auto-mode-alist '("\\.ccm\\'" . c++-mode))  ;; One of extensions used for module file
+(add-to-list 'auto-mode-alist '("\\.cxxm\\'" . c++-mode)) ;; One of extensions used for module file
+(add-to-list 'auto-mode-alist '("\\.c++m\\'" . c++-mode)) ;; One of extensions used for module file
+#+end_src
+
+*** General configuration
+#+begin_src emacs-lisp
+(use-package c-ts-mode
+  :defer t
+  :after cc-mode
+  :bind (:map c-mode-base-map
+              ([S-f9] . cmake-integration-generate-project-documentation)  ;; Generate the doxygen documentation
+              ([C-S-f9] .  cmake-integration-view-project-documentation)
+              ;; Alternate between header and source. You could also use lsp-clangd-find-other-file instead
+              ("M-o" . ff-find-other-file)
+              ("M-O" . lsp-clangd-find-other-file)
+
+              :map c-ts-base-mode-map
+              ([S-f9] . cmake-integration-generate-project-documentation)  ;; Generate the doxygen documentation
+              ([C-S-f9] .  cmake-integration-view-project-documentation)
+              ;; Alternate between header and source. You could also use lsp-clangd-find-other-file instead
+              ("M-o" . ff-find-other-file)
+              ("M-O" . lsp-clangd-find-other-file)
+              )
+
+  :config
+  ;; If the indentation is wrong at some place, put the cursor there and use "C-c
+  ;; C-o" to find-out the offset and the name of the syntactical element under the
+  ;; cursor. Example: put the cursor in the "{" in a function definition and use
+  ;; "C-c C-o". Emacs will tell that the syntactical element is "defun-open". Now,
+  ;; see the help for the c-offsets-alist variable and look for defun-open to see
+  ;; what it is. Using this you can known how to adapt a style to your needs.
+  ;;
+  ;; For my style, use "stroustrup" style as a base and change the value of
+  ;; "innamespace" to zero in the c-offsets-alist. This means that we don't get
+  ;; indentation inside a namespace.
+  (c-add-style "darcamo"
+               '("stroustrup"
+                 (c-offsets-alist . ((innamespace . [0])))))
+  (setq-default c-doc-comment-style
+                '((java-mode . javadoc)
+                  (pike-mode . autodoc)
+                  (c-mode    . doxygen)
+                  (c++-mode  . doxygen)))
+  (push '(c-mode . "darcamo") c-default-style)
+  (push '(c++-mode . "darcamo") c-default-style)
+  :hook
+  (c-mode-common . (lambda () (setq fill-column 120)))
+  (c-ts-base-mode . (lambda () (setq fill-column 120)))
+  )
+
+;; c-c++-lsp-enable-semantic-highlight nil
+#+end_src
+
+*** Modify c++-ts-mode to fix syntax highlight                           :treesitter:
+This is only necessary while =c-ts-mode= is not updated to include a few module related
+keywords: =import=, =export= and =module.
+
+*NOTE*: This was added in [2025-06-16 seg]. Try commenting-out this customization to see if
+the =c++-ts-mode= was updated to fontify module names and the new keywords properly.
+
+#+begin_src emacs-lisp
+(defvar darcamo/cpp-font-lock-module-rules
+  (treesit-font-lock-rules
+   :language 'cpp
+   :feature 'type
+   :override t
+   '((module_name (identifier)) @font-lock-constant-face))
+  "Custom C++ font-lock rules for C++ treesit mode matching the module name.")
+
+
+(use-package c-ts-mode
+  :defer t
+  :config
+  (add-to-list 'c-ts-mode--c++-operator-keywords "import")
+  (add-to-list 'c-ts-mode--c++-operator-keywords "export")
+  (add-to-list 'c-ts-mode--c++-operator-keywords "module")
+  :hook
+  (c++-ts-mode . (lambda () (setq-local treesit-font-lock-settings
+                                   (append treesit-font-lock-settings
+					                       darcamo/cpp-font-lock-module-rules)))))
+#+end_src
+
+*** Change eglot-server-program to configure clangd                    :Eglot:clangd:
+#+begin_src emacs-lisp
+(defun get-clangd-path ()
+  "Get the path of the clangd language server."
+  (let* ((distro-name (get-linux-distro-name))
+         (is-ubuntu? (string= "Ubuntu" distro-name)))
+    (if is-ubuntu?
+        "clangd-19"
+      "clangd")))
+
+
+;; https://www.reddit.com/r/emacs/comments/18eeu1f/configure_clangd_in_eglot_to_not_add_headers/
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs
+               `((c-ts-mode c++-ts-mode c-mode c++-mode)
+                 . (,(get-clangd-path)
+                    "-j=12"
+                    "--log=error"
+                    "--malloc-trim"
+                    "--background-index"
+                    "--clang-tidy"
+                    "--completion-style=detailed"
+                    "--pch-storage=memory"
+                    "--header-insertion=never"
+                    "--header-insertion-decorators=0")))
+  )
+#+end_src
+
+*** Ninja Mode
+Note: =ninja-mode= was previously included in the [[https://github.com/ninja-build/ninja/commits/master/][ninja repository]], but on [2024-11-11 Mon]
+it was moved to its [[https://github.com/ninja-build/ninja-emacs/issues][own repository]]. Because of that, just =use-package ninja-mode= with
+=:ensure t= was not working anymore and I had to specify the new repository and even the
+main file.
+#+begin_src emacs-lisp
+(use-package ninja-mode
+  :ensure (ninja-emacs :type git :host github :repo "ninja-build/ninja-emacs" :main "ninja-mode.el")
+  :defer t)
+#+end_src
+
+*** Help find file at point and ff-find-other-file find include files
+#+begin_src emacs-lisp
+(use-package ffap
+  :defer t
+  :config
+  (add-to-list 'ffap-c++-path "~/git_files/cppsim/src")
+  (add-to-list 'ffap-c++-path "~/git_files/cppsim/tests")
+  )
+
+(use-package find-file
+  :defer t
+  :config
+  (add-to-list 'cc-search-directories "~/git_files/cppsim/src")
+  (add-to-list 'cc-search-directories "~/git_files/cppsim/tests")
+  (add-to-list 'cc-search-directories "../api")
+  (add-to-list 'cc-search-directories "../include")
+  (add-to-list 'cc-search-directories "../src")
+  (add-to-list 'cc-search-directories "../inc")
+  )
+#+end_src
+
+*** Color in compilation buffer (fancy compilation mode)                :Compilation:
+#+begin_src emacs-lisp
+(use-package fancy-compilation
+  :ensure t
+  :custom
+  (fancy-compilation-quiet-prelude nil)
+  :config
+  (fancy-compilation-mode)
+  :custom-face
+  (fancy-compilation-default-face ((t (:background nil)))))
+#+end_src
+
+*** Qt and QML                                                               :QML:Qt:
+**** qml-ts-mode (Has imenu support, but syntax highlight is still pretty low) :treesitter:
+Alternative mode for qml, using tree-sitter.
+
+NOTE: You need to manually install the tree-sitter grammar for it. Add an entry to
+=treesit-language-source-alist= with
+: (qmljs "https://github.com/yuja/tree-sitter-qmljs")
+and then call =treesit-install-language-grammar= and specify =qmljs= as the language.
+
+#+begin_src emacs-lisp
+(use-package qml-ts-mode
+  :ensure (qml-ts-mode :type git :host github :protocol ssh
+                       :repo "darcamo/qml-ts-mode" :depth nil)
+  :bind (:map qml-ts-mode-map
+              ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
+              ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
+              ([f10] . cmake-integration-run-last-target)
+              ([M-f10] . cmake-integration-run-last-target-with-arguments)
+              ([C-f9] . cmake-integration-run-ctest)  ;; Compile only the current source file
+              ([M-f10] . qml-integration-choose-qml-style)
+              ([C-f10] . qml-integration-run-qmlscene)
+              ([S-f10] . qml-integration-run-qmltestrunner)
+              ([S-C-f10] . qml-integration-run-qmllint)
+              ([M-f8] . cmake-integration-select-configure-preset)
+              ([f8] . cmake-integration-cmake-reconfigure)
+              )
+  :hook
+  (qml-ts-mode . (lambda ()
+                   (require 'qml-integration)
+                   (require 'apheleia)
+                   (setq fill-column 120)
+                   (hs-minor-mode)
+
+                   ;; Add more characters that cause automatic reindentation
+                   (setq-local electric-indent-chars '(?\n ?\( ?\) ?{ ?} ?\[ ?\] ?\; ?,))
+                   )))
+
+  (use-package consult-imenu
+  :defer t
+  :config
+  (add-to-list 'consult-imenu-config '(qml-ts-mode
+                                       :toplevel "Component"
+                                       :types
+                                       ((?c "Component" 'font-lock-type-face)
+                                        (?f "Function" 'font-lock-function-name-face)
+                                        (?p "Property" 'font-lock-property-name-face)
+                                        (?s "Signal" 'font-lock-function-name-face)))))
+#+end_src
+
+**** Janus Colors
+#+begin_src emacs-lisp
+(when (locate-library "janus")
+  (load-library "janus")
+  )
+#+end_src
+
+**** qml-integration package
+#+begin_src emacs-lisp
+(use-package qml-integration
+  :commands (qml-integration-choose-qml-style
+             qml-integration-run-qmlscene
+             qml-integration-run-qmltestrunner
+             qml-integration-run-qmllint
+             qml-integration-add-qmllint-disable-comment
+             qml-integration-add-qmllint-enable-comment
+             )
+  :ensure (qml-integration :type git :host github :protocol ssh
+                           :repo "darcamo/qml-integration" :depth nil)
+  :mode
+  ;; Set mode of qml.qrc file to xml-mode
+  (".qrc" . xml-mode)
+  :custom
+  (qml-integration-qt-install-bin-folder (expand-file-name "bin/" qt-location))
+  (qml-integration-qmlscene-program "qml")
+  :bind (
+         :map qml-ts-mode-map
+         ([f5] . qml-integration-add-qmllint-disable-comment)
+         ([C-f5] . qml-integration-add-qmllint-enable-comment)
+         )
+  )
+
+(use-package bottom-buffer-manager
+  :defer t
+  :config
+  (add-to-list 'bottom-buffer-manager-match-strings "Viewing qml file")
+  (add-to-list 'bottom-buffer-manager-match-strings "Linting qml file")
+  (add-to-list 'bottom-buffer-manager-match-strings "Running test file"))
+#+end_src
+
+**** Detect filename in compilation-mode for qmltestrunner errors       :Compilation:
+#+begin_src emacs-lisp
+(use-package compile
+  :config
+  (add-to-list 'compilation-error-regexp-alist
+               ;; Error: mpi.F90, line 116: Implicit type for MPI_COMM_WORLD in MPI_MOD_INIT
+               ;;        detected at MPI_M@<end-of-statement>
+               ;; [f95 terminated - errors found by pass 1]
+               '("Loc: \\[\\(.*\\)(\\([0-9]*\\))" 1 2))
+  )
+#+end_src
+
+**** Formatting QML buffers with apheleia                              :QML:apheleia:
+#+begin_src elisp
+(use-package qml-ts-mode
+  :after apheleia
+  :config
+  (push `(qmlformat . (,(expand-file-name "bin/qmlformat" qt-location) "--inplace" file))
+        apheleia-formatters)
+
+  (add-to-list 'apheleia-mode-alist '(qml-ts-mode . qmlformat))
+  :bind (:map qml-ts-mode-map
+              ;; Save the buffer to file, format the file and reload the disk
+              ("C-c f" . (lambda () (interactive)
+                           (save-buffer)
+                           (apheleia-format-buffer 'qmlformat)
+                           ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
+                           (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
+                           (revert-buffer t t t)
+                           ))))
+#+end_src
+
+**** Squish
+#+begin_src emacs-lisp
+(use-package squish-feature
+  :commands (squish-feature-mode)
+  :mode ("\\.feature" . squish-feature-mode)
+  )
+
+(use-package squishrunner
+  :commands (squishrunner-mode)
+  :bind (:map squishrunner-mode-map
+              ([f9] . squish-run-last-test-case)
+              ([M-f9] . squish-ask-and-run-test-case)
+
+              ([f10] . squish-run-last-test-suite)
+              ([M-f10] . squish-ask-and-run-test-suite)
+
+              ([f8] . squish-start-server)
+              ([C-f8] . squish-stop-server)
+
+              ([f9] . my-python-compile)
+              ([S-f9] . kill-compilation)))
+#+end_src
+
+Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting processes with emacs]]
+- This could be used to start the squish server
+**** Add QML language server (qmlls) to eglot-server-programs                 :Eglot:
+#+begin_src emacs-lisp
+(use-package eglot
+  :config
+  ;; Note that the "-E" option passed to qmlls makes it Use the QML_IMPORT_PATH
+  ;; environment variable to look for QML Modules. In other words, it allows you
+  ;; to add custom QML module paths by setting the QML_IMPORT_PATH environment
+  ;; variable before starting Emacs
+  (add-to-list 'eglot-server-programs
+               `((qml-ts-mode)
+                 . (,(expand-file-name "bin/qmlls" qt-location) "-E")))
+  :hook
+  (qml-ts-mode . (lambda ()
+                   ;; imenu from qml-ts-mode is better than the one provided by
+                   ;; eglot (with qmlls). Hence, we disably this capability in
+                   ;; eglot to keep using the one from qml-ts-mode
+                   (set (make-local-variable 'eglot-ignored-server-capabilities) '(:documentSymbolProvider))
+                   (eglot-ensure))))
+#+end_src
+
+**** Qt Translations Mode
+Usually, something named "anything.ts" will use the typescript major mode, but Qt also
+uses the =.ts= extension for itsa (translation) language files.
+
+#+begin_src emacs-lisp
+(use-package qt-translations-mode
+  :ensure (qt-translations-mode :type git :host github :protocol ssh
+                                :repo "darcamo/qt-translations-mode" :depth nil)
+  :commands (qt-translations-mode)
+  :custom
+  (qt-translations-imenu-style 'unfinished)
+  :hook
+  (qt-translations-mode . darcamo/folding-keybindings-mode)
+  :mode
+  ("translations/.*\\.ts" . qt-translations-mode))
+#+end_src
+
+*** Conan package manager
+#+begin_src emacs-lisp
+;; Here we define a minor mode for conanfile just to have a mode-map for it
+(define-derived-mode conanfile-mode
+  conf-space-mode "conanfile-Mode" "A derived mode from conf-space-mode for conanfile.txt buffers."
+  )
+
+(use-package conanfile-mode
+  :mode
+  ("conanfile\\.txt" . conanfile-mode)
+  )
+#+end_src
+
+*** TODO Other packages to investigate                                  :Investigate:
+- [[https://github.com/plandes/flex-compile][flex-compile]]
+- [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
+** CMake                                                                        :CMake:
+*** CMake-ts-mode
+#+begin_src emacs-lisp
+(use-package emacs
+  :mode
+  ("CMakeLists.txt" . cmake-ts-mode)
+  ("\\.cmake" . cmake-ts-mode)
+  :hook
+  (cmake-ts-mode . (lambda () (setq fill-column 80)))
+  )
+#+end_src
+
+*** cmake-integration package                                                 :Dired:
+#+begin_src emacs-lisp
+(use-package cmake-integration
+  :ensure (cmake-integration :type git :host github :protocol ssh
+                             :repo "darcamo/cmake-integration" :depth nil)
+  :defer t
+  :custom
+  ;; (cmake-integration-include-subproject-targets-during-completion nil)
+  ;; (cmake-integration-hide-utility-targets-during-completion t)
+  (cmake-integration-generator "Ninja")
+  (cmake-integration-use-separated-compilation-buffer-for-each-target t)
+  (cmake-integration-build-dir "build/no-preset")
+
+  :config
+  (cmake-integration-automatic-persistence-mode))
+#+end_src
+
+*** Add keybindings for cmake-integration
+#+begin_src emacs-lisp
+(use-package cmake-integration-project-mode
+  :ensure (cmake-integration-project-mode :type git :host github :protocol ssh
+                                          :repo "darcamo/cmake-integration" :depth nil)
+  :defer nil
+  :config
+  (global-cmake-integration-project-mode)
+  ;; Don't enable cmake-integration-project in QML buffers
+  (add-to-list 'cmake-integration-project-ignored-major-modes 'qml-ts-mode)
+  :bind (:map cmake-integration-project-mode-map
+              ([f5] . cmake-integration-transient)                         ;; Open main transient menu
+              ([M-f9] . cmake-integration-select-current-target)           ;; Ask for the target name and compile it
+              ([f9] . cmake-integration-save-and-compile-last-target)      ;; Recompile the last target
+              ([C-f9] . cmake-integration-run-ctest)                       ;; Run CTest
+              ([f10] . cmake-integration-run-last-target)                  ;; Run the target (using any previously set command line parameters)
+              ([S-f10] . kill-compilation)
+              ([C-f10] . cmake-integration-debug-last-target)              ;; Debug the target (using any previously set command line parameters)
+              ([M-f10] . cmake-integration-run-last-target-with-arguments) ;; Ask for command line parameters to run the target
+              ([M-f8] . cmake-integration-select-configure-preset)         ;; Ask for a preset name and call CMake to configure the project
+              ([f8] . cmake-integration-cmake-reconfigure)                 ;; Call CMake to configure the project using the last chosen preset
+              ))
+#+end_src
+*** Make <f5> quit all transient menus
+#+begin_src emacs-lisp
+(use-package transient
+  :defer t
+  :config
+  ;; Make [f5] close all transient menus
+  (define-key transient-map (kbd "<f5>") 'transient-quit-all))
+#+end_src
+
+*** Make the "Running" buffer appear at the bottom                      :Compilation:
+#+begin_src emacs-lisp
+;; The inclusion of "*Running - " in `bottom-buffer-manager-match-strings`
+;; ensures that buffers with names starting with "*Running - " are displayed in
+;; the same bottom window as compilation buffers (e.g., "*compilation*"), and
+;; conversely.
+(use-package bottom-buffer-manager
+  :defer t
+  :config
+  (add-to-list 'bottom-buffer-manager-match-strings "*Running - "))
+
+;; This will always puts the buffer at the bottom
+(add-to-list 'display-buffer-alist
+             '("\\*Running - .*"
+               bottom-buffer-manager-display-action-function
+               ;; Following are the display-buffer parameters
+               (window-height . 0.28)
+               ))
+#+end_src
+*** CMake Presets mode
+#+begin_src emacs-lisp
+(use-package cmakepresets-mode
+  :ensure (cmakepresets-mode :type git :host github :protocol ssh
+                             :repo "darcamo/cmakepresets-mode" :depth nil)
+  :mode
+  ("ConanPresets\\.json" . cmakepresets-mode)
+  :config
+  (add-to-list 'eglot-server-programs
+               '((cmakepresets-mode)
+                 . ("vscode-json-languageserver" "--stdio")))
+  )
+
+;; Customize consult-imenu-config to display our presets nicely in consult-imenu
+(use-package consult-imenu
+  :defer t
+  :config
+  (add-to-list 'consult-imenu-config '(cmakepresets-mode
+                                       :toplevel "Configure"
+                                       :types
+                                       ((?c "Configure")
+                                        (?b "Build")
+                                        (?t "Test")
+                                        (?p "Package")
+                                        (?w "Workflow")))))
+#+end_src
+
+*** Diagnostic function for Flymake using cmakelint
+
+Linting is already done with eglot, but the linter in the language server might not be
+what I want to use. Here we define a diagnostic function for cmake using =cmakelint=.
+
+*Note*: We do not add this diagnostic function to flymake yet. We will tell eglot to remove
+its own and add this one intead later when we configure eglot for CMake.
+
+#+begin_src emacs-lisp
+(defvar-local flymake-cmakelint--proc nil)
+
+
+(defun flymake-cmakelint (report-fn &rest _args)
+  "Flymake backend that runs `cmakelint' on the current buffer."
+  (unless (executable-find "cmakelint")
+    (error "flymake-cmakelint: `cmakelint' not found"))
+  (unless (buffer-file-name)
+    (error "flymake-cmakelint: buffer must visit a file"))
+  (when (process-live-p flymake-cmakelint--proc)
+    (kill-process flymake-cmakelint--proc))
+  (let* ((source (current-buffer))
+         (file (buffer-file-name))
+         (buf (generate-new-buffer " *flymake-cmakelint*")))
+    (setq flymake-cmakelint--proc
+          (make-process
+           :name "flymake-cmakelint"
+           :buffer buf
+           :command (list "cmakelint" file)
+           :noquery t
+           :connection-type 'pipe
+           :sentinel
+           (lambda (proc _event)
+             (when (memq (process-status proc) '(exit signal))
+               (unwind-protect
+                   (let (diags)
+                     (when (buffer-live-p source)
+                       (with-current-buffer buf
+                         (goto-char (point-min))
+                         (while (re-search-forward
+                                 "^\\([^:\n]+\\):\\([0-9]+\\): *\\(.*\\)$"
+                                 nil t)
+                           (when-let* ((line
+                                        (string-to-number (match-string 2)))
+                                       (msg (match-string 3))
+                                       (region
+                                        (flymake-diag-region source line)))
+                             (push (flymake-make-diagnostic
+                                    source
+                                    (car region)
+                                    (cdr region)
+                                    :warning msg)
+                                   diags)))))
+                     (funcall report-fn diags))
+                 (kill-buffer buf))))))))
+
+
+(defun flymake-cmakelint-setup ()
+  "Enable yamllint flymake backend."
+  (add-hook 'flymake-diagnostic-functions #'flymake-cmakelint nil t))
+#+end_src
+
+*** CMake language server                                                     :Eglot:
+**** COMMENT Use cmake-language-server
+#+begin_src emacs-lisp
+(add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("cmake-language-server")))
+#+end_src
+
+Note: You can add the content below as a dir-local-variable to configure the language
+server in a project pointing the correct build folder to the cmake-language-server
+#+begin_quote
+((nil . ((eglot-workspace-configuration . (:cmake-language-server
+                                           (:buildDirectory "build/debug/")
+                                           )))))
+#+end_quote
+
+**** Use neocmakelsp
+See the [[https://github.com/neocmakelsp/neocmakelsp][neocmakelsp]] for more.
+
+Install it with
+: cargo install neocmakelsp
+
+Below we add =neocmakelsp= to the list of eglot server programs. We also disable eglots own
+flymake diagnostic function and add the one we have created previously instead.
+#+begin_src emacs-lisp
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("neocmakelsp" "stdio")))
+  :hook
+  (eglot-managed-mode
+   .
+   (lambda ()
+     (when (eq major-mode 'cmake-ts-mode)
+       (remove-hook 'flymake-diagnostic-functions #'eglot-flymake-backend t)
+       (flymake-cmakelint-setup)
+       ))))
+#+end_src
+
+*** Format CMake buffers                                                   :apheleia:
+#+begin_src emacs-lisp
+(defun darcamo/format-cmake-buffer ()
+  "Format a cmake buffer using cmake-format with apheleia.
+
+This saves the buffer, formats it, and then reloads the disk version."
+  (interactive)
+
+  (save-buffer)
+  (apheleia-format-buffer 'cmakeformat)
+  ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
+  (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
+  (revert-buffer t t t)
+  )
+
+
+(use-package emacs
+  :after apheleia
+  :config
+  (push '(cmakeformat . ("cmake-format" "--in-place" file))
+        apheleia-formatters)
+  (add-to-list 'apheleia-mode-alist '(cmake-ts-mode . cmakeformat)))
+
+
+(use-package cmake-ts-mode
+  :bind (:map cmake-ts-mode-map
+              ;; Save the buffer to file, format the file and reload the disk
+              ("C-c f" . darcamo/format-cmake-buffer)))
+#+end_src
+*** My custom fontify rules to add colors to compilation buffer         :Compilation:
+#+begin_src emacs-lisp
+(use-package emacs
+  :config
+  (let* (
+         (cmake-progress-regexp "\\[\\([0-9]+/[0-9]+\\)\\]")
+         (path-regexp "\\(\\(/\\|~/\\|../\\)[^[:space:]]+\\)")
+         ;; Only matches if it's either in the beginning of the line or if
+         ;; there is a space before the path. This avoids some false positivies.
+         ;; (path-beginning-of-line (concat "\\(?:^\\| \\)" path-regexp))
+         (path-inside-quotes (format "'%s'" path-regexp))
+         (path-inside-double-quotes (format "\"%s\"" path-regexp))
+         (keywords `(
+                     (,path-inside-quotes (1 'font-lock-string-face t))
+                     (,path-inside-double-quotes (1 'font-lock-string-face t))
+                     ;; (,path-beginning-of-line (1 'font-lock-string-face t))
+                     ;; Note that more specific regexps are added later
+                     (,cmake-progress-regexp (1 'font-lock-warning-face t))
+                     ))
+         )
+
+    (font-lock-add-keywords 'compilation-mode keywords)
+    ))
+#+end_src
+;; (use-package emacs
+;;   :custom
+;;   (compilation-environment '("TERM=xterm-256color")))
+
+*** Outline minor mode in compilation buffers (for cmake)
+Set =outline-regexp= in a local variable to ="\\[\\([0-9]+/[0-9]+\\)\\]"=.
+
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :hook
+  (compilation-mode . (lambda ()
+                        (let* (;; Messages during configure start with "--"
+                               (cmake-configure-regexp "\\(--\\)")
+                               ;; Messages during build start with "[<number>/<number>]" (ninja generator)
+                               (cmake-build-regexp "\\[\\([0-9]+/[0-9]+\\)\\]")
+                               (regexp-list (list cmake-configure-regexp cmake-build-regexp))
+                               (full-outline-regexp (string-join regexp-list "\\|"))
+                               )
+                          (setq outline-regexp full-outline-regexp)
+                          (outline-minor-mode)))))
+#+end_src
+
+** Python                                                          :Programming:Python:
+Olhar esse link: https://gist.github.com/Nathan-Furnal/07413de07b9ac08340a5d33b541e9a6b
+
+Ver pacote poetry: https://github.com/galaunay/poetry.el
+Ver pacote numpydoc: https://github.com/douglasdavis/numpydoc.el
+Ver pacote yapfify (caso não consiga formatar com o LSP)
+Ver pacote python-coverage
+
+Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7/comment/hr2q2xc/?utm_source=share&utm_medium=web2x&context=3
+
+NOTE: Run the =run-python= command to run a python interpreter (with
+completion).
+*** Use python-ts-mode instead of regular python-mode
+#+begin_src emacs-lisp
+(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
+#+end_src
+*** Make eglot not provide imenu entries
+The language server I'm using for Python adds too much to imenu (it adds all variables). I
+prefer the imenu entries computed from tree-sitter.
+#+begin_src emacs-lisp
+(use-package python
+  :hook
+  (python-ts-mode . (lambda () (set
+                           (make-local-variable 'eglot-ignored-server-capabilities)
+                           '(:documentSymbolProvider)))))
+#+end_src
+
+*** Helper functions
+#+begin_src emacs-lisp
+
+;; Pegue em http://wwwx.cs.unc.edu/~gb/wp/blog/2008/03/15/running-python-from-within-emacs/
+;; Com essa função você pode rodar um script python usando o compile buffer
+;; (make-local-variable 'py-master-file)
+(defun my-python-compile ()
+  "Use compile to run python programs. If the py-master-file variable is set, run that file. If not, run the file associated with the current buffer."
+  (interactive)
+  (save-buffer)
+  (setq python-command-with-options "python -W ignore ")
+  (if ; If the variable py-master-file exists we are using python-mode.el
+      (boundp 'py-master-file)
+      (if ; In that case, we will run the file pointed by py-master-file or
+                                        ; the file associated with the current buffer
+          (eq py-master-file nil)
+          (compile (concat python-command-with-options (buffer-file-name)) nil)
+        (compile (concat python-command-with-options py-master-file) nil)
+        )
+    ;; If py-master-file does not exist we are using the default python.el
+    ;; from emacs and we will run the file associated with the current
+    ;; buffer
+    (compile (concat python-command-with-options (buffer-file-name)) nil)
+    ))
+
+
+;; Debug helpers
+
+(defun python--add-debug-highlight ()
+  "Adds a highlighter for use by `python--pdb-breakpoint-string'"
+  (highlight-lines-matching-regexp "# -- DEBUG -- #\\s-*$" 'hi-red-b)
+  )
+
+(defvar python--pdb-breakpoint-string "breakpoint()  # -- DEBUG -- #"
+  "Python breakpoint string used by `python-insert-breakpoint'")
+
+(defun python-insert-breakpoint ()
+  "Inserts a python breakpoint using `pdb'"
+  (interactive)
+  (back-to-indentation)
+  ;; this preserves the correct indentation in case the line above
+  ;; point is a nested block
+  (split-line)
+  (insert python--pdb-breakpoint-string))
+
+;; (defadvice compile (before ad-compile-smart activate)
+;;   "Advises `compile' so it sets the argument COMINT to t
+;; if breakpoints are present in `python-mode' files"
+;;   (when (derived-mode-p major-mode 'python-mode)
+;;     (save-excursion
+;;       (save-match-data
+;;         (goto-char (point-min))
+;;         (if (re-search-forward (concat "^\\s-*" python--pdb-breakpoint-string "$")
+;;                                (point-max) t)
+;;             ;; set COMINT argument to `t'.
+;;             (ad-set-arg 1 t))))))
+
+;; ;; Add breakpoints in pudb
+;; (setq pudb-bp-file (expand-file-name "~/.config/pudb/saved-breakpoints-2.7"))
+;; (defun pudb-add-breakpoint ()
+;;   (interactive)
+;;   (append-to-file
+;;    (concat "b " buffer-file-name ":"
+;;            (nth 1 (split-string (what-line))) "\n")
+;;    nil pudb-bp-file))
+#+end_src
+
+*** pytest
+#+begin_src emacs-lisp
+(use-package python-pytest
+  :ensure t
+  :bind (:map python-ts-mode-map
+              ([f10] . python-pytest-file-dwim)
+              ([C-f10] . python-pytest-run-def-at-point-treesit)
+              ([S-f10] . python-pytest)
+              ([C-S-f10] . python-pytest-dispatch)
+              )
+  :config
+  (add-to-list 'display-buffer-alist
+               '("\\*pytest\\*.*"
+                 bottom-buffer-manager-display-action-function))
+  )
+#+end_src
+*** Configuration and keybindings
+#+begin_src emacs-lisp
+(use-package python
+  :defer t
+  :bind (:map python-mode-map
+              ;; Add breakpoint with pudb
+              ([C-f8] . python-insert-breakpoint)
+              ;; ([C-S-f8] . pudb-add-breakpoint)
+
+              ;; Run a python file
+              ([f9] . my-python-compile)
+              ([S-f9] . kill-compilation)
+              )
+  :bind (:map python-ts-mode-map
+              ;; Add breakpoint with pudb
+              ([C-f8] . python-insert-breakpoint)
+              ;; ([C-S-f8] . pudb-add-breakpoint)
+
+              ;; Run a python file
+              ([f9] . my-python-compile)
+              ([S-f9] . kill-compilation)
+              )
+  :custom
+  (python-shell-interpreter "ipython")
+  (python-shell-interpreter-args "--simple-prompt")
+  (python-check-command "ruff check")  ;; Use `C-c C-v` to check the code
+  :hook
+  (python-base-mode . (lambda () (setq fill-column 120)))
+
+
+  ;; :hook
+  ;; ;; (python-base-mode . python--add-debug-highlight)
+  ;; (python-mode . (lambda ()
+  ;;                  (python--add-debug-highlight)
+  ;;                  (require 'dap-python)))
+  )
+#+end_src
+
+*** Anaconda support                                                  :Anaconda:venv:
+#+begin_src emacs-lisp
+(use-package conda
+  :ensure t
+  :defer t
+  :commands (conda-env-list conda-env-activate conda-env-deactivate)
+  :config
+  (setq conda-anaconda-home (expand-file-name "~/miniconda3"))
+  (setq conda-env-home-directory (expand-file-name "~/miniconda3"))
+  ;; if you want interactive shell support, include:
+  (conda-env-initialize-interactive-shells)
+  ;; if you want eshell support, include:
+  (conda-env-initialize-eshell)
+  ;; if you want auto-activation (see below for details), include:
+  (conda-env-autoactivate-mode t)
+  )
+#+end_src
+
+*** pyvenv: Virtual Environment                                                :venv:
+#+begin_src emacs-lisp
+;; Call pyvenv-activate and specify the folder with the virtual environment
+(use-package pyvenv
+  :ensure t
+  :commands (pyvenv-activate pyvenv-workon pyvenv-mode pyvenv-tracking-mode)
+  :custom
+  (pyvenv-workon "~/miniconda3/envs/")
+  ;; :init
+  ;; (pyvenv-mode 1)
+  ;; (pyvenv-tracking-mode 1)
+  ;; (setenv "WORKON_HOME" "~/miniconda3/envs/")
+  )
+
+(use-package pyvenv-auto
+  :ensure t
+  :hook ((python-base-mode . pyvenv-auto-run)))
+#+end_src
+
+*** uv-mode                                                                    :venv:
+https://github.com/z80dev/uv-mode
+
+If you decide to try it, you should probably comment out pyvenv package.
+
+*** Set language server in eglot                                                :LSP:
+**** Eglot                                                                    :Eglot:
+Add both =pyright-langserver= and =basedpyright-langserver=. The order is important. It
+basedpyright is available it will be used, if not, then eglot will try using pyright.
+#+begin_src emacs-lisp
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) "basedpyright-langserver" "--stdio"))
+  )
+#+end_src
+
+
+https://robbmann.io/posts/emacs-eglot-pyrightconfig/
+#+begin_quote
+pyright is typically a system or user installation, not something you install per virtual
+environment. Getting pyright to see the virtual environment of my choosing , and correctly
+report which dependencies are installed was a bit of a hassle, but I think my favorite
+solution so far has been to configure the virtual environment through the
+pyrightconfig.json file at the root of my project, and just have this file ignored by git.
+#+end_quote
+*** Ruff                                                                       :Ruff:
+Ruff provides:
+- linting
+- formatting
+- isort
+**** Format buffer with ruff
+#+begin_src emacs-lisp
+(use-package ruff-format
+  :ensure t
+  :commands (ruff-format-buffer ruff-format-region ruff-format-on-save-mode)
+  :bind ( :map python-ts-mode-map
+          ("C-c f" . ruff-format-buffer)
+          ))
+#+end_src
+
+**** Flymake support for Python with ruff
+
+#+begin_src emacs-lisp
+(use-package flymake-ruff
+  :ensure t
+  :hook (python-ts-mode . flymake-ruff-load)
+  :hook (python-mode . flymake-ruff-load)
+  :hook (eglot-managed-mode . flymake-ruff-load)
+  )
+#+end_src
+
+https://github.com/erickgnavar/flymake-ruff
+#+begin_quote
+Pyright has some diagnostic notes that overlap with diagnostics provided by ruff. These
+diagnostic notes can't be disabled via Pyright's config, but you can exclude them by
+adding a filter to eglot--report-to-flymake. For example, to remove Pyright's "variable
+not accessed" notes, add the following:
+#+end_quote
+
+The code below is from https://github.com/erickgnavar/flymake-ruff
+It's broken in more recent Emacs versions because eglot--report-to-flymake signature changed.
+#+begin_src emacs-lisp
+;; (defun my-filter-eglot-diagnostics (diags version)
+;;     "Drop Pyright 'variable not accessed' notes from DIAGS."
+;;     (list (seq-remove (lambda (d)
+;;                         (and (eq (flymake-diagnostic-type d) 'eglot-note)
+;;                              (s-starts-with? "Pyright:" (flymake-diagnostic-text d))
+;;                              (s-ends-with? "is not accessed" (flymake-diagnostic-text d))))
+;;                       (car diags))))
+
+;; (advice-add 'eglot--report-to-flymake :filter-args #'my-filter-eglot-diagnostics)
+#+end_src
+
+**** COMMENT LSP                                                                :LSP:
+
+#+begin_src emacs-lisp
+(use-package eglot
+  :config
+  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("ruff-lsp")))
+  )
+#+end_src
+
+*** COMMENT Format buffer with yapf
+#+begin_src emacs-lisp
+(use-package yapfify
+  :ensure t
+  :bind ( :map python-mode-map
+          ("C-c f" . yapfify-buffer)
+          :map python-ts-mode-map
+          ("C-c f" . yapfify-buffer)
+          ))
+#+end_src
+
+*** COMMENT Dap-debug (Python)                                                :debug:
++You need to install ~ptvsd>=4.2~ in your virtual environment+
+
+You need to install ~debugpy~ in your virtual environment
+
+#+begin_src emacs-lisp
+(use-package dap-python
+  :defer t ;; We will explicitly load dap-python in python-mode-hook
+  :custom
+  (dap-python-debugger 'debugpy)
+  )
+#+end_src
+
+*** Dape Python - Debug Protocol                                              :debug:
+Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] in your python environment. Then running =dape= should be enough.
+
+*** code-cells-mode
+When code-cell-mode is active, several keybindings are added to the =C-c %= prefix. I have
+added keybindings to some of the commands to easier keys.
+
+NOTE: code-cells-mode will also define the cells as the outline. With this,
+=consult-outline= becomes a nice way to quickly navigate between cells.
+
+#+begin_src emacs-lisp
+(use-package code-cells
+  :ensure t
+  :commands (code-cells-mode)
+  :bind ( :map code-cells-mode-map
+          ("C-M-p" . code-cells-backward-cell)
+          ("C-M-n" . code-cells-forward-cell)
+          ("M-S-<up>" . code-cells-move-cell-up)
+          ("M-S-<down>" . code-cells-move-cell-down)
+          )
+  :hook ((python-base-mode . code-cells-mode))
+  )
+#+end_src
+
+Standard keybindings
+|---------+---------------------------------|
+| =C-c % e= | code-cells-eval                 |
+| =C-c % b= | code-cells-backward-cell        |
+| =C-c % f= | code-cells-forward-cell         |
+| =C-c % B= | code-cells-move-cell-up         |
+| =C-c % F= | code-cells-move-cell-down       |
+| =C-c % ;= | code-cells-comment-or-uncomment |
+| =C-c % @= | code-cells-mark-cell            |
+|---------+---------------------------------|
+** Lisp
+*** General keybindings to run elisp code
+#+begin_src emacs-lisp
+(use-package emacs
+  :ensure nil
+  :bind (:map emacs-lisp-mode-map
+              ;; Run all defined tests
+              ([f9] . (lambda () (interactive) (ert t)))
+              ;; Eval buffer and run all defined tests
+              ([C-f9] . (lambda () (interactive) (eval-buffer) (ert t)))
+              ;; delete all tests before evaluating the buffer and running all tests
+              ([C-S-f9] . (lambda () (interactive) (ert-delete-all-tests) (eval-buffer) (ert t)))
+              ;; Ask for which test to run
+              ([M-f9] . ert)
+              )
+  :custom
+  (flycheck-emacs-lisp-load-path 'inherit)
+  :hook
+  (emacs-lisp-mode  . (lambda () (setq fill-column 80))))
+#+end_src
+*** Formatter for elisp code: elisp-autofmt
+https://codeberg.org/ideasman42/emacs-elisp-autofmt
+
+NOTE: You need to create an empty =.elisp-autofmt= file in order for =elisp-autofmt-mode= to
+reformat the buffer on save.
+#+begin_src emacs-lisp
+(use-package elisp-autofmt
+  :ensure t
+  :commands (elisp-autofmt-mode elisp-autofmt-buffer)
+  :hook (emacs-lisp-mode . elisp-autofmt-mode)
+  :bind ( :map emacs-lisp-mode-map
+          ("C-c f" . 'elisp-autofmt-buffer)))
+#+end_src
+
+*** COMMENT ert buffer always at bottom
+#+begin_src emacs-lisp
+(add-to-list 'display-buffer-alist
+               '("\\*ert\\*"
+                 bottom-buffer-manager-display-action-function
+                 ;; The following lines are the "action alist" passed to
+                 ;; display-buffer. For now, I only want to remove the
+                 ;; mode-line.
+                 (window-height . 0.28)
+                 ))
+#+end_src
+
+*** ert buffer in side-window
+#+begin_src emacs-lisp
+(add-to-list 'display-buffer-alist
+               '("\\*ert\\*"
+                 display-buffer-in-side-window
+                 ;; The following lines are the "action alist" passed to
+                 ;; display-buffer. For now, I only want to remove the
+                 ;; mode-line.
+                 (side . right)
+                 (slot . 1)
+                 (window-width . 0.22)
+                 (window-height . fit-window-to-buffer)))
+#+end_src
+
+** Go                                                                  :Go:Programming:
+Note: Go uses tabs as a convention for indentation. That is why even if you set
+=indent-tabs-mode= to nil, it will still be set to =t= in =go-ts-mode= (the mode sets
+indent-tabs-mode as a local variable).
+
+*** General configuration for go
+#+begin_src emacs-lisp
+(defun my-go-run-current-file ()
+  "Run the current Go file."
+  (interactive)
+  (if-let* ((compilation-always-kill t)
+            (file (buffer-file-name)))
+      (compile (format "go run %s" file))
+    ))
+
+(use-package go-ts-mode
+  :ensure nil
+  :custom
+  (go-ts-mode-indent-offset 4)
+
+  :bind ( :map go-ts-mode-map
+          ("C-c C-c" . my-go-run-current-file)
+          ([f8] . my-go-run-current-file)
+          ([f9] . compile)
+          ([f10] . recompile)
+          ([S-f10] . kill-compilation)
+          ))
+#+end_src
+
+*** Make Emacs recognize a folder with go.mod as project root
+Code from https://go.dev/gopls/editor/emacs
+
+#+begin_src emacs-lisp
+(defun project-find-go-module (dir)
+  (when-let ((root (locate-dominating-file dir "go.mod")))
+    (cons 'go-module root)))
+
+
+(cl-defmethod project-root ((project (head go-module)))
+  (cdr project))
+
+
+(add-hook 'project-find-functions #'project-find-go-module)
+#+end_src
+
+** Javascript and Typescript
+Note: See configuration in https://github.com/llemaitre19/jtsx and set keybindings.
+
+#+begin_src emacs-lisp
+;; (use-package emacs
+;;   :mode
+;;   ("\\.ts$" . typescript-ts-mode)
+;;   )
+
+(use-package jtsx
+:ensure t
+:mode
+;; ("\\.tsx" . tsx-ts-mode)
+("\\.jsx$" . jtsx-jsx-mode)
+("\\.tsx$" . jtsx-tsx-mode)
+;; ("\\.ts$" . jtsx-typescript-mode)
+)
+#+end_src
+
+** Protobuf
+#+begin_src emacs-lisp
+(use-package protobuf-mode
+  :ensure t
+  :defer t
+  )
+#+end_src
+
+** Formatting buffers                                                        :apheleia:
+If the language server in a programming language supports formatting, use that instead. If
+it does not, then apheleia can be used instead.
+#+begin_src emacs-lisp
+(use-package apheleia
+  :ensure t
+  :commands (apheleia-format-buffer)
+  )
+#+end_src
+
+In each language configuration what needs to use apheleia for formatting, you might add an
+entry to =apheleia-formatters= and =apheleia-mode-alist=.
 * YAML                                                                         :YAML:
 ** yaml-ts-mode
 #+begin_src emacs-lisp
@@ -5788,350 +7255,6 @@ The code below will make emacs recognize a folder with a =.project= file as a pr
 (add-to-list 'project-vc-ignores "./.venv/")
 #+end_src
 
-* Tree-sitter                                                 :CPP:Python:treesitter:
-https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
-
-NOTE: If you want to use tree-sitter major modes in place of the regular major modes, you
-can use the =major-mode-remap-alist= variable. Just set it to map regular major modes with
-their corresponding -ts- one. Ex:
-: (setq major-mode-remap-alist
-:  '((yaml-mode . yaml-ts-mode)
-:    (bash-mode . bash-ts-mode)
-:    (js2-mode . js-ts-mode)
-:    (typescript-mode . typescript-ts-mode)
-:    (json-mode . json-ts-mode)
-:    (css-mode . css-ts-mode)
-:    (python-mode . python-ts-mode)))
-** Configuration
-#+begin_src emacs-lisp
-(use-package tree-sitter
-  :ensure t
-  :defer t
-  :config
-  (global-tree-sitter-mode)
-  :custom
-  (treesit-font-lock-level 4) ;; Default is 3
-  (treesit-language-source-alist
-   '(
-     (cpp "https://github.com/tree-sitter/tree-sitter-cpp")
-     (c "https://github.com/tree-sitter/tree-sitter-c")
-     (bash "https://github.com/tree-sitter/tree-sitter-bash")
-     ;; (cmake "https://github.com/uyha/tree-sitter-cmake")
-     (css "https://github.com/tree-sitter/tree-sitter-css")
-     (elisp "https://github.com/Wilfred/tree-sitter-elisp")
-     (html "https://github.com/tree-sitter/tree-sitter-html")
-     ;; (javascript "https://github.com/tree-sitter/tree-sitter-javascript")
-     (json "https://github.com/tree-sitter/tree-sitter-json")
-     (make "https://github.com/alemuller/tree-sitter-make")
-     (python "https://github.com/tree-sitter/tree-sitter-python")
-     (toml "https://github.com/tree-sitter/tree-sitter-toml")
-     (yaml "https://github.com/ikatyang/tree-sitter-yaml")
-     (dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile")
-     (doxygen
-       "https://github.com/tree-sitter-grammars/tree-sitter-doxygen"
-       "v1.1.0")
-     (qmljs "https://github.com/yuja/tree-sitter-qmljs")
-     ))
-  ;; Indentation
-  (c-ts-mode-indent-offset 4)
-  )
-
-;; (use-package tree-sitter-langs
-;;   :ensure t
-;;   :hook (;; replace XXX-mode with concrete major-mode(e. g. python-mode)
-;;          (c-mode-common . tree-sitter-hl-mode)
-;;          (python-mode . tree-sitter-hl-mode)))
-#+end_src
-
-* Eglot                                                                       :Eglot:
-
-Eglot here relies on Emacs' built-in functionality as well. =xref-find-references= is bound
-to =M-?=. Additionally, Eglot provides the following similar commands:
-=eglot-find-declaration=, =eglot-find-implementation=, =eglot-find-typeDefinition=.
-
-| Command                            | Keybinding | Description                                                 |
-|------------------------------------+------------+-------------------------------------------------------------|
-| xref-find-references               | (M-?)      | Find references to the identifier at point                  |
-| xref-go-back                       | (M-,)      | Go back to the previous position in xref history            |
-| xref-go-forward                    | (C-M-,)    | Go to the point where a previous M-, was invoked            |
-| xref-find-apropos                  | (C-M-.)    | Find all meaningful symbols that match PATTERN              |
-| xref-find-definitions-other-frame  | (C-x 5 .)  | Like ‘xref-find-definitions’ but switch to the other frame  |
-| xref-find-definitions-other-window | (C-x 4 .)  | Like ‘xref-find-definitions’ but switch to the other window |
-
-** General Configuration
-https://joaotavora.github.io/eglot/
-
-To add support to more server, see the =eglot-server-programs= variable.
-
-: (add-hook 'foo-mode-hook 'eglot-ensure)
-
-#+begin_src emacs-lisp
-(use-package eglot
-  :hook (;; replace XXX-mode with concrete major-mode (e. g. python-mode)
-         (c-ts-base-mode . eglot-ensure)
-         (c-mode-common . eglot-ensure)
-         (python-mode . eglot-ensure)
-         (python-ts-mode . eglot-ensure)
-         (cmake-mode . eglot-ensure)
-         (cmake-ts-mode . eglot-ensure)
-         (eglot-managed-mode . (lambda () (eglot-inlay-hints-mode -1)))
-         (json-ts-mode . eglot-ensure)
-         (go-ts-mode . eglot-ensure)
-         )
-  :commands eglot-ensure
-  :custom
-  (eldoc-echo-area-use-multiline-p nil)
-  :custom-face
-  (eglot-highlight-symbol-face ((t (:underline (:style dots)))))
-  :bind
-  (:map eglot-mode-map
-        ("C-c C-l ==" . eglot-format-buffer)
-        ("C-c C-l =i" . eglot-code-action-organize-imports)
-        ("C-c C-l rr" . eglot-rename)
-        ("C-c C-l ti" . eglot-inlay-hints-mode)
-        ("C-c C-l i" . eglot-momentary-inlay-hints)
-        ("C-c C-l ." . eglot-code-action-quickfix)
-        ("C-c C-l aa" . eglot-code-actions)
-        ;; "C-c C-l s" prefix for server information commands
-        ("C-c C-l se" . eglot-stderr-buffer)
-        ("C-c C-l sE" . eglot-events-buffer)
-        ("C-c C-l sc" . eglot-list-connections)
-        ("C-c C-l sr" . eglot-reconnect)
-        ("C-c C-l d" . eldoc)
-        ))
-#+end_src
-
-- =eglot-mode-map=
-
-  This variable is the keymap for binding Eglot-related command. It is in effect only as
-  long as the buffer is managed by Eglot. By default, it is empty, with the single
-  exception: C-h . is remapped to invoke eldoc-doc-buffer. You can bind additional
-  commands in this map. For example:
-
-: (define-key eglot-mode-map (kbd "C-c r") 'eglot-rename)
-: (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
-: (define-key eglot-mode-map (kbd "C-c h") 'eldoc)
-: (define-key eglot-mode-map (kbd "<f6>") 'xref-find-definitions)
-** Consult-Eglot                                                     :Consult:Eglot:
-#+begin_src emacs-lisp
-(use-package consult-eglot
-  :ensure t
-  :bind (
-         :map c-mode-base-map (("M-I" . consult-eglot-symbols))
-         :map c-ts-base-mode-map (("M-I" . consult-eglot-symbols))
-         :map c++-ts-mode-map (("M-I" . consult-eglot-symbols))
-         :map python-mode-map (("M-I" . consult-eglot-symbols))
-         :map python-ts-mode-map (("M-I" . consult-eglot-symbols))
-         )
-  )
-#+end_src
-
-** Project specific configuration
-See the =eglot-workspace-configuration= variable. [[https://gist.github.com/doolio/8c1768ebf33c483e6d26e5205896217f][Here]] is an example.
-* Debugging                                                                   :debug:
-** Emphasize current line in gud
-#+begin_src emacs-lisp
-(use-package gud
-  :defer t
-  :custom
-  (gud-highlight-current-line t))
-#+end_src
-
-** Disable gdb asking if I want to download debuginfo
-Set ~gdb-debuginfod-enable-setting~ to nil
-#+begin_src emacs-lisp
-(use-package gdb-mi
-  :defer t
-  :custom
-  (gdb-debuginfod-enable-setting nil)
-  )
-#+end_src
-
-** Make gdb show the main function on startup
-#+begin_src emacs-lisp
-(use-package gdb-mi
-  :defer t
-  :custom
-  (gdb-show-main t)
-  )
-#+end_src
-
-** COMMENT dap-mode -> Debugger Adapter Protocol                         :LSP:debug:
-For c++ see [[*Dap-debug (C++)][Dap-debug (C++)]]
-For Python see [[*Dap-debug (Python)][Dap-debug (Python)]]
-
-Commands you should know to use dap-mode (see more [[https://emacs-lsp.github.io/dap-mode/page/features/][here]])
-| *Command*                              | *Description*                               |
-|--------------------------------------+-------------------------------------------|
-| dap-debug-edit-template              | Edit the debug template (call this first) |
-|--------------------------------------+-------------------------------------------|
-| dap-debug                            |                                           |
-| dap-disconnect                       | kill a running debug session              |
-| dap-delete-session                   | kill and delete a running debug session   |
-|--------------------------------------+-------------------------------------------|
-| dap-next                             |                                           |
-| dap-continue                         |                                           |
-| dap-step-in                          |                                           |
-| dap-step-out                         |                                           |
-|--------------------------------------+-------------------------------------------|
-| dap-eval                             |                                           |
-| dap-eval-region                      |                                           |
-|--------------------------------------+-------------------------------------------|
-| dap-breakpoint-toggle (-add/-delete) |                                           |
-| dap-ui-breakpoints-list              |                                           |
-|--------------------------------------+-------------------------------------------|
-| dap-ui-show-many-windows             |                                           |
-| dap-ui-hide-many-windows             |                                           |
-|--------------------------------------+-------------------------------------------|
-
-*** TODO Check support for launch.json
-https://emacs-lsp.github.io/dap-mode/page/features/#launchjson-support
-
-*** Common configuration for dap-mode
-To use the debugger, run ~dap-debug-edit-template~, edit the template and evaluate it.
-
-#+begin_src emacs-lisp
-(use-package dap-mode
-  ;; :defer t
-  :ensure t
-  :commands (dap-debug dap-debug-edit-template)
-  :config
-  (dap-mode 1)
-
-  ;; Show the many windows when debug start and close them when debug stop
-  (dap-auto-configure-mode)
-
-  ;; The modes below are optional
-  (dap-ui-mode 1)
-  ;; enables mouse hover support
-  (dap-tooltip-mode 1)
-  ;; use tooltips for mouse hover
-  ;; if it is not enabled `dap-mode' will use the minibuffer.
-  (tooltip-mode 1)
-  ;; displays floating panel with debug buttons
-  ;; requies emacs 26+
-  (dap-ui-controls-mode 1)
-
-  ;; (dap-ui-breakpoints-mode 1)
-  ;; (dap-ui-repl-mode 1)
-
-  ;; :bind
-  ;; (:map dap-mode-map
-  ;;       (("<f12>" . dap-debug)
-  ;;        ("<f8>" . dap-continue)
-  ;;        ("<f9>" . dap-next)
-  ;;        ("<M-f11>" . dap-step-in)
-  ;;        ("C-M-<f11>" . dap-step-out)
-  ;;        ("<f7>" . dap-breakpoint-toggle)))
-  )
-#+end_src
-
-*** COMMENT Define a minor-mode that is activated when dap is running (useful to set keybindings)
-Taken from https://emacs-lsp.github.io/dap-mode/page/how-to/
-#+begin_src emacs-lisp
-(define-minor-mode +dap-running-session-mode
-  "A mode for adding keybindings to running sessions"
-  nil
-  nil
-  (make-sparse-keymap)
-  ;; (evil-normalize-keymaps) ;; if you use evil, this is necessary to update the keymaps
-
-  ;; The following code adds to the dap-terminated-hook
-  ;; so that this minor mode will be deactivated when the debugger finishes
-  (when +dap-running-session-mode
-    (let ((session-at-creation (dap--cur-active-session-or-die)))
-      (add-hook 'dap-terminated-hook
-                (lambda (session)
-                  (when (eq session session-at-creation)
-                    (+dap-running-session-mode -1)))))))
-
-;; Activate this minor mode when dap is initialized
-(add-hook 'dap-session-created-hook '+dap-running-session-mode)
-
-;; Activate this minor mode when hitting a breakpoint in another file
-(add-hook 'dap-stopped-hook '+dap-running-session-mode)
-
-;; Activate this minor mode when stepping into code in another file
-(add-hook 'dap-stack-frame-changed-hook (lambda (session)
-                                          (when (dap--session-running session)
-                                            (+dap-running-session-mode 1))))
-#+end_src
-
-Set a buffer to read-only when this minor mode is active
-#+begin_src emacs-lisp
-(add-hook '+dap-running-session-mode-hook 'read-only-mode)
-
-#+end_src
-
-** Dape mode                                                                 :debug:
-Note: Here I'm onnly keepinng genenral configuration for dape.
-
-For C++ configuration see [[*Dape C++ - Debug protocol][Dape C++ - Debug protocol]]
-For Python configuration see
-
-#+begin_src elisp
-(use-package dape
-  ;; Currently only on github
-  :ensure (dape :type git :host github :repo "svaante/dape")
-  :commands (dape dape-breakpoint-toggle dape-breakpoint-log dape-watch-dwim)
-
-  ;; Add inline variable hints, this feature is highly experimental
-  ;; (setq dape-inline-variables t)
-
-  ;; To remove info buffer on startup
-  ;; (remove-hook 'dape-on-start-hooks 'dape-info)
-
-  ;; To remove repl buffer on startup
-  ;; (remove-hook 'dape-on-start-hooks 'dape-repl)
-
-  ;; By default dape uses gdb keybinding prefix
-  ;; (setq dape-key-prefix "\C-x\C-a")
-
-  ;; Kill compile buffer on build success
-  ;; (add-hook 'dape-compile-compile-hooks 'kill-buffer)
-
-  ;; Projectile users
-  ;; (setq dape-cwd-fn 'projectile-project-root)
-  ;; :custom
-  ;; (dape-buffer-window-arrangement 'gud)
-
-  :config
-  (transient-define-prefix dape-transient ()
-    "Transient for dape."
-    [["Stepping"
-      ("n" "Next" dape-next :transient t)
-      ("i" "Step in" dape-step-in :transient t)
-      ("o" "Step out" dape-step-out :transient t)
-      ("c" "Continue" dape-continue :transient t)
-      ("r" "restart" dape-restart :transient t)]
-     ["Breakpoints"
-      ("bb" "Next" dape-breakpoint-toggle :transient t)
-      ("bd" "Step in" dape-breakpoint-remove-at-point :transient t)
-      ("bD" "Continue" dape-breakpoint-remove-all :transient t)
-      ("bl" "restart" dape-breakpoint-log :transient t)]
-     ["Info"
-      ("si" "Info" dape-breakpoint-toggle :transient t)
-      ("sm" "Memory" dape-breakpoint-remove-at-point :transient t)
-      ("ss" "Select Stack" dape-breakpoint-remove-all :transient t)
-      ("R" "Repl" dape-breakpoint-log :transient t)]
-     ["Quit"
-      ("qq" "Quit" dape-quit :transient nil)
-      ("qk" "Kill" dape-kill :transient nil)]])
-  )
-#+end_src
-
-* Formatting buffers                                                       :apheleia:
-If the language server in a programming language supports formatting, use that instead. If
-it does not, then apheleia can be used instead.
-#+begin_src emacs-lisp
-(use-package apheleia
-  :ensure t
-  :commands (apheleia-format-buffer)
-  )
-#+end_src
-
-In each language configuration what needs to use apheleia for formatting, you might add an
-entry to =apheleia-formatters= and =apheleia-mode-alist=.
 * COMMENT Taskrunner
 The [[https://github.com/emacs-taskrunner/emacs-taskrunner][emacs-taskrunner]] library provide ways to gather tasks from different build systems and
 run these tasks. However, it does not directly have function for the user and instead
@@ -6155,1120 +7278,6 @@ create a simple wrapper using completing-read to not require any of these extra 
       (when task
         (taskrunner-run-task task default-directory ask)))))
 #+end_src
-* C++                                                               :CPP:Programming:
-Note: Use =C-c C-k= to toggle between line comments and block comments.
-** Use c++-ts-mode instead of regular c++-mode
-#+begin_src emacs-lisp
-(add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
-#+end_src
-
-** Doxygen                                                                 :doxygen:
-*** Doxygen with tree-sitter
-Enable doxygen syntax highlighting using tree-sitter.
-
-YOU NEED TO MANUALLY INSTALL THE GRAMMAR. You can do it with the code below.
-: git clone https://github.com/tree-sitter-grammars/tree-sitter-doxygen
-: cd tree-sitter-doxygen
-: gcc ./src/parser.c  ./src/scanner.c -fPIC -I./ --shared -o libtree-sitter-doxygen.so
-: cp libtree-sitter-doxygen.so ~/.emacs.d/tree-sitter/
-
-*NOTE:* The =c-ts-mode-enable-doxygen= option was added only in Emacs 31.1.
-#+begin_src emacs-lisp
-(use-package c-ts-mode
-  :custom
-  (c-ts-mode-enable-doxygen t)
-  )
-#+end_src
-
-** Always consider .h files as C++
-#+begin_src emacs-lisp
-(add-to-list 'auto-mode-alist '("\\.h\\'" . c++-mode))
-(add-to-list 'auto-mode-alist '("\\.cppm\\'" . c++-mode)) ;; One of extensions used for module file
-(add-to-list 'auto-mode-alist '("\\.ccm\\'" . c++-mode))  ;; One of extensions used for module file
-(add-to-list 'auto-mode-alist '("\\.cxxm\\'" . c++-mode)) ;; One of extensions used for module file
-(add-to-list 'auto-mode-alist '("\\.c++m\\'" . c++-mode)) ;; One of extensions used for module file
-#+end_src
-
-** General configuration
-#+begin_src emacs-lisp
-(use-package c-ts-mode
-  :defer t
-  :after cc-mode
-  :bind (:map c-mode-base-map
-              ([S-f9] . cmake-integration-generate-project-documentation)  ;; Generate the doxygen documentation
-              ([C-S-f9] .  cmake-integration-view-project-documentation)
-              ;; Alternate between header and source. You could also use lsp-clangd-find-other-file instead
-              ("M-o" . ff-find-other-file)
-              ("M-O" . lsp-clangd-find-other-file)
-
-              :map c-ts-base-mode-map
-              ([S-f9] . cmake-integration-generate-project-documentation)  ;; Generate the doxygen documentation
-              ([C-S-f9] .  cmake-integration-view-project-documentation)
-              ;; Alternate between header and source. You could also use lsp-clangd-find-other-file instead
-              ("M-o" . ff-find-other-file)
-              ("M-O" . lsp-clangd-find-other-file)
-              )
-
-  :config
-  ;; If the indentation is wrong at some place, put the cursor there and use "C-c
-  ;; C-o" to find-out the offset and the name of the syntactical element under the
-  ;; cursor. Example: put the cursor in the "{" in a function definition and use
-  ;; "C-c C-o". Emacs will tell that the syntactical element is "defun-open". Now,
-  ;; see the help for the c-offsets-alist variable and look for defun-open to see
-  ;; what it is. Using this you can known how to adapt a style to your needs.
-  ;;
-  ;; For my style, use "stroustrup" style as a base and change the value of
-  ;; "innamespace" to zero in the c-offsets-alist. This means that we don't get
-  ;; indentation inside a namespace.
-  (c-add-style "darcamo"
-               '("stroustrup"
-                 (c-offsets-alist . ((innamespace . [0])))))
-  (setq-default c-doc-comment-style
-                '((java-mode . javadoc)
-                  (pike-mode . autodoc)
-                  (c-mode    . doxygen)
-                  (c++-mode  . doxygen)))
-  (push '(c-mode . "darcamo") c-default-style)
-  (push '(c++-mode . "darcamo") c-default-style)
-  :hook
-  (c-mode-common . (lambda () (setq fill-column 120)))
-  (c-ts-base-mode . (lambda () (setq fill-column 120)))
-  )
-
-;; c-c++-lsp-enable-semantic-highlight nil
-#+end_src
-
-** Modify c++-ts-mode to fix syntax highlight                           :treesitter:
-This is only necessary while =c-ts-mode= is not updated to include a few module related
-keywords: =import=, =export= and =module.
-
-*NOTE*: This was added in [2025-06-16 seg]. Try commenting-out this customization to see if
-the =c++-ts-mode= was updated to fontify module names and the new keywords properly.
-
-#+begin_src emacs-lisp
-(defvar darcamo/cpp-font-lock-module-rules
-  (treesit-font-lock-rules
-   :language 'cpp
-   :feature 'type
-   :override t
-   '((module_name (identifier)) @font-lock-constant-face))
-  "Custom C++ font-lock rules for C++ treesit mode matching the module name.")
-
-
-(use-package c-ts-mode
-  :defer t
-  :config
-  (add-to-list 'c-ts-mode--c++-operator-keywords "import")
-  (add-to-list 'c-ts-mode--c++-operator-keywords "export")
-  (add-to-list 'c-ts-mode--c++-operator-keywords "module")
-  :hook
-  (c++-ts-mode . (lambda () (setq-local treesit-font-lock-settings
-                                   (append treesit-font-lock-settings
-					                       darcamo/cpp-font-lock-module-rules)))))
-#+end_src
-
-** Change eglot-server-program to configure clangd                    :Eglot:clangd:
-#+begin_src emacs-lisp
-(defun get-clangd-path ()
-  "Get the path of the clangd language server."
-  (let* ((distro-name (get-linux-distro-name))
-         (is-ubuntu? (string= "Ubuntu" distro-name)))
-    (if is-ubuntu?
-        "clangd-19"
-      "clangd")))
-
-
-;; https://www.reddit.com/r/emacs/comments/18eeu1f/configure_clangd_in_eglot_to_not_add_headers/
-(use-package eglot
-  :config
-  (add-to-list 'eglot-server-programs
-               `((c-ts-mode c++-ts-mode c-mode c++-mode)
-                 . (,(get-clangd-path)
-                    "-j=12"
-                    "--log=error"
-                    "--malloc-trim"
-                    "--background-index"
-                    "--clang-tidy"
-                    "--completion-style=detailed"
-                    "--pch-storage=memory"
-                    "--header-insertion=never"
-                    "--header-insertion-decorators=0")))
-  )
-#+end_src
-
-** Ninja Mode
-Note: =ninja-mode= was previously included in the [[https://github.com/ninja-build/ninja/commits/master/][ninja repository]], but on [2024-11-11 Mon]
-it was moved to its [[https://github.com/ninja-build/ninja-emacs/issues][own repository]]. Because of that, just =use-package ninja-mode= with
-=:ensure t= was not working anymore and I had to specify the new repository and even the
-main file.
-#+begin_src emacs-lisp
-(use-package ninja-mode
-  :ensure (ninja-emacs :type git :host github :repo "ninja-build/ninja-emacs" :main "ninja-mode.el")
-  :defer t)
-#+end_src
-
-** Help find file at point and ff-find-other-file find include files
-#+begin_src emacs-lisp
-(use-package ffap
-  :defer t
-  :config
-  (add-to-list 'ffap-c++-path "~/git_files/cppsim/src")
-  (add-to-list 'ffap-c++-path "~/git_files/cppsim/tests")
-  )
-
-(use-package find-file
-  :defer t
-  :config
-  (add-to-list 'cc-search-directories "~/git_files/cppsim/src")
-  (add-to-list 'cc-search-directories "~/git_files/cppsim/tests")
-  (add-to-list 'cc-search-directories "../api")
-  (add-to-list 'cc-search-directories "../include")
-  (add-to-list 'cc-search-directories "../src")
-  (add-to-list 'cc-search-directories "../inc")
-  )
-#+end_src
-
-** Color in compilation buffer (fancy compilation mode)                :Compilation:
-#+begin_src emacs-lisp
-(use-package fancy-compilation
-  :ensure t
-  :custom
-  (fancy-compilation-quiet-prelude nil)
-  :config
-  (fancy-compilation-mode)
-  :custom-face
-  (fancy-compilation-default-face ((t (:background nil)))))
-#+end_src
-
-** Qt and QML                                                               :QML:Qt:
-*** qml-ts-mode (Has imenu support, but syntax highlight is still pretty low) :treesitter:
-Alternative mode for qml, using tree-sitter.
-
-NOTE: You need to manually install the tree-sitter grammar for it. Add an entry to
-=treesit-language-source-alist= with
-: (qmljs "https://github.com/yuja/tree-sitter-qmljs")
-and then call =treesit-install-language-grammar= and specify =qmljs= as the language.
-
-#+begin_src emacs-lisp
-(use-package qml-ts-mode
-  :ensure (qml-ts-mode :type git :host github :protocol ssh
-                       :repo "darcamo/qml-ts-mode" :depth nil)
-  :bind (:map qml-ts-mode-map
-              ([M-f9] . cmake-integration-save-and-compile) ;; Ask for the target name and compile it
-              ([f9] . cmake-integration-save-and-compile-last-target)  ;; Recompile the last target
-              ([f10] . cmake-integration-run-last-target)
-              ([M-f10] . cmake-integration-run-last-target-with-arguments)
-              ([C-f9] . cmake-integration-run-ctest)  ;; Compile only the current source file
-              ([M-f10] . qml-integration-choose-qml-style)
-              ([C-f10] . qml-integration-run-qmlscene)
-              ([S-f10] . qml-integration-run-qmltestrunner)
-              ([S-C-f10] . qml-integration-run-qmllint)
-              ([M-f8] . cmake-integration-select-configure-preset)
-              ([f8] . cmake-integration-cmake-reconfigure)
-              )
-  :hook
-  (qml-ts-mode . (lambda ()
-                   (require 'qml-integration)
-                   (require 'apheleia)
-                   (setq fill-column 120)
-                   (hs-minor-mode)
-
-                   ;; Add more characters that cause automatic reindentation
-                   (setq-local electric-indent-chars '(?\n ?\( ?\) ?{ ?} ?\[ ?\] ?\; ?,))
-                   )))
-
-  (use-package consult-imenu
-  :defer t
-  :config
-  (add-to-list 'consult-imenu-config '(qml-ts-mode
-                                       :toplevel "Component"
-                                       :types
-                                       ((?c "Component" 'font-lock-type-face)
-                                        (?f "Function" 'font-lock-function-name-face)
-                                        (?p "Property" 'font-lock-property-name-face)
-                                        (?s "Signal" 'font-lock-function-name-face)))))
-#+end_src
-
-*** Janus Colors
-#+begin_src emacs-lisp
-(when (locate-library "janus")
-  (load-library "janus")
-  )
-#+end_src
-
-*** qml-integration package
-#+begin_src emacs-lisp
-(use-package qml-integration
-  :commands (qml-integration-choose-qml-style
-             qml-integration-run-qmlscene
-             qml-integration-run-qmltestrunner
-             qml-integration-run-qmllint
-             qml-integration-add-qmllint-disable-comment
-             qml-integration-add-qmllint-enable-comment
-             )
-  :ensure (qml-integration :type git :host github :protocol ssh
-                           :repo "darcamo/qml-integration" :depth nil)
-  :mode
-  ;; Set mode of qml.qrc file to xml-mode
-  (".qrc" . xml-mode)
-  :custom
-  (qml-integration-qt-install-bin-folder (expand-file-name "bin/" qt-location))
-  (qml-integration-qmlscene-program "qml")
-  :bind (
-         :map qml-ts-mode-map
-         ([f5] . qml-integration-add-qmllint-disable-comment)
-         ([C-f5] . qml-integration-add-qmllint-enable-comment)
-         )
-  )
-
-(use-package bottom-buffer-manager
-  :defer t
-  :config
-  (add-to-list 'bottom-buffer-manager-match-strings "Viewing qml file")
-  (add-to-list 'bottom-buffer-manager-match-strings "Linting qml file")
-  (add-to-list 'bottom-buffer-manager-match-strings "Running test file"))
-#+end_src
-
-*** Detect filename in compilation-mode for qmltestrunner errors       :Compilation:
-#+begin_src emacs-lisp
-(use-package compile
-  :config
-  (add-to-list 'compilation-error-regexp-alist
-               ;; Error: mpi.F90, line 116: Implicit type for MPI_COMM_WORLD in MPI_MOD_INIT
-               ;;        detected at MPI_M@<end-of-statement>
-               ;; [f95 terminated - errors found by pass 1]
-               '("Loc: \\[\\(.*\\)(\\([0-9]*\\))" 1 2))
-  )
-#+end_src
-
-*** Formatting QML buffers with apheleia                              :QML:apheleia:
-#+begin_src elisp
-(use-package qml-ts-mode
-  :after apheleia
-  :config
-  (push `(qmlformat . (,(expand-file-name "bin/qmlformat" qt-location) "--inplace" file))
-        apheleia-formatters)
-
-  (add-to-list 'apheleia-mode-alist '(qml-ts-mode . qmlformat))
-  :bind (:map qml-ts-mode-map
-              ;; Save the buffer to file, format the file and reload the disk
-              ("C-c f" . (lambda () (interactive)
-                           (save-buffer)
-                           (apheleia-format-buffer 'qmlformat)
-                           ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
-                           (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
-                           (revert-buffer t t t)
-                           ))))
-#+end_src
-
-*** Squish
-#+begin_src emacs-lisp
-(use-package squish-feature
-  :commands (squish-feature-mode)
-  :mode ("\\.feature" . squish-feature-mode)
-  )
-
-(use-package squishrunner
-  :commands (squishrunner-mode)
-  :bind (:map squishrunner-mode-map
-              ([f9] . squish-run-last-test-case)
-              ([M-f9] . squish-ask-and-run-test-case)
-
-              ([f10] . squish-run-last-test-suite)
-              ([M-f10] . squish-ask-and-run-test-suite)
-
-              ([f8] . squish-start-server)
-              ([C-f8] . squish-stop-server)
-
-              ([f9] . my-python-compile)
-              ([S-f9] . kill-compilation)))
-#+end_src
-
-Note: Check [[*prodigy: Starting processes with emacs][prodigy: Starting processes with emacs]]
-- This could be used to start the squish server
-*** Add QML language server (qmlls) to eglot-server-programs                :Eglot:
-#+begin_src emacs-lisp
-(use-package eglot
-  :config
-  ;; Note that the "-E" option passed to qmlls makes it Use the QML_IMPORT_PATH
-  ;; environment variable to look for QML Modules. In other words, it allows you
-  ;; to add custom QML module paths by setting the QML_IMPORT_PATH environment
-  ;; variable before starting Emacs
-  (add-to-list 'eglot-server-programs
-               `((qml-ts-mode)
-                 . (,(expand-file-name "bin/qmlls" qt-location) "-E")))
-  :hook
-  (qml-ts-mode . (lambda ()
-                   ;; imenu from qml-ts-mode is better than the one provided by
-                   ;; eglot (with qmlls). Hence, we disably this capability in
-                   ;; eglot to keep using the one from qml-ts-mode
-                   (set (make-local-variable 'eglot-ignored-server-capabilities) '(:documentSymbolProvider))
-                   (eglot-ensure))))
-#+end_src
-
-*** Qt Translations Mode
-Usually, something named "anything.ts" will use the typescript major mode, but Qt also
-uses the =.ts= extension for itsa (translation) language files.
-
-#+begin_src emacs-lisp
-(use-package qt-translations-mode
-  :ensure (qt-translations-mode :type git :host github :protocol ssh
-                                :repo "darcamo/qt-translations-mode" :depth nil)
-  :commands (qt-translations-mode)
-  :custom
-  (qt-translations-imenu-style 'unfinished)
-  :hook
-  (qt-translations-mode . darcamo/folding-keybindings-mode)
-  :mode
-  ("translations/.*\\.ts" . qt-translations-mode))
-#+end_src
-
-** Conan package manager
-#+begin_src emacs-lisp
-;; Here we define a minor mode for conanfile just to have a mode-map for it
-(define-derived-mode conanfile-mode
-  conf-space-mode "conanfile-Mode" "A derived mode from conf-space-mode for conanfile.txt buffers."
-  )
-
-(use-package conanfile-mode
-  :mode
-  ("conanfile\\.txt" . conanfile-mode)
-  )
-#+end_src
-
-** TODO Other packages to investigate                                  :Investigate:
-- [[https://github.com/plandes/flex-compile][flex-compile]]
-- [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
-* CMake                                                                       :CMake:
-** CMake-ts-mode
-#+begin_src emacs-lisp
-(use-package emacs
-  :mode
-  ("CMakeLists.txt" . cmake-ts-mode)
-  ("\\.cmake" . cmake-ts-mode)
-  :hook
-  (cmake-ts-mode . (lambda () (setq fill-column 80)))
-  )
-#+end_src
-
-** cmake-integration package                                                 :Dired:
-#+begin_src emacs-lisp
-(use-package cmake-integration
-  :ensure (cmake-integration :type git :host github :protocol ssh
-                             :repo "darcamo/cmake-integration" :depth nil)
-  :defer t
-  :custom
-  ;; (cmake-integration-include-subproject-targets-during-completion nil)
-  ;; (cmake-integration-hide-utility-targets-during-completion t)
-  (cmake-integration-generator "Ninja")
-  (cmake-integration-use-separated-compilation-buffer-for-each-target t)
-  (cmake-integration-build-dir "build/no-preset")
-
-  :config
-  (cmake-integration-automatic-persistence-mode))
-#+end_src
-
-** Add keybindings for cmake-integration
-#+begin_src emacs-lisp
-(use-package cmake-integration-project-mode
-  :ensure (cmake-integration-project-mode :type git :host github :protocol ssh
-                                          :repo "darcamo/cmake-integration" :depth nil)
-  :defer nil
-  :config
-  (global-cmake-integration-project-mode)
-  ;; Don't enable cmake-integration-project in QML buffers
-  (add-to-list 'cmake-integration-project-ignored-major-modes 'qml-ts-mode)
-  :bind (:map cmake-integration-project-mode-map
-              ([f5] . cmake-integration-transient)                         ;; Open main transient menu
-              ([M-f9] . cmake-integration-select-current-target)           ;; Ask for the target name and compile it
-              ([f9] . cmake-integration-save-and-compile-last-target)      ;; Recompile the last target
-              ([C-f9] . cmake-integration-run-ctest)                       ;; Run CTest
-              ([f10] . cmake-integration-run-last-target)                  ;; Run the target (using any previously set command line parameters)
-              ([S-f10] . kill-compilation)
-              ([C-f10] . cmake-integration-debug-last-target)              ;; Debug the target (using any previously set command line parameters)
-              ([M-f10] . cmake-integration-run-last-target-with-arguments) ;; Ask for command line parameters to run the target
-              ([M-f8] . cmake-integration-select-configure-preset)         ;; Ask for a preset name and call CMake to configure the project
-              ([f8] . cmake-integration-cmake-reconfigure)                 ;; Call CMake to configure the project using the last chosen preset
-              ))
-#+end_src
-** Make <f5> quit all transient menus
-#+begin_src emacs-lisp
-(use-package transient
-  :defer t
-  :config
-  ;; Make [f5] close all transient menus
-  (define-key transient-map (kbd "<f5>") 'transient-quit-all))
-#+end_src
-
-** Make the "Running" buffer appear at the bottom                      :Compilation:
-#+begin_src emacs-lisp
-;; The inclusion of "*Running - " in `bottom-buffer-manager-match-strings`
-;; ensures that buffers with names starting with "*Running - " are displayed in
-;; the same bottom window as compilation buffers (e.g., "*compilation*"), and
-;; conversely.
-(use-package bottom-buffer-manager
-  :defer t
-  :config
-  (add-to-list 'bottom-buffer-manager-match-strings "*Running - "))
-
-;; This will always puts the buffer at the bottom
-(add-to-list 'display-buffer-alist
-             '("\\*Running - .*"
-               bottom-buffer-manager-display-action-function
-               ;; Following are the display-buffer parameters
-               (window-height . 0.28)
-               ))
-#+end_src
-** CMake Presets mode
-#+begin_src emacs-lisp
-(use-package cmakepresets-mode
-  :ensure (cmakepresets-mode :type git :host github :protocol ssh
-                             :repo "darcamo/cmakepresets-mode" :depth nil)
-  :mode
-  ("ConanPresets\\.json" . cmakepresets-mode)
-  :config
-  (add-to-list 'eglot-server-programs
-               '((cmakepresets-mode)
-                 . ("vscode-json-languageserver" "--stdio")))
-  )
-
-;; Customize consult-imenu-config to display our presets nicely in consult-imenu
-(use-package consult-imenu
-  :defer t
-  :config
-  (add-to-list 'consult-imenu-config '(cmakepresets-mode
-                                       :toplevel "Configure"
-                                       :types
-                                       ((?c "Configure")
-                                        (?b "Build")
-                                        (?t "Test")
-                                        (?p "Package")
-                                        (?w "Workflow")))))
-#+end_src
-
-** Diagnostic function for Flymake using cmakelint
-
-Linting is already done with eglot, but the linter in the language server might not be
-what I want to use. Here we define a diagnostic function for cmake using =cmakelint=.
-
-*Note*: We do not add this diagnostic function to flymake yet. We will tell eglot to remove
-its own and add this one intead later when we configure eglot for CMake.
-
-#+begin_src emacs-lisp
-(defvar-local flymake-cmakelint--proc nil)
-
-
-(defun flymake-cmakelint (report-fn &rest _args)
-  "Flymake backend that runs `cmakelint' on the current buffer."
-  (unless (executable-find "cmakelint")
-    (error "flymake-cmakelint: `cmakelint' not found"))
-  (unless (buffer-file-name)
-    (error "flymake-cmakelint: buffer must visit a file"))
-  (when (process-live-p flymake-cmakelint--proc)
-    (kill-process flymake-cmakelint--proc))
-  (let* ((source (current-buffer))
-         (file (buffer-file-name))
-         (buf (generate-new-buffer " *flymake-cmakelint*")))
-    (setq flymake-cmakelint--proc
-          (make-process
-           :name "flymake-cmakelint"
-           :buffer buf
-           :command (list "cmakelint" file)
-           :noquery t
-           :connection-type 'pipe
-           :sentinel
-           (lambda (proc _event)
-             (when (memq (process-status proc) '(exit signal))
-               (unwind-protect
-                   (let (diags)
-                     (when (buffer-live-p source)
-                       (with-current-buffer buf
-                         (goto-char (point-min))
-                         (while (re-search-forward
-                                 "^\\([^:\n]+\\):\\([0-9]+\\): *\\(.*\\)$"
-                                 nil t)
-                           (when-let* ((line
-                                        (string-to-number (match-string 2)))
-                                       (msg (match-string 3))
-                                       (region
-                                        (flymake-diag-region source line)))
-                             (push (flymake-make-diagnostic
-                                    source
-                                    (car region)
-                                    (cdr region)
-                                    :warning msg)
-                                   diags)))))
-                     (funcall report-fn diags))
-                 (kill-buffer buf))))))))
-
-
-(defun flymake-cmakelint-setup ()
-  "Enable yamllint flymake backend."
-  (add-hook 'flymake-diagnostic-functions #'flymake-cmakelint nil t))
-#+end_src
-
-** CMake language server                                                     :Eglot:
-*** COMMENT Use cmake-language-server
-#+begin_src emacs-lisp
-(add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("cmake-language-server")))
-#+end_src
-
-Note: You can add the content below as a dir-local-variable to configure the language
-server in a project pointing the correct build folder to the cmake-language-server
-#+begin_quote
-((nil . ((eglot-workspace-configuration . (:cmake-language-server
-                                           (:buildDirectory "build/debug/")
-                                           )))))
-#+end_quote
-
-*** Use neocmakelsp
-See the [[https://github.com/neocmakelsp/neocmakelsp][neocmakelsp]] for more.
-
-Install it with
-: cargo install neocmakelsp
-
-Below we add =neocmakelsp= to the list of eglot server programs. We also disable eglots own
-flymake diagnostic function and add the one we have created previously instead.
-#+begin_src emacs-lisp
-(use-package eglot
-  :config
-  (add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("neocmakelsp" "stdio")))
-  :hook
-  (eglot-managed-mode
-   .
-   (lambda ()
-     (when (eq major-mode 'cmake-ts-mode)
-       (remove-hook 'flymake-diagnostic-functions #'eglot-flymake-backend t)
-       (flymake-cmakelint-setup)
-       ))))
-#+end_src
-
-** Format CMake buffers                                                   :apheleia:
-#+begin_src emacs-lisp
-(defun darcamo/format-cmake-buffer ()
-  "Format a cmake buffer using cmake-format with apheleia.
-
-This saves the buffer, formats it, and then reloads the disk version."
-  (interactive)
-
-  (save-buffer)
-  (apheleia-format-buffer 'cmakeformat)
-  ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
-  (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
-  (revert-buffer t t t)
-  )
-
-
-(use-package emacs
-  :after apheleia
-  :config
-  (push '(cmakeformat . ("cmake-format" "--in-place" file))
-        apheleia-formatters)
-  (add-to-list 'apheleia-mode-alist '(cmake-ts-mode . cmakeformat)))
-
-
-(use-package cmake-ts-mode
-  :bind (:map cmake-ts-mode-map
-              ;; Save the buffer to file, format the file and reload the disk
-              ("C-c f" . darcamo/format-cmake-buffer)))
-#+end_src
-** My custom fontify rules to add colors to compilation buffer         :Compilation:
-#+begin_src emacs-lisp
-(use-package emacs
-  :config
-  (let* (
-         (cmake-progress-regexp "\\[\\([0-9]+/[0-9]+\\)\\]")
-         (path-regexp "\\(\\(/\\|~/\\|../\\)[^[:space:]]+\\)")
-         ;; Only matches if it's either in the beginning of the line or if
-         ;; there is a space before the path. This avoids some false positivies.
-         ;; (path-beginning-of-line (concat "\\(?:^\\| \\)" path-regexp))
-         (path-inside-quotes (format "'%s'" path-regexp))
-         (path-inside-double-quotes (format "\"%s\"" path-regexp))
-         (keywords `(
-                     (,path-inside-quotes (1 'font-lock-string-face t))
-                     (,path-inside-double-quotes (1 'font-lock-string-face t))
-                     ;; (,path-beginning-of-line (1 'font-lock-string-face t))
-                     ;; Note that more specific regexps are added later
-                     (,cmake-progress-regexp (1 'font-lock-warning-face t))
-                     ))
-         )
-
-    (font-lock-add-keywords 'compilation-mode keywords)
-    ))
-#+end_src
-;; (use-package emacs
-;;   :custom
-;;   (compilation-environment '("TERM=xterm-256color")))
-
-** Outline minor mode in compilation buffers (for cmake)
-Set =outline-regexp= in a local variable to ="\\[\\([0-9]+/[0-9]+\\)\\]"=.
-
-
-#+begin_src emacs-lisp
-(use-package emacs
-  :hook
-  (compilation-mode . (lambda ()
-                        (let* (;; Messages during configure start with "--"
-                               (cmake-configure-regexp "\\(--\\)")
-                               ;; Messages during build start with "[<number>/<number>]" (ninja generator)
-                               (cmake-build-regexp "\\[\\([0-9]+/[0-9]+\\)\\]")
-                               (regexp-list (list cmake-configure-regexp cmake-build-regexp))
-                               (full-outline-regexp (string-join regexp-list "\\|"))
-                               )
-                          (setq outline-regexp full-outline-regexp)
-                          (outline-minor-mode)))))
-#+end_src
-
-* Python                                                         :Programming:Python:
-Olhar esse link: https://gist.github.com/Nathan-Furnal/07413de07b9ac08340a5d33b541e9a6b
-
-Ver pacote poetry: https://github.com/galaunay/poetry.el
-Ver pacote numpydoc: https://github.com/douglasdavis/numpydoc.el
-Ver pacote yapfify (caso não consiga formatar com o LSP)
-Ver pacote python-coverage
-
-Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7/comment/hr2q2xc/?utm_source=share&utm_medium=web2x&context=3
-
-NOTE: Run the =run-python= command to run a python interpreter (with
-completion).
-** Use python-ts-mode instead of regular python-mode
-#+begin_src emacs-lisp
-(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
-#+end_src
-** Make eglot not provide imenu entries
-The language server I'm using for Python adds too much to imenu (it adds all variables). I
-prefer the imenu entries computed from tree-sitter.
-#+begin_src emacs-lisp
-(use-package python
-  :hook
-  (python-ts-mode . (lambda () (set
-                           (make-local-variable 'eglot-ignored-server-capabilities)
-                           '(:documentSymbolProvider)))))
-#+end_src
-
-** Helper functions
-#+begin_src emacs-lisp
-
-;; Pegue em http://wwwx.cs.unc.edu/~gb/wp/blog/2008/03/15/running-python-from-within-emacs/
-;; Com essa função você pode rodar um script python usando o compile buffer
-;; (make-local-variable 'py-master-file)
-(defun my-python-compile ()
-  "Use compile to run python programs. If the py-master-file variable is set, run that file. If not, run the file associated with the current buffer."
-  (interactive)
-  (save-buffer)
-  (setq python-command-with-options "python -W ignore ")
-  (if ; If the variable py-master-file exists we are using python-mode.el
-      (boundp 'py-master-file)
-      (if ; In that case, we will run the file pointed by py-master-file or
-                                        ; the file associated with the current buffer
-          (eq py-master-file nil)
-          (compile (concat python-command-with-options (buffer-file-name)) nil)
-        (compile (concat python-command-with-options py-master-file) nil)
-        )
-    ;; If py-master-file does not exist we are using the default python.el
-    ;; from emacs and we will run the file associated with the current
-    ;; buffer
-    (compile (concat python-command-with-options (buffer-file-name)) nil)
-    ))
-
-
-;; Debug helpers
-
-(defun python--add-debug-highlight ()
-  "Adds a highlighter for use by `python--pdb-breakpoint-string'"
-  (highlight-lines-matching-regexp "# -- DEBUG -- #\\s-*$" 'hi-red-b)
-  )
-
-(defvar python--pdb-breakpoint-string "breakpoint()  # -- DEBUG -- #"
-  "Python breakpoint string used by `python-insert-breakpoint'")
-
-(defun python-insert-breakpoint ()
-  "Inserts a python breakpoint using `pdb'"
-  (interactive)
-  (back-to-indentation)
-  ;; this preserves the correct indentation in case the line above
-  ;; point is a nested block
-  (split-line)
-  (insert python--pdb-breakpoint-string))
-
-;; (defadvice compile (before ad-compile-smart activate)
-;;   "Advises `compile' so it sets the argument COMINT to t
-;; if breakpoints are present in `python-mode' files"
-;;   (when (derived-mode-p major-mode 'python-mode)
-;;     (save-excursion
-;;       (save-match-data
-;;         (goto-char (point-min))
-;;         (if (re-search-forward (concat "^\\s-*" python--pdb-breakpoint-string "$")
-;;                                (point-max) t)
-;;             ;; set COMINT argument to `t'.
-;;             (ad-set-arg 1 t))))))
-
-;; ;; Add breakpoints in pudb
-;; (setq pudb-bp-file (expand-file-name "~/.config/pudb/saved-breakpoints-2.7"))
-;; (defun pudb-add-breakpoint ()
-;;   (interactive)
-;;   (append-to-file
-;;    (concat "b " buffer-file-name ":"
-;;            (nth 1 (split-string (what-line))) "\n")
-;;    nil pudb-bp-file))
-#+end_src
-
-** pytest
-#+begin_src emacs-lisp
-(use-package python-pytest
-  :ensure t
-  :bind (:map python-ts-mode-map
-              ([f10] . python-pytest-file-dwim)
-              ([C-f10] . python-pytest-run-def-at-point-treesit)
-              ([S-f10] . python-pytest)
-              ([C-S-f10] . python-pytest-dispatch)
-              )
-  :config
-  (add-to-list 'display-buffer-alist
-               '("\\*pytest\\*.*"
-                 bottom-buffer-manager-display-action-function))
-  )
-#+end_src
-** Configuration and keybindings
-#+begin_src emacs-lisp
-(use-package python
-  :defer t
-  :bind (:map python-mode-map
-              ;; Add breakpoint with pudb
-              ([C-f8] . python-insert-breakpoint)
-              ;; ([C-S-f8] . pudb-add-breakpoint)
-
-              ;; Run a python file
-              ([f9] . my-python-compile)
-              ([S-f9] . kill-compilation)
-              )
-  :bind (:map python-ts-mode-map
-              ;; Add breakpoint with pudb
-              ([C-f8] . python-insert-breakpoint)
-              ;; ([C-S-f8] . pudb-add-breakpoint)
-
-              ;; Run a python file
-              ([f9] . my-python-compile)
-              ([S-f9] . kill-compilation)
-              )
-  :custom
-  (python-shell-interpreter "ipython")
-  (python-shell-interpreter-args "--simple-prompt")
-  (python-check-command "ruff check")  ;; Use `C-c C-v` to check the code
-  :hook
-  (python-base-mode . (lambda () (setq fill-column 120)))
-
-
-  ;; :hook
-  ;; ;; (python-base-mode . python--add-debug-highlight)
-  ;; (python-mode . (lambda ()
-  ;;                  (python--add-debug-highlight)
-  ;;                  (require 'dap-python)))
-  )
-#+end_src
-
-** Anaconda support                                                  :Anaconda:venv:
-#+begin_src emacs-lisp
-(use-package conda
-  :ensure t
-  :defer t
-  :commands (conda-env-list conda-env-activate conda-env-deactivate)
-  :config
-  (setq conda-anaconda-home (expand-file-name "~/miniconda3"))
-  (setq conda-env-home-directory (expand-file-name "~/miniconda3"))
-  ;; if you want interactive shell support, include:
-  (conda-env-initialize-interactive-shells)
-  ;; if you want eshell support, include:
-  (conda-env-initialize-eshell)
-  ;; if you want auto-activation (see below for details), include:
-  (conda-env-autoactivate-mode t)
-  )
-#+end_src
-
-** pyvenv: Virtual Environment                                                :venv:
-#+begin_src emacs-lisp
-;; Call pyvenv-activate and specify the folder with the virtual environment
-(use-package pyvenv
-  :ensure t
-  :commands (pyvenv-activate pyvenv-workon pyvenv-mode pyvenv-tracking-mode)
-  :custom
-  (pyvenv-workon "~/miniconda3/envs/")
-  ;; :init
-  ;; (pyvenv-mode 1)
-  ;; (pyvenv-tracking-mode 1)
-  ;; (setenv "WORKON_HOME" "~/miniconda3/envs/")
-  )
-
-(use-package pyvenv-auto
-  :ensure t
-  :hook ((python-base-mode . pyvenv-auto-run)))
-#+end_src
-
-** uv-mode                                                                    :venv:
-https://github.com/z80dev/uv-mode
-
-If you decide to try it, you should probably comment out pyvenv package.
-
-** Set language server in eglot                                                :LSP:
-*** Eglot                                                                    :Eglot:
-Add both =pyright-langserver= and =basedpyright-langserver=. The order is important. It
-basedpyright is available it will be used, if not, then eglot will try using pyright.
-#+begin_src emacs-lisp
-(use-package eglot
-  :config
-  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("pyright-langserver" "--stdio")))
-  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) "basedpyright-langserver" "--stdio"))
-  )
-#+end_src
-
-
-https://robbmann.io/posts/emacs-eglot-pyrightconfig/
-#+begin_quote
-pyright is typically a system or user installation, not something you install per virtual
-environment. Getting pyright to see the virtual environment of my choosing , and correctly
-report which dependencies are installed was a bit of a hassle, but I think my favorite
-solution so far has been to configure the virtual environment through the
-pyrightconfig.json file at the root of my project, and just have this file ignored by git.
-#+end_quote
-** Ruff                                                                       :Ruff:
-Ruff provides:
-- linting
-- formatting
-- isort
-*** Format buffer with ruff
-#+begin_src emacs-lisp
-(use-package ruff-format
-  :ensure t
-  :commands (ruff-format-buffer ruff-format-region ruff-format-on-save-mode)
-  :bind ( :map python-ts-mode-map
-          ("C-c f" . ruff-format-buffer)
-          ))
-#+end_src
-
-*** Flymake support for Python with ruff
-
-#+begin_src emacs-lisp
-(use-package flymake-ruff
-  :ensure t
-  :hook (python-ts-mode . flymake-ruff-load)
-  :hook (python-mode . flymake-ruff-load)
-  :hook (eglot-managed-mode . flymake-ruff-load)
-  )
-#+end_src
-
-https://github.com/erickgnavar/flymake-ruff
-#+begin_quote
-Pyright has some diagnostic notes that overlap with diagnostics provided by ruff. These
-diagnostic notes can't be disabled via Pyright's config, but you can exclude them by
-adding a filter to eglot--report-to-flymake. For example, to remove Pyright's "variable
-not accessed" notes, add the following:
-#+end_quote
-
-The code below is from https://github.com/erickgnavar/flymake-ruff
-It's broken in more recent Emacs versions because eglot--report-to-flymake signature changed.
-#+begin_src emacs-lisp
-;; (defun my-filter-eglot-diagnostics (diags version)
-;;     "Drop Pyright 'variable not accessed' notes from DIAGS."
-;;     (list (seq-remove (lambda (d)
-;;                         (and (eq (flymake-diagnostic-type d) 'eglot-note)
-;;                              (s-starts-with? "Pyright:" (flymake-diagnostic-text d))
-;;                              (s-ends-with? "is not accessed" (flymake-diagnostic-text d))))
-;;                       (car diags))))
-
-;; (advice-add 'eglot--report-to-flymake :filter-args #'my-filter-eglot-diagnostics)
-#+end_src
-
-*** COMMENT LSP                                                                :LSP:
-
-#+begin_src emacs-lisp
-(use-package eglot
-  :config
-  (add-to-list 'eglot-server-programs '((python-mode python-ts-mode) . ("ruff-lsp")))
-  )
-#+end_src
-
-** COMMENT Format buffer with yapf
-#+begin_src emacs-lisp
-(use-package yapfify
-  :ensure t
-  :bind ( :map python-mode-map
-          ("C-c f" . yapfify-buffer)
-          :map python-ts-mode-map
-          ("C-c f" . yapfify-buffer)
-          ))
-#+end_src
-
-** COMMENT Dap-debug (Python)                                                :debug:
-+You need to install ~ptvsd>=4.2~ in your virtual environment+
-
-You need to install ~debugpy~ in your virtual environment
-
-#+begin_src emacs-lisp
-(use-package dap-python
-  :defer t ;; We will explicitly load dap-python in python-mode-hook
-  :custom
-  (dap-python-debugger 'debugpy)
-  )
-#+end_src
-
-** Dape Python - Debug Protocol                                              :debug:
-Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] in your python environment. Then running =dape= should be enough.
-
-** code-cells-mode
-When code-cell-mode is active, several keybindings are added to the =C-c %= prefix. I have
-added keybindings to some of the commands to easier keys.
-
-NOTE: code-cells-mode will also define the cells as the outline. With this,
-=consult-outline= becomes a nice way to quickly navigate between cells.
-
-#+begin_src emacs-lisp
-(use-package code-cells
-  :ensure t
-  :commands (code-cells-mode)
-  :bind ( :map code-cells-mode-map
-          ("C-M-p" . code-cells-backward-cell)
-          ("C-M-n" . code-cells-forward-cell)
-          ("M-S-<up>" . code-cells-move-cell-up)
-          ("M-S-<down>" . code-cells-move-cell-down)
-          )
-  :hook ((python-base-mode . code-cells-mode))
-  )
-#+end_src
-
-Standard keybindings
-|---------+---------------------------------|
-| =C-c % e= | code-cells-eval                 |
-| =C-c % b= | code-cells-backward-cell        |
-| =C-c % f= | code-cells-forward-cell         |
-| =C-c % B= | code-cells-move-cell-up         |
-| =C-c % F= | code-cells-move-cell-down       |
-| =C-c % ;= | code-cells-comment-or-uncomment |
-| =C-c % @= | code-cells-mark-cell            |
-|---------+---------------------------------|
-* Lisp
-** General keybindings to run elisp code
-#+begin_src emacs-lisp
-(use-package emacs
-  :ensure nil
-  :bind (:map emacs-lisp-mode-map
-              ;; Run all defined tests
-              ([f9] . (lambda () (interactive) (ert t)))
-              ;; Eval buffer and run all defined tests
-              ([C-f9] . (lambda () (interactive) (eval-buffer) (ert t)))
-              ;; delete all tests before evaluating the buffer and running all tests
-              ([C-S-f9] . (lambda () (interactive) (ert-delete-all-tests) (eval-buffer) (ert t)))
-              ;; Ask for which test to run
-              ([M-f9] . ert)
-              )
-  :custom
-  (flycheck-emacs-lisp-load-path 'inherit)
-  :hook
-  (emacs-lisp-mode  . (lambda () (setq fill-column 80))))
-#+end_src
-** Formatter for elisp code: elisp-autofmt
-https://codeberg.org/ideasman42/emacs-elisp-autofmt
-
-NOTE: You need to create an empty =.elisp-autofmt= file in order for =elisp-autofmt-mode= to
-reformat the buffer on save.
-#+begin_src emacs-lisp
-(use-package elisp-autofmt
-  :ensure t
-  :commands (elisp-autofmt-mode elisp-autofmt-buffer)
-  :hook (emacs-lisp-mode . elisp-autofmt-mode)
-  :bind ( :map emacs-lisp-mode-map
-          ("C-c f" . 'elisp-autofmt-buffer)))
-#+end_src
-
-** COMMENT ert buffer always at bottom
-#+begin_src emacs-lisp
-(add-to-list 'display-buffer-alist
-               '("\\*ert\\*"
-                 bottom-buffer-manager-display-action-function
-                 ;; The following lines are the "action alist" passed to
-                 ;; display-buffer. For now, I only want to remove the
-                 ;; mode-line.
-                 (window-height . 0.28)
-                 ))
-#+end_src
-
-** ert buffer in side-window
-#+begin_src emacs-lisp
-(add-to-list 'display-buffer-alist
-               '("\\*ert\\*"
-                 display-buffer-in-side-window
-                 ;; The following lines are the "action alist" passed to
-                 ;; display-buffer. For now, I only want to remove the
-                 ;; mode-line.
-                 (side . right)
-                 (slot . 1)
-                 (window-width . 0.22)
-                 (window-height . fit-window-to-buffer)))
-#+end_src
-
-* Go                                                                 :Go:Programming:
-Note: Go uses tabs as a convention for indentation. That is why even if you set
-=indent-tabs-mode= to nil, it will still be set to =t= in =go-ts-mode= (the mode sets
-indent-tabs-mode as a local variable).
-
-** General configuration for go
-#+begin_src emacs-lisp
-(defun my-go-run-current-file ()
-  "Run the current Go file."
-  (interactive)
-  (if-let* ((compilation-always-kill t)
-            (file (buffer-file-name)))
-      (compile (format "go run %s" file))
-    ))
-
-(use-package go-ts-mode
-  :ensure nil
-  :custom
-  (go-ts-mode-indent-offset 4)
-
-  :bind ( :map go-ts-mode-map
-          ("C-c C-c" . my-go-run-current-file)
-          ([f8] . my-go-run-current-file)
-          ([f9] . compile)
-          ([f10] . recompile)
-          ([S-f10] . kill-compilation)
-          ))
-#+end_src
-
-** Make Emacs recognize a folder with go.mod as project root
-Code from https://go.dev/gopls/editor/emacs
-
-#+begin_src emacs-lisp
-(defun project-find-go-module (dir)
-  (when-let ((root (locate-dominating-file dir "go.mod")))
-    (cons 'go-module root)))
-
-
-(cl-defmethod project-root ((project (head go-module)))
-  (cdr project))
-
-
-(add-hook 'project-find-functions #'project-find-go-module)
-#+end_src
-
-* Javascript and Typescript
-Note: See configuration in https://github.com/llemaitre19/jtsx and set keybindings.
-
-#+begin_src emacs-lisp
-;; (use-package emacs
-;;   :mode
-;;   ("\\.ts$" . typescript-ts-mode)
-;;   )
-
-(use-package jtsx
-:ensure t
-:mode
-;; ("\\.tsx" . tsx-ts-mode)
-("\\.jsx$" . jtsx-jsx-mode)
-("\\.tsx$" . jtsx-tsx-mode)
-;; ("\\.ts$" . jtsx-typescript-mode)
-)
-#+end_src
-
 * CSV
 #+begin_src emacs-lisp
 (use-package csv-mode
@@ -7308,14 +7317,6 @@ Just run =M-x counsel-jq= in a json buffer. Enter any query and you can see a li
   :ensure t
   :commands (counsel-jq)
 )
-#+end_src
-
-* Protobuf
-#+begin_src emacs-lisp
-(use-package protobuf-mode
-  :ensure t
-  :defer t
-  )
 #+end_src
 
 * PCoIP log-file mode
@@ -8144,6 +8145,9 @@ This only makes sense for empty buffers."
   )
 #+end_src
 
+** Texpresso
+Live Latex
+https://github.com/let-def/texpresso
 * Preview Latex (org-mode and programming modes)                      :Latex:Preview:
 Layer darcamo-preview-latex
 
@@ -9611,9 +9615,6 @@ https://github.com/tninja/aider.el
 ** Claude Code
 See https://github.com/manzaltu/claude-code-ide.el
 
-* Texpresso
-Live Latex
-https://github.com/let-def/texpresso
 * SSH File Modes
 Improve viewing SSH key related files (=authorized_keys= and =know_hosts=)
 #+begin_src emacs-lisp
