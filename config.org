@@ -4097,6 +4097,76 @@ Try addapting the example below
   )
 #+end_src
 
+** Map some languages in src blocks                              :CMake:QML:YAML:Go:
+#+begin_src elisp
+(add-to-list 'org-src-lang-modes '("go" . go-ts))
+(add-to-list 'org-src-lang-modes '("yaml" . yaml-ts))
+(add-to-list 'org-src-lang-modes '("qml" . qml-ts))
+(add-to-list 'org-src-lang-modes '("cmake" . cmake-ts))
+(add-to-list 'org-src-lang-modes '("json" . json-ts))
+#+end_src
+
+** Preview Latex (org-mode and programming modes)                       :Latex:Preview:
+Layer darcamo-preview-latex
+
+#+begin_src emacs-lisp
+(use-package org
+  :defer t
+  :init
+  ;; Muda a escala das fórmulas de latex geradas para o preview-latex e para o exporte para html
+  (setq org-format-latex-options (quote (:foreground default :background default :scale 1.7 :html-foreground "Black" :html-background "Transparent" :html-scale 1.7 :matchers ("begin" "$1" "$" "$$" "\\(" "\\["))))
+
+  ;; Change the default latex packages
+  ;; (setq org-latex-default-packages-alist
+  ;;       '(("AUTO" "inputenc" t)
+  ;;         ("T1" "fontenc" t)
+  ;;         ;; ("" "fixltx2e" nil)  ;; This package is not necessary anymore
+  ;;         ("" "graphicx" t)
+  ;;         ("" "longtable" nil)
+  ;;         ("" "float" nil)
+  ;;         ("" "wrapfig" nil)
+  ;;         ("" "soul" t)
+  ;;         ("" "textcomp" t)
+  ;;         ("" "marvosym" t)
+  ;;         ;; ("" "wasysym" t) ;; Removed, since it conflicts with something in
+  ;;         ;;                  ;; my MathDefinitions package.
+  ;;         ("" "MathDefinitions" t)  ;; My custom latex package. Latex must be
+  ;;         ;; able to find this package.
+  ;;         ("" "latexsym" t)
+  ;;         ("" "amssymb" t)
+  ;;         ("" "hyperref" nil)
+  ;;         ("" "tikz" nil)  ;; If tikz is enabled in latex fragments the
+  ;;         ;; equations will be rendered in black even when
+  ;;         ;; the Emacs background is dark
+  ;;         "\\tolerance=1000"))
+
+  (add-to-list 'org-latex-default-packages-alist '("" "MathDefinitions" t) t)
+  (add-to-list 'org-latex-default-packages-alist '("" "tikz" nil) t)
+
+  ;; Faz com que o commando \vec seja conhecido para o preview latex
+  (setq org-preview-latex-image-directory "~/tmp/ltxpng/")
+
+  :bind
+  (:map prog-mode-map
+        ([C-f5] . org-latex-preview)
+        :map org-mode-map
+        ([C-f5] . org-latex-preview)
+        )
+  )
+
+
+;; (use-package org-fragtog
+;;   :ensure t
+;;   :commands (org-fragtog-mode)
+;;   :hook (org-mode . org-fragtog-mode)
+;;   :hook (python-mode . org-fragtog-mode)
+;;   :hook (c-mode-common . org-fragtog-mode)
+;;   )
+#+end_src
+
+* Org-mode Ecosystem Packages
+Configuration for package build over org-mode which don't have another better section in
+my config file are located here.
 ** org-download
 #+begin_src emacs-lisp
 (use-package org-download
@@ -4150,16 +4220,7 @@ https://nobiot.github.io/org-transclusion/
   :ensure t)
 #+end_src
 
-** Map some languages in src blocks                              :CMake:QML:YAML:Go:
-#+begin_src elisp
-(add-to-list 'org-src-lang-modes '("go" . go-ts))
-(add-to-list 'org-src-lang-modes '("yaml" . yaml-ts))
-(add-to-list 'org-src-lang-modes '("qml" . qml-ts))
-(add-to-list 'org-src-lang-modes '("cmake" . cmake-ts))
-(add-to-list 'org-src-lang-modes '("json" . json-ts))
-#+end_src
-
-* org-remark
+** org-remark
 Org-remark lets you highlight and annotate any text file with using Org mode.
 
 Note that the text file being highlighted can be any text file (including source code).
@@ -4205,7 +4266,7 @@ This package is not in melpa yet.
   )
 #+end_src
 
-* COMMENT org-reveal
+** COMMENT org-reveal
 
 Parece que o org-reveal não é mais mantido e não está mais funcionando.
 
@@ -4222,7 +4283,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   )
 #+end_src
 
-* org-re-reveal
+** org-re-reveal
 #+begin_src emacs-lisp
 (use-package org-re-reveal
   :ensure t
@@ -8148,64 +8209,6 @@ This only makes sense for empty buffers."
 ** Texpresso
 Live Latex
 https://github.com/let-def/texpresso
-* Preview Latex (org-mode and programming modes)                      :Latex:Preview:
-Layer darcamo-preview-latex
-
-#+begin_src emacs-lisp
-(use-package org
-  :defer t
-  :init
-  ;; Muda a escala das fórmulas de latex geradas para o preview-latex e para o exporte para html
-  (setq org-format-latex-options (quote (:foreground default :background default :scale 1.7 :html-foreground "Black" :html-background "Transparent" :html-scale 1.7 :matchers ("begin" "$1" "$" "$$" "\\(" "\\["))))
-
-  ;; Change the default latex packages
-  ;; (setq org-latex-default-packages-alist
-  ;;       '(("AUTO" "inputenc" t)
-  ;;         ("T1" "fontenc" t)
-  ;;         ;; ("" "fixltx2e" nil)  ;; This package is not necessary anymore
-  ;;         ("" "graphicx" t)
-  ;;         ("" "longtable" nil)
-  ;;         ("" "float" nil)
-  ;;         ("" "wrapfig" nil)
-  ;;         ("" "soul" t)
-  ;;         ("" "textcomp" t)
-  ;;         ("" "marvosym" t)
-  ;;         ;; ("" "wasysym" t) ;; Removed, since it conflicts with something in
-  ;;         ;;                  ;; my MathDefinitions package.
-  ;;         ("" "MathDefinitions" t)  ;; My custom latex package. Latex must be
-  ;;         ;; able to find this package.
-  ;;         ("" "latexsym" t)
-  ;;         ("" "amssymb" t)
-  ;;         ("" "hyperref" nil)
-  ;;         ("" "tikz" nil)  ;; If tikz is enabled in latex fragments the
-  ;;         ;; equations will be rendered in black even when
-  ;;         ;; the Emacs background is dark
-  ;;         "\\tolerance=1000"))
-
-  (add-to-list 'org-latex-default-packages-alist '("" "MathDefinitions" t) t)
-  (add-to-list 'org-latex-default-packages-alist '("" "tikz" nil) t)
-
-  ;; Faz com que o commando \vec seja conhecido para o preview latex
-  (setq org-preview-latex-image-directory "~/tmp/ltxpng/")
-
-  :bind
-  (:map prog-mode-map
-        ([C-f5] . org-latex-preview)
-        :map org-mode-map
-        ([C-f5] . org-latex-preview)
-        )
-  )
-
-
-;; (use-package org-fragtog
-;;   :ensure t
-;;   :commands (org-fragtog-mode)
-;;   :hook (org-mode . org-fragtog-mode)
-;;   :hook (python-mode . org-fragtog-mode)
-;;   :hook (c-mode-common . org-fragtog-mode)
-;;   )
-#+end_src
-
 * TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
 Veja a nota [[file:~/org/org-roam-notes/20210305171627-leituras_de_papers_e_outros_documentos.org][Leituras de papers e outros documentos]]
 
@@ -8345,7 +8348,6 @@ https://github.com/bdarcus/citar#notes
 ** TODO Org-noter                                   :Investigate:OrgMode:OrgNoter:
 
 * E-Mail
-
 ** Set some common Email related variables
 #+begin_src emacs-lisp
 ;; The my-define-mail-variables function just define some variables
