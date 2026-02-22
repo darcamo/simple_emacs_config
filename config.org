@@ -1566,6 +1566,7 @@ The keybindinds all start with =C-x t=
          ([C-S-f11] . open-terminal-default-dir)
          ;; ("M-[" . switch-to-prev-buffer)
          ;; ("M-]" . switch-to-next-buffer)
+         ("C-c C-o" . org-open-at-point-global)
          ("C-z" . eshell)
          ("M-z" . start-term-zsh-or-bash)
          ("C-c o" . other-frame) ; When there are multiple frames, change to another frame
