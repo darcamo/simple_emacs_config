@@ -2629,7 +2629,12 @@ review, etc)
          :map org-mode-map
          ([C-M-return] . org-meta-return)
          ([f8] . org-toggle-link-display)
-         ([S-f8] . org-toggle-inline-images)
+         ([S-f8] . (lambda () (interactive)
+                     (if (fboundp 'org-link-preview)
+                         (org-link-preview)  ;; Added in Org-mode 9.8
+                       (org-toggle-inline-images)
+                       )
+                     ))
          ([C-f8] . darcamo/org-toggle-emphasis)
 
          ;; This will open a PDF file with the same name of the org-mode file
