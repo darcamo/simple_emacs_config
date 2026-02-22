@@ -9306,8 +9306,13 @@ a symbol."
                                                      moonshotai/kimi-k2
                                                      google/gemini-2.5-pro
                                                      google/gemini-2.5-flash
+                                                     z-ai/glm-5
+                                                     minimax/minimax-m2.5
+                                                     moonshotai/kimi-k2.5
                                                      )))
   (setq-default gptel-expert-commands t)
+
+  ;; See gptel--sanitize-model
   ;; (darcamo/set-gptel-default-model "OpenRouter" 'google/gemini-2.5-flash)
   (darcamo/set-gptel-default-model "Copilot" 'gpt-4o)
 
