@@ -2054,6 +2054,26 @@ overlay.
   )
 #+end_src
 
+** Outline
+#+begin_src emacs-lisp
+(use-package outline
+  :diminish outline-minor-mode
+  :defer t
+  :commands outline-minor-mode
+  :bind (:map outline-minor-mode-map
+              ("C-M-n" . outline-next-visible-heading)
+              ("C-M-p" . outline-previous-visible-heading)
+              ("C-M-u" . outline-up-heading)
+              )
+  )
+
+(defun darcamo/set-up-outline-minor-mode (local-outline-regexp)
+  "Set the outline-regex to local-outline-regexp"
+  (set (make-local-variable 'outline-regexp) local-outline-regexp)
+  (outline-minor-mode t)
+  )
+#+end_src
+
 * Shell integration
 ** eat
 TODO: https://codeberg.org/akib/emacs-eat
@@ -2292,19 +2312,6 @@ review, etc)
 (require 'server)
 (unless (server-running-p)
   (server-start))
-#+end_src
-
-* Artist-mode
-#+begin_src emacs-lisp
-(use-package artist
-  :defer artist
-  :hook
-  (artist-mode . (lambda ()
-   (add-to-list 'prettify-symbols-alist '("->" . "→"))
-   (setq prettify-symbols-unprettify-at-point t)
-   (prettify-symbols-mode)
-   ))
-  )
 #+end_src
 
 * Spell and grammar checking                                          :SpellChecking:
@@ -4090,7 +4097,7 @@ Try addapting the example below
   )
 #+end_src
 
-** Extra packages for org-mode
+** org-download
 #+begin_src emacs-lisp
 (use-package org-download
   :ensure t
@@ -4104,6 +4111,9 @@ Try addapting the example below
 #+end_src
 
 ** org-journal
+
+TODO: Move all org-journal files to my org-roam/vulpea daily files
+
 Default prefix is =C-c C-=
    This prefix key is used for:
    - ‘org-journal-next-entry’ (key "f")
@@ -4230,8 +4240,9 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
 )
 #+end_src
 
-* COMMENT Org-roam                                                                  :OrgRoam:
-** Configuration
+* PKM
+** COMMENT Org-roam                                                           :OrgRoam:
+*** Configuration
 #+begin_src emacs-lisp
 ;; Format of the filename used for my org-roam notes
 (setq my--note-filename-format "%<%Y%m%d%H%M%S>-${slug}.org")
@@ -4460,7 +4471,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
     (find-file (org-ref-get-pdf-filename key))
     ))
 #+end_src
-** Roam buffer improvements
+*** Roam buffer improvements
 #+begin_src emacs-lisp
 (defun darcamo/go-to-next-backlink ()
   "Go to the next link pointint to `org-roam-buffer-current-node'."
@@ -4485,7 +4496,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
               ("C-n" . darcamo/go-to-next-backlink)
               ("C-p" . darcamo/go-to-previous-backlink)))
 #+end_src
-** consult-org-roam                                                        :Consult:
+*** consult-org-roam                                                        :Consult:
 https://github.com/jgru/consult-org-roam
 #+begin_src emacs-lisp
 (use-package consult-org-roam
@@ -4524,7 +4535,7 @@ https://github.com/jgru/consult-org-roam
   )
 #+end_src
 
-** COMMENT Org-roam-bibtex                                            :Bibtex:Latex:
+*** COMMENT Org-roam-bibtex                                            :Bibtex:Latex:
 #+begin_src emacs-lisp
 (use-package org-roam-bibtex
   :ensure t
@@ -4547,9 +4558,9 @@ https://github.com/jgru/consult-org-roam
   )
 #+end_src
 
-** TODO org-roam-ql
+*** TODO org-roam-ql
 Veja mais sobre ele
-** Functions to find IDs in all roam files
+*** Functions to find IDs in all roam files
 *Note*: If IDs are not known and you need to search all org-roam files for IDs, run the
 ~my/org-id-update-org-roam-files~ function.
 
@@ -4565,7 +4576,7 @@ Veja mais sobre ele
   (org-id-update-id-locations (list (buffer-file-name (current-buffer)))))
 #+end_src
 
-** Org-roam UI
+*** Org-roam UI
 #+begin_src emacs-lisp
 (use-package org-roam-ui
   :ensure t
@@ -4578,10 +4589,10 @@ Veja mais sobre ele
   )
 #+end_src
 
-** TODO orgnote
+*** TODO orgnote
 https://github.com/Artawower/orgnote
 
-** COMMENT nursery
+*** COMMENT nursery
 https://github.com/chrisbarrett/nursery
 
 Several small packages that extend org-roam in some way.
@@ -4593,8 +4604,8 @@ The package =org-roam-gc= seems useful if you start using roam dailies.
 The package =org-roam-rewrite= has commands for renaming nodes, rewriting links and deleting
 nodes with redirection so you can refactor notes without leaving broken links.
 
-* COMMENT Denote                                                             :Denote:
-** General configuration
+** COMMENT Denote                                                              :Denote:
+*** General configuration
 #+begin_src emacs-lisp
 (use-package denote
   :ensure t
@@ -4673,7 +4684,7 @@ nodes with redirection so you can refactor notes without leaving broken links.
   )
 #+end_src
 
-** Consult Denote                                                          :Consult:
+*** Consult Denote                                                          :Consult:
 #+begin_src emacs-lisp
 (use-package consult-denote
   :ensure t
@@ -4684,7 +4695,7 @@ nodes with redirection so you can refactor notes without leaving broken links.
   (consult-denote-mode 1))
 #+end_src
 
-** Denote menu
+*** Denote menu
 Just call =list-denotes=.
 
 In the tabulated list, call =denote-menu-filter-*= functions to filter and
@@ -4704,7 +4715,7 @@ In the tabulated list, call =denote-menu-filter-*= functions to filter and
     ("/" . denote-menu-clear-filters)))
 #+end_src
 
-** Denote refs
+*** Denote refs
 Add a comment after the front matter with the backlinks.
 
 Use =denote-refs-mode= in a denote file to toggle the minnor mode.
@@ -4718,7 +4729,7 @@ Use =denote-refs-mode= in a denote file to toggle the minnor mode.
 )
 #+end_src
 
-** Denote Journal
+*** Denote Journal
 Note that in the calendar view you can use ="F"= on a date with a journal to go to the
 journal entry, and ="N"= to create a new entry.
 
@@ -4752,11 +4763,11 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
   )
 #+end_src
 
-* Vulpea
+** Vulpea
 
 TODO: Take another look at each individual page (specially for vulpea-journal) for configuration
 
-** General
+*** General
 #+begin_src emacs-lisp
 (use-package vulpea
   :ensure (vulpea :type git :host github :repo "darcamo/vulpea")
@@ -4784,10 +4795,18 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
   (vulpea-create-default-template '(:file-name "${timestamp}_${slug}.org"
                                                :head "#+SETUPFILE: org-roam-setup.org\n\n"
                                                :properties (("CREATED" . "%<[%Y-%m-%d]>"))))
+                                               ;; (vulpea-ui-backlinks-sort 'title-asc)
+                                               (vulpea-ui-backlinks-sort 'title-desc)
   )
 #+end_src
 
-** Vulpea consult
+TODO: I could customize =vulpea-ui-backlinks-note-filter= to NOT include journal entries
+in the backlinks. Then create a "Journal" widget to show journal backlinks.
+
+Alternativelly, I could customize =vulpea-ui-backlinks-sort= to make journal entries
+appear first (but in decreasing order).
+
+*** Vulpea consult
 #+begin_src emacs-lisp
 ;; Make vulpea-find and friends show a preview
 ;;
@@ -4802,7 +4821,7 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
   )
 #+end_src
 
-** Vulpea-ui
+*** Vulpea-ui
 #+begin_src emacs-lisp
 (use-package vui
   :ensure (vui :type git :host github :repo "d12frosted/vui.el")
@@ -4813,9 +4832,15 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
   :after vulpea
   :ensure (vulpea-ui :type git :host github :repo "d12frosted/vulpea-ui")
   )
+
+  ;; (add-to-list 'display-buffer-alist
+  ;;            '("*vulpea-ui-side"
+  ;;              display-buffer-in-tab
+  ;;              (tab-name . "Journal")
+  ;;              ))
 #+end_src
 
-** Vulpea-journal
+*** Vulpea-journal
 #+begin_src emacs-lisp
 ;; https://github.com/d12frosted/vulpea-journal
 ;; TODO: Customize vulpea-journal-default-template
@@ -5002,26 +5027,6 @@ This is an association list of regexp and major mode function. If the page URL m
   (visual-fill-column-width 120)
   :hook
   (org-mode . visual-fill-column-mode)
-  )
-#+end_src
-
-* Outline
-#+begin_src emacs-lisp
-(use-package outline
-  :diminish outline-minor-mode
-  :defer t
-  :commands outline-minor-mode
-  :bind (:map outline-minor-mode-map
-              ("C-M-n" . outline-next-visible-heading)
-              ("C-M-p" . outline-previous-visible-heading)
-              ("C-M-u" . outline-up-heading)
-              )
-  )
-
-(defun darcamo/set-up-outline-minor-mode (local-outline-regexp)
-  "Set the outline-regex to local-outline-regexp"
-  (set (make-local-variable 'outline-regexp) local-outline-regexp)
-  (outline-minor-mode t)
   )
 #+end_src
 
@@ -8264,7 +8269,7 @@ These commands work together: for example, =crossref-lookup= displays a list of 
 ** TODO Bibtex-completions                                             :Investigate:
 Used by org-roam-bibtex
 
-** TODO Org-ref or citar [0/1]                :AllTheIcons:Citar:Investigate:OrgRef:
+** TODO Org-ref or citar [0/1] :AllTheIcons:Citar:Investigate:OrgMode:OrgRef:
 NOTE:
 - citar uses two caches to speed up library display; one for the global bibliography, and
   another for local files specific to a buffer. This is great for performance, but means
@@ -8333,7 +8338,7 @@ Some useful keybindings
 *** TODO Configure note support in citar (integrated with org-roam)
 https://github.com/bdarcus/citar#notes
 
-** TODO Org-noter                                             :Investigate:OrgNoter:
+** TODO Org-noter                                   :Investigate:OrgMode:OrgNoter:
 
 * E-Mail
 
@@ -8964,14 +8969,15 @@ See more in https://github.com/chenyanming/calibredb.el
   )
 #+end_src
 
-* Dev container                                                              :Docker:
+* Containers
+** TODO Dev container                                                       :Docker:
 
 Allow working inside containers. I haven't tested it yet.
 
 https://github.com/johannes-mueller/devcontainer-mode
 
-* Docker                                                                     :Docker:
-** Docker package
+** Docker                                                                      :Docker:
+*** Docker package
 Manage docker from Emacs.
 https://github.com/Silex/docker.el
 
@@ -8983,7 +8989,7 @@ https://github.com/Silex/docker.el
   )
 #+end_src
 
-** Dockerfile-mode package                                                  :Docker:
+*** Dockerfile-mode package                                                  :Docker:
 #+begin_src emacs-lisp
 (use-package dockerfile-mode
   :ensure t
@@ -8991,7 +8997,8 @@ https://github.com/Silex/docker.el
   )
 #+end_src
 
-* PlantUML
+* Diagrams and drawing
+** PlantUML
 Note: Org-mode has native support for evaluating code blocks using plantUML. Just add
 plantuml to =org-babel-load-languages=. Here we are adding plantuml-mode, which is a
 separated package that provides syntax highlight for plantuml code and also has a way to
@@ -9013,7 +9020,7 @@ execute the code.
   )
 #+end_src
 
-* COMMENT Mermaid
+** COMMENT Mermaid
 Note: You need to install [[https://github.com/mermaid-js/mermaid-cli][mermaid-cli]].
 
 The CLI executable is =mmdc=.
@@ -9026,6 +9033,19 @@ The CLI executable is =mmdc=.
 You can compile with =C-c C-c=.
 
 See [[https://github.com/abrochard/mermaid-mode?tab=readme-ov-file#usage][Usage]] for the keybindings.
+
+** Artist-mode
+#+begin_src emacs-lisp
+(use-package artist
+  :defer artist
+  :hook
+  (artist-mode . (lambda ()
+   (add-to-list 'prettify-symbols-alist '("->" . "→"))
+   (setq prettify-symbols-unprettify-at-point t)
+   (prettify-symbols-mode)
+   ))
+  )
+#+end_src
 
 * x509-mode
 https://github.com/jobbflykt/x509-mode
