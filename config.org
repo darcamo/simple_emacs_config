@@ -3176,6 +3176,14 @@ Full list of options:
 (add-hook 'org-capture-after-finalize-hook 'my-org-capture-other-frame-cleanup)
 #+end_src
 
+** org-autolist
+#+begin_src emacs-lisp
+(use-package org-autolist
+  :ensure t
+  :hook (org-mode . org-autolist-mode)
+  )
+#+end_src
+
 ** Clock In/Out
 *** Functions
 #+begin_src emacs-lisp
