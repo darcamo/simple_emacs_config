@@ -2005,8 +2005,6 @@ Usage
   :commands (journalctl journalctl-transient)
 )
 #+end_src
-** COMMENT draw.io                                                                 :OrgMode:
-https://github.com/4honor/org-drawio
 ** symbol-overlay
 Default key-bindings defined in symbol-overlay-map:
 
@@ -4301,7 +4299,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
 )
 #+end_src
 
-* PKM
+* PKM and reference systems
 ** COMMENT Org-roam                                                           :OrgRoam:
 *** Configuration
 #+begin_src emacs-lisp
@@ -4932,82 +4930,68 @@ appear first (but in decreasing order).
                ))
 #+end_src
 
-* Markdown                                                                 :markdown:
-** General config
+** calibredb                                                    :Calibre:calibre:ebook:
+Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
+("=R=" to remove the filter), "=f=" to filter ("=r=" to remove filter), "=RET=" to open an ebook,
+=".=" to open dired, "=o=" to sort, etc. You can access a transient menu with "=?=", which shown
+all of these keybindings.
+
+See more in https://github.com/chenyanming/calibredb.el
+
+- TIP: In the calibredb-search buffer, try pressing =TAB= or =S-TAB=.
+- TIP: Any book with a "favorite" tag has a star before its name.
+- TIP: Any book with a "highlight" tag is highlighted
+- TIP: Any book with a "archive" tag is "archived" (grayed out)
+- TIP: See the several "calibredb-set-metadata-*" commands to easily edit a single
+  metadata field
+- TIP: In the calibredb-search buffer you can click in several places to perform the corresponding filtering
+  * the favorit icon
+  * an author name
+  * a file format
+  * a tag
+- TIP: To add a file to the library use =calibredb-add=
+  - After that use "=s f=" to fetch the metadata.
+
+*** configuration                                                       :AllTheIcons:
 #+begin_src emacs-lisp
-(use-package markdown-mode
+(use-package calibredb
   :ensure t
-  :defer t
   :custom
-  (markdown-fontify-code-blocks-natively t)
-  :config
-  (set-face-attribute 'markdown-code-face nil :background "gray10")
-  (set-face-attribute 'markdown-header-face-1 nil :height 1.5)
-  (set-face-attribute 'markdown-header-face-2 nil :height 1.3)
-  (set-face-attribute 'markdown-header-face-3 nil :underline t)
-  :hook
-  (markdown-mode . (lambda () (setq fill-column 120)))
+  (calibredb-root-dir (expand-file-name "~/Dropbox/Calibre Library"))
+  (calibredb-format-all-the-icons t)
+  (calibredb-comment-width 0)  ;; Set comment width to 0 in order to hide it
+  (calibredb-title-width 60)
+  (calibredb-author-width 25)
+  (calibredb-virtual-library-alist '(("Light Novels" . "Light Novel")
+                                     ("Programming" . "Programming")
+                                     ("Machine Learning" . "Machine Learning")
+                                     ("Engineering" . "Engineering")
+                                     ))
+  :bind
+  (([S-f6] . calibredb))
   )
 #+end_src
 
-** COMMENT Flymake support
-Note: You need to install the =markdownlint= package in the system.
-- The name of the executable is =mdl=.
-
+*** Open in a dedicated tab
 #+begin_src emacs-lisp
-(use-package flymake-markdownlint
-  :ensure t
-  :hook
-  (markdown-mode . flymake-mode)
-  (markdown-mode . flymake-markdownlint-setup)
-  :custom
-  (flymake-markdownlint-program "mdl")
-  )
-#+end_src
+(add-to-list 'display-buffer-alist
+             '("calibredb"
+               display-buffer-in-tab
+               (tab-name . "CalibreDB")
+               ))
 
-** Formatting
-Check the https://github.com/executablebooks/mdformat (system) package and how to
-configure it with apheleia
+(defun calibredb-close-tab ()
+  (let ((tab-name "CalibreDB"))
+    ;; Only if there is a tab for e-mail and the killed buffer is
+    ;; mu4e-main-buffer-name
+    (when (and
+           (tab-bar--tab-index-by-name tab-name)
+           (equal (buffer-name) "*calibredb-search*"))
+      (tab-bar-select-tab-by-name tab-name)  ;; Switch to the tab ...
+      (tab-bar-close-tab)  ;; and kill it
+      )))
 
-Another alternative is the https://github.com/nlamirault/emacs-markdownfmt emacs package
-- But it requires [[https://github.com/shurcooL/markdownfmt][markdownfmt]], which is not in the Arch repository of in the AUR.
-
-
-#+begin_src emacs-lisp
-(use-package markdown-mode
-:after apheleia
-:config
-  (push '(mdformat . ("/usr/bin/mdformat" "-" file))
-        apheleia-formatters)
-(add-to-list 'apheleia-mode-alist '(markdown-mode . mdformat))
-:bind (:map markdown-mode-map
-              ;; Save the buffer to file, format the file and reload the disk
-              ("C-c f" . apheleia-format-buffer)
-              )
-)
-#+end_src
-
-** Generate table of contents
-Call the command =markdown-toc-generate-toc= and a TOC will be inserted in the cursor position.
-
-#+begin_src elisp
-(use-package markdown-toc
-  :ensure t
-  :commands markdown-toc-generate-toc
-  )
-#+end_src
-
-** Preview using Guthub README preview
-Check the https://github.com/seagle0128/grip-mode package
-
-You need to install the python-grip package.
-
-#+begin_src emacs-lisp
-(use-package grip-mode
-  :ensure t
-  ;; Add a binding for `C-c C-c g` in markdown buffers
-  :bind (:map markdown-mode-command-map
-              ("g" . grip-mode)))
+(add-hook 'kill-buffer-hook    #'calibredb-close-tab)
 #+end_src
 
 * Edit indirect buffer
@@ -5019,33 +5003,6 @@ See the docstring of [[help:edit-indirect-region][edit-indirect-region]] for det
 #+begin_src emacs-lisp
 (use-package edit-indirect
   :ensure t)
-#+end_src
-
-* eww
-** Modify a few shr faces
-#+begin_src emacs-lisp
-(use-package shr
-  :defer t
-  :config
-  ;; Use the same color as org-code for the shr-code face
-  (let ((color (plist-get (custom-face-attributes-get 'org-code nil) :foreground)))
-    (set-face-attribute 'shr-code nil :foreground color))
-
-  (set-face-attribute 'shr-h1 nil :height 1.5)
-  (set-face-attribute 'shr-h2 nil :height 1.2)
-  )
-#+end_src
-
-** Syntax highlight for code blocks in eww
-#+begin_src emacs-lisp
-(use-package shr-tag-pre-highlight
-  :ensure t
-  :commands shr-tag-pre-highlight
-  :hook
-  (eww-mode . (lambda () (require 'shr-tag-pre-highlight)))
-  :config
-  (add-to-list 'shr-external-rendering-functions
-               '(pre . shr-tag-pre-highlight)))
 #+end_src
 
 * Atomic-chrome: Edit text-fields in the browser
@@ -7006,8 +6963,87 @@ it does not, then apheleia can be used instead.
 
 In each language configuration what needs to use apheleia for formatting, you might add an
 entry to =apheleia-formatters= and =apheleia-mode-alist=.
-* YAML                                                                         :YAML:
-** yaml-ts-mode
+* View/edit text formats (yaml, json, csv, markdown, latex, etc)
+** Markdown                                                                  :markdown:
+*** General config
+#+begin_src emacs-lisp
+(use-package markdown-mode
+  :ensure t
+  :defer t
+  :custom
+  (markdown-fontify-code-blocks-natively t)
+  :config
+  (set-face-attribute 'markdown-code-face nil :background "gray10")
+  (set-face-attribute 'markdown-header-face-1 nil :height 1.5)
+  (set-face-attribute 'markdown-header-face-2 nil :height 1.3)
+  (set-face-attribute 'markdown-header-face-3 nil :underline t)
+  :hook
+  (markdown-mode . (lambda () (setq fill-column 120)))
+  )
+#+end_src
+
+*** COMMENT Flymake support
+Note: You need to install the =markdownlint= package in the system.
+- The name of the executable is =mdl=.
+
+#+begin_src emacs-lisp
+(use-package flymake-markdownlint
+  :ensure t
+  :hook
+  (markdown-mode . flymake-mode)
+  (markdown-mode . flymake-markdownlint-setup)
+  :custom
+  (flymake-markdownlint-program "mdl")
+  )
+#+end_src
+
+*** Formatting
+Check the https://github.com/executablebooks/mdformat (system) package and how to
+configure it with apheleia
+
+Another alternative is the https://github.com/nlamirault/emacs-markdownfmt emacs package
+- But it requires [[https://github.com/shurcooL/markdownfmt][markdownfmt]], which is not in the Arch repository of in the AUR.
+
+
+#+begin_src emacs-lisp
+(use-package markdown-mode
+:after apheleia
+:config
+  (push '(mdformat . ("/usr/bin/mdformat" "-" file))
+        apheleia-formatters)
+(add-to-list 'apheleia-mode-alist '(markdown-mode . mdformat))
+:bind (:map markdown-mode-map
+              ;; Save the buffer to file, format the file and reload the disk
+              ("C-c f" . apheleia-format-buffer)
+              )
+)
+#+end_src
+
+*** Generate table of contents
+Call the command =markdown-toc-generate-toc= and a TOC will be inserted in the cursor position.
+
+#+begin_src elisp
+(use-package markdown-toc
+  :ensure t
+  :commands markdown-toc-generate-toc
+  )
+#+end_src
+
+*** Preview using Guthub README preview
+Check the https://github.com/seagle0128/grip-mode package
+
+You need to install the python-grip package.
+
+#+begin_src emacs-lisp
+(use-package grip-mode
+  :ensure t
+  ;; Add a binding for `C-c C-c g` in markdown buffers
+  :bind (:map markdown-mode-command-map
+              ("g" . grip-mode)))
+#+end_src
+
+** YAML                                                                          :YAML:
+*** yaml-ts-mode
 #+begin_src emacs-lisp
 (use-package emacs
   :mode
@@ -7017,7 +7053,7 @@ entry to =apheleia-formatters= and =apheleia-mode-alist=.
   )
 #+end_src
 
-** yaml-pro
+*** yaml-pro
 yaml-pro is a package that provides conveniences for editing yaml.
 
 This package has been written to leverage tree-sitter parsing facilities, allowing all of
@@ -7036,7 +7072,7 @@ It seems you use this as a minnor-mode (it does not replace yaml-mode
   )
 #+end_src
 
-** flymake-yamllint
+*** flymake-yamllint
 You need to innstall =yamllint= using your OS package manager
 #+begin_src emacs-lisp
 (use-package flymake-yamllint
@@ -7047,334 +7083,17 @@ You need to innstall =yamllint= using your OS package manager
   )
 #+end_src
 
-* Viewers (PDF, epub, etc)
-** PDF                                                                            :PDF:
-*** PDF-tools package
-#+begin_src emacs-lisp
-(use-package pdf-tools
-  :ensure t
-  :commands pdf-view-mode
-  ;; :config
-  ;; First argument "t" means "Build the program (if necessary)
-  ;; without asking first". The second argument "t" means "Don't
-  ;; attempt to install system packages".
-  ;; (pdf-tools-install t t)
-  :hook
-  (pdf-view-mode . pdf-tools-enable-minor-modes)
-  :mode
-  ("\\.pdf" . pdf-view-mode)
-  )
-#+end_src
-
-*** Restore page in the PDF on next visit - saveplace-pdf-view
-#+begin_src emacs-lisp
-(use-package saveplace-pdf-view
-  :ensure t
-  :config
-  (save-place-mode 1))
-#+end_src
-
-*** COMMENT Integration with org (create org-links)                         :OrgMode:
-#+begin_src emacs-lisp
-(use-package org-pdftools
-  :ensure t
-  :hook (org-mode . org-pdftools-setup-link))
-#+end_src
-
-*** Keybindings                                                         :Keybindings:
-#+begin_src emacs-lisp
-(use-package pdf-view
-  :defer t
-  :bind (
-         :map pdf-view-mode-map
-         ("i" . pdf-view-midnight-minor-mode)
-         ([f9] . tex-all)  ; We want to compile when viewing the PDF
-         ([f10] . (lambda () (interactive) (ver-pdf-no-evince (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
-         ([S-f10] . (lambda () (interactive) (eaf-open (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
-
-         ;; Set "g" as keybinding to "pdf-view-goto-page" when viewing pdfs
-         ("g" . pdf-view-goto-page)
-         ("<C-mouse-4>" . pdf-view-enlarge)
-         ("<C-mouse-5>" . pdf-view-shrink)
-         ("<S-mouse-4>" . (lambda () (interactive) (image-backward-hscroll 4)))
-         ("<S-mouse-5>" . (lambda () (interactive) (image-forward-hscroll 4)))
-
-         ("<M-left>" . (lambda () (interactive) (image-backward-hscroll 6)))
-         ("<M-right>" . (lambda () (interactive) (image-forward-hscroll 6)))
-         ("<C-left>" . (lambda () (interactive) (image-backward-hscroll 6)))
-         ("<C-right>" . (lambda () (interactive) (image-forward-hscroll 6)))
-
-         ("<C-M-left>" . (lambda () (interactive) (image-backward-hscroll 15)))
-         ("<C-M-right>" . (lambda () (interactive) (image-forward-hscroll 15)))
-
-         ("<C-up>" . (lambda () (interactive) (pdf-view-previous-line-or-previous-page 4)))
-         ("<C-down>" . (lambda () (interactive) (pdf-view-next-line-or-next-page 4)))
-         ("<M-up>" . (lambda () (interactive) (pdf-view-previous-line-or-previous-page 4)))
-         ("<M-down>" . (lambda () (interactive) (pdf-view-next-line-or-next-page 4)))
-         )
-  )
-#+end_src
-
-** COMMENT Emacs Reader
-It's still missing some basic functionality, like selecting text, but it's very fast and
-can open other formats besides PDF.
-#+begin_src emacs-lisp
-(use-package reader
-  :ensure '(reader :type git :host codeberg :repo "divyaranjan/emacs-reader"
-  	               :files ("*.el" "render-core.so")
-  	               :pre-build ("make" "all")))
-#+end_src
-
-** Epub reader                                                                  :ebook:
-*** nov package
-#+begin_src emacs-lisp
-;; https://depp.brause.cc/nov.el/
-(use-package nov
-  :ensure (nov :type git :host git :repo "https://depp.brause.cc/nov.el.git")
-  ;; git clone https://depp.brause.cc/nov.el.git
-  :mode
-  ("\\.epub\\'" . nov-mode)
-  )
-#+end_src
-
-*** COMMENT nov-xwidget package
-#+begin_src emacs-lisp
-(use-package nov-xwidget
-  :demand t
-  :after nov
-  :ensure (nov-xwidget :type git :repo "https://github.com/chenyanming/nov-xwidget")
-  :config
-  (define-key nov-mode-map (kbd "o") 'nov-xwidget-view)
-  (add-hook 'nov-mode-hook 'nov-xwidget-inject-all-files)
-  )
-#+end_src
-
-* Dired                                                                       :Dired:
-** Configuration
-#+begin_src emacs-lisp
-;; (use-package dired-git
-;; :ensure t
-;; :config (add-hook 'dired-mode-hook 'dired-git-mode)
-;; )
-
-(use-package dired
-  :custom
-  (dired-dwim-target 'dired-dwim-target-next)
-  )
-
-(use-package dired-x
-  :bind (:map dired-mode-map
-  ("C-x M-o" . dired-omit-mode))
-  :custom
-  (dired-listing-switches "-alhv")  ;; Add "h" to switches to get human-readable sizes
-
-  (dired-guess-shell-alist-user '(
-                                  ("\\.pdf\\'" "evince")
-                                  ("\\.xmind" "xmind-zen")
-                                  ))
-  :config
-  (add-to-list 'dired-omit-extensions ".fdb_latexmk")
-  (add-to-list 'dired-omit-extensions "synctex.gz")
-  (add-to-list 'dired-omit-extensions "log")
-  (add-to-list 'dired-omit-extensions "fls")
-  (add-to-list 'dired-omit-extensions "converted-to.pdf")
-  (add-to-list 'dired-omit-extensions "bcf")
-  (add-to-list 'dired-omit-extensions "acn")
-  (add-to-list 'dired-omit-extensions "acr")
-  (add-to-list 'dired-omit-extensions "alg")
-  (add-to-list 'dired-omit-extensions "ist")
-  (add-to-list 'dired-omit-extensions "loc")
-  (add-to-list 'dired-omit-extensions "soc")
-  (add-to-list 'dired-omit-extensions "slg")
-  (add-to-list 'dired-omit-extensions "slo")
-  (add-to-list 'dired-omit-extensions "sls")
-  (add-to-list 'dired-omit-extensions "wrt")
-  (add-to-list 'dired-omit-extensions "tikz.pdf")
-  (add-to-list 'dired-omit-extensions ".figlist")
-  (add-to-list 'dired-omit-extensions ".ilg")
-  (add-to-list 'dired-omit-extensions ".ind")
-  (add-to-list 'dired-omit-extensions ".out")
-  (add-to-list 'dired-omit-extensions ".run.xml")
-  (add-to-list 'dired-omit-extensions ".org_archive")
-  (add-to-list 'dired-omit-extensions ".bak")
-  (add-to-list 'dired-omit-extensions ".tramp_history")
-  (add-to-list 'dired-omit-extensions ".python_history")
-  (add-to-list 'dired-omit-extensions "qmlc")
-  (setq dired-omit-files (concat dired-omit-files "\\|^.idea"))
-  (setq dired-omit-files (concat dired-omit-files "\\|^.ipynb_checkpoints"))
-  (setq dired-omit-files (concat dired-omit-files "\\|^.cache"))
-  (setq dired-omit-files (concat dired-omit-files "\\|^.mypy_cache"))
-  (setq dired-omit-files (concat dired-omit-files "\\|^.ccls-cache"))
-  (setq dired-omit-files (concat dired-omit-files "\\|^.vscode"))
-  (setq dired-omit-files (concat dired-omit-files "\\|^__pycache__"))
-  )
-#+end_src
-
-** Icons in dired                                                      :AllTheIcons:
-#+begin_src emacs-lisp
-;; ;; Use the nice icons from treemacs in dired buffers
-;; (use-package treemacs-icons-dired
-;;   :ensure t
-;;   :commands treemacs-icons-dired-mode
-;;   :hook
-;;   (dired-mode . treemacs-icons-dired-mode)
-;;   )
-
-(use-package all-the-icons-dired
-  :ensure t
-  :commands all-the-icons-dired-mode
-  :hook
-  (dired-mode . all-the-icons-dired-mode)
-  :custom
-  (all-the-icons-color-icons t)
-  ;; (all-the-icons-dired-monochrome t)
-  ;; :config
-  ;; (set-face-attribute 'all-the-icons-dired-dir-face nil :foreground "gold")
-  )
-#+end_src
-
-** Some pretty symbols
-#+begin_src emacs-lisp
-(add-hook
- 'dired-mode-hook
- (lambda ()
-   (add-to-list 'prettify-symbols-alist '("AUTH\\\\" . "★"))
-   ;; (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (user-login-name)) . "🙋"))
-   ;; (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (group-name (group-gid))) . "🫂"))
-   (setq prettify-symbols-unprettify-at-point t)
-   (prettify-symbols-mode)
-   )
- )
-#+end_src
-
-** Imenu support
-#+begin_src emacs-lisp
-(use-package dired-imenu
-  :ensure t)
-#+end_src
-
-** Add more colors to dired based on file type
-https://github.com/Fuco1/dired-hacks?tab=readme-ov-file#dired-rainbow
-#+begin_src emacs-lisp
-(use-package dired-rainbow
-  :ensure t
-  :config
-
-  ;; (dired-rainbow-define dot-files "gray" "\\..*")
-
-  (dired-rainbow-define uninteresting font-lock-comment-face
-                        ("git" "gitignore" "gitattributes" "gitmodules" "git-blame-ignore-revs"
-                        "clang-format" "clang-tidy"
-                        "dir-locals.el"
-                        "lock"
-                        "shellcheckrc"
-                        ))
-
-
-                                        ; highlight executable files, but not directories
-  (dired-rainbow-define-chmod executable-unix font-lock-function-name-face "-[rw-]+x.*")
-
-  ;; .sh files
-  (dired-rainbow-define bash-files font-lock-function-name-face ("sh"))
-
-  ;; ;; Text files
-  ;; (dired-rainbow-define text font-lock-string-face ("org" "md" "txt"))
-  )
-#+end_src
-
-* Project                                                                   :Project:
-Emacs already has a notion of a "project" with native =project.el=
-
-Keybindings are in "C-x p <something>".
-
-Ex:
-- ~C-x p f~ for project-find-file
-- ~C-x p g~ for project-find-regexp
-- ~C-x p D~ for project-dired
-
-
-The problem with =project.el= is that it currently only supports VC and EDE backends. Most
-of the time this is enough, since I'm usually using git. However, sometimes being able to
-specify that a folder is a project with the presence of a special file (such as
-.projectile with the =projectile= library) is useful.
-
-** Make folders with .project file act as a project
-The code below will make emacs recognize a folder with a =.project= file as a project.
-#+begin_src emacs-lisp
-(cl-defmethod project-root ((project (head local)))
-  (cdr project))
-
-
-(defun get-fd-program ()
-  "Get the name of the fd program."
-  (let* ((distro-name (get-linux-distro-name))
-         (is-ubuntu? (string= "Ubuntu" distro-name)))
-    (if is-ubuntu?
-        "fdfind"
-      "fd")))
-
-
-(defun mu--project-files-in-directory (dir)
-  "Use `fd' to list files in DIR."
-  (let* ((default-directory dir)
-         (localdir (file-local-name (expand-file-name dir)))
-         (command (format "%s -t f -0 . %s" (get-fd-program) localdir)))
-    (project--remote-file-names
-     (sort (split-string (shell-command-to-string command) "\0" t)
-           #'string<))))
-
-
-(cl-defmethod project-files ((project (head local)) &optional dirs)
-  "Override `project-files' to use `fd' in local projects."
-  (mapcan #'mu--project-files-in-directory
-          (or dirs (list (project-root project)))))
-
-
-(use-package project
-  :defer t
-  :config
-  (add-to-list 'project-vc-extra-root-markers ".project"))
-#+end_src
-
-** Make project ignore the .venv folder                                       :venv:
-#+begin_src emacs-lisp
-(add-to-list 'project-vc-ignores "./.venv/")
-#+end_src
-
-* COMMENT Taskrunner
-The [[https://github.com/emacs-taskrunner/emacs-taskrunner][emacs-taskrunner]] library provide ways to gather tasks from different build systems and
-run these tasks. However, it does not directly have function for the user and instead
-relies on other packages to provide user-facing functions using ivy or helm. But we can
-create a simple wrapper using completing-read to not require any of these extra packages.
-#+begin_src emacs-lisp
-(use-package taskrunner
-  :ensure t
-  :defer t
-  :commands (taskrunner-get-tasks-sync)
-  :bind
-  ([C-f5] . vanilla-taskrunner)
-  :init
-  ;; Small snippet taken from https://github.com/emacs-taskrunner/emacs-taskrunner/issues/6
-  (defun vanilla-taskrunner (&optional ask)
-    (interactive "P")
-    (let ((task (completing-read "Task to run: "
-                                 (taskrunner-get-tasks-sync)
-                                 nil
-                                 t)))
-      (when task
-        (taskrunner-run-task task default-directory ask)))))
-#+end_src
-* CSV
+** CSV
 #+begin_src emacs-lisp
 (use-package csv-mode
   :commands csv-mode
   :ensure t)
 #+end_src
 
-* JSON
+** JSON
 Note: Run =npm i -g vscode-langservers-extracted= to install the json language server.
 
-** Use json-ts-mode for .json files
+*** Use json-ts-mode for .json files
 #+begin_src emacs-lisp
 (use-package emacs
   :mode
@@ -7395,7 +7114,7 @@ Note: Run =npm i -g vscode-langservers-extracted= to install the json language s
 ;;   ("C-c n r" . json-navigator-navigate-region)))
 #+end_src
 
-** counsel-jq
+*** counsel-jq
 Just run =M-x counsel-jq= in a json buffer. Enter any query and you can see a live preview. Pressing enter will put the result in a new buffer.
 
 #+begin_src elisp
@@ -7405,7 +7124,7 @@ Just run =M-x counsel-jq= in a json buffer. Enter any query and you can see a li
 )
 #+end_src
 
-* PCoIP log-file mode
+** PCoIP log-file mode
 #+begin_src emacs-lisp
 ;; You need to have the package already installed somewhere where Emacs can find it.
 ;; Currently this package is in a personal repository in the company bitbucket.
@@ -7476,19 +7195,8 @@ https://writequit.org/articles/working-with-logs-in-emacs.html
 ;;   )
 #+end_src
 
-* TZCPY
-#+begin_src emacs-lisp
-(use-package tzcpy
-  ;; :ensure (tzcpy :type git :host git :repo "git@github.azc.ext.hp.com:darlan-moreira/tzcpy.git")
-  :commands (tzcpy-view-available-versions tzcpy-show-current-context)
-  :custom
-  (tzcpy-python-folder (expand-file-name "~/git_files/docs/examples/"))
-  (tzcpy-default-endpoint-id "endpoint-4cc54e20e99c41f0a2d5a6a9df2c7f15")
-  )
-#+end_src
-
-* COMMENT Latex                                                               :Latex:
-** Some useful functions
+** COMMENT Latex                                                                :Latex:
+*** Some useful functions
 #+begin_src emacs-lisp
 (defun latex-skeleton-math-left-right ( left-symbol right-symbol)
   "Inserts \"\\left left-symbol \\right right-symbol\" and the cursor will be between \"\\left-symbol and \\right\"."
@@ -7576,7 +7284,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
   )
 #+end_src
 
-** Auctex General config                                                    :auctex:
+*** Auctex General config                                                   :auctex:
 #+begin_src emacs-lisp
 (use-package latex
   :demand t ;; Prevent the automatic deferred loading introduced by
@@ -7665,7 +7373,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
   )
 #+end_src
 
-** Set some faces
+*** Set some faces
 #+begin_src emacs-lisp
 ;; ;; Define a face for unimportant latex commands in math
 ;; ;; Taken from https://endlessparentheses.com/improving-latex-equations-with-font-lock.html
@@ -7748,7 +7456,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
  'append)
 #+end_src
 
-** Set some pretty symbols
+*** Set some pretty symbols
 #+begin_src emacs-lisp
 (defun darcamo/add-vector-and-matrix-prettify-symbol-letter (s)
   "This will call 'add-to-list' function to add a pretty symbol for '\\vtS and \\mtS'"
@@ -7805,7 +7513,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
       )
 #+end_src
 
-** LSP for Latex                                                               :LSP:
+*** LSP for Latex                                                              :LSP:
 #+begin_src emacs-lisp
 (use-package lsp-latex
   ;; NOTE: You need to install texlab for LSP to work with latex
@@ -7822,9 +7530,9 @@ TeX-command-master (from auctex) with a 'Latex' argument."
   )
 #+end_src
 
-** TODO Tectonic
+*** TODO Tectonic
 Investigate the use of lsp and latex with the [[https://github.com/tectonic-typesetting/tectonic][Tectonic]] engine
-** Beamer                                                                   :Beamer:
+*** Beamer                                                                  :Beamer:
 #+begin_src emacs-lisp
 (define-derived-mode beamer-mode
   LaTeX-mode "Beamer-Mode" "A derived mode from LaTeX-mode for latex buffers with beamer presentations."
@@ -8231,9 +7939,374 @@ This only makes sense for empty buffers."
   )
 #+end_src
 
-** Texpresso
+*** Texpresso
 Live Latex
 https://github.com/let-def/texpresso
+* Viewers (PDF, epub, browser, etc)
+** PDF                                                                            :PDF:
+*** PDF-tools package
+#+begin_src emacs-lisp
+(use-package pdf-tools
+  :ensure t
+  :commands pdf-view-mode
+  ;; :config
+  ;; First argument "t" means "Build the program (if necessary)
+  ;; without asking first". The second argument "t" means "Don't
+  ;; attempt to install system packages".
+  ;; (pdf-tools-install t t)
+  :hook
+  (pdf-view-mode . pdf-tools-enable-minor-modes)
+  :mode
+  ("\\.pdf" . pdf-view-mode)
+  )
+#+end_src
+
+*** Restore page in the PDF on next visit - saveplace-pdf-view
+#+begin_src emacs-lisp
+(use-package saveplace-pdf-view
+  :ensure t
+  :config
+  (save-place-mode 1))
+#+end_src
+
+*** COMMENT Integration with org (create org-links)                         :OrgMode:
+#+begin_src emacs-lisp
+(use-package org-pdftools
+  :ensure t
+  :hook (org-mode . org-pdftools-setup-link))
+#+end_src
+
+*** Keybindings                                                         :Keybindings:
+#+begin_src emacs-lisp
+(use-package pdf-view
+  :defer t
+  :bind (
+         :map pdf-view-mode-map
+         ("i" . pdf-view-midnight-minor-mode)
+         ([f9] . tex-all)  ; We want to compile when viewing the PDF
+         ([f10] . (lambda () (interactive) (ver-pdf-no-evince (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
+         ([S-f10] . (lambda () (interactive) (eaf-open (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
+
+         ;; Set "g" as keybinding to "pdf-view-goto-page" when viewing pdfs
+         ("g" . pdf-view-goto-page)
+         ("<C-mouse-4>" . pdf-view-enlarge)
+         ("<C-mouse-5>" . pdf-view-shrink)
+         ("<S-mouse-4>" . (lambda () (interactive) (image-backward-hscroll 4)))
+         ("<S-mouse-5>" . (lambda () (interactive) (image-forward-hscroll 4)))
+
+         ("<M-left>" . (lambda () (interactive) (image-backward-hscroll 6)))
+         ("<M-right>" . (lambda () (interactive) (image-forward-hscroll 6)))
+         ("<C-left>" . (lambda () (interactive) (image-backward-hscroll 6)))
+         ("<C-right>" . (lambda () (interactive) (image-forward-hscroll 6)))
+
+         ("<C-M-left>" . (lambda () (interactive) (image-backward-hscroll 15)))
+         ("<C-M-right>" . (lambda () (interactive) (image-forward-hscroll 15)))
+
+         ("<C-up>" . (lambda () (interactive) (pdf-view-previous-line-or-previous-page 4)))
+         ("<C-down>" . (lambda () (interactive) (pdf-view-next-line-or-next-page 4)))
+         ("<M-up>" . (lambda () (interactive) (pdf-view-previous-line-or-previous-page 4)))
+         ("<M-down>" . (lambda () (interactive) (pdf-view-next-line-or-next-page 4)))
+         )
+  )
+#+end_src
+
+** COMMENT Emacs Reader
+It's still missing some basic functionality, like selecting text, but it's very fast and
+can open other formats besides PDF.
+#+begin_src emacs-lisp
+(use-package reader
+  :ensure '(reader :type git :host codeberg :repo "divyaranjan/emacs-reader"
+  	               :files ("*.el" "render-core.so")
+  	               :pre-build ("make" "all")))
+#+end_src
+
+** Epub reader                                                                  :ebook:
+*** nov package
+#+begin_src emacs-lisp
+;; https://depp.brause.cc/nov.el/
+(use-package nov
+  :ensure (nov :type git :host git :repo "https://depp.brause.cc/nov.el.git")
+  ;; git clone https://depp.brause.cc/nov.el.git
+  :mode
+  ("\\.epub\\'" . nov-mode)
+  )
+#+end_src
+
+*** COMMENT nov-xwidget package
+#+begin_src emacs-lisp
+(use-package nov-xwidget
+  :demand t
+  :after nov
+  :ensure (nov-xwidget :type git :repo "https://github.com/chenyanming/nov-xwidget")
+  :config
+  (define-key nov-mode-map (kbd "o") 'nov-xwidget-view)
+  (add-hook 'nov-mode-hook 'nov-xwidget-inject-all-files)
+  )
+#+end_src
+
+** x509-mode
+https://github.com/jobbflykt/x509-mode
+
+Open a certificate, public key, etc., and then just call =x509-dwim=.
+#+begin_src emacs-lisp
+(use-package x509-mode
+  :commands (x509-dwim)
+  :ensure t)
+#+end_src
+
+** eww
+*** Modify a few shr faces
+#+begin_src emacs-lisp
+(use-package shr
+  :defer t
+  :config
+  ;; Use the same color as org-code for the shr-code face
+  (let ((color (plist-get (custom-face-attributes-get 'org-code nil) :foreground)))
+    (set-face-attribute 'shr-code nil :foreground color))
+
+  (set-face-attribute 'shr-h1 nil :height 1.5)
+  (set-face-attribute 'shr-h2 nil :height 1.2)
+  )
+#+end_src
+
+*** Syntax highlight for code blocks in eww
+#+begin_src emacs-lisp
+(use-package shr-tag-pre-highlight
+  :ensure t
+  :commands shr-tag-pre-highlight
+  :hook
+  (eww-mode . (lambda () (require 'shr-tag-pre-highlight)))
+  :config
+  (add-to-list 'shr-external-rendering-functions
+               '(pre . shr-tag-pre-highlight)))
+#+end_src
+
+* Dired                                                                       :Dired:
+** Configuration
+#+begin_src emacs-lisp
+;; (use-package dired-git
+;; :ensure t
+;; :config (add-hook 'dired-mode-hook 'dired-git-mode)
+;; )
+
+(use-package dired
+  :custom
+  (dired-dwim-target 'dired-dwim-target-next)
+  )
+
+(use-package dired-x
+  :bind (:map dired-mode-map
+  ("C-x M-o" . dired-omit-mode))
+  :custom
+  (dired-listing-switches "-alhv")  ;; Add "h" to switches to get human-readable sizes
+
+  (dired-guess-shell-alist-user '(
+                                  ("\\.pdf\\'" "evince")
+                                  ("\\.xmind" "xmind-zen")
+                                  ))
+  :config
+  (add-to-list 'dired-omit-extensions ".fdb_latexmk")
+  (add-to-list 'dired-omit-extensions "synctex.gz")
+  (add-to-list 'dired-omit-extensions "log")
+  (add-to-list 'dired-omit-extensions "fls")
+  (add-to-list 'dired-omit-extensions "converted-to.pdf")
+  (add-to-list 'dired-omit-extensions "bcf")
+  (add-to-list 'dired-omit-extensions "acn")
+  (add-to-list 'dired-omit-extensions "acr")
+  (add-to-list 'dired-omit-extensions "alg")
+  (add-to-list 'dired-omit-extensions "ist")
+  (add-to-list 'dired-omit-extensions "loc")
+  (add-to-list 'dired-omit-extensions "soc")
+  (add-to-list 'dired-omit-extensions "slg")
+  (add-to-list 'dired-omit-extensions "slo")
+  (add-to-list 'dired-omit-extensions "sls")
+  (add-to-list 'dired-omit-extensions "wrt")
+  (add-to-list 'dired-omit-extensions "tikz.pdf")
+  (add-to-list 'dired-omit-extensions ".figlist")
+  (add-to-list 'dired-omit-extensions ".ilg")
+  (add-to-list 'dired-omit-extensions ".ind")
+  (add-to-list 'dired-omit-extensions ".out")
+  (add-to-list 'dired-omit-extensions ".run.xml")
+  (add-to-list 'dired-omit-extensions ".org_archive")
+  (add-to-list 'dired-omit-extensions ".bak")
+  (add-to-list 'dired-omit-extensions ".tramp_history")
+  (add-to-list 'dired-omit-extensions ".python_history")
+  (add-to-list 'dired-omit-extensions "qmlc")
+  (setq dired-omit-files (concat dired-omit-files "\\|^.idea"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^.ipynb_checkpoints"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^.cache"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^.mypy_cache"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^.ccls-cache"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^.vscode"))
+  (setq dired-omit-files (concat dired-omit-files "\\|^__pycache__"))
+  )
+#+end_src
+
+** Icons in dired                                                      :AllTheIcons:
+#+begin_src emacs-lisp
+;; ;; Use the nice icons from treemacs in dired buffers
+;; (use-package treemacs-icons-dired
+;;   :ensure t
+;;   :commands treemacs-icons-dired-mode
+;;   :hook
+;;   (dired-mode . treemacs-icons-dired-mode)
+;;   )
+
+(use-package all-the-icons-dired
+  :ensure t
+  :commands all-the-icons-dired-mode
+  :hook
+  (dired-mode . all-the-icons-dired-mode)
+  :custom
+  (all-the-icons-color-icons t)
+  ;; (all-the-icons-dired-monochrome t)
+  ;; :config
+  ;; (set-face-attribute 'all-the-icons-dired-dir-face nil :foreground "gold")
+  )
+#+end_src
+
+** Some pretty symbols
+#+begin_src emacs-lisp
+(add-hook
+ 'dired-mode-hook
+ (lambda ()
+   (add-to-list 'prettify-symbols-alist '("AUTH\\\\" . "★"))
+   ;; (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (user-login-name)) . "🙋"))
+   ;; (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (group-name (group-gid))) . "🫂"))
+   (setq prettify-symbols-unprettify-at-point t)
+   (prettify-symbols-mode)
+   )
+ )
+#+end_src
+
+** Imenu support
+#+begin_src emacs-lisp
+(use-package dired-imenu
+  :ensure t)
+#+end_src
+
+** Add more colors to dired based on file type
+https://github.com/Fuco1/dired-hacks?tab=readme-ov-file#dired-rainbow
+#+begin_src emacs-lisp
+(use-package dired-rainbow
+  :ensure t
+  :config
+
+  ;; (dired-rainbow-define dot-files "gray" "\\..*")
+
+  (dired-rainbow-define uninteresting font-lock-comment-face
+                        ("git" "gitignore" "gitattributes" "gitmodules" "git-blame-ignore-revs"
+                        "clang-format" "clang-tidy"
+                        "dir-locals.el"
+                        "lock"
+                        "shellcheckrc"
+                        ))
+
+
+                                        ; highlight executable files, but not directories
+  (dired-rainbow-define-chmod executable-unix font-lock-function-name-face "-[rw-]+x.*")
+
+  ;; .sh files
+  (dired-rainbow-define bash-files font-lock-function-name-face ("sh"))
+
+  ;; ;; Text files
+  ;; (dired-rainbow-define text font-lock-string-face ("org" "md" "txt"))
+  )
+#+end_src
+
+* Project                                                                   :Project:
+Emacs already has a notion of a "project" with native =project.el=
+
+Keybindings are in "C-x p <something>".
+
+Ex:
+- ~C-x p f~ for project-find-file
+- ~C-x p g~ for project-find-regexp
+- ~C-x p D~ for project-dired
+
+
+The problem with =project.el= is that it currently only supports VC and EDE backends. Most
+of the time this is enough, since I'm usually using git. However, sometimes being able to
+specify that a folder is a project with the presence of a special file (such as
+.projectile with the =projectile= library) is useful.
+
+** Make folders with .project file act as a project
+The code below will make emacs recognize a folder with a =.project= file as a project.
+#+begin_src emacs-lisp
+(cl-defmethod project-root ((project (head local)))
+  (cdr project))
+
+
+(defun get-fd-program ()
+  "Get the name of the fd program."
+  (let* ((distro-name (get-linux-distro-name))
+         (is-ubuntu? (string= "Ubuntu" distro-name)))
+    (if is-ubuntu?
+        "fdfind"
+      "fd")))
+
+
+(defun mu--project-files-in-directory (dir)
+  "Use `fd' to list files in DIR."
+  (let* ((default-directory dir)
+         (localdir (file-local-name (expand-file-name dir)))
+         (command (format "%s -t f -0 . %s" (get-fd-program) localdir)))
+    (project--remote-file-names
+     (sort (split-string (shell-command-to-string command) "\0" t)
+           #'string<))))
+
+
+(cl-defmethod project-files ((project (head local)) &optional dirs)
+  "Override `project-files' to use `fd' in local projects."
+  (mapcan #'mu--project-files-in-directory
+          (or dirs (list (project-root project)))))
+
+
+(use-package project
+  :defer t
+  :config
+  (add-to-list 'project-vc-extra-root-markers ".project"))
+#+end_src
+
+** Make project ignore the .venv folder                                       :venv:
+#+begin_src emacs-lisp
+(add-to-list 'project-vc-ignores "./.venv/")
+#+end_src
+
+* COMMENT Taskrunner
+The [[https://github.com/emacs-taskrunner/emacs-taskrunner][emacs-taskrunner]] library provide ways to gather tasks from different build systems and
+run these tasks. However, it does not directly have function for the user and instead
+relies on other packages to provide user-facing functions using ivy or helm. But we can
+create a simple wrapper using completing-read to not require any of these extra packages.
+#+begin_src emacs-lisp
+(use-package taskrunner
+  :ensure t
+  :defer t
+  :commands (taskrunner-get-tasks-sync)
+  :bind
+  ([C-f5] . vanilla-taskrunner)
+  :init
+  ;; Small snippet taken from https://github.com/emacs-taskrunner/emacs-taskrunner/issues/6
+  (defun vanilla-taskrunner (&optional ask)
+    (interactive "P")
+    (let ((task (completing-read "Task to run: "
+                                 (taskrunner-get-tasks-sync)
+                                 nil
+                                 t)))
+      (when task
+        (taskrunner-run-task task default-directory ask)))))
+#+end_src
+* TZCPY
+#+begin_src emacs-lisp
+(use-package tzcpy
+  ;; :ensure (tzcpy :type git :host git :repo "git@github.azc.ext.hp.com:darlan-moreira/tzcpy.git")
+  :commands (tzcpy-view-available-versions tzcpy-show-current-context)
+  :custom
+  (tzcpy-python-folder (expand-file-name "~/git_files/docs/examples/"))
+  (tzcpy-default-endpoint-id "endpoint-4cc54e20e99c41f0a2d5a6a9df2c7f15")
+  )
+#+end_src
+
 * TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
 Veja a nota [[file:~/org/org-roam-notes/20210305171627-leituras_de_papers_e_outros_documentos.org][Leituras de papers e outros documentos]]
 
@@ -8912,70 +8985,6 @@ If you need to customize the CSS, see https://github.com/org-mime/org-mime#css-s
 
 *Note*: There is also the =org-msg= package thatt could be used to send HTML mails.
 
-* calibredb                                                   :Calibre:calibre:ebook:
-Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
-("=R=" to remove the filter), "=f=" to filter ("=r=" to remove filter), "=RET=" to open an ebook,
-=".=" to open dired, "=o=" to sort, etc. You can access a transient menu with "=?=", which shown
-all of these keybindings.
-
-See more in https://github.com/chenyanming/calibredb.el
-
-- TIP: In the calibredb-search buffer, try pressing =TAB= or =S-TAB=.
-- TIP: Any book with a "favorite" tag has a star before its name.
-- TIP: Any book with a "highlight" tag is highlighted
-- TIP: Any book with a "archive" tag is "archived" (grayed out)
-- TIP: See the several "calibredb-set-metadata-*" commands to easily edit a single
-  metadata field
-- TIP: In the calibredb-search buffer you can click in several places to perform the corresponding filtering
-  * the favorit icon
-  * an author name
-  * a file format
-  * a tag
-- TIP: To add a file to the library use =calibredb-add=
-  - After that use "=s f=" to fetch the metadata.
-
-** configuration                                                       :AllTheIcons:
-#+begin_src emacs-lisp
-(use-package calibredb
-  :ensure t
-  :custom
-  (calibredb-root-dir (expand-file-name "~/Dropbox/Calibre Library"))
-  (calibredb-format-all-the-icons t)
-  (calibredb-comment-width 0)  ;; Set comment width to 0 in order to hide it
-  (calibredb-title-width 60)
-  (calibredb-author-width 25)
-  (calibredb-virtual-library-alist '(("Light Novels" . "Light Novel")
-                                     ("Programming" . "Programming")
-                                     ("Machine Learning" . "Machine Learning")
-                                     ("Engineering" . "Engineering")
-                                     ))
-  :bind
-  (([S-f6] . calibredb))
-  )
-#+end_src
-
-** Open in a dedicated tab
-#+begin_src emacs-lisp
-(add-to-list 'display-buffer-alist
-             '("calibredb"
-               display-buffer-in-tab
-               (tab-name . "CalibreDB")
-               ))
-
-(defun calibredb-close-tab ()
-  (let ((tab-name "CalibreDB"))
-    ;; Only if there is a tab for e-mail and the killed buffer is
-    ;; mu4e-main-buffer-name
-    (when (and
-           (tab-bar--tab-index-by-name tab-name)
-           (equal (buffer-name) "*calibredb-search*"))
-      (tab-bar-select-tab-by-name tab-name)  ;; Switch to the tab ...
-      (tab-bar-close-tab)  ;; and kill it
-      )))
-
-(add-hook 'kill-buffer-hook    #'calibredb-close-tab)
-#+end_src
-
 * Containers
 ** TODO Dev container                                                       :Docker:
 
@@ -9054,16 +9063,8 @@ See [[https://github.com/abrochard/mermaid-mode?tab=readme-ov-file#usage][Usage]
   )
 #+end_src
 
-* x509-mode
-https://github.com/jobbflykt/x509-mode
-
-Open a certificate, public key, etc., and then just call =x509-dwim=.
-#+begin_src emacs-lisp
-(use-package x509-mode
-  :commands (x509-dwim)
-  :ensure t)
-#+end_src
-
+** COMMENT draw.io                                                                 :OrgMode:
+https://github.com/4honor/org-drawio
 * LLMs                                                                          :LLM:
 ** Co-pilot                                                            :LLM:copilot:
 *** Completions in buffer
