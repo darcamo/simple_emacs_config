@@ -4,13 +4,35 @@
 #+TITLE: My Emacs configuration
 #+STARTUP: indent show2levels
 
-LLMs
-- ollama
-- gpf4all
-- [[https://claude.ai/login?returnTo=%2F][claude.ai]]
-- [[https://www.phind.com/search?home=true][phind]]
-- [[https://www.infoworld.com/article/3700869/14-llms-that-arent-chatgpt.html][14 LLMs que não são chatGPT]]
 
+Save/restore window configuration
+- "C-x r w" -> window-configuration-to-register
+  - Note that it's the same register you can save buffer positions
+- "C-x r j" -> regular jump to register
+
+TODO:
+- Experiment with the folllowing packages
+  + ast-grep
+  + elgrep
+  + git-grep-transient
+
+
+TODO: See
+- customize-dirlocals and project-customize-dirlocals
+- combine-windows
+- uncombine-windows
+- split-frame
+- hs-hide-block-behavior (variable)
+- split-frame
+- merge-frames
+- `C-x w` é um prefix para muitas operações com window
+  - 'C-x w o <left>/<right>' rotate the windows within the current layout.
+  - 'C-x w f <left>/<right>/<up>/<down>' flip window layouts.
+
+
+TODO: Check the [[https://github.com/alphapapa/org-ql?tab=readme-ov-file][org-ql]] package
++ It can perform searches on org-mode files and maybe even be a replacement for org-agenda
+TODO: Check the [[https://github.com/ndwarshuis/org-ml][org-ml]] package
 
 TODO: Emacs 30 use-package now has a =:vc= keyword to install packages from git. Should I go
       back to standard package manager in Emacs? Once you use it (instead of elpaca), you
