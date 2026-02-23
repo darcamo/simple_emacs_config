@@ -8845,9 +8845,21 @@ link is an actual search.
 (defun darcamo/call-notmuch-new ()
   "Call notmuch-new interactively."
   (interactive)
-  (let ((compilation-buffer-name-function (lambda (_) nil "*Checking Mail*")))
-    (compile "notmuch new"))
-  )
+  (when-let* ((compilation-buffer-name-function
+               (lambda (_)
+                 nil
+                 "*Checking Mail*"))
+
+              (buffer (compile "notmuch new")))
+
+    (with-current-buffer buffer
+      (setq-local compilation-finish-functions
+                  (list
+                   (lambda (buffer desc)
+                     (message "Checking Mail finished")
+                     (when-let* ((win (get-buffer-window buffer)))
+                       (delete-window win))))))))
+
 
 (add-to-list 'display-buffer-alist
              '("\\*Checking Mail\\*"
