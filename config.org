@@ -117,6 +117,7 @@ This is specially useful with docker.
   ;; The path here is specific to a given remote, but this also acts as an
   ;; example in case I need to add more paths
   (add-to-list 'tramp-remote-path "/home/ubuntu/.local/bin")
+  (add-to-list 'tramp-remote-path "/snap/bin")
   )
 #+end_src
 
