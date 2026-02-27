@@ -103,6 +103,8 @@ The working directory is set to the project root."
       (compile "go test ./..."))
   )
 
+;; TODO Add a function to run the test at point, using `go test -run TestName`.
+
 (provide 'go_integration)
 ;;; go_integration.el ends here
 

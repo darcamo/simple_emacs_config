@@ -6830,12 +6830,18 @@ indent-tabs-mode as a local variable).
   ;; :map go-ts-mode-map
   :map
   go-integration-go-project-mode-map
-  ("C-c C-c" . go-integration-run-current-file)
   ([M-f8] . go-integration-choose-go-file)
   ([f8] . go-integration-run-current-file)
+  ([S-f8] . go-integration-run-all-tests)
   ([f9] . compile)
   ([f10] . recompile)
-  ([S-f10] . kill-compilation)))
+  ([S-f10] . kill-compilation)
+
+  :map
+  go-ts-mode-map
+  ("C-c C-c" . go-integration-run-current-file))
+
+ :hook (go-ts-mode . (lambda () (setq fill-column 80))))
 #+end_src
 
 *** Make Emacs recognize a folder with go.mod as project root
