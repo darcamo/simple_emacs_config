@@ -285,7 +285,7 @@ not respect the new =mode-line-collapse-minor-modes= variable
   )
 #+end_src
 
-** Change some of the hi-lock faces
+** Change some of the hi-lock and smerge faces
 #+begin_src elisp
 (use-package hi-lock
   :defer t
@@ -295,7 +295,11 @@ not respect the new =mode-line-collapse-minor-modes= variable
   (set-face-attribute 'hi-yellow nil :foreground "black")
   (set-face-attribute 'hi-pink nil :foreground "black")
   (set-face-attribute 'hi-green nil :foreground "black")
-  (set-face-attribute 'hi-blue nil :foreground "black"))
+  (set-face-attribute 'hi-blue nil :foreground "black")
+
+  (set-face-attribute 'smerge-upper nil :background "DarkRed")
+  (set-face-attribute 'smerge-lower nil :background "DarkGreen")
+  )
 #+end_src
 
 ** show-font
