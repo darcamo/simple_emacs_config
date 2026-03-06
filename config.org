@@ -5321,7 +5321,8 @@ The idea is to use the threesitter-fold package in treesiter
   :keymap darcamo/folding-keybindings-mode-map
   :require 'treesit-fold
   (if (treesit-parser-list)
-      (treesit-fold-indicators-mode)
+      ;; (treesit-fold-indicators-mode)
+      (treesit-fold-mode)
     (hs-minor-mode)))
 
 
