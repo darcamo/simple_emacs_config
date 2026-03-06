@@ -2059,6 +2059,12 @@ overlay.
   )
 #+end_src
 
+** repeat-mode
+#+begin_src emacs-lisp
+(use-package repeat
+  :custom
+  (repeat-mode +1))
+#+end_src
 * Shell integration
 ** eat
 TODO: https://codeberg.org/akib/emacs-eat
