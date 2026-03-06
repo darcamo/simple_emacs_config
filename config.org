@@ -6871,6 +6871,7 @@ indent-tabs-mode as a local variable).
   :map
   go-integration-go-project-mode-map
   ([M-f8] . go-integration-choose-go-file)
+  ([S-M-f8] . go-integration-choose-go-package-with-tests)
   ([f8] . go-integration-run-current-file)
   ([S-f8] . go-integration-run-all-tests)
   ([f9] . compile)
@@ -6882,9 +6883,15 @@ indent-tabs-mode as a local variable).
   ("C-c C-c" . go-integration-run-current-file))
 
  :hook (go-ts-mode . (lambda () (setq fill-column 80))))
+
+(use-package go-integration
+  :after dape
+  :config
+  (go-integration-setup-dape)
+  )
 #+end_src
 
-*** Make Emacs recognize a folder with go.mod as project root
+*** COMMENT Make Emacs recognize a folder with go.mod as project root
 Code from https://go.dev/gopls/editor/emacs
 
 #+begin_src emacs-lisp
@@ -9067,6 +9074,7 @@ Don't forget to call ~copilot-install-server~.
          (c-ts-base-mode . copilot-mode)
          (python-ts-mode . copilot-mode)
          (qml-mode . copilot-mode)
+         (go-ts-mode . copilot-mode)
          (emacs-lisp-mode . (lambda () (unless (darcamo/is-scratch-buffer) (copilot-mode)))))
   :custom
   (copilot-indent-offset-warning-disable t)
