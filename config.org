@@ -1732,6 +1732,10 @@ The keybindinds all start with =C-x t=
   (sp-local-pair 'org-mode "/" "/" :actions '(wrap))
   )
 
+;; Note that Emacs 31 added a `unfill-paragraph` command. Since the `unfill`
+;; packahe here is only loaded when the it's `unfill-paragraph` is called, then
+;; in Emacs 31, this package will not be loaded and the native
+;; `unfill-paragraph` will be used instead.
 (use-package unfill
   :ensure t
   :bind
