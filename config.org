@@ -316,6 +316,17 @@ Use =show-font-select-preview= to preview a single font.
   )
 #+end_src
 
+
+* Support Kitty Keyboard Protocol (KKP)
+https://github.com/benotn/kkp
+#+begin_src emacs-lisp
+(use-package kkp
+  :ensure t
+  :config
+  ;; (setq kkp-alt-modifier 'alt) ;; use this if you want to map the Alt keyboard modifier to Alt in Emacs (and not to Meta)
+  (global-kkp-mode +1))
+#+end_src
+
 * Completion framework                                                   :Completion:
 ** COMMENT Ido Mode                                                        :IdoMode:
 #+begin_src emacs-lisp
