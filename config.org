@@ -5677,6 +5677,13 @@ For Python configuration see
   ;; Currently only on github
   :ensure (dape :type git :host github :repo "svaante/dape")
   :commands (dape dape-breakpoint-toggle dape-breakpoint-log dape-watch-dwim)
+  :bind (
+  ;; Dape already sets "C-x C-a d" to the `dape' command. However, before dape
+  ;; is loaded the shortcuts are not set. Hence, we set the "C-x C-a d" shortcut
+  ;; here to run dape and load the dape package, which in turn will define the
+  ;; other dape shortcuts.
+  ("C-x C-a d" . dape)
+  )
 
   ;; Add inline variable hints, this feature is highly experimental
   ;; (setq dape-inline-variables t)
@@ -5698,7 +5705,18 @@ For Python configuration see
   ;; :custom
   ;; (dape-buffer-window-arrangement 'gud)
 
+  :hook
+  ;; Save breakpoints on quit
+  (kill-emacs . dape-breakpoint-save)
+  ;; Load breakpoints on startup
+  (after-init . dape-breakpoint-load)
+
   :config
+  ;; Toggle the local dape-breakpoint-mode in buffers derived from prog-mode.
+  ;; When this mode is active, you can toggle breakpoints by clicking in the
+  ;; fringe.
+  (dape-breakpoint-global-mode 1)
+
   (transient-define-prefix dape-transient ()
     "Transient for dape."
     [["Stepping"
