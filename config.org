@@ -6211,6 +6211,13 @@ uses the =.ts= extension for itsa (translation) language files.
 
   :config
   (cmake-integration-automatic-persistence-mode))
+
+
+(use-package cmake-integration
+  :after dape
+  :config
+  (cmake-integration-setup-dape)
+  )
 #+end_src
 
 *** Add keybindings for cmake-integration
