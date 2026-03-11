@@ -6853,7 +6853,7 @@ reformat the buffer on save.
                  ;; mode-line.
                  (side . right)
                  (slot . 1)
-                 (window-width . 0.22)
+                 (window-width . 0.40)
                  (window-height . fit-window-to-buffer)))
 #+end_src
 
