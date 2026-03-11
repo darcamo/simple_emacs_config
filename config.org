@@ -6862,6 +6862,17 @@ Note: Go uses tabs as a convention for indentation. That is why even if you set
 =indent-tabs-mode= to nil, it will still be set to =t= in =go-ts-mode= (the mode sets
 indent-tabs-mode as a local variable).
 
+Note: go-ts-mode has several functions to run to run tests
+- go-ts-mode-test-this-file -> =C-C C-t f=
+- go-ts-mode-test-this-package -> =C-C C-t p=
+- go-ts-mode-test-function-at-point -> =C-C C-t t=
+
+*Note*: These functions to run tests will run them as compilation. Therefore, after
+running one of them you can easily re-run it with =recompile=.
+
+  There is also
+  - go-ts-mode-docstring -> =C-c C-d=
+
 *** General configuration for go
 #+begin_src emacs-lisp
 (load-library "go-integration.el")
@@ -6913,6 +6924,14 @@ Code from https://go.dev/gopls/editor/emacs
 
 (add-hook 'project-find-functions #'project-find-go-module)
 #+end_src
+
+*** TODO Tests
+See [[https://github.com/chmouel/gotest-ts.el][gotest-ts.el]] package.
+
+There is also the older [[https://github.com/nlamirault/gotest.el][gotest.el]] package.
+
+*** TODO Generating stups for an interface
+See the [[https://github.com/emacsorphanage/go-impl][go-impl]] package.
 
 ** Javascript and Typescript
 Note: See configuration in https://github.com/llemaitre19/jtsx and set keybindings.
@@ -9531,7 +9550,7 @@ https://github.com/tninja/ai-code-interface.el
     (ai-code-magit-setup-transients)))
 #+end_src
 
-** Aider Integration                                                           :LLM:
+** COMMENT Aider Integration                                                           :LLM:
 
 *** Get my API
 #+begin_src emacs-lisp
@@ -9586,9 +9605,10 @@ https://github.com/tninja/aider.el
   ;; (auto-revert-mode 1)
   )
 #+end_src
-** Claude Code
+** COMMENT Claude Code
 See https://github.com/manzaltu/claude-code-ide.el
-
+** TODO COMMENT agent-shell
+https://github.com/xenodium/agent-shell
 * SSH File Modes
 Improve viewing SSH key related files (=authorized_keys= and =know_hosts=)
 #+begin_src emacs-lisp
