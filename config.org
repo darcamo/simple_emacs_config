@@ -6875,38 +6875,48 @@ running one of them you can easily re-run it with =recompile=.
 
 *** General configuration for go
 #+begin_src emacs-lisp
-(load-library "go-integration.el")
-(global-gi-go-project-mode)
-
-(use-package
- go-ts-mode
- :ensure nil
- :custom (go-ts-mode-indent-offset 4)
-
- :bind
- (
-  ;; :map go-ts-mode-map
-  :map
-  go-integration-go-project-mode-map
-  ([M-f8] . go-integration-choose-go-file)
-  ([S-M-f8] . go-integration-choose-go-package-with-tests)
-  ([f8] . go-integration-run-current-file)
-  ([S-f8] . go-integration-run-all-tests)
-  ([f9] . compile)
-  ([f10] . recompile)
-  ([S-f10] . kill-compilation)
-
-  :map
-  go-ts-mode-map
-  ("C-c C-c" . go-integration-run-current-file))
-
- :hook (go-ts-mode . (lambda () (setq fill-column 80))))
+(use-package go-ts-mode
+  :ensure nil
+  :custom (go-ts-mode-indent-offset 4)
+  :hook (go-ts-mode . (lambda () (setq fill-column 80)))
+  ;; :config
+  ;; (global-go-integration-go-project-mode)
+  )
 
 (use-package go-integration
   :after dape
   :config
   (go-integration-setup-dape)
   )
+#+end_src
+
+*** Add keybindigns for go-integration
+#+begin_src emacs-lisp
+(use-package go-integration-project-mode
+  :ensure (go-integration-project-mode :type git :host github :protocol ssh
+                                       :repo "darcamo/go-integration" :depth nil)
+  :defer nil
+  :commands (go-integration-project-mode)
+  :config
+  (global-go-integration-project-mode)
+  :bind
+  (
+   :map
+   go-integration-project-mode-map
+   ([M-f8] . go-integration-choose-go-file)
+   ([S-M-f8] . go-integration-choose-go-package-with-tests)
+   ([f8] . go-integration-run-current-file)
+   ([S-f8] . go-integration-run-all-tests)
+   ([f9] . compile)
+   ([f10] . recompile)
+   ([S-f10] . kill-compilation)
+
+   ;; :map
+   ;; go-ts-mode-map
+   ;; ("C-c C-c" . go-integration-run-current-file)
+   )
+  )
+
 #+end_src
 
 *** COMMENT Make Emacs recognize a folder with go.mod as project root
