@@ -2304,6 +2304,18 @@ review, etc)
   :after consult)
 #+end_src
 
+** git-sync-mode -> Automatically sync your git repos
+Note: To not load the package on Emacs startup, =git-sync-global-mode= is not enabled.
+Instead, you need to add =((nil . ((mode . git-sync))))= to the =.dir-locals.el= file in each
+project.
+
+#+begin_src emacs-lisp
+(use-package git-sync-mode
+  :ensure git-sync-mode
+  :commands (git-sync-mode)
+  )
+#+end_src
+
 * Spell and grammar checking                                          :SpellChecking:
 ** Spell checking config
 #+begin_src emacs-lisp
@@ -4294,7 +4306,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
   :ensure t
   :defer t
   :custom
-  (org-roam-directory "~/org/org-roam-notes/")
+  (org-roam-directory "~/notes/")
   (org-roam-db-location (concat user-emacs-directory ".cache/org-roam.db"))
   ;;(org-roam-graph-exclude-matcher "index.org")
   (org-roam-graph-extra-config '(("rankdir" . "LR")))
@@ -4826,7 +4838,7 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
          ("C-c n a r" . vulpea-buffer-alias-remove)
          )
   :custom
-  (vulpea-db-sync-directories '("~/org/org-roam-notes"))
+  (vulpea-db-sync-directories '("~/notes/"))
   (vulpea-db-autosync-mode +1)
   (vulpea-buffer-alias-property "ROAM_ALIASES")
   (vulpea-db-sync-external-method 'fswatch)
