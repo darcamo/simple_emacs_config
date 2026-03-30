@@ -318,6 +318,10 @@ Use =show-font-select-preview= to preview a single font.
   )
 #+end_src
 
+** Disable bell function
+#+begin_src emacs-lisp
+(setopt ring-bell-function 'ignore)
+#+end_src
 
 * Support Kitty Keyboard Protocol (KKP)
 https://github.com/benotn/kkp
