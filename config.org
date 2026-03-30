@@ -1425,6 +1425,15 @@ This function is useful for creating labels from text, such as converting figure
   (when-let* ((entry (auth-source-search :host host :user user :max 1))
               (secret (funcall (plist-get (car entry) :secret))))
     secret))
+
+
+(defun darcamo/running-in-wsl-p ()
+  "Check if Emacs is running inside WSL."
+  (and (eq system-type 'gnu/linux)
+       (or (getenv "WSL_DISTRO_NAME") ; WSL 2
+           (with-temp-buffer           ; WSL 1
+             (insert-file-contents "/proc/version")
+             (re-search-forward "Microsoft" nil t)))))
 #+end_src
 
 * General Usability                                       :General:Usability:Utility:
@@ -4160,10 +4169,38 @@ Configuration for package build over org-mode which don't have another better se
 my config file are located here.
 ** org-download
 #+begin_src emacs-lisp
+(defun darcamo/wsl-copy-latest-screenshot (target-filename)
+  "Copy the latest Windows screenshot to the provided TARGET-FILENAME in WSL."
+  (if-let* ((windows-user-name (s-trim (shell-command-to-string "powershell.exe '$env:UserName'")))
+            (screenshots-dir (format "/mnt/c/Users/%s/Pictures/Screenshots/" windows-user-name)) ; Adjust this to your setup
+            (latest-screenshot
+             (string-trim
+              (shell-command-to-string
+               (format "ls -t %s*.png | head -n 1" screenshots-dir))))
+            (latest-valid-screenshot (when (not (string-empty-p latest-screenshot)) latest-screenshot))
+            (target-file (expand-file-name target-filename)))
+      (progn
+        (shell-command
+         (format "cp %s '%s'" (shell-quote-argument latest-valid-screenshot) (shell-quote-argument target-file)))
+        (message "Copied %s to %s" latest-valid-screenshot target-file))
+    (message "No screenshot found in %s" screenshots-dir)
+    ))
+
+
 (use-package org-download
   :ensure t
   :after org
   :commands (org-download-screenshot org-download-yank)
+  :config
+  ;; If running in WSL, we change the org-download-screenshot-method to a
+  ;; function that copies the last screenshot taken on Windows.
+  ;;
+  ;; Note that you NEED to take the screenshot first using the standard Windows
+  ;; screenshot tool, and only after that you should call the
+  ;; org-download-screenshot function
+  (when (darcamo/running-in-wsl-p)
+    (setopt org-download-screenshot-method #'darcamo/wsl-copy-latest-screenshot)
+    )
   ;; :bind
   ;; (:map org-mode-map
   ;;       (("s-Y" . org-download-screenshot)
