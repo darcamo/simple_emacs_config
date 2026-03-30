@@ -3831,8 +3831,12 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 (use-package org
   :defer t
   :bind
-  (("<C-S-f5>" . my-org-textcolor-red-macro))
-  )
+  (
+   ("<C-S-f5>" . my-org-textcolor-red-macro)
+   :map org-read-date-minibuffer-local-map
+   ;; Allow me to quit entering a date by pressing "q"
+   ("q" . minibuffer-keyboard-quit)
+   ))
 #+end_src
 
 ** Add more structure templates
