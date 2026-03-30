@@ -7041,6 +7041,33 @@ it does not, then apheleia can be used instead.
 
 In each language configuration what needs to use apheleia for formatting, you might add an
 entry to =apheleia-formatters= and =apheleia-mode-alist=.
+** Web and HTTP
+*** know-your-http-well
+Quick way to look up the meaning of HTTP headers, methods, relations, status codes
+
+Usage examples:
+- =M-x http-header= -> content-type
+- =M-x http-method= -> post | POST
+- =M-x http-relation= -> describedby
+- =M-x http-status-code= -> 500
+- =M-x http-status-code= -> not_found | NOT_FOUND
+
+#+begin_src emacs-lisp
+(use-package know-your-http-well
+  :ensure t
+  :defer t
+  :commands (http-header http-method http-relation http-status-code)
+  )
+#+end_src
+
+*** REST Client
+#+begin_src emacs-lisp
+(use-package restclient
+  :ensure t
+  :commands (restclient-mode)
+  )
+#+end_src
+
 * View/edit text formats (yaml, json, csv, markdown, latex, etc)
 ** Markdown                                                                  :markdown:
 *** General config
