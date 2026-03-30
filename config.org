@@ -4895,7 +4895,7 @@ appear first (but in decreasing order).
                  (side . right)
                  (preserve-size t)
                  (delete-window t)
-                 (window-width . 0.25)
+                 (window-width . 40)
                  (window-height . fit-window-to-buffer)))
   )
 #+end_src
