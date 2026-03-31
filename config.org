@@ -4235,6 +4235,9 @@ https://nobiot.github.io/org-transclusion/
 #+begin_src emacs-lisp
 (use-package org-transclusion
   :ensure t
+  :config
+  ;; Change the family of the org-transclusion face to make it very distinguishable from my default face
+  (set-face-attribute 'org-transclusion nil :family "Mono")
   )
 #+end_src
 
