@@ -7063,6 +7063,25 @@ Usage examples:
   )
 #+end_src
 
+*** COMMENT verb
+https://github.com/federicotdn/verb
+
+HTTP client for Emacs using org-mode. The core idea is to structure specifications for
+HTTP requests using Org's tree structure.
+
+TODO: Read the documentation
+#+begin_src emacs-lisp
+(use-package verb
+  :ensure t
+  :defer t
+)
+#+end_src
+
+*** COMMENT plz-see
+https://elpa.gnu.org/packages/plz-see.html
+
+Use Emacs Lisp to perform HTTP requests
+
 * View/edit text formats (yaml, json, csv, markdown, latex, etc)
 ** Markdown                                                                  :markdown:
 *** General config
