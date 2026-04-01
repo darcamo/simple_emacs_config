@@ -7129,6 +7129,18 @@ Call the command =markdown-toc-generate-toc= and a TOC will be inserted in the c
   )
 #+end_src
 
+*** Visual indentation like org-indent-mode
+#+begin_src emacs-lisp
+(use-package markdown-indent-mode
+  :ensure t
+  :commands (markdown-indent-mode)
+  :hook (markdown-mode . markdown-indent-mode)
+  :config
+  ;; The color used here is slightly ligher than the background color of the default face
+  (set-face-attribute ' markdown-indent-mode-hide-hash nil :foreground "#333333")
+)
+#+end_src
+
 *** Preview using Guthub README preview
 Check the https://github.com/seagle0128/grip-mode package
 
@@ -7141,6 +7153,21 @@ You need to install the python-grip package.
   :bind (:map markdown-mode-command-map
               ("g" . grip-mode)))
 #+end_src
+
+*** Preview using impatient-showdown
+Note: It updates live, without need for even saving the buffer.
+
+#+begin_src emacs-lisp
+(use-package impatient-showdown
+  :ensure t
+  :commands (impatient-showdown-mode)
+)
+#+end_src
+
+*** Preview usign mdserve
+
+There is nothing to install in Emacs. Just install [[https://github.com/jfernandez/mdserve][mdserve]], run it and open the link in a
+browser. You need to save the file to see changes.
 
 ** YAML                                                                          :YAML:
 *** yaml-ts-mode
