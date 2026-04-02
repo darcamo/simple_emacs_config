@@ -7151,7 +7151,7 @@ Call the command =markdown-toc-generate-toc= and a TOC will be inserted in the c
 *** Visual indentation like org-indent-mode
 #+begin_src emacs-lisp
 (use-package markdown-indent-mode
-  :ensure t
+  :ensure (markdown-indent-mode :type git :host github :repo "whhone/markdown-indent-mode")
   :commands (markdown-indent-mode)
   :hook (markdown-mode . markdown-indent-mode)
   :config
