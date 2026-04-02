@@ -7082,6 +7082,11 @@ https://elpa.gnu.org/packages/plz-see.html
 
 Use Emacs Lisp to perform HTTP requests
 
+*** TODO hurl
+See https://hurl.dev/ (uses curl under the hood) and the Emacs package [[https://github.com/JasZhe/hurl-mode][hurl-mode]]
+- hurl is similar to =restclient.el=, but it can be used outside Emacs and it also has some
+  testing utilities built in
+
 * View/edit text formats (yaml, json, csv, markdown, latex, etc)
 ** Markdown                                                                  :markdown:
 *** General config
