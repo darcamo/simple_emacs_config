@@ -5043,6 +5043,50 @@ See more in https://github.com/chenyanming/calibredb.el
 (add-hook 'kill-buffer-hook    #'calibredb-close-tab)
 #+end_src
 
+** Set different faces for bold and italic in org-mode
+#+begin_src emacs-lisp
+(defface darcamo/org-bold
+  '((t (:foreground "indian red" :inherit bold)))
+  "Face used for bold in org-mode")
+
+(defface darcamo/org-italic
+  '((t (:foreground "sandy brown" :inherit italic)))
+  "Face used for italic in org-mode")
+
+(defun darcamo--org-emphasis-alist-with-custom-faces (alist)
+  (let ((new (copy-alist alist)))
+    (setf (alist-get "*" new nil nil 'equal) '(darcamo/org-bold))
+    (setf (alist-get "/" new nil nil 'equal) '(darcamo/org-italic))
+    new))
+
+(defvar-local darcamo--org-emphasis-alist-saved nil
+  "Buffer-local backup of `org-emphasis-alist' for darcamo/org-emphasis-faces-mode.")
+
+;;;###autoload
+(define-minor-mode darcamo/org-emphasis-faces-mode
+  "Use custom faces for Org emphasis in this buffer."
+  :init-value nil
+  :lighter " OrgEF"
+  (if darcamo/org-emphasis-faces-mode
+      (progn
+        (unless darcamo--org-emphasis-alist-saved
+          (setq darcamo--org-emphasis-alist-saved org-emphasis-alist))
+        (setq-local org-emphasis-alist
+                    (darcamo--org-emphasis-alist-with-custom-faces
+                     darcamo--org-emphasis-alist-saved))
+        (when (derived-mode-p 'org-mode)
+          (font-lock-refresh-defaults)
+          (font-lock-flush)
+          (font-lock-ensure)))
+    (when darcamo--org-emphasis-alist-saved
+      (setq-local org-emphasis-alist darcamo--org-emphasis-alist-saved)
+      (setq darcamo--org-emphasis-alist-saved nil)
+      (when (derived-mode-p 'org-mode)
+        (font-lock-refresh-defaults)
+        (font-lock-flush)
+        (font-lock-ensure)))))
+#+end_src
+
 * Edit indirect buffer
 Edit regions in separate buffers, like `org-edit-src-code' but for arbitrary
 regions.
