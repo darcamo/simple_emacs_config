@@ -2125,6 +2125,16 @@ To start Eat, run M-x eat. Eat has four input modes:
   (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
   )
 #+end_src
+** TODO ghostel
+- https://github.com/dakra/ghostel
+- https://www.reddit.com/r/emacs/comments/1sc4n6k/ghostel_terminal_emulator_powered_by_libghostty/
+
+#+begin_src emacs-lisp
+(use-package ghostel
+  :ensure (ghostel :type git :host github :repo "dakra/ghostel")
+  )
+#+end_src
+
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src emacs-lisp
 ;; (setq scroll-step 1)
@@ -6973,6 +6983,23 @@ running one of them you can easily re-run it with =recompile=.
 
 #+end_src
 
+*** COMMENT go-tag
+
+*TODO*: Adding this package will make Emacs use go-mode instead of go-ts-mode, because this
+package has go-mode as a dependency. Does it really need go-mode as dependency?
+
+*Note*: You need to install =gomodifytags= for go-tag to work.
+
+#+begin_src emacs-lisp
+(use-package go-tag
+  :ensure t
+  :bind
+  (:map go-ts-mode-map
+        ("C-c C-t a" . go-tag-add)
+        ("C-c C-t r" . go-tag-remove)
+        ))
+#+end_src
+
 *** COMMENT Make Emacs recognize a folder with go.mod as project root
 Code from https://go.dev/gopls/editor/emacs
 
@@ -7087,8 +7114,22 @@ See https://hurl.dev/ (uses curl under the hood) and the Emacs package [[https:/
 - hurl is similar to =restclient.el=, but it can be used outside Emacs and it also has some
   testing utilities built in
 
+
+*** TODO swagg
+
+https://github.com/isamert/swagg.el
+
 * View/edit text formats (yaml, json, csv, markdown, latex, etc)
-** Markdown                                                                  :markdown:
+** Markdown                                                               :markdown:
+Tips:
+- Check the several =markdown-toggle-.= commands. There are commands to toggle markup, links, images, etc.
+- You can insert many different things with =C-C C-s <key>=
+
+
+Note that the =markdown-mode= package defines not only the =markdown-mode= major mode, but
+also the =gfm-mode= major mode. The later has some additional features to support GutHub
+Flavored Markdown, including fenced code blocks.
+
 *** General config
 #+begin_src emacs-lisp
 (use-package markdown-mode
@@ -9525,6 +9566,8 @@ You can also customize =gptel-temperature=.
 *** gptel-openrouter
 Emacs package to make it easy to add OpenRouter models to gptel with extra information
 that gptel can display.
+
+Note that there is also https://models.dev/, with information about many models.
 
 #+begin_src emacs-lisp
 (use-package gptel-openrouter
