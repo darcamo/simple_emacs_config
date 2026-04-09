@@ -7120,7 +7120,7 @@ Usage examples:
   )
 #+end_src
 
-*** REST Client
+*** COMMENT restclient
 #+begin_src emacs-lisp
 (use-package restclient
   :ensure t
@@ -7128,7 +7128,7 @@ Usage examples:
   )
 #+end_src
 
-*** COMMENT verb
+*** verb
 https://github.com/federicotdn/verb
 
 HTTP client for Emacs using org-mode. The core idea is to structure specifications for
@@ -7138,7 +7138,8 @@ TODO: Read the documentation
 #+begin_src emacs-lisp
 (use-package verb
   :ensure t
-  :defer t
+  :commands (verb-mode)
+  :config (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
 )
 #+end_src
 
