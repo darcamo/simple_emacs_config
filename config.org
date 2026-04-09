@@ -9688,7 +9688,7 @@ Pres "=+=" (possible multiple times) to to expand the explanation.
   :ensure (gptel-agent :type git :host github :repo "karthink/gptel-agent")
   :after gptel
   :custom
-  (gptel-agent-dirs '("~/.emacs.d/elpaca/repos/gptel-agent/agents/"))
+  (gptel-agent-dirs '("~/.emacs.d/elpaca/sources/gptel-agent/agents/"))
   :config (gptel-agent-update)
   )
 #+end_src
