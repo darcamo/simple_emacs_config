@@ -529,10 +529,6 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
          :map org-mode-map (("M-i" . consult-outline))
          )
 
-  ;; Enable automatic preview at point in the *Completions* buffer. This is
-  ;; relevant when you use the default completion UI.
-  :hook (completion-list-mode . consult-preview-at-point-mode)
-
   ;; The :init configuration is always executed (Not lazy)
   :init
 
@@ -676,10 +672,7 @@ action is performed (you will still be in the minibuffer)
   :ensure t
   :after (embark consult)
   :demand t ; only necessary if you have the hook below
-  ;; if you want to have consult previews as you move around an
-  ;; auto-updating embark collect buffer
-  :hook
-  (embark-collect-mode . consult-preview-at-point-mode))
+  )
 #+end_src
 
 ** Corfu                                                                     :Corfu:
@@ -1581,7 +1574,6 @@ The keybindinds all start with =C-x t=
     (if (file-executable-p zsh)
         (eat zsh)
       (eat bash))))
-
 
 (use-package emacs
   :ensure nil
