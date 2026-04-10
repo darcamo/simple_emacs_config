@@ -1566,15 +1566,6 @@ The keybindinds all start with =C-x t=
 
 ** Keybindigns                                                         :Keybindings:
 #+begin_src emacs-lisp
-(defun start-term-zsh-or-bash ()
-  "Start zsh, if available, or bash using `ansi-term'."
-  (interactive)
-  (let ((zsh "/bin/zsh")
-        (bash "/bin/bash"))
-    (if (file-executable-p zsh)
-        (eat zsh)
-      (eat bash))))
-
 (use-package emacs
   :ensure nil
   :bind (
@@ -1591,7 +1582,7 @@ The keybindinds all start with =C-x t=
          ;; ("M-]" . switch-to-next-buffer)
          ("C-c C-o" . org-open-at-point-global)
          ("C-z" . eshell)
-         ("M-z" . start-term-zsh-or-bash)
+         ("M-z" . darcamo/start-shell)
          ("C-c o" . other-frame) ; When there are multiple frames, change to another frame
          ("C-c r" . revert-buffer)
          ("C-x C-b" . ibuffer)
@@ -2119,7 +2110,12 @@ To start Eat, run M-x eat. Eat has four input modes:
   (add-hook 'eshell-load-hook #'eat-eshell-visual-command-mode)
   )
 #+end_src
-** TODO ghostel
+** COMMENT vterm
+#+begin_src emacs-lisp
+(use-package vterm
+  :ensure t)
+#+end_src
+** COMMENT ghostel
 - https://github.com/dakra/ghostel
 - https://www.reddit.com/r/emacs/comments/1sc4n6k/ghostel_terminal_emulator_powered_by_libghostty/
 
@@ -2127,6 +2123,27 @@ To start Eat, run M-x eat. Eat has four input modes:
 (use-package ghostel
   :ensure (ghostel :type git :host github :repo "dakra/ghostel")
   )
+#+end_src
+** My function to start a shell
+*Note*: A keybinding (=C-z=) was set to call this function.
+#+begin_src emacs-lisp
+(defun darcamo/start-shell ()
+  "Start zsh, if available, or bash using `ansi-term'."
+  (interactive)
+  (let ((zsh "/bin/zsh")
+        (bash "/bin/bash"))
+    (if (file-executable-p zsh)
+        (eat zsh)
+      (eat bash))))
+
+;; (defun darcamo/start-shell ()
+;;   "Start zsh, if available, or bash using `ansi-term'."
+;;   (interactive)
+;;   (let ((zsh "/bin/zsh")
+;;         (bash "/bin/bash"))
+;;     (if (file-executable-p zsh)
+;;         (ghostel)
+;;       (ghostel))))
 #+end_src
 
 * Scrolling and mouse                                               :Mouse:Scrolling:
