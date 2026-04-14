@@ -9848,8 +9848,23 @@ https://github.com/tninja/aider.el
 #+end_src
 ** COMMENT Claude Code
 See https://github.com/manzaltu/claude-code-ide.el
-** TODO COMMENT agent-shell
+** agent-shell
 https://github.com/xenodium/agent-shell
+
+#+begin_src emacs-lisp
+(use-package agent-shell
+  :ensure t
+
+  :config
+  (setq agent-shell-preferred-agent-config (agent-shell-opencode-make-agent-config))
+  ;; (setq agent-shell-opencode-environment
+  ;;     (agent-shell-make-environment-variables
+  ;;      "ANTHROPIC_API_KEY" (auth-source-pass-get 'secret "anthropic-api-key")
+  ;;      "HTTPS_PROXY" "http://proxy.example.com:8080"))
+
+  )
+#+end_src
+
 * SSH File Modes
 Improve viewing SSH key related files (=authorized_keys= and =know_hosts=)
 #+begin_src emacs-lisp
