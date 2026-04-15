@@ -9854,14 +9854,17 @@ https://github.com/xenodium/agent-shell
 #+begin_src emacs-lisp
 (use-package agent-shell
   :ensure t
-
+  :custom
+  (agent-shell-opencode-default-model-id "github-copilot/gpt-5.3-codex")
   :config
   (setq agent-shell-preferred-agent-config (agent-shell-opencode-make-agent-config))
-  ;; (setq agent-shell-opencode-environment
-  ;;     (agent-shell-make-environment-variables
-  ;;      "ANTHROPIC_API_KEY" (auth-source-pass-get 'secret "anthropic-api-key")
-  ;;      "HTTPS_PROXY" "http://proxy.example.com:8080"))
-
+  :bind (
+         :map agent-shell-mode-map
+         ;; C-c RET is already the default keybinding for agent-shell-set-session-mode,
+         ;; but because I have "C-c <return>" set to `gptel-send' in the global map, I
+         ;; need to set it here in the `agent-shell-mode-map' map.
+         ("C-c <return>" . agent-shell-set-session-mode)
+         )
   )
 #+end_src
 
