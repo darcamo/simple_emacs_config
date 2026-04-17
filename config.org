@@ -7162,11 +7162,17 @@ HTTP client for Emacs using org-mode. The core idea is to structure specificatio
 HTTP requests using Org's tree structure.
 
 TODO: Read the documentation
+
+TIP: If the response buffer has a PDF, then =doc-view-mode= is used by default. Pressing =C-c
+C-c= will switch to pdf tools.
+
 #+begin_src emacs-lisp
 (use-package verb
   :ensure t
   :commands (verb-mode)
-  :config (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
+  :config
+  (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
+  (add-to-list 'verb-content-type-handlers '("text/markdown" markdown-mode))
 )
 #+end_src
 
