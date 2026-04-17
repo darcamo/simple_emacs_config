@@ -5072,10 +5072,15 @@ See more in https://github.com/chenyanming/calibredb.el
   '((t (:foreground "sandy brown" :inherit italic)))
   "Face used for italic in org-mode")
 
+(defface darcamo/org-strike-through
+  '((t (:strike-through t :foreground "#8c8c8c")))
+  "Face used for italic in org-mode")
+
 (defun darcamo--org-emphasis-alist-with-custom-faces (alist)
   (let ((new (copy-alist alist)))
     (setf (alist-get "*" new nil nil 'equal) '(darcamo/org-bold))
     (setf (alist-get "/" new nil nil 'equal) '(darcamo/org-italic))
+    (setf (alist-get "+" new nil nil 'equal) '(darcamo/org-strike-through))
     new))
 
 (defvar-local darcamo--org-emphasis-alist-saved nil
