@@ -1731,6 +1731,8 @@ The keybindinds all start with =C-x t=
   (sp-local-pair 'org-mode "/" "/" :actions '(wrap))
   (sp-local-pair 'org-mode "_" "_" :actions '(wrap))
   (sp-local-pair 'org-mode "+" "+" :actions '(wrap))
+
+  (sp-local-pair 'markdown-mode "*" "*" :actions '(wrap))
   )
 
 
