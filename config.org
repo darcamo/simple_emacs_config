@@ -4255,14 +4255,27 @@ Default prefix is =C-c C-=
 ** org-transclusion
 https://nobiot.github.io/org-transclusion/
 
+Tips:
+- Calling =C-d= on a transcluded text will "detatch it", which means the content will be copied to the current buffer and then you can edit it
+- Check the keybindings in =org-transclusion-map=
+
 #+begin_src emacs-lisp
 (use-package org-transclusion
   :ensure t
   :config
   ;; Change the family of the org-transclusion face to make it very distinguishable from my default face
   (set-face-attribute 'org-transclusion nil :family "Mono")
+  :bind (
+         :map org-mode-map
+         ("C-c t a" . org-transclusion-add)
+         ("C-c t m" . org-transclusion-transient-menu)
+         ("C-c t t" . org-transclusion-mode)
+         )
   )
 #+end_src
+
+See also the [[https://github.com/steve-downey/surround][surround]] package, which adds comments to a region to make it easy to
+transclude the content later.
 
 ** org-present
 #+begin_src emacs-lisp
