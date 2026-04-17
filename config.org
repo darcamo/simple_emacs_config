@@ -9331,6 +9331,19 @@ See [[https://github.com/abrochard/mermaid-mode?tab=readme-ov-file#usage][Usage]
 
 ** COMMENT draw.io                                                                 :OrgMode:
 https://github.com/4honor/org-drawio
+** COMMENT Excalidraw
+#+begin_src emacs-lisp
+(use-package org-excalidraw
+  :ensure (org-excalidraw :type git :host github :repo "wdavew/org-excalidraw")
+  ;; :config
+  ;; (org-excalidraw-directory "~/path_to_store_excalidraw_files")
+  :config
+  (org-excalidraw-initialize)
+)
+#+end_src
+
+Note: There is also https://github.com/4honor/org-excalidraw
+
 * LLMs                                                                          :LLM:
 ** Co-pilot                                                            :LLM:copilot:
 *** Completions in buffer
