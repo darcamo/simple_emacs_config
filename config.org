@@ -9884,6 +9884,16 @@ https://github.com/xenodium/agent-shell
   )
 #+end_src
 
+*** agent-review
+AI-powered code review for Emacs using ACP agents.
+
+#+begin_src emacs-lisp
+(use-package agent-review
+  :ensure (agent-review :type git :host github :repo "nineluj/agent-review")
+  :commands (agent-review)
+)
+#+end_src
+
 * SSH File Modes
 Improve viewing SSH key related files (=authorized_keys= and =know_hosts=)
 #+begin_src emacs-lisp
