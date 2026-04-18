@@ -4964,6 +4964,41 @@ appear first (but in decreasing order).
                  (delete-window t)
                  (window-width . 40)
                  (window-height . fit-window-to-buffer)))
+  :custom
+  (vulpea-ui-outline-max-depth 2)
+  )
+#+end_src
+
+**** Change default widgets in VUI
+
+We need to change =vulpea-ui--widget-registry=.
+#+begin_src emacs-lisp
+(defvar darcamo/vulpea-ui-always-show-outline nil "If t, show outline in Vulpea UI buffer.")
+
+
+(defun darcamo/vulpea-ui--show-outline-p (note)
+  "Checks if outline should be included for NOTE in vulpea UI.
+
+  If darcamo/vulpea-ui-always-show-outline is t, then outline is always
+  shown. If it is nil, then the outline is only shown if the note has an
+  `OUTLINE' property and its value is not \"nil\"."
+  (if-let* ((this-note-properties (vulpea-note-properties note))
+            (outline-property (assoc 'OUTLINE this-note-properties)))
+      ;; If the OUTLINE property is present, then if it's value is set to
+      ;; anything other than "nil", show the outline. If it's value is "nil",
+      ;; then don't show the outline.
+      (not (equal (cdr outline-property) "nil"))
+    ;; If the OUTLINE property is not present, then show the outline if
+    ;; darcamo/vulpea-ui-always-show-outline is t, otherwise don't show the
+    ;; outline.
+    darcamo/vulpea-ui-always-show-outline))
+
+
+(use-package vulpea-ui
+  :defer t
+  :config
+  (let ((pl (gethash 'outline vulpea-ui--widget-registry)))
+    (plist-put pl :predicate 'darcamo/vulpea-ui--show-outline-p))
   )
 #+end_src
 
@@ -4996,6 +5031,21 @@ appear first (but in decreasing order).
                display-buffer-in-tab
                (tab-name . "Journal")
                ))
+#+end_src
+
+*** ace-link-vui
+Jump to and activate any widget in a VUI buffer using avy-style overlay hints.
+
+Just put cursor in the VUI buffer and press "o" or "O" to see overlay hints appear on all
+widgets.
+#+begin_src emacs-lisp
+(use-package ace-link-vui
+  :ensure (ace-link-vui :type git :host github :repo "d12frosted/ace-link-vui")
+  :after vulpea
+  :bind (
+         :map vui-mode-map
+         ("o" . ace-link-vui)
+         ("O" . ace-link-vui-action)))
 #+end_src
 
 ** calibredb                                                    :Calibre:calibre:ebook:
