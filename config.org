@@ -4215,8 +4215,9 @@ my config file are located here.
   ;; Note that you NEED to take the screenshot first using the standard Windows
   ;; screenshot tool, and only after that you should call the
   ;; org-download-screenshot function
-  (when (darcamo/running-in-wsl-p)
-    (setopt org-download-screenshot-method #'darcamo/wsl-copy-latest-screenshot)
+  (if (darcamo/running-in-wsl-p)
+      (setopt org-download-screenshot-method #'darcamo/wsl-copy-latest-screenshot)
+    (setopt org-download-screenshot-method "flameshot gui --raw > %s")
     )
   ;; :bind
   ;; (:map org-mode-map
