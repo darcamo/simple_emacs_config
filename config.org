@@ -5001,8 +5001,7 @@ We need to change =vulpea-ui--widget-registry=.
 (use-package vulpea-ui
   :defer t
   :config
-  (let ((pl (gethash 'outline vulpea-ui--widget-registry)))
-    (plist-put pl :predicate 'darcamo/vulpea-ui--show-outline-p))
+  (vulpea-ui-widget-set 'outline :predicate #'darcamo/vulpea-ui--show-outline-p)
   )
 #+end_src
 
