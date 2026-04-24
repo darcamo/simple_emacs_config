@@ -7248,10 +7248,34 @@ See https://hurl.dev/ (uses curl under the hood) and the Emacs package [[https:/
 - hurl is similar to =restclient.el=, but it can be used outside Emacs and it also has some
   testing utilities built in
 
-
-*** TODO swagg
+*** TODO COMMENT swagg
 
 https://github.com/isamert/swagg.el
+
+*Usage*: Just call one of
+- =swagg-request=
+  + Lets you interactively select an endpoint, using completing-read and then asks interactively for all required query strings, query parameters etc. and makes the request. Result of the request is shown in a separate special buffer. Only response body is shown. If you want to display headers, call swagg-display-headers in the response buffer.
+- =swagg-request-with-rest-block=
+  + Same as above, but instead of making the request, insert rest style request string that you can use with verb, restclient, ob-http etc. Now you can utilize one of these packages to send your request.
+- =swagg-request-with-fetch=
+  + Same as above, but instead of inserting rest style requests, insert a JS fetch() call.
+
+#+begin_src emacs-lisp
+(use-package swagg
+  :ensure (swagg :type git :host github :repo "isamert/swagg.el")
+  :config
+  (setq
+ swagg-definitions
+ '((:name "CaaS-Agent"
+    :yaml "/home/darlan/git_files/2026-CacheService/boost_use_case/agent/swagger/swagger.yaml"
+    :base "localhost:8000"
+    :header ((token . "12345")
+             (Cache-Control . "no-cache")
+             (Content-Type . "application/json")
+             (Accept . "application/json")
+             (another-header . "value")))))
+  )
+#+end_src
 
 * View/edit text formats (yaml, json, csv, markdown, latex, etc)
 ** Markdown                                                               :markdown:
