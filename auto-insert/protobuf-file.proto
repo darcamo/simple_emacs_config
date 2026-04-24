@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package <package_name>;
+
+option go_package = "src/pb/<package_name>";
+
+message <message_name> {
+    // Define your message fields here
+    // For example:
+    // int32 id = 1;
+    // string name = 2;
+}
+
+service <service_name> {
+    // Define your service methods here
+    // For example:
+    // rpc Get<MessageName>(<RequestMessage>) returns (<ResponseMessage>);
+}
