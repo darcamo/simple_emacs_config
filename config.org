@@ -7291,6 +7291,14 @@ https://github.com/isamert/swagg.el
   )
 #+end_src
 
+** go-task                                                                      :Go:
+#+begin_src emacs-lisp
+(use-package go-task
+  :ensure (go-task :type git :host github :protocol ssh :repo "darcamo/go-task")
+  :commands (go-task-run-task go-task-init go-task-list-tasks)
+  )
+#+end_src
+
 * View/edit text formats (yaml, json, csv, markdown, latex, etc)
 ** Markdown                                                               :markdown:
 Tips:
