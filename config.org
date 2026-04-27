@@ -7050,9 +7050,9 @@ Note: Go uses tabs as a convention for indentation. That is why even if you set
 indent-tabs-mode as a local variable).
 
 Note: go-ts-mode has several functions to run to run tests
-- go-ts-mode-test-this-file -> =C-C C-t f=
-- go-ts-mode-test-this-package -> =C-C C-t p=
-- go-ts-mode-test-function-at-point -> =C-C C-t t=
+- go-ts-mode-test-this-file -> =C-c C-t f=
+- go-ts-mode-test-this-package -> =C-c C-t p=
+- go-ts-mode-test-function-at-point -> =C-c C-t t=
 
 *Note*: These functions to run tests will run them as compilation. Therefore, after
 running one of them you can easily re-run it with =recompile=.
@@ -7104,6 +7104,20 @@ running one of them you can easily re-run it with =recompile=.
    )
   )
 
+#+end_src
+
+*** go-scratch
+- Call =go-scratch= to open the "go--scratch" buffer.
+- Use =C-c C-c= to execute the code.
+- The program's stdout will be printed to the message area.
+#+begin_src emacs-lisp
+(use-package go-scratch
+  :ensure t
+  :commands (go-scratch)
+  :bind ( :map go-scratch-mode-map
+          ("C-c C-k" . kill-current-buffer)
+          )
+  )
 #+end_src
 
 *** COMMENT go-tag
