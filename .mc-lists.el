@@ -77,6 +77,8 @@
         dap-tooltip-mouse-motion
         handle-switch-frame
         ignore-preserving-kill-region
+        kmacro-end-and-call-macro
+        kmacro-start-macro
         magit-status
         mc--insert-letter-and-increase
         mc--insert-number-and-increase
