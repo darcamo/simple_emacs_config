@@ -123,10 +123,6 @@
 ;;   (package-install 'use-package))
 
 
-;; Any local package is put in the "local" folder in my emacs-directory
-(add-to-list 'load-path (file-name-concat user-emacs-directory "local"))
-
-
 ;; Load config.org for init.el configuration
 (org-babel-load-file (expand-file-name (concat user-emacs-directory "config.org")))
 
