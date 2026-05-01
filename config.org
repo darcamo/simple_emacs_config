@@ -9688,26 +9688,25 @@ a symbol."
     :endpoint "/api/v1/chat/completions"
     :stream t
     :key 'darcamo/get-gptel-openrouter-key
-    :models (gptel-openrouter-get-annotated-models '(x-ai/grok-code-fast-1
+    :models (gptel-openrouter-get-annotated-models '(deepseek/deepseek-v4-pro
+                                                     deepseek/deepseek-v4-flash
+                                                     x-ai/grok-code-fast-1
                                                      openai/gpt-4o
-                                                     openai/gpt-4.1-nano
                                                      openai/gpt-5.4-nano
-                                                     openai/gpt-5
                                                      openai/gpt-5.4
-                                                     openai/gpt-5.1-codex
                                                      openai/gpt-5.3-codex
                                                      anthropic/claude-sonnet-4
                                                      qwen/qwen3-coder
-                                                     moonshotai/kimi-k2
                                                      google/gemini-2.5-pro
                                                      google/gemini-2.5-flash
-                                                     z-ai/glm-5
+                                                     z-ai/glm-5.1
                                                      minimax/minimax-m2.5
-                                                     moonshotai/kimi-k2.5
+                                                     moonshotai/kimi-k2.6
                                                      )))
   (setq-default gptel-expert-commands t)
 
   ;; See gptel--sanitize-model
+  ;; (darcamo/set-gptel-default-model "OpenRouter" 'OpenRouter:openai/gpt-4o)
   ;; (darcamo/set-gptel-default-model "OpenRouter" 'google/gemini-2.5-flash)
   (darcamo/set-gptel-default-model "Copilot" 'gpt-4o)
 
