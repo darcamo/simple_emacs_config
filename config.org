@@ -7291,6 +7291,31 @@ https://github.com/isamert/swagg.el
   )
 #+end_src
 
+*** COMMENT GRPClient
+https://github.com/Prikaz98/grpclient.el
+#+begin_src emacs-lisp
+(use-package grpclient
+  :ensure (grpclient :type git :host github :repo "Prikaz98/grpclient.el")
+  :mode
+  ("\\.grpc\\'" . grpclient-mode)
+  )
+#+end_src
+
+*** ob-grpc
+https://github.com/shsms/ob-grpc
+
+Usage:
+- In an empty org buffer, run =ob-grpc-init=.
+  - This would add these properties to the buffer:
+
+#+begin_src emacs-lisp
+(use-package ob-grpc
+  :ensure (ob-grpc :type git :host github :repo "shsms/ob-grpc")
+  :bind (:map org-mode-map
+              ("C-c G i" . ob-grpc-init)
+              ("C-c G b" . ob-grpc-insert-block))
+  )
+#+end_src
 ** go-task                                                                      :Go:
 #+begin_src emacs-lisp
 (use-package go-task
