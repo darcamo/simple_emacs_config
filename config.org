@@ -1503,6 +1503,8 @@ This function is useful for creating labels from text, such as converting figure
           )
 #+end_src
 ** Enable tab-bar-mode                                                      :TabBar:
+TODO: Check the use of tab groups -> https://www.rahuljuliato.com/posts/emacs-tab-bar-groups
+
 Alternate between tabs with C-<tab>
 #+begin_src emacs-lisp
 (use-package tab-bar
