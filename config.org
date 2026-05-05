@@ -7356,6 +7356,16 @@ Usage:
               ("C-c G b" . ob-grpc-insert-block))
   )
 #+end_src
+** Redis
+*** eredis
+https://github.com/justinhj/eredis/
+
+#+begin_src emacs-lisp
+(use-package eredis
+  :ensure t
+)
+#+end_src
+
 ** go-task                                                                      :Go:
 #+begin_src emacs-lisp
 (use-package go-task
