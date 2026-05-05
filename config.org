@@ -4277,9 +4277,49 @@ See also the [[https://github.com/steve-downey/surround][surround]] package, whi
 transclude the content later.
 
 ** org-present
+- Activate presentation mode using =org-present=.
+- Navigate slides with =<right>= to move forward or =<left>= to go back.
+
+
+*Note*: The mode-line should remain hidden during the presentation and be restored once you
+exit Org Presenter. However, due to a bug, you'll need to revert the buffer after exiting
+to make the mode-line reappear properly.
+
 #+begin_src emacs-lisp
+(use-package hide-mode-line
+  :ensure t
+  :commands (hide-mode-line-mode)
+)
+
 (use-package org-present
-  :ensure t)
+  :commands (org-present)
+  :ensure t
+  :bind ( :map org-present-mode-keymap
+          ("q" . org-present-quit)
+          ("1" . org-present-toggle-one-big-page)
+          )
+  :hook
+  (org-present-mode .
+                    (lambda ()
+                      (org-present-big)
+                      (org-present-hide-cursor)
+                      (org-display-inline-images)
+                      (read-only-mode 1)
+                      (hide-mode-line-mode 1)
+                      (visual-line-mode 1)
+                      ;; (org-present-read-only)
+                      ))
+  (org-present-mode-quit .
+                         (lambda ()
+                           (org-present-small)
+                           (org-present-show-cursor)
+                           (org-remove-inline-images)
+                           (read-only-mode -1)
+                           (hide-mode-line-mode -1)
+                           (visual-line-mode -1)
+                           ;; (org-present-read-write)
+                           ))
+  )
 #+end_src
 
 ** org-remark
