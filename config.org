@@ -10107,3 +10107,14 @@ Improve viewing SSH key related files (=authorized_keys= and =know_hosts=)
 
   (add-to-list 'auto-mode-alist '("\\.ssh/.*\\.pub\\'" . ssh-authorized-keys-mode))
 #+end_src
+
+* WSL
+Configuration useful when running Emacs inside WSL.
+- *Note*: You need to install the wsltools package
+
+#+begin_src emacs-lisp
+(when (darcamo/running-in-wsl-p)
+  (setq browse-url-generic-program "wslview")
+  (setq browse-url-browser-function 'browse-url-generic)
+  )
+#+end_src
