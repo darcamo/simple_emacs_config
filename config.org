@@ -5761,6 +5761,7 @@ To add support to more server, see the =eglot-server-programs= variable.
          :map c++-ts-mode-map (("M-I" . consult-eglot-symbols))
          :map python-mode-map (("M-I" . consult-eglot-symbols))
          :map python-ts-mode-map (("M-I" . consult-eglot-symbols))
+         :map go-ts-mode-map (("M-I" . consult-eglot-symbols))
          )
   )
 #+end_src
