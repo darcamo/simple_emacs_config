@@ -7105,6 +7105,16 @@ running one of them you can easily re-run it with =recompile=.
   There is also
   - go-ts-mode-docstring -> =C-c C-d=
 
+
+*** Use go-ts-mode instead of go-mode
+Loading a package like =go-scratch=, which depends on the =go-mode= package, would make all go
+files use =go-mode= (which is not included in Emacs), instead of =go-ts-mode= (which IS
+included in Emacs). Here we add an entry to =major-mode-remap-alist= to make sure =go-ts-mode=
+is used.
+#+begin_src emacs-lisp
+(add-to-list 'major-mode-remap-alist '(go-mode . go-ts-mode))
+#+end_src
+
 *** General configuration for go
 #+begin_src emacs-lisp
 (use-package go-ts-mode
