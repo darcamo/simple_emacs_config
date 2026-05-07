@@ -463,6 +463,8 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 
 ** Consult                                                     :Keybindings:Consult:
 
+*** General configuration
+
 Use "M-x" e digite "^consult" para ver os diversos comandos.
 
 Nota: Alguns comandos possuem múltiplos grupos. Vc pode filtrar para um grupo específico
@@ -589,7 +591,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
   )
 #+end_src
 
-** Consult-dir                                                             :Consult:
+*** Consult-dir                                                           :Consult:
 #+begin_src emacs-lisp
 (use-package consult-dir
   :ensure t
@@ -600,7 +602,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
          ))
 #+end_src
 
-** COMMENT Consult-project                                                 :Consult:
+*** COMMENT Consult-project                                               :Consult:
 #+begin_src emacs-lisp
 (use-package consult-project
   :ensure (consult-project :type git :host github :repo "Qkessler/consult-project")
@@ -609,7 +611,7 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
   )
 #+end_src
 
-** consult-jump-project                                                    :Consult:
+*** consult-jump-project                                                  :Consult:
 Quickly jump between projects, their files and buffers with consult.
 
 #+begin_src emacs-lisp
@@ -619,10 +621,23 @@ Quickly jump between projects, their files and buffers with consult.
   )
 #+end_src
 
-** Other useful consult commands                                           :Consult:
+*** consult-ls-git
+After calling =consult-ls-git=, you can filter with =f= for files, =z= for stash or =s= for
+status.
+#+begin_src emacs-lisp
+(use-package consult-ls-git
+  :ensure t
+  :commands (consult-ls-git consult-ls-git-other-window)
+  :bind
+  (("C-c G f" . #'consult-ls-git)
+   ("C-c G F" . #'consult-ls-git-other-window)))
+#+end_src
+*** Other useful consult commands                                         :Consult:
 - consult-minor-mode-men
   - Filter the groups with "g", "i", "l" and "o"
-
+*** Other consult packages
+There is configuration for other consult packages in other sections. Use =org-sparse-tree=
+for tags (=C-/= followed by =m=, or =C-\=) to view them.
 ** Embark                                                       :Keybindings:Embark:
 Note: During a prefix key (e.g. =C-x=, =C-c=, etc) you can use =C-h= to see all possible
 completions for that prefix key. This is nicer than which key because you can use search.
@@ -2331,13 +2346,24 @@ In Arch Linux, the name of the package is =git-delta=.
   )
 #+end_src
 
-** COMMENT consult-gh
+** COMMENT consult-gh                                                      :Consult:
 There are more packages that add extra functionality to consult-gh (embark integration, pr
 review, etc)
 #+begin_src emacs-lisp
 (use-package consult-gh
   :ensure t
   :after consult)
+#+end_src
+
+** consult-git-log-grep
+#+begin_src emacs-lisp
+(use-package consult-git-log-grep
+  :ensure t
+  :defer t
+  :bind (("C-c G l" . #'consult-git-log-grep))
+  :custom
+  (cons ult-git-log-grep-open-function #'magit-show-commit)
+  )
 #+end_src
 
 ** git-sync-mode -> Automatically sync your git repos
@@ -4976,7 +5002,7 @@ in the backlinks. Then create a "Journal" widget to show journal backlinks.
 Alternativelly, I could customize =vulpea-ui-backlinks-sort= to make journal entries
 appear first (but in decreasing order).
 
-*** Vulpea consult
+*** Vulpea consult                                                        :Consult:
 #+begin_src emacs-lisp
 ;; Make vulpea-find and friends show a preview
 ;;
@@ -5601,7 +5627,7 @@ https://github.com/tarsius/hl-todo
   )
 #+end_src
 
-*** Consult documentation in zeal (dash documentation)
+*** Consult documentation in zeal (dash documentation)                    :Consult:
 See https://github.com/jinzhu/zeal-at-point
 
 You need to have [[https://zealdocs.org/][zeal]] installed. See also the [[https://github.com/dash-docs-el/helm-dash][helm-dash]] package as an alternative, which
