@@ -4335,6 +4335,66 @@ to make the mode-line reappear properly.
   :commands (hide-mode-line-mode)
 )
 
+(defun darcamo/after-start-org-present ()
+  "Code to run after starting `org-present' mode."
+  ;; (org-present-big)
+  ;; (org-present-hide-cursor)
+  (org-display-inline-images)
+  (read-only-mode 1)
+  (hide-mode-line-mode 1)
+  (visual-line-mode 1)
+  ;; (org-present-read-only)
+  (visual-fill-column-mode 1)
+
+  (setq-local face-remapping-alist '((default (:height 1.8))
+                                     ;; We need to set the height of org-modern-indent-bracket-line to the same value as
+                                     ;; default in order for the brackets in the left of the code blocks to match the
+                                     ;; height of the text
+                                     (org-modern-indent-bracket-line (:height 1.8) org-modern-indent-bracket-line)
+                                     (header-line (:height 1.0) header-line)
+                                     (org-document-title (:height 2.5) org-document-title)
+                                     (org-code (:height 1.55) org-code)
+                                     (org-verbatim (:height 1.55) org-verbatim)
+                                     (org-block (:height 1.25) org-block)
+                                     (org-block-begin-line (:height 0.5) org-block-begin-line)
+                                     (org-block-end-line (:height 0.5) org-block-end-line)
+                                     ))
+  ;; Set header-line-format to a non-nil value just to have some empty space above the presentation
+  (setq-local header-line-format " ")
+  ;; (variable-pitch-mode 1)
+  )
+
+
+(defun darcamo/after-stop-org-present ()
+  "Code to run after stopping `org-present' mode."
+  ;; (org-present-small)
+  ;; (org-present-show-cursor)
+  (org-remove-inline-images)
+  (read-only-mode -1)
+  (hide-mode-line-mode -1)
+  (visual-line-mode -1)
+  ;; (org-present-read-write)
+  (visual-fill-column-mode -1)
+  (variable-pitch-mode -1)
+
+  (setq-local face-remapping-alist nil)
+  (setq-local header-line-format nil)
+  ;; (variable-pitch-mode -1)
+  )
+
+
+(defun darcamo/prepare-slide (buffer-name heading)
+  "Function called after navigating to a new slide in `org-present' mode."
+  ;; (message "Preparing slide for buffer: %s, heading: %s" buffer-name heading)
+
+  ;; If heading starts with "#+title", change header-line height to 4.0
+  (if (and (string-prefix-p "#+title" heading) (assoc 'header-line face-remapping-alist))
+      (setf (alist-get 'header-line face-remapping-alist) '((:height 10.0) header-line))
+    (setf (alist-get 'header-line face-remapping-alist) '((:height 1.0) header-line))
+    )
+  )
+
+
 (use-package org-present
   :commands (org-present)
   :ensure t
@@ -4343,26 +4403,10 @@ to make the mode-line reappear properly.
           ("1" . org-present-toggle-one-big-page)
           )
   :hook
-  (org-present-mode .
-                    (lambda ()
-                      (org-present-big)
-                      (org-present-hide-cursor)
-                      (org-display-inline-images)
-                      (read-only-mode 1)
-                      (hide-mode-line-mode 1)
-                      (visual-line-mode 1)
-                      ;; (org-present-read-only)
-                      ))
-  (org-present-mode-quit .
-                         (lambda ()
-                           (org-present-small)
-                           (org-present-show-cursor)
-                           (org-remove-inline-images)
-                           (read-only-mode -1)
-                           (hide-mode-line-mode -1)
-                           (visual-line-mode -1)
-                           ;; (org-present-read-write)
-                           ))
+  (org-present-mode . darcamo/after-start-org-present)
+  (org-present-mode-quit . darcamo/after-stop-org-present)
+  :config
+  (add-hook 'org-present-after-navigate-functions #'darcamo/prepare-slide)
   )
 #+end_src
 
