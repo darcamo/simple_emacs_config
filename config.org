@@ -5160,6 +5160,7 @@ We need to change =vulpea-ui--widget-registry=.
 (add-to-list 'display-buffer-alist
              '("^[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\.org$"
                display-buffer-in-tab
+               (tab-group . "[Notes]")
                (tab-name . "Journal")
                ))
 #+end_src
@@ -9026,6 +9027,7 @@ https://www.reddit.com/r/emacs/comments/jreehr/imap_and_smtp_oauth2_configuratio
              '("mu4e"
                display-buffer-in-tab
                (tab-name . "E-Mail")
+               (tab-group . "[Email]")
                ))
 
 (defun mu4e-close-tab ()
