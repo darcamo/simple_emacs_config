@@ -2086,6 +2086,19 @@ overlay.
   :custom
   (repeat-mode +1))
 #+end_src
+
+** visual-fill-column
+*Note*: =visual-line-mode= must be enabled for =visual-fill-column= to work properly.
+
+#+begin_src emacs-lisp
+(use-package visual-fill-column
+  :ensure t
+  :commands (visual-fill-column-mode global-visual-fill-column-mode)
+  :custom
+  (visual-fill-column-width 110)
+  (visual-fill-column-center-text t)
+)
+#+end_src
 * Shell integration
 ** eat
 TODO: https://codeberg.org/akib/emacs-eat
