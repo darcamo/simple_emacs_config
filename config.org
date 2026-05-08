@@ -9442,6 +9442,29 @@ link is an actual search.
   ([f8] . darcamo/call-notmuch-new)))
 #+end_src
 
+*** Use a separated tab for notmuch
+#+begin_src emacs-lisp
+;; use a dedicated tab for notmuch
+(add-to-list 'display-buffer-alist
+             '("\\*notmuch"
+               (display-buffer-in-tab display-buffer-full-frame)
+               (tab-name . "E-Mail")
+               (tab-group . "[E-mail]")
+               ))
+
+
+(defun my/close-email-tab-if-last-buffer ()
+  "Close the email tab only if no Notmuch buffers remain."
+  (when (and (string= (alist-get 'name (tab-bar--current-tab)) "E-Mail")
+             (not (seq-some (lambda (buf)
+                              (string-match-p "\\*notmuch" (buffer-name buf)))
+                            (buffer-list))))
+    (tab-bar-close-tab)))
+
+
+(advice-add 'notmuch-bury-or-kill-this-buffer :after #'my/close-email-tab-if-last-buffer)
+#+end_src
+
 ** COMMENT org-msg
 #+begin_src emacs-lisp
 (use-package org-msg
