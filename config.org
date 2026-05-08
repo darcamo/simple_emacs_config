@@ -656,7 +656,7 @@ action is performed (you will still be in the minibuffer)
    ;; Add sudo-edit as an action for files
    ("s" . sudo-edit)
    :map minibuffer-mode-map
-   ("C-SPC" . embark-select)
+   ("C-s" . embark-select)
    ("C->" . embark-act-all)  ;; Same as `C-.`, but also pressing Shift key
    ) ;; alternative for `describe-bindings'
 
