@@ -9524,6 +9524,20 @@ link is an actual search.
 (advice-add 'notmuch-bury-or-kill-this-buffer :after #'my/close-email-tab-if-last-buffer)
 #+end_src
 
+*** consult-notmuch
+https://codeberg.org/jao/consult-notmuch
+
+Use one of ther commands below
+- =consult-notmuch=         Search for your email in notmuch, showing single messages.
+- =consult-notmuch-tree=    Search for your email in notmuch, showing full candidate tree.
+- =consult-notmuch-address= Search the notmuch db for an email address and compose mail to it.
+#+begin_src emacs-lisp
+(use-package consult-notmuch
+  :ensure t
+  :commands (consult-notmuch consult-notmuch-tree consult-notmuch-address)
+)
+#+end_src
+
 ** COMMENT org-msg
 #+begin_src emacs-lisp
 (use-package org-msg
