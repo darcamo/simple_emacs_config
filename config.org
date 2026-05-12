@@ -5808,18 +5808,35 @@ To add support to more server, see the =eglot-server-programs= variable.
   (eglot-highlight-symbol-face ((t (:underline (:style dots)))))
   :bind
   (:map eglot-mode-map
-        ("C-c C-l ==" . eglot-format-buffer)
+        ;; ("C-c C-l ==" . eglot-format-buffer)
+        ("C-c C-l ==" . eglot-format)
         ("C-c C-l =i" . eglot-code-action-organize-imports)
         ("C-c C-l rr" . eglot-rename)
         ("C-c C-l ti" . eglot-inlay-hints-mode)
         ("C-c C-l i" . eglot-momentary-inlay-hints)
+
+        ;; "C-c C-l a" prefix for code actions
         ("C-c C-l ." . eglot-code-action-quickfix)
         ("C-c C-l aa" . eglot-code-actions)
+        ("C-c C-l ae" . eglot-code-action-extract)
+        ("C-c C-l ar" . eglot-code-action-rewrite)
+        ("C-c C-l ai" . eglot-code-action-inline)
+
         ;; "C-c C-l s" prefix for server information commands
         ("C-c C-l se" . eglot-stderr-buffer)
         ("C-c C-l sE" . eglot-events-buffer)
         ("C-c C-l sc" . eglot-list-connections)
         ("C-c C-l sr" . eglot-reconnect)
+
+        ;; Find implementation / declaration
+        ("C-c C-l fi" . eglot-find-implementation)
+        ("C-c C-l fd" . eglot-find-declaration)
+        ("C-c C-l ft" . eglot-find-typeDefinition)
+
+        ;; Hierarchy
+        ("C-c C-l hc" . eglot-show-call-hierarchy)
+        ("C-c C-l ht" . eglot-show-type-hierarchy)
+
         ("C-c C-l d" . eldoc)
         ))
 #+end_src
