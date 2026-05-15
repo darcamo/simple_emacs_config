@@ -2165,14 +2165,14 @@ To start Eat, run M-x eat. Eat has four input modes:
 ** My function to start a shell
 *Note*: A keybinding (=C-z=) was set to call this function.
 #+begin_src emacs-lisp
-(defun darcamo/start-shell ()
+(defun darcamo/start-shell (arg)
   "Start zsh, if available, or bash using `ansi-term'."
-  (interactive)
+  (interactive "P")
   (let ((zsh "/bin/zsh")
         (bash "/bin/bash"))
     (if (file-executable-p zsh)
-        (eat zsh)
-      (eat bash))))
+        (eat zsh arg)
+      (eat bash arg))))
 
 ;; (defun darcamo/start-shell ()
 ;;   "Start zsh, if available, or bash using `ansi-term'."
