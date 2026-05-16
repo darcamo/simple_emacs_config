@@ -1740,7 +1740,7 @@ The keybindinds all start with =C-x t=
   :defer t
   :hook
   (prog-mode . smartparens-mode)
-  (markdown-mode . smartparens-mode)
+  (markdown-ts-mode . smartparens-mode)
   (org-mode . smartparens-mode)
   :config
   ;; Stop pairing single quotes in elisp
@@ -1752,7 +1752,9 @@ The keybindinds all start with =C-x t=
   (sp-local-pair 'org-mode "_" "_" :actions '(wrap))
   (sp-local-pair 'org-mode "+" "+" :actions '(wrap))
 
-  (sp-local-pair 'markdown-mode "*" "*" :actions '(wrap))
+  (sp-local-pair 'markdown-ts-mode "*" "*" :actions '(wrap))
+  (sp-local-pair 'markdown-ts-mode "`" "`" :actions '(wrap))
+  (sp-local-pair 'markdown-ts-mode "~" "~" :actions '(wrap))
   )
 
 
@@ -4883,7 +4885,7 @@ nodes with redirection so you can refactor notes without leaving broken links.
     ;; If you intend to use Denote with a variety of file types, it is
     ;; easier to bind the link-related commands to the `global-map', as
     ;; shown here.  Otherwise follow the same pattern for `org-mode-map',
-    ;; `markdown-mode-map', and/or `text-mode-map'.
+    ;; `markdown-ts-mode-map', and/or `text-mode-map'.
     ("C-c n l" . denote-link)
     ("C-c n L" . denote-add-links)
     ("C-c n b" . denote-backlinks)
@@ -5325,8 +5327,8 @@ The default major mode of editing buffer is text-mode. You can change the major 
 manually. If you want to use a different major mode as the default, set
 atomic-chrome-default-major-mode like below.
 
-: (setq atomic-chrome-default-major-mode 'markdown-mode)
-Additionally, you can use atomic-chrome-url-major-mode-alist to choose the major mode for
+: (setq atomic-chrome-default-major-mode 'markdown-ts-mode)
+Additionally, you can use =atomic-chrome-url-major-mode-alist= to choose the major mode for
 a specific website based on the page URL (or, with GhostText, URL hostname) like below.
 
 #+begin_example
@@ -7403,7 +7405,7 @@ C-c= will switch to pdf tools.
   :commands (verb-mode)
   :config
   (define-key org-mode-map (kbd "C-c C-r") verb-command-map)
-  (add-to-list 'verb-content-type-handlers '("text/markdown" markdown-mode))
+  (add-to-list 'verb-content-type-handlers '("text/markdown" markdown-ts-mode))
 )
 #+end_src
 
@@ -7492,30 +7494,9 @@ https://github.com/justinhj/eredis/
 * View/edit text formats (yaml, json, csv, markdown, latex, etc)
 ** Markdown                                                               :markdown:
 Tips:
-- Check the several =markdown-toggle-.= commands. There are commands to toggle markup, links, images, etc.
+- Don't forget about =markdown-ts-toggle-hide-markup= and =markdown-ts-toggle-inline-images=
 - You can insert many different things with =C-C C-s <key>=
-
-
-Note that the =markdown-mode= package defines not only the =markdown-mode= major mode, but
-also the =gfm-mode= major mode. The later has some additional features to support GutHub
-Flavored Markdown, including fenced code blocks.
-
-*** COMMENT General config for markdown-mode
-#+begin_src emacs-lisp
-(use-package markdown-mode
-  :ensure t
-  :defer t
-  :custom
-  (markdown-fontify-code-blocks-natively t)
-  :config
-  (set-face-attribute 'markdown-code-face nil :background "gray10")
-  (set-face-attribute 'markdown-header-face-1 nil :height 1.5)
-  (set-face-attribute 'markdown-header-face-2 nil :height 1.3)
-  (set-face-attribute 'markdown-header-face-3 nil :underline t)
-  :hook
-  (markdown-mode . (lambda () (setq fill-column 120)))
-  )
-#+end_src
+  - *TODO*: This was for =markdown-mode= -> set similar keybindings for =markdown-ts-mode=
 
 *** General config for markdown-ts-mode
 #+begin_src emacs-lisp
@@ -7529,6 +7510,8 @@ Flavored Markdown, including fenced code blocks.
   (set-face-attribute 'markdown-ts-emphasis nil :foreground "#e45c9c")
 
   (add-to-list 'major-mode-remap-alist '(markdown-mode . markdown-ts-mode))
+  :hook
+  (markdown-ts-mode . (lambda () (setq fill-column 120)))
 )
 #+end_src
 
@@ -7557,8 +7540,8 @@ Note: You need to install the =markdownlint= package in the system.
 (use-package flymake-markdownlint
   :ensure t
   :hook
-  (markdown-mode . flymake-mode)
-  (markdown-mode . flymake-markdownlint-setup)
+  (markdown-ts-mode . flymake-mode)
+  (markdown-ts-mode . flymake-markdownlint-setup)
   :custom
   (flymake-markdownlint-program "mdl")
   )
@@ -7572,26 +7555,16 @@ Another alternative is the https://github.com/nlamirault/emacs-markdownfmt emacs
 - But it requires [[https://github.com/shurcooL/markdownfmt][markdownfmt]], which is not in the Arch repository of in the AUR.
 
 #+begin_src emacs-lisp
-(use-package markdown-mode
-:after apheleia
-:config
+(use-package markdown-ts-mode
+  :after apheleia
+  :config
   (push '(mdformat . ("/usr/bin/mdformat" "-" file))
         apheleia-formatters)
-(add-to-list 'apheleia-mode-alist '(markdown-mode . mdformat))
-:bind (:map markdown-mode-map
+  (add-to-list 'apheleia-mode-alist '(markdown-ts-mode . mdformat))
+  :bind (:map markdown-ts-mode-map
               ;; Save the buffer to file, format the file and reload the disk
               ("C-c f" . apheleia-format-buffer)
               )
-)
-#+end_src
-
-*** COMMENT Generate table of contents
-Call the command =markdown-toc-generate-toc= and a TOC will be inserted in the cursor position.
-
-#+begin_src elisp
-(use-package markdown-toc
-  :ensure t
-  :commands markdown-toc-generate-toc
   )
 #+end_src
 
@@ -7600,7 +7573,6 @@ Call the command =markdown-toc-generate-toc= and a TOC will be inserted in the c
 (use-package markdown-indent-mode
   :ensure (markdown-indent-mode :type git :host github :repo "whhone/markdown-indent-mode")
   :commands (markdown-indent-mode)
-  :hook (markdown-mode . markdown-indent-mode)
   :hook (markdown-ts-mode . markdown-indent-mode)
   :config
   ;; The color used here is slightly ligher than the background color of the default face
@@ -7608,7 +7580,7 @@ Call the command =markdown-toc-generate-toc= and a TOC will be inserted in the c
 )
 #+end_src
 
-*** Preview using Guthub README preview
+*** COMMENT Preview using Guthub README preview
 Check the https://github.com/seagle0128/grip-mode package
 
 You need to install the python-grip package.
@@ -7628,6 +7600,13 @@ Note: It updates live, without need for even saving the buffer.
 (use-package impatient-showdown
   :ensure t
   :commands (impatient-showdown-mode)
+  :custom
+  (impatient-showdown-flavor 'github)
+  (impatient-showdown-background-color "#EEEEEE")
+  (impatient-showdown-markdown-background-color "#FFFFFF")
+  (impatient-showdown-markdown-border-color "#AA0000")
+  ;; :config
+  ;; (add-to-list 'impatient-showdown-scripts "https://some-domain/some-script.js")
 )
 #+end_src
 
@@ -7635,6 +7614,9 @@ Note: It updates live, without need for even saving the buffer.
 
 There is nothing to install in Emacs. Just install [[https://github.com/jfernandez/mdserve][mdserve]], run it and open the link in a
 browser. You need to save the file to see changes.
+
+*Note*: Only updates when you save the file. Use =impatient-showdown= instead if you want true
+live updates.
 
 ** YAML                                                                          :YAML:
 *** yaml-ts-mode
