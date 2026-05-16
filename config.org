@@ -7394,8 +7394,6 @@ https://github.com/federicotdn/verb
 HTTP client for Emacs using org-mode. The core idea is to structure specifications for
 HTTP requests using Org's tree structure.
 
-TODO: Read the documentation
-
 TIP: If the response buffer has a PDF, then =doc-view-mode= is used by default. Pressing =C-c
 C-c= will switch to pdf tools.
 
@@ -9343,8 +9341,6 @@ This package makes mu4e much more beautiful
 #+end_src
 
 ** notmuch
-
-TODO: Check other packages in MELPA with "notmuch" in the name.
 
 *** General configuration to receive E-mail
 #+begin_src emacs-lisp

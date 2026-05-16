@@ -7,18 +7,8 @@
  '(custom-safe-themes
    '("920a9ae46eff9e641e6af864a09201767f4aca9cf169b2287d9a701ef5ecaa87"
      "cc3cb3b291a7e31f1d40ea8587fb2907aca168d820ab4683764f7c478761f84f"
-     "f60670b53f340f48be6071dd39e70e50e634261e6178e95f28f329bea36919ec" default))
- '(logview-additional-level-mappings
-   '(("PCoIP-Levels" (error "LVL:0") (warning "LVL:1") (information "LVL:2")
-      (debug "LVL:3") (trace "LVL:4") (aliases "pcoip"))))
- '(logview-additional-submodes
-   '(("PCoIP" (format . "TIMESTAMP LEVEL THREAD IGNORED NAME")
-      (levels . "PCoIP-Levels") (timestamp) (aliases))))
- '(logview-additional-timestamp-formats
-   '(("PCoIP-Timestamp"
-      (regexp
-       . "[0-9]+-[0-9][0-9]-[0-9][0-9]T[0-9][0-9]:[0-9][0-9]:[0-9][0-9]\\.[0-9][0-9][0-9]Z"))))
- '(lsp-clangd-version "16.02")
+     "f60670b53f340f48be6071dd39e70e50e634261e6178e95f28f329bea36919ec"
+     default))
  '(package-selected-packages nil)
  '(safe-local-variable-values
    '((eval when (fboundp 'rainbow-mode) (rainbow-mode 1))
