@@ -7674,11 +7674,7 @@ Note: Run =npm i -g vscode-langservers-extracted= to install the json language s
 (use-package emacs
   :mode
   ("\\.json\\'" . json-ts-mode)
-  ;; :hook
-  ;; (json-mode . lsp)
-  ;; :bind (
-  ;;        :map json-mode-map
-  ;;        ("M-I" . lsp-ui-imenu))
+  ("\\.jsonc\\'" . json-ts-mode)
   )
 
 
