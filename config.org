@@ -2321,6 +2321,16 @@ In Arch Linux, the name of the package is =git-delta=.
   :ensure t
   :hook (magit-mode . magit-delta-mode)))
 #+end_src
+
+*** magit-gh
+*Note*: You can access magit-gh from the Magit status menu by typing , or m-x magit-gh.
+
+#+begin_src emacs-lisp
+(use-package magit-gh
+  :ensure t
+  :after magit)
+#+end_src
+
 ** Git timemachine
 #+begin_src emacs-lisp
 (use-package git-timemachine
