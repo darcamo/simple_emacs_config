@@ -7497,6 +7497,7 @@ https://github.com/justinhj/eredis/
 #+begin_src emacs-lisp
 (use-package eredis
   :ensure t
+  :defer t
 )
 #+end_src
 
