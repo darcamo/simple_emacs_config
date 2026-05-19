@@ -6749,32 +6749,23 @@ flymake diagnostic function and add the one we have created previously instead.
 
 *** Format CMake buffers                                                   :apheleia:
 #+begin_src emacs-lisp
-(defun darcamo/format-cmake-buffer ()
-  "Format a cmake buffer using cmake-format with apheleia.
+(defun darcamo/apheleia-format-buffer ()
+  "Call apheleia-format-buffer to format a buffer.
 
 This saves the buffer, formats it, and then reloads the disk version."
   (interactive)
 
   (save-buffer)
-  (apheleia-format-buffer 'cmakeformat)
-  ;; (lambda () (interactive) (switch-to-buffer (current-buffer)) (revert-buffer t t t))
-  (sleep-for 0.1)  ;; Ideally we want to use the callback in apheleia-format-buffer
-  (revert-buffer t t t)
+  (let ((formatter (apheleia--get-formatters)))
+    (apheleia-format-buffer formatter (lambda () (revert-buffer t t t)))
+    )
   )
-
-
-(use-package emacs
-  :after apheleia
-  :config
-  (push '(cmakeformat . ("cmake-format" "--in-place" file))
-        apheleia-formatters)
-  (add-to-list 'apheleia-mode-alist '(cmake-ts-mode . cmakeformat)))
 
 
 (use-package cmake-ts-mode
   :bind (:map cmake-ts-mode-map
               ;; Save the buffer to file, format the file and reload the disk
-              ("C-c f" . darcamo/format-cmake-buffer)))
+              ("C-c f" . darcamo/apheleia-format-buffer)))
 #+end_src
 *** My custom fontify rules to add colors to compilation buffer         :Compilation:
 #+begin_src emacs-lisp
@@ -7374,7 +7365,15 @@ it does not, then apheleia can be used instead.
 #+begin_src emacs-lisp
 (use-package apheleia
   :ensure t
-  :commands (apheleia-format-buffer)
+  :commands (apheleia-format-buffer apheleia--get-formatters)
+  :config
+  (push '(cmakeformat . ("cmake-format" "--in-place" file))
+        apheleia-formatters)
+  (add-to-list 'apheleia-mode-alist '(cmake-ts-mode . cmakeformat))
+
+  (push '(mdformat . ("/usr/bin/mdformat" "-" file))
+        apheleia-formatters)
+  (add-to-list 'apheleia-mode-alist '(markdown-ts-mode . mdformat))
   )
 #+end_src
 
@@ -7565,7 +7564,7 @@ Note: You need to install the =markdownlint= package in the system.
   )
 #+end_src
 
-*** COMMENT Formatting
+*** Formatting with mdformat
 Check the https://github.com/executablebooks/mdformat (system) package and how to
 configure it with apheleia
 
@@ -7574,14 +7573,9 @@ Another alternative is the https://github.com/nlamirault/emacs-markdownfmt emacs
 
 #+begin_src emacs-lisp
 (use-package markdown-ts-mode
-  :after apheleia
-  :config
-  (push '(mdformat . ("/usr/bin/mdformat" "-" file))
-        apheleia-formatters)
-  (add-to-list 'apheleia-mode-alist '(markdown-ts-mode . mdformat))
   :bind (:map markdown-ts-mode-map
               ;; Save the buffer to file, format the file and reload the disk
-              ("C-c f" . apheleia-format-buffer)
+              ("C-c f" . darcamo/apheleia-format-buffer)
               )
   )
 #+end_src
