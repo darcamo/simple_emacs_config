@@ -7239,6 +7239,7 @@ is used.
 #+begin_src emacs-lisp
 (use-package go-ts-mode
   :ensure nil
+  :commands (go-ts-mode go-mod-ts-mode)
   :custom (go-ts-indent-offset 4)
   :hook (go-ts-mode . (lambda () (setq fill-column 80)))
   ;; :config
