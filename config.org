@@ -5451,6 +5451,7 @@ imenu support breadcrumbs should work.
 #+begin_src elisp
 (use-package breadcrumb
   :ensure t
+  :commands (breadcrumb-local-mode)
   :hook
   (prog-mode . (lambda () (unless (darcamo/is-scratch-buffer) (breadcrumb-local-mode))))
   )
