@@ -1904,6 +1904,15 @@ You can open links by clicking or with the =C-c RET= keybinding.
   )
 #+end_src
 
+** winpulse
+#+begin_src emacs-lisp
+(use-package winpulse
+  :ensure t
+  :config
+  (winpulse-mode +1)
+  )
+#+end_src
+
 ** COMMENT googles -> Highlight modified region using pulse
 #+begin_src emacs-lisp
 (use-package goggles
