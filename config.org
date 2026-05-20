@@ -7435,7 +7435,7 @@ See https://hurl.dev/ (uses curl under the hood) and the Emacs package [[https:/
 - hurl is similar to =restclient.el=, but it can be used outside Emacs and it also has some
   testing utilities built in
 
-*** TODO COMMENT swagg
+*** swagg
 
 https://github.com/isamert/swagg.el
 
@@ -7447,21 +7447,40 @@ https://github.com/isamert/swagg.el
 - =swagg-request-with-fetch=
   + Same as above, but instead of inserting rest style requests, insert a JS fetch() call.
 
+
+*Note*: If you modify =swagg-definitions=, run =swagg-invalidate-cache= so that the modified definition is used.
 #+begin_src emacs-lisp
 (use-package swagg
   :ensure (swagg :type git :host github :repo "isamert/swagg.el")
+  :commands (swagg-request swagg-request-with-fetch swagg-request-with-rest-block swagg-request-with-rest-src-block)
   :config
-  (setq
- swagg-definitions
- '((:name "CaaS-Agent"
-    :yaml "/home/darlan/git_files/2026-CacheService/boost_use_case/agent/swagger/swagger.yaml"
-    :base "localhost:8000"
-    :header ((token . "12345")
-             (Cache-Control . "no-cache")
-             (Content-Type . "application/json")
-             (Accept . "application/json")
-             (another-header . "value")))))
-  )
+  (let* ((caas-repo "~/git_files/2026-CacheService")
+         (agent-swagger-file (file-name-concat caas-repo "agent/swagger/swagger.yaml"))
+         (catalog-swagger-file (file-name-concat caas-repo "catalog/swagger/swagger.yaml"))
+         (agent-port 8080)
+         (catalog-port 8081)
+         (agent-base (format "localhost:%d/api/v1" agent-port))
+         (catalog-base (format "localhost:%d/api/v1" catalog-port))
+         )
+    (setq
+     swagg-definitions
+     `((:name "CaaS-Agent"
+              :yaml ,agent-swagger-file
+              :base ,agent-base
+              :header ((token . "12345")
+                       (Cache-Control . "no-cache")
+                       (Content-Type . "application/json")
+                       (Accept . "application/json")
+                       (another-header . "value")))
+       (:name "CaaS-Catalog"
+              :yaml ,catalog-swagger-file
+              :base ,catalog-base
+              :header ((token . "12345")
+                       (Cache-Control . "no-cache")
+                       (Content-Type . "application/json")
+                       (Accept . "application/json")
+                       (another-header . "value")))
+       ))))
 #+end_src
 
 *** COMMENT GRPClient
