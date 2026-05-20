@@ -1904,7 +1904,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
   )
 #+end_src
 
-** googles -> Highlight modified region using pulse
+** COMMENT googles -> Highlight modified region using pulse
 #+begin_src emacs-lisp
 (use-package goggles
   :ensure t
