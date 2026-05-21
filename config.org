@@ -7545,8 +7545,9 @@ https://github.com/justinhj/eredis/
 * View/edit text formats (yaml, json, csv, markdown, latex, etc)
 ** Markdown                                                               :markdown:
 Tips:
-- Don't forget about =markdown-ts-toggle-hide-markup= and =markdown-ts-toggle-inline-images=
-- You can insert many different things with =C-C C-s <key>=
++ Don't forget about =markdown-ts-toggle-hide-markup= (=C-c C-x RET= or =f5=) and =markdown-ts-toggle-inline-images= (=C-c C-x v=)
++ You can use =C-c v= to toggle between regular markdown for edit, and markdown for just viewing
++ You can insert many different things with =C-C C-s <key>=
   - *TODO*: This was for =markdown-mode= -> set similar keybindings for =markdown-ts-mode=
 
 *** General config for markdown-ts-mode
@@ -7563,7 +7564,14 @@ Tips:
   (add-to-list 'major-mode-remap-alist '(markdown-mode . markdown-ts-mode))
   :hook
   (markdown-ts-mode . (lambda () (setq fill-column 120)))
-)
+  :bind (
+         :map markdown-ts-mode-map
+         ("C-c v" . markdown-ts-view-mode)
+         ([f5] . markdown-ts-toggle-hide-markup)
+         :map markdown-ts-view-mode-map
+         ("C-c v" . (lambda () (interactive) (markdown-ts-mode) (read-only-mode -1)))
+         )
+  )
 #+end_src
 
 *** Language Server Procotol - LSP
