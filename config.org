@@ -9978,7 +9978,8 @@ a symbol."
     :endpoint "/api/v1/chat/completions"
     :stream t
     :key 'darcamo/get-gptel-openrouter-key
-    :models (gptel-openrouter-get-annotated-models '(deepseek/deepseek-v4-pro
+    :models (gptel-openrouter-get-annotated-models '(openrouter/pareto-code
+                                                     deepseek/deepseek-v4-pro
                                                      deepseek/deepseek-v4-flash
                                                      x-ai/grok-code-fast-1
                                                      openai/gpt-4o
