@@ -6115,17 +6115,8 @@ For Python configuration see
 ** Tree-sitter                                                  :CPP:Python:treesitter:
 https://www.masteringemacs.org/article/how-to-get-started-tree-sitter
 
-NOTE: If you want to use tree-sitter major modes in place of the regular major modes, you
-can use the =major-mode-remap-alist= variable. Just set it to map regular major modes with
-their corresponding -ts- one. Ex:
-: (setq major-mode-remap-alist
-:  '((yaml-mode . yaml-ts-mode)
-:    (bash-mode . bash-ts-mode)
-:    (js2-mode . js-ts-mode)
-:    (typescript-mode . typescript-ts-mode)
-:    (json-mode . json-ts-mode)
-:    (css-mode . css-ts-mode)
-:    (python-mode . python-ts-mode)))
+NOTE: Previously, if you want to use tree-sitter major modes in place of the regular major modes, you would use the =major-mode-remap-alist= variable, mapping regular major modes with their corresponding -ts- ones. Now, we just set =treesit-enabled-modes= to =t=, which enable all =ts-modes=.
+
 *** Configuration
 #+begin_src emacs-lisp
 (use-package tree-sitter
@@ -6134,6 +6125,7 @@ their corresponding -ts- one. Ex:
   :config
   (global-tree-sitter-mode)
   :custom
+  (treesit-enabled-modes t)
   (treesit-font-lock-level 4) ;; Default is 3
   (treesit-language-source-alist
    '(
@@ -6169,11 +6161,6 @@ their corresponding -ts- one. Ex:
 
 ** C++                                                                :CPP:Programming:
 Note: Use =C-c C-k= to toggle between line comments and block comments.
-*** Use c++-ts-mode instead of regular c++-mode
-#+begin_src emacs-lisp
-(add-to-list 'major-mode-remap-alist '(c++-mode . c++-ts-mode))
-#+end_src
-
 *** Doxygen                                                                 :doxygen:
 **** Doxygen with tree-sitter
 Enable doxygen syntax highlighting using tree-sitter.
@@ -6841,10 +6828,6 @@ Link de um comentário no reddit: https://www.reddit.com/r/emacs/comments/rutoj7
 
 NOTE: Run the =run-python= command to run a python interpreter (with
 completion).
-*** Use python-ts-mode instead of regular python-mode
-#+begin_src emacs-lisp
-(add-to-list 'major-mode-remap-alist '(python-mode . python-ts-mode))
-#+end_src
 *** Make eglot not provide imenu entries
 The language server I'm using for Python adds too much to imenu (it adds all variables). I
 prefer the imenu entries computed from tree-sitter.
@@ -7231,16 +7214,6 @@ running one of them you can easily re-run it with =recompile=.
   There is also
   - go-ts-mode-docstring -> =C-c C-d=
 
-
-*** Use go-ts-mode instead of go-mode
-Loading a package like =go-scratch=, which depends on the =go-mode= package, would make all go
-files use =go-mode= (which is not included in Emacs), instead of =go-ts-mode= (which IS
-included in Emacs). Here we add an entry to =major-mode-remap-alist= to make sure =go-ts-mode=
-is used.
-#+begin_src emacs-lisp
-(add-to-list 'major-mode-remap-alist '(go-mode . go-ts-mode))
-#+end_src
-
 *** General configuration for go
 #+begin_src emacs-lisp
 (use-package go-ts-mode
@@ -7561,7 +7534,6 @@ Tips:
   (set-face-attribute 'markdown-ts-heading-3 nil :underline t)
   (set-face-attribute 'markdown-ts-emphasis nil :foreground "#e45c9c")
 
-  (add-to-list 'major-mode-remap-alist '(markdown-mode . markdown-ts-mode))
   :hook
   (markdown-ts-mode . (lambda () (setq fill-column 120)))
   :bind (
