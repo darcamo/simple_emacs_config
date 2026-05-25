@@ -4093,7 +4093,7 @@ This is controlled by the variables
 - org-appear-autoemphasis (default is ~t~)
 - org-appear-autoentities
 - org-appear-autokeywords
-- org-appear-autosubmarker
+- org-appear-autosubmarkers
 
 #+begin_src emacs-lisp
 (use-package org-appear
@@ -5325,7 +5325,7 @@ See more in https://github.com/chenyanming/calibredb.el
         (font-lock-ensure)))))
 #+end_src
 
-* Edit indirect buffer
+* COMMENT Edit indirect buffer
 Edit regions in separate buffers, like `org-edit-src-code' but for arbitrary
 regions.
 
@@ -7615,8 +7615,8 @@ You need to install the python-grip package.
 (use-package grip-mode
   :ensure t
   ;; Add a binding for `C-c C-c g` in markdown buffers
-  :bind (:map markdown-mode-command-map
-              ("g" . grip-mode)))
+  :bind (:map markdown-ts-mode-map
+              ("C-c p" . grip-mode)))
 #+end_src
 
 *** Preview using impatient-showdown
@@ -8871,7 +8871,7 @@ The code below will make emacs recognize a folder with a =.project= file as a pr
 (add-to-list 'project-vc-ignores "./.venv/")
 #+end_src
 
-* TZCPY
+* COMMENT TZCPY
 #+begin_src emacs-lisp
 (use-package tzcpy
   ;; :ensure (tzcpy :type git :host git :repo "git@github.azc.ext.hp.com:darlan-moreira/tzcpy.git")
@@ -10165,7 +10165,7 @@ https://www.rahuljuliato.com/posts/ellama
 
 Veja também [[https://www.reddit.com/r/emacs/comments/1e37cer/elisa_100/][elisa]].
 
-** Eca - Editor Code Assistant
+** COMMENT Eca - Editor Code Assistant
 https://github.com/editor-code-assistant/eca-emacs
 
 Note: Run =eca-install-server= to install the server.
