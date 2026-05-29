@@ -1168,12 +1168,12 @@ This will be equal to the current yar except when we are in january"
 (defun browse-dir-linux (dir-as-string)
   "Open filebrowser in the DIR-AS-STRING directory in Linux."
   (interactive)
-  (start-process-shell-command
-   "browse"
-   "*scratch*"
-   ;; Trocar nautilus por pcmanfm para o lxde
-   ;; (concat "xdg-open " (expand-file-name dir-as-string))
-   (concat (get-filebrowse-program-linux) " " (expand-file-name dir-as-string))))
+  (let ((file-browser (get-filebrowse-program-linux)))
+    (if file-browser
+        (start-process-shell-command
+         "browse" "*scratch*"
+         (format "%s \"%s\"" file-browser (expand-file-name dir-as-string)))
+      (message "No file browser found. Please install nautilus or dolphin."))))
 
 
 (defun browse-dir-macos (dir-as-string)
