@@ -7535,6 +7535,7 @@ Tips:
 
   :hook
   (markdown-ts-mode . (lambda () (setq fill-column 120)))
+  (markdown-ts-view-mode . (lambda () (setq fill-column 120)))
   :bind (
          :map markdown-ts-mode-map
          ("C-c v" . markdown-ts-view-mode)
