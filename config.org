@@ -2108,7 +2108,6 @@ overlay.
   :ensure t
   :commands (visual-fill-column-mode global-visual-fill-column-mode)
   :custom
-  (visual-fill-column-width 110)
   (visual-fill-column-center-text t)
   :hook
   (org-mode . visual-fill-column-mode)
