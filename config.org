@@ -9960,6 +9960,7 @@ a symbol."
                                                      openai/gpt-5.3-codex
                                                      anthropic/claude-sonnet-4
                                                      qwen/qwen3.6-plus
+                                                     qwen/qwen3.7-max
                                                      google/gemini-2.5-pro
                                                      google/gemini-2.5-flash
                                                      z-ai/glm-5.1
