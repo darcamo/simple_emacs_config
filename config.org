@@ -4369,7 +4369,6 @@ to make the mode-line reappear properly.
 (defun darcamo/after-start-org-present ()
   "Code to run after starting `org-present' mode."
   ;; (org-present-big)
-  ;; (org-present-hide-cursor)
   (org-display-inline-images)
   (read-only-mode 1)
   (hide-mode-line-mode 1)
@@ -4393,13 +4392,13 @@ to make the mode-line reappear properly.
   ;; Set header-line-format to a non-nil value just to have some empty space above the presentation
   (setq-local header-line-format " ")
   ;; (variable-pitch-mode 1)
+  (org-present-hide-cursor)
   )
 
 
 (defun darcamo/after-stop-org-present ()
   "Code to run after stopping `org-present' mode."
   ;; (org-present-small)
-  ;; (org-present-show-cursor)
   (org-remove-inline-images)
   (read-only-mode -1)
   (hide-mode-line-mode -1)
@@ -4411,6 +4410,7 @@ to make the mode-line reappear properly.
   (setq-local face-remapping-alist nil)
   (setq-local header-line-format nil)
   ;; (variable-pitch-mode -1)
+  (org-present-show-cursor)
   )
 
 
