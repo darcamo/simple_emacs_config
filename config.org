@@ -9947,29 +9947,17 @@ a symbol."
   (gptel-make-ollama
       "Ollama"                               ;Any name of your choosing
     :host "localhost:11434"                ;Where it's running
-    :models '(DeepSeek-R1
-              qwen3:8b
-              qwen3:14b
-              qwen3:30b-a3b
-              qwen3:32b
-              Qwen2.5-Coder:7b
-              Qwen2.5-Coder:32b
-              mistral:latest
-              dolphin-mixtral:latest
-              openchat:latest
-              codellama:7b
-              codellama:34b
-              vicuna:13b-16k
-              vicuna:latest
-              mixtral:latest
-              llama3
+    :models '(oamazonasgabriel/qwen3.5-9b:q4-16gbGPU
+              gemma4:latest
+              qwen3.6:27b
+              qwen3.6:latest
               )
     :stream t)
 
   (gptel-make-openai "llama-cpp"          ;Any name
     :stream t                             ;Stream responses
     :protocol "http"
-    :host "localhost:8000"                ;Llama.cpp server location
+    :host "localhost:8080"                ;Llama.cpp server location
     :models '(current-model)) 
 
   ;; Add a copilot backend
@@ -9994,6 +9982,8 @@ a symbol."
                                                      google/gemini-2.5-pro
                                                      google/gemini-2.5-flash
                                                      z-ai/glm-5.1
+                                                     z-ai/glm-5.2  ;; Seems really good
+                                                     z-ai/glm-4.5-air  ;; Cheap
                                                      minimax/minimax-m2.5
                                                      moonshotai/kimi-k2.6
                                                      )))
