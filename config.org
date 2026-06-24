@@ -8646,10 +8646,33 @@ can open other formats besides PDF.
 https://github.com/jobbflykt/x509-mode
 
 Open a certificate, public key, etc., and then just call =x509-dwim=.
+
+*Note*: If the file has multiple certificates, make sure to put the cursor inside a certificate block before calling =x509-dwim=. You will be able to press =n= / =p= to go to the next/previous certificate.
+
+Shortcuts:
+- =e= -> edit the current command.
+- =t= -> toggle between =x509-mode= and =x509-asn1-mode=
+- =n= -> go to next BEGIN/END region in source buffer and call x509-dwim
+- =p= -> go to previous BEGIN/END region in source buffer and call x509-dwim
+- =q= -> quit and kill view buffer.
+
+In =x509-asn1-mode=, additional keys can be used to parse nested ASN.1 structures. Place cursor on a line in the asn.1 buffer and press:
+- =x= -> toggles viewing the underlying binary data in a hexl buffer.
+- =d= -> to re-parse at that =-offset=, going down.
+- =u= -> to go up. Can be used repeatedly.
+Similarly, but with slightly different semantics and often more useful, is
+- =s= -> which calls =asn1parse= with the flag ="-strparse N"=.
+
+
 #+begin_src emacs-lisp
 (use-package x509-mode
   :commands (x509-dwim)
-  :ensure t)
+  :ensure t
+  :custom
+  ;; Add "-i" to default, such that if you call `x509-toggle-mode' to toggle to
+  ;; the asn1parse mode it indents based on the structures depth
+  (x509-asn1parse-default-arg "asn1parse -i")
+  )
 #+end_src
 
 ** eww
