@@ -1280,14 +1280,14 @@ then try lxterminal."
     (macos-terminal-default-dir)))
 
 
-(defun ver-pdf-no-evince (pdf &optional page)
-  "Open a PDF using evince in page PAGE."
+(defun ver-pdf-no-gnome (pdf &optional page)
+  "Open a PDF using Gnome papers in page PAGE."
   (start-process-shell-command
-   "evince"
+   "papers"
    "*scratch*"
    (if page
-       (format "evince -i %s %s" page pdf)
-     (format "evince %s" pdf))))
+       (format "papers -i %s %s" page pdf)
+     (format "papers %s" pdf))))
 
 
 (defun ver-pdf-no-acroread (pdf)
@@ -2527,8 +2527,8 @@ project.
     (directory . emacs)
     ("\\.mm\\'" . default)
     ("\\.x?html?\\'" . default)
-    ("pdf" . "evince %s")
-    ("\\.pdf::\\([0-9]+\\)\\'" . "evince -p %1 %s")  ;; Link containing a specific page
+    ("pdf" . "papers %s")
+    ("\\.pdf::\\([0-9]+\\)\\'" . "papers -p %1 %s")  ;; Link containing a specific page
     ("\\.od[s|p|t]" . default)
     ("xmind" . "xmind-zen %s")
     )
@@ -2782,7 +2782,7 @@ project.
          ;; Useful when you are exporting the org-mode buffer to PDF
          ([f10] . (lambda () (interactive) (find-file (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
          ([S-f10] . (lambda () (interactive) (find-file (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".html"))))
-         ([S-f10] . (lambda () (interactive) (ver-pdf-no-evince (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
+         ([S-f10] . (lambda () (interactive) (ver-pdf-no-gnome (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
          ([C-f10] . (lambda () (interactive) (browse-url (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".html"))))
          ("M-q" . my-org-fill-paragraph)
          ("M-Q" . my-org-unfill-paragraph)
@@ -7940,7 +7940,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
          ;; work with latex and Makefiles
          ([C-f9] . compile)
          ([f10] . TeX-view)
-         ([S-f10] . (lambda () (interactive) (ver-pdf-no-evince (TeX-master-file "pdf") (TeX-synctex-output-page))))
+         ([S-f10] . (lambda () (interactive) (ver-pdf-no-gnome (TeX-master-file "pdf") (TeX-synctex-output-page))))
          ;; ("\C-\M-n" . outline-next-visible-heading)
          ;; ("\C-\M-p" . outline-previous-visible-heading)
          ("<S-M-return>" . dar/LaTeX-insert-item-inverse-behavior)
@@ -8582,7 +8582,7 @@ https://github.com/let-def/texpresso
          :map pdf-view-mode-map
          ("i" . pdf-view-midnight-minor-mode)
          ([f9] . tex-all)  ; We want to compile when viewing the PDF
-         ([f10] . (lambda () (interactive) (ver-pdf-no-evince (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
+         ([f10] . (lambda () (interactive) (ver-pdf-no-gnome (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
          ([S-f10] . (lambda () (interactive) (eaf-open (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".pdf"))))
 
          ;; Set "g" as keybinding to "pdf-view-goto-page" when viewing pdfs
@@ -8699,7 +8699,7 @@ Open a certificate, public key, etc., and then just call =x509-dwim=.
   (dired-listing-switches "-alhv")  ;; Add "h" to switches to get human-readable sizes
 
   (dired-guess-shell-alist-user '(
-                                  ("\\.pdf\\'" "evince")
+                                  ("\\.pdf\\'" "papers")
                                   ("\\.xmind" "xmind-zen")
                                   ))
   :config
