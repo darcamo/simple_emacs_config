@@ -9935,6 +9935,7 @@ a symbol."
    ("S-<left>" . windmove-left)
    ("S-<up>" . windmove-up)
    ("S-<down>" . windmove-down)
+   ("C-c k" . gptel-abort)  ;; Interrupt current generation
    )
   :custom
   (gptel-default-mode 'org-mode)
