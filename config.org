@@ -8672,6 +8672,12 @@ Similarly, but with slightly different semantics and often more useful, is
   ;; Add "-i" to default, such that if you call `x509-toggle-mode' to toggle to
   ;; the asn1parse mode it indents based on the structures depth
   (x509-asn1parse-default-arg "asn1parse -i")
+
+  ;; Make utf-8 characters appear correctly in the buffer displaying certificate information
+  (x509-x509-default-arg "x509 -text -noout -nameopt multiline,-esc_msb,utf8")
+
+  ;; Make utf-8 characters appear correctly in the buffer displaying CSR information
+  (x509-req-default-arg "req -text -noout -nameopt multiline,-esc_msb,utf8")
   )
 #+end_src
 
