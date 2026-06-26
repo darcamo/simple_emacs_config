@@ -7226,6 +7226,13 @@ running one of them you can easily re-run it with =recompile=.
   )
 
 (use-package go-integration
+  :defer t
+  :custom
+  (go-integration-run-all-tests-command 'gotestsum)
+  (go-integration-run-all-tests-coverage-command 'gotestsum)
+  )
+
+(use-package go-integration
   :after dape
   :config
   (go-integration-setup-dape)
