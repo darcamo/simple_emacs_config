@@ -7248,16 +7248,12 @@ running one of them you can easily re-run it with =recompile=.
    ([S-M-f8] . go-integration-choose-go-package-with-tests)
    ([f8] . go-integration-run-current-file)
    ([S-f8] . go-integration-run-all-tests)
+   ([C-S-f8] . go-integration-run-current-test)
    ([f9] . compile)
    ([f10] . recompile)
    ([S-f10] . kill-compilation)
-
-   ;; :map
-   ;; go-ts-mode-map
-   ;; ("C-c C-c" . go-integration-run-current-file)
    )
   )
-
 #+end_src
 
 *** go-scratch
