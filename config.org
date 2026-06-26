@@ -98,6 +98,7 @@ FOLDER is expanded using `expand-file-name`."
 
 ;; Add .local/bin to path, since have a few programs there
 (darcamo/add-folder-to-path "~/.local/bin")
+(darcamo/add-folder-to-path "~/go/bin")
 
 
 (defvar qt-location (expand-file-name "~/Qt/6.10.1/gcc_64") "Base location where I installed Qt")
