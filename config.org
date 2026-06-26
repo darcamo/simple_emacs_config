@@ -5055,7 +5055,8 @@ TODO: Take another look at each individual page (specially for vulpea-journal) f
 *** General
 #+begin_src emacs-lisp
 (use-package vulpea
-  :ensure (vulpea :type git :host github :repo "darcamo/vulpea")
+  ;; :ensure (vulpea :type git :host github :repo "darcamo/vulpea")
+  :ensure vulpea
   :commands (vulpea-find vulpea-db-sync-full-scan vulpea-insert)
   :defer t
   :bind (
