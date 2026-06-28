@@ -3781,6 +3781,12 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   (find-file (file-name-concat org-directory "ufc51-NCR.org"))
   )
 
+(defun my-find-ufc53-org-heading nil
+  (interactive)
+  ;; (my-find-org-heading "UFC.32")
+  (find-file (file-name-concat org-directory "ufc53-NTN.org"))
+  )
+
 (defun my-find-atlantico-org-heading nil
   (interactive)
   (find-file (file-name-concat org-directory "atlantico.org"))
@@ -10012,7 +10018,7 @@ a symbol."
     :stream t                             ;Stream responses
     :protocol "http"
     :host "localhost:8080"                ;Llama.cpp server location
-    :models '(current-model)) 
+    :models '(current-model))
 
   ;; Add a copilot backend
   (gptel-make-gh-copilot "Copilot")
