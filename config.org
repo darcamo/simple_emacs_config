@@ -2857,7 +2857,7 @@ project.
 
 
 (use-package org
-  :bind ("C-c a" . org-agenda)
+  ;; :bind ("C-c a" . org-agenda)
   :custom
   ;; Category Icons
   ;; ~/.emacs.d/Icons_For_Org-Mode_Category
@@ -5211,6 +5211,48 @@ widgets.
          :map vui-mode-map
          ("o" . ace-link-vui)
          ("O" . ace-link-vui-action)))
+#+end_src
+
+*** vulpea-agenda
+Create a wrapper for =org-agenda= that adds files for any vulpea note that has an "agenda"
+tag
+
+#+begin_src emacs-lisp
+(defun vulpea-agenda--get-note-paths ()
+  "Get the paths of all notes in vulpea database with the tag 'agenda'."
+  (seq-uniq
+   (seq-map
+    #'car
+    (emacsql (vulpea-db) [:select
+                          :distinct notes:path
+                          :from notes
+                          :inner :join tags
+                          :on (= notes:id tags:note_id)
+                          :where (= tags:tag "agenda")
+                          ;; :limit 4
+                          ]))))
+
+
+(defun vulpea-agenda--update (&rest _)
+  "Update the value of variable `org-agenda-files'."
+  (setq org-agenda-files
+        (delete-dups
+         (append (org-agenda-files) (vulpea-agenda--get-note-paths)))))
+
+
+
+(defun vulpea-agenda-wrapper ()
+  "Add notes to variable `org-agenda-files' and call `org-agenda'."
+  (interactive)
+  (let ((org-agenda-files
+         (delete-dups
+          (append (org-agenda-files) (vulpea-agenda--get-note-paths)))))
+    (org-agenda)))
+
+
+(use-package org
+  :bind ("C-c a" . vulpea-agenda-wrapper)
+  )
 #+end_src
 
 ** calibredb                                                    :Calibre:calibre:ebook:
