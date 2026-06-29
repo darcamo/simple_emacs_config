@@ -5057,7 +5057,11 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
 
 ** Vulpea
 
-TODO: Take another look at each individual page (specially for vulpea-journal) for configuration
+*TODO*: Take another look at each individual page (specially for vulpea-journal) for configuration
+
+*TODO*: Investigar uso de hierarquia de tags no vulpea
+- https://github.com/d12frosted/vulpea/issues/146
+- https://orgmode.org/manual/Tag-Hierarchy.html
 
 *** General
 #+begin_src emacs-lisp
@@ -5115,6 +5119,19 @@ appear first (but in decreasing order).
 ;; the note title) with our custom function
 (setopt vulpea-select-describe-fn 'darcamo/vulpea-get-display-title)
 #+end_src
+
+*** TODO Define schemes for particular types of notes
+
+- See =vulpea-schema-define=
+- See https://www.d12frosted.io/posts/2026-06-19-vulpea-v2-4
+
+
+Useful types:
+- Project
+- Book
+- Article
+- Person
+- Etc
 
 *** Vulpea consult                                                        :Consult:
 #+begin_src emacs-lisp
@@ -5278,6 +5295,9 @@ tag
   :bind ("C-c a" . vulpea-agenda-wrapper)
   )
 #+end_src
+
+*** TODO vulpea-PARA
+https://github.com/d12frosted/vulpea-para
 
 ** calibredb                                                    :Calibre:calibre:ebook:
 Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
