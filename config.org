@@ -5099,6 +5099,23 @@ in the backlinks. Then create a "Journal" widget to show journal backlinks.
 Alternativelly, I could customize =vulpea-ui-backlinks-sort= to make journal entries
 appear first (but in decreasing order).
 
+*** Customize how notes are displayed
+#+begin_src emacs-lisp
+(defun darcamo/vulpea-get-display-title (note)
+  "Returns the level and the title of a NOTE as a string.
+
+  This is suitable for using as the value of
+  `vulpea-select-describe-fn'."
+  (let ((level (vulpea-note-level note))
+        (title (vulpea-note-title note)))
+    (format "[@%s] %s" level title)))
+
+
+;; Replace the default value of `vulpea-select-describe-fn' (that only returns
+;; the note title) with our custom function
+(setopt vulpea-select-describe-fn 'darcamo/vulpea-get-display-title)
+#+end_src
+
 *** Vulpea consult                                                        :Consult:
 #+begin_src emacs-lisp
 ;; Make vulpea-find and friends show a preview
