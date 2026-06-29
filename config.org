@@ -5123,7 +5123,7 @@ appear first (but in decreasing order).
 *** TODO Define schemes for particular types of notes
 
 - See =vulpea-schema-define=
-- See https://www.d12frosted.io/posts/2026-06-19-vulpea-v2-4
+- See https://www.d12frosted.io/posts/2026-06-19-vulpea-v2-4
 
 
 Useful types:
