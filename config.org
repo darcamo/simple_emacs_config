@@ -5133,6 +5133,12 @@ Useful types:
 - Person
 - Etc
 
+*** TODO Capturing new notes
+See =vulpea-create-default-function= in [[https://github.com/d12frosted/vulpea/blob/master/docs/configuration.org#dynamic-template-function][Dynamic Template Function]].
+
+You can create a function that dynamically compute the template if it finds something
+specific in the title, or return =vulpea-create-default-template= if not.
+
 *** Vulpea consult                                                        :Consult:
 #+begin_src emacs-lisp
 ;; Make vulpea-find and friends show a preview
@@ -5208,7 +5214,6 @@ We need to change =vulpea-ui--widget-registry=.
 #+end_src
 
 *** Vulpea-journal
-
 **** General
 #+begin_src emacs-lisp
 ;; https://github.com/d12frosted/vulpea-journal
@@ -5356,6 +5361,19 @@ tag
 
 *** TODO vulpea-PARA
 https://github.com/d12frosted/vulpea-para
+
+*** Helper functions
+#+begin_src emacs-lisp
+(defun darcamo/vulpea-note-to-org-link (note)
+  "Turn a Vulpea NOTE structure into an Org link.
+
+This is useful when you want to create a list of links to Vulpea notes
+in an Org file, and the list of links is obtained from a query to the
+Vulpea database."
+  (let* ((title (vulpea-note-title note))
+         (id (vulpea-note-id note)))
+    (format "[[id:%s][%s]]" id title)))
+#+end_src
 
 ** calibredb                                                    :Calibre:calibre:ebook:
 Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
