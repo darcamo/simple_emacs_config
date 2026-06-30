@@ -5141,6 +5141,86 @@ See =vulpea-create-default-function= in [[https://github.com/d12frosted/vulpea/b
 You can create a function that dynamically compute the template if it finds something
 specific in the title, or return =vulpea-create-default-template= if not.
 
+*** COMMENT Refiling vulpea notes
+:PROPERTIES:
+:SOMETHING: some value
+:END:
+
+https://github.com/d12frosted/vulpea/issues/343
+
+#+begin_src emacs-lisp
+(defun darcamo/ensure-on-org-heading ()
+  "Ensure the cursor is on a heading. 
+If not, move up to the nearest parent heading.
+Error out if not in an Org subtree."
+  (interactive)
+  (unless (derived-mode-p 'org-mode)
+    (error "Not in an Org buffer"))
+  (while (not (org-at-heading-p))
+    (unless (org-previous-visible-heading 1)
+      (error "Not inside an Org heading"))))
+
+
+(defun darcamo/get-org-heading-content ()
+  "Get the content inside the current Org heading."
+  (let* ((element (org-element-at-point))
+         (begin (org-element-property :contents-begin element))
+         (end (org-element-property :contents-end element)))
+    (if (and begin end)
+        (buffer-substring-no-properties begin end)
+      "")))
+#+end_src
+
+Algo como o pseudo-código abaixo.
+#+begin_src emacs-lisp
+(defun turn-heading-note-into-page-note (note-id)
+  "Turn a heading note with NOTE-ID into a file note."
+  (interactive)
+  (let* ((note (vulpea-db-get-by-id note-id))
+         (title (vulpea-note-title note))
+         (id (vulpea-note-id note))
+         (meta (vulpea-note-meta note))
+         (body (<somehow-get-note-body>))
+         ;; Maybe remove ID from properties, since we are passing ID?
+         (properties (vulpea-note-properties note))
+         (tags (vulpea-note-tags note))
+         )
+    (vulpea-create title nil id nil meta body nil properties tags nil)))
+#+end_src
+
+Ex
+: (vulpea-create "Isso é um teste do vulpea-create" nil :id "id-123456" :body "This is the body" :tags '("vulpea"))
+
+Outras coisas úteis
+: (vulpea-title-to-slug "The title")
+: org-end-of-subtree
+
+- Steps
+  - call =darcamo/ensure-on-org-heading= to make sure it's in the heading
+  - Get the heading ID with org-id-get
+  - get all tags, metadata, etc
+  - Call =vulpea-create= passing all data
+    - If you have an ID, provide it to =vulpea-create=. If not, let =vulpea-create= create one
+  - Delete the heading -> use =org-cut-subtree=
+
+
+#+begin_example
+(with-current-buffer "20260201114429_testando_vulpea.org"
+  (darcamo/ensure-on-org-heading)
+  (let ((id (org-id-get))
+        (title (org-no-properties (org-get-heading)))
+        (properties (org-entry-properties nil 'standard))
+        (tags (org-get-tags))
+        (body (darcamo/get-org-heading-content))
+        )
+    ;; title
+    ;; properties
+    ;; tags
+    body
+    )
+  )
+#+end_example
+
 *** Vulpea consult                                                        :Consult:
 #+begin_src emacs-lisp
 ;; Make vulpea-find and friends show a preview
@@ -5318,6 +5398,46 @@ Vulpea database."
   (let* ((title (vulpea-note-title note))
          (id (vulpea-note-id note)))
     (format "[[id:%s][%s]]" id title)))
+#+end_src
+
+*** TODO COMMENT Highlight given ID
+#+begin_src emacs-lisp
+(defvar my/org-special-id nil "ID of the special Org link to highlight.")
+;; (defvar my/org-special-id "070ea2e3-309c-4b76-84e7-5e61e9a57e79" "ID of the special Org link to highlight.")
+
+
+(defface my/org-special-id-link
+  '((t :inherit org-link :foreground "orange" :weight bold))
+  "Face for one particular Org ID link.")
+
+(defun my/org-id-link-face (path)
+  ;; PATH is the ID part, without the \"id:\" prefix.
+  (if (string= path my/org-special-id)
+      'my/org-special-id-link
+    'org-link-id))   ;; or whatever face you want as the default
+
+
+(org-link-set-parameters "id" :face #'my/org-id-link-face)
+
+
+;; Redefine vulpea-find-backlink
+(defun vulpea-find-backlink ()
+  "Select and find a note linked to current note."
+  (interactive)
+  (let* ((id (or (org-entry-get nil "ID" t)
+                 (user-error "Current location has no ID property")))
+         (my/org-special-id id)
+         (_ (unless (vulpea-db-get-by-id id)
+              (user-error
+               "%s is not a known note" id)))
+         (backlinks (vulpea-db-query-by-links-some
+                     (list (cons "id" id)))))
+    (unless backlinks
+      (user-error "There are no backlinks to the current note"))
+    (vulpea-find
+     :candidates-fn (lambda (_) backlinks)
+     :require-match t)
+    ))
 #+end_src
 
 ** calibredb                                                    :Calibre:calibre:ebook:
