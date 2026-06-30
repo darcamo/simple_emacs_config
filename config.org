@@ -5214,7 +5214,6 @@ We need to change =vulpea-ui--widget-registry=.
 #+end_src
 
 *** Vulpea-journal
-**** General
 #+begin_src emacs-lisp
 ;; https://github.com/d12frosted/vulpea-journal
 ;; TODO: Customize vulpea-journal-default-template
@@ -5245,62 +5244,6 @@ We need to change =vulpea-ui--widget-registry=.
                (tab-name . "Journal")
                ))
 #+end_src
-
-**** Add functions to go to prev/next journal entry from minibuffer
-When calling =vulpea-journal-date= interactively, the user is prompted for a date. This is
-used to either open an existing journal file (if there is a journal for that date), or to
-create a new journal entry.
-
-It's nice to have a way to navigate among dates that have journal entries. Here we define
-two functions for that.
-
-#+begin_src emacs-lisp
-(defun darcamo/vulpea-journal-NOT-in-calendar-previous ()
-  "Move to previous journal entry in calendar.
-
-  This is the same as `vulpea-journal-calendar-previous', with the
-  difference that `vulpea-journal-calendar-previous' must be called from
-  the calendar buffer, while this one can be called from another buffer."
-  (interactive)
-  (org-funcall-in-calendar
-   #'(lambda (_) (vulpea-journal-calendar-previous)) nil nil))
-
-
-(defun darcamo/vulpea-journal-NOT-in-calendar-next ()
-  "Move to next journal entry in calendar.
-
-  This is the same as `vulpea-journal-calendar-next', with the
-  difference that `vulpea-journal-calendar-next' must be called from the
-  calendar buffer, while this one can be called from another buffer."
-  (interactive)
-  (org-funcall-in-calendar
-   #'(lambda (_) (vulpea-journal-calendar-next)) nil nil))
-#+end_src
-
-We need to add keybindings for these two functions
-
-#+begin_src emacs-lisp
-(use-package
-  vulpea-journal
-  :defer t
-  :config
-
-  ;; Modify vulpea-journal--read-date to add keybindings
-  (defun vulpea-journal--read-date (prompt)
-    "Read a date from user with PROMPT."
-    (minibuffer-with-setup-hook
-        (lambda ()
-          (local-set-key
-           (kbd "M-<left>") #'darcamo/vulpea-journal-NOT-in-calendar-previous)
-          (local-set-key
-           (kbd "M-<right>") #'darcamo/vulpea-journal-NOT-in-calendar-next))
-
-      ;; Code below is exactly the same as the original vulpea-journal--read-date function
-      (let* ((org-read-date-prefer-future nil)
-             (date-string (org-read-date nil nil nil prompt)))
-        (org-time-string-to-time date-string)))))
-#+end_src
-
 
 *** ace-link-vui
 Jump to and activate any widget in a VUI buffer using avy-style overlay hints.
