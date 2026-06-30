@@ -5105,6 +5105,7 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
   (vulpea-create-default-template '(:file-name "${timestamp}_${slug}.org"
                                                :head "#+SETUPFILE: org-roam-setup.org\n\n"
                                                :properties (("CREATED" . "%<[%Y-%m-%d]>"))))
+                                               ;; :tags ("inbox")
                                                ;; (vulpea-ui-backlinks-sort 'title-asc)
                                                (vulpea-ui-backlinks-sort 'title-desc)
   )
@@ -5142,15 +5143,154 @@ appear first (but in decreasing order).
 Useful types:
 - Project
 - Book
-- Article
+- Article -> bibliography notes
 - Person
 - Etc
+- Site
 
-*** TODO Capturing new notes
+
+*Note*: =vulpea-ui-schema-dashboard= has a nice UI showing the health of the database in a
+dedicated buffer.
+
+#+begin_src emacs-lisp
+;; (defun valid-url-p (url)
+;;   "Check if the string URL is a valid URL."
+;;   (let ((parsed-url (url-generic-parse-url url)))
+;;     (when (and (url-type parsed-url) (url-host parsed-url))
+;;       t)))
+
+
+;; ;; See [[file:elpaca/sources/vulpea/vulpea-schema.el::defun vulpea-schema--value-violation (raw field note schema]]
+;; (defun fun (type note)
+;;   "docstring"
+;;   (interactive "P")
+;;   ;; implement me
+;;   )
+
+
+(use-package vulpea
+  :defer t
+  :config
+  (vulpea-schema-define 'site
+                        :predicate (lambda (note) (member "site" (vulpea-note-tags note)))
+                        :fields
+                        '(
+                          (:key "Site"     :type string   :required t)
+                          ;; (:key "Site"     :validate valid-url-p   :required t)
+                          )
+                        )
+  )
+
+#+end_src
+
+*** TODO Capturing
+**** Capturing new notes
 See =vulpea-create-default-function= in [[https://github.com/d12frosted/vulpea/blob/master/docs/configuration.org#dynamic-template-function][Dynamic Template Function]].
 
 You can create a function that dynamically compute the template if it finds something
 specific in the title, or return =vulpea-create-default-template= if not.
+
+Example from vulpea documentation
+
+#+begin_example
+(setq org-capture-templates
+      '(("n" "Note" plain
+         (file (lambda ()
+                 (vulpea-note-path
+                  (vulpea-create "Quick Note"))))
+         "%?")))
+#+end_example
+
+**** Capturing to the journal
+
+- Call =current-time= to get the current time
+- Call =vulpea-journal-note= with the current time to get the journal note (created if it does not exist)
+- Call =vulpea-note-path= passing the journal note object to get the path
+- Use the path in capture template to add a new heading
+- If necessary, call =(vulpea-visit note)= to visit the note (but I think capture will do that already)
+
+*** COMMENT Refiling vulpea notes
+:PROPERTIES:
+:SOMETHING: some value
+:END:
+
+https://github.com/d12frosted/vulpea/issues/343
+
+#+begin_src emacs-lisp
+(defun darcamo/ensure-on-org-heading ()
+  "Ensure the cursor is on a heading. 
+If not, move up to the nearest parent heading.
+Error out if not in an Org subtree."
+  (interactive)
+  (unless (derived-mode-p 'org-mode)
+    (error "Not in an Org buffer"))
+  (while (not (org-at-heading-p))
+    (unless (org-previous-visible-heading 1)
+      (error "Not inside an Org heading"))))
+
+
+(defun darcamo/get-org-heading-content ()
+  "Get the content inside the current Org heading."
+  (let* ((element (org-element-at-point))
+         (begin (org-element-property :contents-begin element))
+         (end (org-element-property :contents-end element)))
+    (if (and begin end)
+        (buffer-substring-no-properties begin end)
+      "")))
+#+end_src
+
+Algo como o pseudo-código abaixo.
+#+begin_src emacs-lisp
+(defun turn-heading-note-into-page-note (note-id)
+  "Turn a heading note with NOTE-ID into a file note."
+  (interactive)
+  (let* ((note (vulpea-db-get-by-id note-id))
+         (title (vulpea-note-title note))
+         (id (vulpea-note-id note))
+         (meta (vulpea-note-meta note))
+         (body (<somehow-get-note-body>))
+         ;; Maybe remove ID from properties, since we are passing ID?
+         (properties (vulpea-note-properties note))
+         (tags (vulpea-note-tags note))
+         )
+    (vulpea-create title nil id nil meta body nil properties tags nil)))
+#+end_src
+
+Ex
+: (vulpea-create "Isso é um teste do vulpea-create" nil :id "id-123456" :body "This is the body" :tags '("vulpea"))
+
+Outras coisas úteis
+: (vulpea-title-to-slug "The title")
+: org-end-of-subtree
+: org-heading-components
+: org-back-to-heading
+
+- Steps
+  - call =darcamo/ensure-on-org-heading= to make sure it's in the heading
+    - maybe I can just call the native =(ignore-errors (org-back-to-heading))= instead
+  - Get the heading ID with org-id-get
+  - get all tags, metadata, etc
+  - Call =vulpea-create= passing all data
+    - If you have an ID, provide it to =vulpea-create=. If not, let =vulpea-create= create one
+  - Delete the heading -> use =org-cut-subtree=
+
+
+#+begin_example
+(with-current-buffer "20260201114429_testando_vulpea.org"
+  (darcamo/ensure-on-org-heading)
+  (let ((id (org-id-get))
+        (title (org-no-properties (org-get-heading)))
+        (properties (org-entry-properties nil 'standard))
+        (tags (org-get-tags))
+        (body (darcamo/get-org-heading-content))
+        )
+    ;; title
+    ;; properties
+    ;; tags
+    body
+    )
+  )
+#+end_example
 
 *** Vulpea consult                                                        :Consult:
 #+begin_src emacs-lisp
@@ -5329,6 +5469,137 @@ Vulpea database."
   (let* ((title (vulpea-note-title note))
          (id (vulpea-note-id note)))
     (format "[[id:%s][%s]]" id title)))
+
+
+(defun darcamo/vulpea-note-list-to-links (note-list)
+  "Turn a list of notes NOTE-LIST into a string with a list of links.
+
+The resulting string can be inserted into an Org file, and it will contain
+a list of links to the notes in NOTE-LIST."
+  (s-join "\n" (mapcar 'darcamo/vulpea-note-to-org-link note-list)))
+#+end_src
+
+*** TODO COMMENT Highlight given ID
+#+begin_src emacs-lisp
+(defvar my/org-special-id nil "ID of the special Org link to highlight.")
+;; (defvar my/org-special-id "070ea2e3-309c-4b76-84e7-5e61e9a57e79" "ID of the special Org link to highlight.")
+
+
+(defface my/org-special-id-link
+  '((t :inherit org-link :foreground "orange" :weight bold))
+  "Face for one particular Org ID link.")
+
+(defun my/org-id-link-face (path)
+  ;; PATH is the ID part, without the \"id:\" prefix.
+  (if (string= path my/org-special-id)
+      'my/org-special-id-link
+    'org-link-id))   ;; or whatever face you want as the default
+
+
+(org-link-set-parameters "id" :face #'my/org-id-link-face)
+
+
+;; Redefine vulpea-find-backlink
+(defun vulpea-find-backlink ()
+  "Select and find a note linked to current note."
+  (interactive)
+  (let* ((id (or (org-entry-get nil "ID" t)
+                 (user-error "Current location has no ID property")))
+         (my/org-special-id id)
+         (_ (unless (vulpea-db-get-by-id id)
+              (user-error
+               "%s is not a known note" id)))
+         (backlinks (vulpea-db-query-by-links-some
+                     (list (cons "id" id)))))
+    (unless backlinks
+      (user-error "There are no backlinks to the current note"))
+    (vulpea-find
+     :candidates-fn (lambda (_) backlinks)
+     :require-match t)
+    ))
+#+end_src
+
+*** Plugin for adding links from tags: vulpea-tag-links
+
+Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#362]]
+
+#+begin_src emacs-lisp
+(use-package vulpea-tag-links
+;; :ensure (:host github :repo "darcamo/vulpea-tag-links")
+  :ensure (:host github :protocol ssh :repo "darcamo/vulpea-tag-links" :depth nil)
+  :after vulpea
+  :config
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "revealjs" "c30b3130-57c9-4571-8a66-63948d5540ec"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "filhos" "70177ece-325d-49cc-9419-810001aa5fb5"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "CPP" "a0967201-ec8d-4061-a27d-81590c840bff"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Elisp" "4f5b688f-6f4e-4f21-b466-7674e30be51c"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Emacs" "070ea2e3-309c-4b76-84e7-5e61e9a57e79"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Python" "0cd3f915-9476-43b8-a17c-f113f912a2ae"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Linux" "157dad02-42b3-4e27-bfad-b09b60f32719"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Software" "1b77a1c0-3212-4c53-b65e-d62af140721c"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "GTEL" "ae896e12-b884-4de9-84ba-5b794b5878d5"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Doutorado" "685ce449-937c-4977-9bbc-6177273c8c49"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Programação" "f5fbbe48-f016-453c-ab93-02724ee45b77"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "conan" "97c2db81-ac99-4bae-a06d-f81434ce3748"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Arch" "f19877f1-a3ab-4938-b7d3-d47e94e2dafe"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Jogos" "d023e80d-7fe0-4800-98c3-dd043da343b4"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "QML" "0742709f-7604-47e8-bd2e-0489fd1864fe"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Qt" "ea1b8aaa-d8c8-4f77-b3ef-1e30c76cbef4"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "OrgMode" "574c625b-5b6a-40de-a991-4fab5105b331"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "misc" "0c2e1ffb-fa6e-4907-a7dc-30574bca2f43"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Atlantico" "099334d7-545a-405c-ae90-e578ac4edc9e"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "IAB" "0878fa71-2454-4d2d-a63f-8327a8a70681"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "5G" "5485e2b7-c4a9-47c7-b52d-bafd36f114ad"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Grafos" "99c03cf0-9a29-472a-9109-a1585872fdb9"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "vulpea" "f3b555d9-52ae-4c8c-a096-43150743fa5c"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "OrgRoam" "efccb771-d1e5-4910-8f6f-1b1fef8ef804"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Markdown" "1bcef0c1-e37d-478c-b311-8b8eef97277a"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Latex" "613ca0c9-447d-4720-acda-371eeca4f143"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "LLM" "3b424fd0-3d45-44f8-a39a-3c39c9b3936a"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Patentes" "0591d55c-b716-47d3-95b2-03de901848fa"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "golang" "2f96a40c-cd7a-453e-9006-4dfb18cfa961"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "web" "9027af97-38c4-4010-bdab-2352cd56c9b1"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Bibliography" "84fd39bd-cc24-41cb-a173-b23a0c72ebd8"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "JavaScript" "fb46c907-3517-4ef8-9a5b-a61a57e49f93"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Simulador" "eb08991c-66c6-4c3a-ba4c-bc49ea9bee2b"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "OrgRef" "646b1d34-caac-4a5f-b0d3-00060b0a3313"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "OrgBabel" "535c057d-55da-4cec-811c-6e7d3d1fdab2"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "eglot" "77591be1-576e-468c-b191-c76be7c9473e"))
+
+  (vulpea-tag-links-register-extractor)
+  )
+#+end_src
+
+*** TODO COMMENT citar-vulpea                                             :Citar:
+https://github.com/fabcontigiani/citar-vulpea
+
+Emacs minor mode integrating [[https://github.com/emacs-citar/citar][citar]] bibliography management with vulpea note database.
+
+Features
+- Seamless Note Creation :: Create bibliography notes directly from Citar's completion interface with pre-populated titles and metadata.
+- Reference Tracking :: Automatically manages REFERENCES (or custom properties) and bib tags, ensuring your notes are always linked to your bibliography.
+- Smart Metadata Management :: Dedicated commands to add/remove citation references at the file-level properties.
+- DWIM Action :: A context-aware command to jump between notes and bibliography entries, or quickly add missing references if none exist.
+- Full Note Integration :: Automatically detect, display, and open associated Vulpea notes directly from Citar's bibliography interface.
+
+*** embark-vulpea                                                          :Embark:
+When acting on a vulpea note candidate (e.g. during vulpea-find), the following actions are available:
+
+| Key | Action                          |
+|-----+---------------------------------|
+| RET | Visit note                      |
+| o   | Visit note in other window      |
+| i   | Insert id: link at point        |
+| b   | Find backlinks                  |
+| w   | Copy note ID to kill ring       |
+| W   | Copy org link to kill ring      |
+| D   | Delete note (with confirmation) |
+
+#+begin_src emacs-lisp
+(use-package embark-vulpea
+  :ensure (:host github :repo "fabcontigiani/embark-vulpea")
+  :after vulpea
+  )
 #+end_src
 
 ** calibredb                                                    :Calibre:calibre:ebook:
