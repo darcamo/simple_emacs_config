@@ -2788,6 +2788,8 @@ project.
          ("M-q" . my-org-fill-paragraph)
          ("M-Q" . my-org-unfill-paragraph)
 
+         ("C-M-h" . org-mark-subtree)
+
          ;; xxxxx Enable Drag-stuff when not in an org-mode heading xxxxxxxxxxxxxxxxx
          ;; If cursor is in a headline or in a list item, use default org-mode
          ;; function, otherwise use drag-stuff function
