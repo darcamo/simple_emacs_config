@@ -2112,6 +2112,7 @@ overlay.
   (visual-fill-column-center-text t)
   :hook
   (org-mode . visual-fill-column-mode)
+  (org-mode . visual-line-mode)
   :bind
   (("C-x x V" . visual-fill-column-mode))
   (("C-x x c" . visual-fill-column-toggle-center-text))
