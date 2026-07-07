@@ -1601,6 +1601,7 @@ The keybindinds all start with =C-x t=
          ([C-S-f11] . open-terminal-default-dir)
          ;; ("M-[" . switch-to-prev-buffer)
          ;; ("M-]" . switch-to-next-buffer)
+         ("C-c s" . scratch-buffer)
          ("C-c C-o" . org-open-at-point-global)
          ("C-z" . eshell)
          ("M-z" . darcamo/start-shell)
