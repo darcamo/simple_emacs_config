@@ -5577,6 +5577,7 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "OrgRef" "646b1d34-caac-4a5f-b0d3-00060b0a3313"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "OrgBabel" "535c057d-55da-4cec-811c-6e7d3d1fdab2"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "eglot" "77591be1-576e-468c-b191-c76be7c9473e"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "MachineLearning" "9333240c-a40c-4512-872d-0a2032ed8433"))
 
   (vulpea-tag-links-register-extractor)
   )
