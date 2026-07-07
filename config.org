@@ -3207,7 +3207,7 @@ Full list of options:
           ;; xxxxx Start Capture a new tasks xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
           ("t" "Adiciona nova tarefa")
           ("tt" "Nova Tarefa rápida (refile depois)" entry
-           (file+headline "refile.org" "Inbox")
+           (file+headline "~/notes/todos.org" "Lista de Tarefas")
            (file ,(concat user-emacs-directory "org-mode-setup/new_task.org")))
           ("ta" "Tarefa do Atlântico" entry
            (file+headline "atlantico.org" "Lista de Tarefas")
