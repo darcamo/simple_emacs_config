@@ -2634,7 +2634,7 @@ project.
      ;; An exclusive group with either Home or Trabalho. Trabalho is a
      ;; group tag that matches both "Atlântico" and "GTEL"
      (:startgroup . nil) ("Home" . ?h)
-     (:startgrouptag) ("Trabalho" . ?t) (:grouptags) ("Atlântico" . ?a) ("GTEL" . ?g) ("Teradici") (:endgrouptag)
+     (:startgrouptag) ("Trabalho" . ?t) (:grouptags) ("Atlântico" . ?a) ("GTEL" . ?g) (:endgrouptag)
      (:endgroup . nil)
 
      (:startgroup . nil) ("Someday" . ?s) ("NextActions" . ?n) (:endgroup . nil)
@@ -2871,7 +2871,6 @@ project.
      ("Book" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/registry-book.svg") nil nil :ascent  center)
      ("Carro" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/car.svg") nil nil :ascent  center)
      ("Escrever" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/write.svg") nil nil :ascent  center)
-     ("Estudos" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/estudos.svg") nil nil :ascent  center)
      ("gtd" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gtd.svg") nil nil :ascent  center)
      ("Refile" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/refile.svg") nil nil :ascent  center)
      ("IAB\\|GTEL\\|NAIVE\\|UFC.32\\|UFC.35\\|UFC.42" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/gtel.svg") nil nil :ascent  center)
@@ -2883,7 +2882,6 @@ project.
      ("Compras\\|Finanças" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/finances.svg") nil nil :ascent center)
      ("Someday" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/Global_thinking.svg") nil nil :ascent center)
      ("Stanford" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/graduate.svg") nil nil :ascent center)
-     ("References" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/estudos.svg") nil nil :ascent  center)
      ("Eventos" ,(concat user-emacs-directory "Icons_For_Org-Mode_Category/event.svg") nil nil :ascent  center)
      ))
 
@@ -2929,7 +2927,19 @@ project.
                    ("Year")
                    (:grouptags)
                    ("{20[0-9][0-9]}")
-                   (:endgrouptag)))
+                   (:endgrouptag)
+                   (:startgrouptag)
+                   ("Programação")
+                   (:grouptags)
+                   ("CPP")
+                   ("Python")
+                   ("web")
+                   ("JavaScript")
+                   ("Elisp")
+                   ("bash")
+                   ("golang")
+                   (:endgrouptag)
+                   ))
 
   ;; Custom agenda views
   (org-agenda-custom-commands
