@@ -5134,7 +5134,7 @@ appear first (but in decreasing order).
 (setopt vulpea-select-describe-fn 'darcamo/vulpea-get-display-title)
 #+end_src
 
-*** TODO Define schemes for particular types of notes
+*** Define schema for particular types of notes
 
 - See =vulpea-schema-define=
 - See https://www.d12frosted.io/posts/2026-06-19-vulpea-v2-4
@@ -5152,34 +5152,46 @@ Useful types:
 *Note*: =vulpea-ui-schema-dashboard= has a nice UI showing the health of the database in a
 dedicated buffer.
 
+**** Function to validate URL fields
 #+begin_src emacs-lisp
-;; (defun valid-url-p (url)
-;;   "Check if the string URL is a valid URL."
-;;   (let ((parsed-url (url-generic-parse-url url)))
-;;     (when (and (url-type parsed-url) (url-host parsed-url))
-;;       t)))
+(defun valid-url-p (url)
+  "Check if the string URL is a valid URL."
+  (let ((parsed-url (url-generic-parse-url url)))
+    (when (and (url-type parsed-url) (url-host parsed-url))
+      t)))
 
 
-;; ;; See [[file:elpaca/sources/vulpea/vulpea-schema.el::defun vulpea-schema--value-violation (raw field note schema]]
-;; (defun fun (type note)
-;;   "docstring"
-;;   (interactive "P")
-;;   ;; implement me
-;;   )
+(defun extract-raw-link-from-org-link (org-link-string)
+  "Extract just the raw link part from an `org-mode' link ORG-LINK-STRING."
+  (let ((regexp "\\[\\[\\(.+\\)\\]\\[.+\\]\\]"))
+    (string-match regexp org-link-string)
+    (match-string-no-properties 1 org-link-string)))
 
 
+(defun url-or-org-url-p (s)
+  "Check if S is a raw URL or an `org-mode' link with an URL."
+  (if (valid-url-p s)
+      t
+    (valid-url-p (extract-raw-link-from-org-link s))))
+
+
+(defun darcamo/vulpea-validate-with-site-schema (value note)
+  "Check if the field VALUE on NOTE is a valid URL.
+
+This function is appropriated to be used as the validate function of a
+vulpea schema field."
+  (url-or-org-url-p value))
+#+end_src
+
+**** Define schema
+#+begin_src emacs-lisp
 (use-package vulpea
   :defer t
   :config
   (vulpea-schema-define 'site
                         :predicate (lambda (note) (member "site" (vulpea-note-tags note)))
                         :fields
-                        '(
-                          (:key "Site"     :type string   :required t)
-                          ;; (:key "Site"     :validate valid-url-p   :required t)
-                          )
-                        )
-  )
+                        '((:key "Site" :validate darcamo/vulpea-validate-with-site-schema :required t))))
 
 #+end_src
 
