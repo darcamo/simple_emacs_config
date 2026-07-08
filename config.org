@@ -5355,6 +5355,7 @@ Call =vulpea-ui-collection= to view configured collections.
   (setq vulpea-ui-collection-views
         '(("Contatos" . (:filter (:tags-all ("pessoas") :tags-none ("category"))
                                  ;; :columns (title (meta "country") (meta "producer") tags modified)
+                                 :columns (title context tags backlinks)
                                  ;; Column to sort . t, for reversed
                                  :sort ("Title" . nil)))
           ("TODOs" . (:filter (:todo "TODO")
