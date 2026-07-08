@@ -5321,6 +5321,14 @@ Outras coisas úteis
 #+end_src
 
 *** Vulpea-ui
+Call =vulpea-ui-collection= to view configured collections.
+
+*TODO*: See keybindings for collections in [[https://github.com/d12frosted/vulpea-ui#collection-view][Collection view]]
+- There are many operations to process notes in bulk from the collection view.
+  - narrow to a tag
+  - group by a context
+  - add/remove tags to many notes, etc
+
 #+begin_src emacs-lisp
 (use-package vui
   :ensure (vui :type git :host github :repo "d12frosted/vui.el")
@@ -5342,8 +5350,26 @@ Outras coisas úteis
                  (delete-window t)
                  (window-width . 40)
                  (window-height . fit-window-to-buffer)))
+
+  ;; Define some collections
+  (setq vulpea-ui-collection-views
+        '(("Contatos" . (:filter (:tags-all ("pessoas") :tags-none ("category"))
+                                 ;; :columns (title (meta "country") (meta "producer") tags modified)
+                                 ;; Column to sort . t, for reversed
+                                 :sort ("Title" . nil)))
+          ("TODOs" . (:filter (:todo "TODO")
+                              :columns (todo scheduled deadline title tags)
+                              )
+           )))
+  
   :custom
   (vulpea-ui-outline-max-depth 2)
+  ;; (vulpea-ui-link-types '("id" "tag"))
+
+  ;; (vulpea-ui-backlinks-context-types '(meta header table list quote footnote prose))
+
+  :hook
+  (vulpea-ui-sidebar-mode . visual-line-mode)
   )
 #+end_src
 
