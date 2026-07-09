@@ -2713,6 +2713,7 @@ project.
 ;; Used in a speed comamnd
 (defun ded/org-show-next-heading-tidily ()
   "Show next entry, keeping other entries closed."
+  (interactive)
   (if (save-excursion (end-of-line) (outline-invisible-p))
       (progn (org-show-entry) (show-children))
     (outline-next-heading)
@@ -2729,6 +2730,7 @@ project.
 ;; Used in a speed comamnd
 (defun ded/org-show-previous-heading-tidily ()
   "Show previous entry, keeping other entries closed."
+  (interactive)
   (let ((pos (point)))
     (outline-previous-heading)
     (unless (and (< (point) pos) (bolp) (org-at-heading-p))
@@ -2789,6 +2791,11 @@ project.
          ([C-f10] . (lambda () (interactive) (browse-url (concat (file-name-sans-extension (file-name-nondirectory (buffer-file-name))) ".html"))))
          ("M-q" . my-org-fill-paragraph)
          ("M-Q" . my-org-unfill-paragraph)
+
+         ;; Note that "C-M-n" and "C-M-p" are already bounded to
+         ;; org-next-visible-heading and org-previous-visible-heading
+         ("C-M-S-n" . ded/org-show-next-heading-tidily)
+         ("C-M-S-p" . ded/org-show-previous-heading-tidily)
 
          ("C-M-h" . org-mark-subtree)
 
