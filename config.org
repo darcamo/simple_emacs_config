@@ -5076,7 +5076,7 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
   )
 #+end_src
 
-** Vulpea
+** Vulpea                                                                   :Vulpea:
 
 *TODO*: Take another look at each individual page (specially for vulpea-journal) for configuration
 
@@ -5089,7 +5089,7 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
 (use-package vulpea
   ;; :ensure (vulpea :type git :host github :repo "darcamo/vulpea")
   :ensure vulpea
-  :commands (vulpea-find vulpea-db-sync-full-scan vulpea-insert)
+  :commands (vulpea-find vulpea-db-sync-full-scan vulpea-insert vulpea-note-path)
   :defer t
   :bind (
          ([f6] . vulpea-find)
@@ -5115,9 +5115,10 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
   (vulpea-create-default-template '(:file-name "${timestamp}_${slug}.org"
                                                :head "#+SETUPFILE: org-roam-setup.org\n\n"
                                                :properties (("CREATED" . "%<[%Y-%m-%d]>"))))
-                                               ;; :tags ("inbox")
-                                               ;; (vulpea-ui-backlinks-sort 'title-asc)
-                                               (vulpea-ui-backlinks-sort 'title-desc)
+  (vulpea-create-default-function 'darcamo/vulpea-create-default-function)
+
+  ;; (vulpea-ui-backlinks-sort 'title-asc)
+  (vulpea-ui-backlinks-sort 'title-desc)
   )
 #+end_src
 
@@ -5205,24 +5206,34 @@ vulpea schema field."
 
 #+end_src
 
-*** TODO Capturing
-**** Capturing new notes
+*** Creating new notes
 See =vulpea-create-default-function= in [[https://github.com/d12frosted/vulpea/blob/master/docs/configuration.org#dynamic-template-function][Dynamic Template Function]].
 
-You can create a function that dynamically compute the template if it finds something
-specific in the title, or return =vulpea-create-default-template= if not.
 
-Example from vulpea documentation
+The =vulpea-create-default-function= variable was set to the function below.
+#+begin_src emacs-lisp
+(defun darcamo/vulpea-create-default-function (title)
+  "Default function to create a new note with TITLE using vulpea.
 
-#+begin_example
-(setq org-capture-templates
-      '(("n" "Note" plain
-         (file (lambda ()
-                 (vulpea-note-path
-                  (vulpea-create "Quick Note"))))
-         "%?")))
-#+end_example
+You can add \"#someTag\" after the title when creating the note, and it
+will automatically be added as a tag in the new note.
 
+If one of the tags is \"pessoas\", the filename will not have a
+timestamp."
+  (let* ((parts (mapcar 's-trim (split-string title "#")))
+         (tags (cdr parts))
+         (template (copy-sequence vulpea-create-default-template)))
+
+    ;; If it has the tag I use for contacts, I want the filename to not have a timestamp.
+    (when (member "pessoas" tags)
+      (setq template (plist-put template :file-name "${slug}.org")))
+
+    (if tags
+        (append template (list :tags tags))
+      template)))
+#+end_src
+
+*** Capturing notes in vulpea                                             :Capture:
 **** Capturing to the journal
 
 - Call =current-time= to get the current time
@@ -5230,6 +5241,27 @@ Example from vulpea documentation
 - Call =vulpea-note-path= passing the journal note object to get the path
 - Use the path in capture template to add a new heading
 - If necessary, call =(vulpea-visit note)= to visit the note (but I think capture will do that already)
+
+
+#+begin_src emacs-lisp
+(defun darcamo/vulpea-capture-to-journal-today-path ()
+  "Return the path of the journal note for today.
+
+  If the journal note does not exist yet, create it first."
+  (let ((note (vulpea-journal-note (current-time))))
+    (vulpea-note-path note)))
+
+
+(use-package vulpea-journal
+  :defer t
+  :commands (vulpea-journal-note)
+  :after (org-capture)
+  :init
+  (add-to-list 'org-capture-templates '("j" "Adidiona entrada no journal"))
+  (add-to-list 'org-capture-templates '("jj" "Nova entrada no journal de hoje" entry (file darcamo/vulpea-capture-to-journal-today-path) "%<%H:%m> %?" :immediate-finish t :jump-to-captured t :empty-lines 2))
+  (add-to-list 'org-capture-templates '("jr" "Reunião com um contato" entry (file darcamo/vulpea-capture-to-journal-today-path) "%<%H:%m> Reunião com %(darcamo/vulpea-note-to-org-link (vulpea-select-from \"Reunião com quem?\" (vulpea-db-query-by-tags-some '(\"pessoas\"))))\n%?" :immediate-finish t :jump-to-captured t :empty-lines 2))
+  )
+#+end_src
 
 *** COMMENT Refiling vulpea notes
 :PROPERTIES:
@@ -5240,7 +5272,7 @@ https://github.com/d12frosted/vulpea/issues/343
 
 #+begin_src emacs-lisp
 (defun darcamo/ensure-on-org-heading ()
-  "Ensure the cursor is on a heading. 
+  "Ensure the cursor is on a heading.
 If not, move up to the nearest parent heading.
 Error out if not in an Org subtree."
   (interactive)
@@ -5371,7 +5403,7 @@ Call =vulpea-ui-collection= to view configured collections.
                               :columns (todo scheduled deadline title tags)
                               )
            )))
-  
+
   :custom
   (vulpea-ui-outline-max-depth 2)
   ;; (vulpea-ui-link-types '("id" "tag"))
