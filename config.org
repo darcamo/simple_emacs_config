@@ -5370,6 +5370,9 @@ Call =vulpea-ui-collection= to view configured collections.
   - group by a context
   - add/remove tags to many notes, etc
 
+*TODO*: Add a collection to show noites created in the last 7 days
+
+
 #+begin_src emacs-lisp
 (use-package vui
   :ensure (vui :type git :host github :repo "d12frosted/vui.el")
