@@ -5615,6 +5615,7 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
   :config
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Filhos" "70177ece-325d-49cc-9419-810001aa5fb5"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "CPP" "a0967201-ec8d-4061-a27d-81590c840bff"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "CMake" "c08d063e-e5b3-4949-b006-7074e2d722e4"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Elisp" "4f5b688f-6f4e-4f21-b466-7674e30be51c"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Emacs" "070ea2e3-309c-4b76-84e7-5e61e9a57e79"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Python" "0cd3f915-9476-43b8-a17c-f113f912a2ae"))
@@ -5624,6 +5625,7 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Doutorado" "685ce449-937c-4977-9bbc-6177273c8c49"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Programação" "f5fbbe48-f016-453c-ab93-02724ee45b77"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Conan" "97c2db81-ac99-4bae-a06d-f81434ce3748"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "vcpkg" "b006d0c8-552d-4dec-bfe3-e45f553fde8f"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Arch" "f19877f1-a3ab-4938-b7d3-d47e94e2dafe"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Jogos" "d023e80d-7fe0-4800-98c3-dd043da343b4"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "QML" "0742709f-7604-47e8-bd2e-0489fd1864fe"))
