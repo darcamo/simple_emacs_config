@@ -2203,6 +2203,13 @@ To start Eat, run M-x eat. Eat has four input modes:
 ;;         (ghostel)
 ;;       (ghostel))))
 #+end_src
+** powershell
+#+begin_src elisp
+(use-package powershell
+  :ensure t
+  :commands (powershell-mode)
+  )
+#+end_src
 
 * Scrolling and mouse                                               :Mouse:Scrolling:
 #+begin_src emacs-lisp
