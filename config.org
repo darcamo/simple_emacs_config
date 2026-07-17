@@ -10775,6 +10775,8 @@ See https://github.com/manzaltu/claude-code-ide.el
 ** agent-shell
 https://github.com/xenodium/agent-shell
 
+agent-shell uses ACP to interact with LLM agents.
+
 #+begin_src emacs-lisp
 (use-package agent-shell
   :ensure t
@@ -10800,6 +10802,18 @@ AI-powered code review for Emacs using ACP agents.
   :ensure (agent-review :type git :host github :repo "nineluj/agent-review")
   :commands (agent-review)
 )
+#+end_src
+
+** TODO ai-code-interface
+https://github.com/tninja/ai-code-interface.el
+
+** opencode
+https://codeberg.org/sczi/opencode.el
+
+#+begin_src emacs-lisp
+(use-package opencode
+  :ensure (opencode :type git :host codeberg :repo "sczi/opencode.el")
+  :commands (opencode opencode-connect))
 #+end_src
 
 * SSH File Modes
