@@ -5932,7 +5932,7 @@ Useful keybindings:
   (calendar-mark-holidays-flag nil)
   (calendar-latitude -3.77)
   (calendar-longitude -38.57)
-  :bind (("C-c C" . calendar)))
+  :bind (("C-c C" . (lambda () (interactive) (require 'vulpea-journal) (calendar)))))
 
 ;; Adaptado de https://github.com/xboard/emacs-brazilian-holidays/blob/master/brazilian-holidays.el
 (setq feriados-nacionais-fixos
