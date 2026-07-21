@@ -447,10 +447,13 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
   :bind ( :map completion-preview-active-mode-map
           ("M-n" . 'completion-preview-next-candidate)
           ("M-p" . 'completion-preview-prev-candidate)
+          ("C-<next>" . 'completion-preview-next-candidate)
+          ("C-<previous>" . 'completion-preview-prev-candidate)
           )
   )
 #+end_src
 ** all-the-icons-completion                                            :AllTheIcons:
+Add icons to completion candidates in Emacs.
 #+begin_src emacs-lisp
 (use-package all-the-icons-completion
 :ensure t
@@ -1004,6 +1007,22 @@ of changing the snippets."
   (interactive)
   (concat user-full-name " <" user-mail-address ">")
   )
+#+end_src
+
+** Extra packages for completion at point
+*Note*: Here we add the =cape= and =yasnippet-capf= packages, but we are not configuring
+anything to use them here. That will be done later in eglot configuration.
+
+#+begin_src emacs-lisp
+;; Cape -> Completion At Point Extensions
+(use-package cape
+  :ensure t
+  :commands (cape-capf-super cape-file))
+
+
+(use-package yasnippet-capf
+  :ensure t
+  :after cape)
 #+end_src
 
 * darcamo function
@@ -3328,6 +3347,37 @@ Full list of options:
       (delete-frame)))
 
 (add-hook 'org-capture-after-finalize-hook 'my-org-capture-other-frame-cleanup)
+#+end_src
+
+** Completion at point extensions for org-mode                          :Completion:
+
+*** Complete the language in src blocks
+#+begin_src emacs-lisp
+;; TODO: Read the source of org-block-capf and use what you learn to build a
+;; capf for org-mode (complete notes when inserting "[[")
+(use-package org-block-capf
+  :ensure (:host github :repo "xenodium/org-block-capf")
+  :hook
+  ;; Add org-block-capf locally to completion-at-point-functions in org-mode buffers
+  (org-mode-hook . org-block-capf-add-to-completion-at-point-functions)
+  )
+#+end_src
+
+*** Complete lisp code inside src blocks
+#+begin_src emacs-lisp
+(defun darcamo/org-mode-setup-cape-elisp-block ()
+  "Add `cape-elisp-block' locally to `completion-at-point-functions'.
+
+This function should be added to `org-mode-hook' to enable completion
+for Emacs Lisp blocks in Org mode."
+  (let ((capf #'cape-elisp-block))
+    (unless (memq capf completion-at-point-functions)
+      (add-hook 'completion-at-point-functions capf nil 'local))))
+
+
+(use-package org
+  :hook
+  (org-mode . darcamo/org-mode-setup-cape-elisp-block))
 #+end_src
 
 ** org-autolist
@@ -6376,6 +6426,24 @@ To add support to more server, see the =eglot-server-programs= variable.
 : (define-key eglot-mode-map (kbd "C-c o") 'eglot-code-action-organize-imports)
 : (define-key eglot-mode-map (kbd "C-c h") 'eldoc)
 : (define-key eglot-mode-map (kbd "<f6>") 'xref-find-definitions)
+
+*** Combine completions from eglot with yasnippet                      :Completion:
+#+begin_src emacs-lisp
+;; See https://github.com/minad/corfu/wiki#making-a-cape-super-capf-for-eglot
+(defun darcamo/eglot-setup-capf ()
+  "Adjust capf in eglot-managed buffers.
+
+Change `completion-at-point-functions' in eglot managed buffers to use
+as capf the combination of `eglot-completion-at-point' and
+`yasnippet-capf'."
+  (setq-local completion-at-point-functions
+              (list (cape-capf-super
+                     #'eglot-completion-at-point
+                     #'yasnippet-capf) #'cape-file)))
+
+(add-hook 'eglot-managed-mode-hook #'darcamo/eglot-setup-capf)
+#+end_src
+
 *** Consult-Eglot                                                   :Consult:Eglot:
 #+begin_src emacs-lisp
 (use-package consult-eglot
@@ -7227,17 +7295,18 @@ Install it with
 Below we add =neocmakelsp= to the list of eglot server programs. We also disable eglots own
 flymake diagnostic function and add the one we have created previously instead.
 #+begin_src emacs-lisp
+(defun darcamo/eglot-setup-cmakelint ()
+  "Adjust eglot to use cmakelint instead of eglot's flymake backend."
+  (when (eq major-mode 'cmake-ts-mode)
+    (remove-hook 'flymake-diagnostic-functions #'eglot-flymake-backend t)
+    (flymake-cmakelint-setup)))
+
+
 (use-package eglot
   :config
   (add-to-list 'eglot-server-programs '((cmake-mode cmake-ts-mode) . ("neocmakelsp" "stdio")))
   :hook
-  (eglot-managed-mode
-   .
-   (lambda ()
-     (when (eq major-mode 'cmake-ts-mode)
-       (remove-hook 'flymake-diagnostic-functions #'eglot-flymake-backend t)
-       (flymake-cmakelint-setup)
-       ))))
+  (eglot-managed-mode . darcamo/eglot-setup-cmakelint))
 #+end_src
 
 *** Format CMake buffers                                                 :apheleia:
