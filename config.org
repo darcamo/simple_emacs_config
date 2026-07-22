@@ -5295,7 +5295,7 @@ timestamp."
       (setq template (plist-put template :file-name "${slug}.org")))
 
     (if tags
-        (append template (list :tags tags))
+        (append template (list :tags tags :title (car parts)))
       template)))
 #+end_src
 
