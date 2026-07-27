@@ -5579,9 +5579,22 @@ widgets.
 
 *** Vulpea Auto Tag
 #+begin_src emacs-lisp
+(defun darcamo/auto-tag-site ()
+  "Add the 'site' tag if the note has 'Site' metadata.
+
+This function does not really add the tag, but returns a cons cell with
+the tag and nil. It is used in conjunction with `vulpea-auto-tag' to
+automatically add the 'site' tag to notes that have 'Site' metadata."
+  (when (vulpea-buffer-meta-get "Site" 'string)
+    (cons "site" nil)))
+
+
 (use-package vulpea-auto-tag
   :ensure (vulpea-auto-tag :type git :host github :protocol ssh
                            :repo "darcamo/vulpea-auto-tag" :depth nil)
+  :after vulpea
+  :config
+  (add-to-list 'vulpea-auto-tag-rules #'darcamo/auto-tag-site)
   )
 #+end_src
 
@@ -5650,6 +5663,7 @@ a list of links to the notes in NOTE-LIST."
 #+end_src
 
 *** Plugin for adding links from tags: vulpea-tag-links
+*** vulpea-tag-links: Plugin for adding links from tags
 
 Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#362]]
 
