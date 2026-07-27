@@ -5622,47 +5622,6 @@ a list of links to the notes in NOTE-LIST."
   (s-join "\n" (mapcar 'darcamo/vulpea-note-to-org-link note-list)))
 #+end_src
 
-*** TODO COMMENT Highlight given ID
-#+begin_src emacs-lisp
-(defvar my/org-special-id nil "ID of the special Org link to highlight.")
-;; (defvar my/org-special-id "070ea2e3-309c-4b76-84e7-5e61e9a57e79" "ID of the special Org link to highlight.")
-
-
-(defface my/org-special-id-link
-  '((t :inherit org-link :foreground "orange" :weight bold))
-  "Face for one particular Org ID link.")
-
-(defun my/org-id-link-face (path)
-  ;; PATH is the ID part, without the \"id:\" prefix.
-  (if (string= path my/org-special-id)
-      'my/org-special-id-link
-    'org-link-id))   ;; or whatever face you want as the default
-
-
-(org-link-set-parameters "id" :face #'my/org-id-link-face)
-
-
-;; Redefine vulpea-find-backlink
-(defun vulpea-find-backlink ()
-  "Select and find a note linked to current note."
-  (interactive)
-  (let* ((id (or (org-entry-get nil "ID" t)
-                 (user-error "Current location has no ID property")))
-         (my/org-special-id id)
-         (_ (unless (vulpea-db-get-by-id id)
-              (user-error
-               "%s is not a known note" id)))
-         (backlinks (vulpea-db-query-by-links-some
-                     (list (cons "id" id)))))
-    (unless backlinks
-      (user-error "There are no backlinks to the current note"))
-    (vulpea-find
-     :candidates-fn (lambda (_) backlinks)
-     :require-match t)
-    ))
-#+end_src
-
-*** Plugin for adding links from tags: vulpea-tag-links
 *** vulpea-tag-links: Plugin for adding links from tags
 
 Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#362]]
@@ -5745,6 +5704,45 @@ When acting on a vulpea note candidate (e.g. during vulpea-find), the following 
   :ensure (:host github :repo "fabcontigiani/embark-vulpea")
   :after vulpea
   )
+#+end_src
+
+*** Add a source for consult-buffer for vulpea notes
+See consult documentation for [[https://github.com/minad/consult#multiple-sources][multiple-sources]].
+
+The code below defines a source limited to org-mode buffers visiting a file in the vulpea =vulpea-db-sync-directories=
+#+begin_src emacs-lisp
+(defun darcamo/is-buffer-a-vulpea-note (buffer)
+  "Returns t if BUFFER is a Vulpea note buffer, nil otherwise."
+  (with-current-buffer buffer
+    (and (eq major-mode 'org-mode)
+         (let ((file-name (buffer-file-name)))
+           (and file-name
+                (seq-some
+                 (lambda (dir)
+                   (string-prefix-p (expand-file-name dir) file-name))
+                 vulpea-db-sync-directories))))))
+
+
+(defvar vulpea-note-source
+  (list
+   :name "Vulpea Note Buffer"
+   :category 'buffer
+   :narrow ?v
+   :face 'consult-buffer
+   :history 'buffer-name-history
+   :state #'consult--buffer-state
+   :require-match t
+   :items
+   (lambda ()
+     (consult--buffer-query
+      :mode 'org-mode
+      :as #'consult--buffer-pair
+      :predicate #'darcamo/is-buffer-a-vulpea-note))))
+
+(use-package
+  consult
+  :defer t
+  :config (add-to-list 'consult-buffer-sources 'vulpea-note-source 'append))
 #+end_src
 
 ** calibredb                                                 :Calibre:calibre:ebook:
