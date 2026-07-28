@@ -5180,7 +5180,7 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
   (vulpea-db-async-extraction t)
   (vulpea-create-default-template '(:file-name "${timestamp}_${slug}.org"
                                                :head "#+SETUPFILE: org-roam-setup.org\n\n"
-                                               :properties (("CREATED" . "%<[%Y-%m-%d]>"))))
+                                               :properties (("CREATED" . "%<%Y-%m-%d>"))))
   (vulpea-create-default-function 'darcamo/vulpea-create-default-function)
 
   ;; (vulpea-ui-backlinks-sort 'title-asc)
@@ -5568,9 +5568,13 @@ widgets.
 (use-package vulpea-agenda
   :ensure (vulpea-agenda :type git :host github :protocol ssh
                          :repo "darcamo/vulpea-agenda" :depth nil)
-  :commands (vulpea-agenda-wrapper)
+  :commands (vulpea-agenda-wrapper vulpea-agenda-todo-list-wrapper vulpea-agenda-mode)
   :custom
-  (vulpea-agenda-tags '("agenda" "todo")))
+  (vulpea-agenda-tags '("agenda" "todo"))
+
+  :config
+  (vulpea-agenda-mode t)
+  )
 
 
 (use-package org
