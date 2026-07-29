@@ -5152,6 +5152,64 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
 
 *** General
 #+begin_src emacs-lisp
+(defun darcamo/vulpea-compare-by-create-date (note1 note2)
+  "Return t if NOTE1 should come before NOTE2.
+
+The notes are compared by created date and alphabetically. The
+comparison criteria are as follows:
+
+1. If both notes have a creation date, return t if NOTE1 is newer than
+   NOTE2.
+2. If only one note has a creation date, return t if it's NOTE1, or nil
+   if it's NOTE2.
+3. If neither note has a creation date, return t if NOTE1 is title
+   lexicographically greater then NOTE2 title."
+  (when (and note1 note2)
+    (let* ((title-desc-sort-func
+            (lambda (first second)
+              (string>
+               (or (vulpea-note-title first) "")
+               (or (vulpea-note-title second) ""))))
+           (created-desc-sort-func
+            (lambda (first second)
+              (string>
+               (or (vulpea-note-created-at first) "")
+               (or (vulpea-note-created-at second) "")))))
+
+      ;; Case where both notes have a created-at value
+      (if (and (vulpea-note-created-at note1) (vulpea-note-created-at note2))
+          (funcall created-desc-sort-func note1 note2)
+
+        (cond
+         ((vulpea-note-created-at note1)
+          t)
+         ((vulpea-note-created-at note2)
+          nil)
+         ;; Neither note has a created-at value
+         (t
+          (title-desc-sort-func note1 note2)))))))
+
+
+(defun darcamo/vulpea-ui-backlinks-sort-func (a b)
+  "Sort function for backlinks in vulpea-ui sidebar.
+
+Sort backlinks A and B.
+
+The notes are compared by created date and alphabetically. The
+comparison criteria are as follows:
+
+1. If both notes have a creation date, return t if NOTE1 is newer than
+   NOTE2.
+2. If only one note has a creation date, return t if it's NOTE1, or nil
+   if it's NOTE2.
+3. If neither note has a creation date, return t if NOTE1 is title
+   lexicographically greater then NOTE2 title.
+
+This function is intended to be used as the value for `vulpea-ui-backlinks-sort'."
+  (darcamo/vulpea-compare-by-create-date
+   (plist-get a :file-note) (plist-get b :file-note)))
+
+
 (use-package vulpea
   ;; :ensure (vulpea :type git :host github :repo "darcamo/vulpea")
   :ensure vulpea
@@ -5184,7 +5242,8 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
   (vulpea-create-default-function 'darcamo/vulpea-create-default-function)
 
   ;; (vulpea-ui-backlinks-sort 'title-asc)
-  (vulpea-ui-backlinks-sort 'title-desc)
+  ;; (vulpea-ui-backlinks-sort 'title-desc)
+  (vulpea-ui-backlinks-sort 'darcamo/vulpea-ui-backlinks-sort-func)
   )
 #+end_src
 
@@ -5194,21 +5253,89 @@ in the backlinks. Then create a "Journal" widget to show journal backlinks.
 Alternativelly, I could customize =vulpea-ui-backlinks-sort= to make journal entries
 appear first (but in decreasing order).
 
+*** Sort candidates during =vulpea-find-backlink=
+
+*NOTE*: This requires a change I made to vulpea, which is NOT upstreamed yet.
+
+#+begin_src emacs-lisp
+(defun darcamo/backlinks-sort-function (candidates)
+  "Sort CANDIDATES for use in vulpea-find-backlink'.
+
+This requires that each candidate has a `'vulpea-note' text property
+containing the actual note."
+  (let* ((sort-func
+          (lambda (a b)
+            (if-let* ((note1 (vulpea-select-candidate-note a))
+                      (note2 (vulpea-select-candidate-note b)))
+                (darcamo/vulpea-compare-by-create-date note1 note2)
+              nil))))
+
+    (seq-sort sort-func candidates)))
+
+
+(defun darcamo/vulpea-find-backlink-around (orig-func)
+  "Advice to surround ORIG-FUNC in a let call that sets sort function.
+
+This is used to set `display-sort-function' for `vulpea-note' category
+to the `darcamo/backlinks-sort-function'.
+
+Note: The advice is only necessary because I only want this sorting for
+`vulpea-find-backlink'."
+  ;; (interactive)
+  (let ((completion-category-overrides
+         '((vulpea-note
+            (display-sort-function . darcamo/backlinks-sort-function)
+            ;; (group-function . TODO-function-to-group-journal-entries)
+            ))))
+    (call-interactively orig-func)))
+
+
+(advice-add #'vulpea-find-backlink :around #'darcamo/vulpea-find-backlink-around)
+#+end_src
+
 *** Customize how notes are displayed
 #+begin_src emacs-lisp
+(defun darcamo/crop-string (str max-length &optional keep-both-ends)
+  "Crop STR to MAX-LENGTH.
+
+By default, preserve only the start of the string, replacing the final
+part with \"...\" if necessary. If KEEP-BOTH-ENDS is t, preserving the
+start and end of the string, replacing the middle with \"...\" as
+necessary."
+  (if (<= (length str) max-length)
+      str
+    (if keep-both-ends
+        (let ((half (/ (- max-length 3) 2)))
+          (concat
+           (substring str 0 half) "..." (substring str (- (length str) half))))
+      (concat (substring str 0 (- max-length 3)) "..."))))
+
+
 (defun darcamo/vulpea-get-display-title (note)
   "Returns the level and the title of a NOTE as a string.
 
   This is suitable for using as the value of
   `vulpea-select-describe-fn'."
+
   (let ((level (vulpea-note-level note))
         (title (vulpea-note-title note)))
-    (format "[@%s] %s" level title)))
+    (cond
+     ((eq level 0)
+      (format "[@%s] %s" (vulpea-note-level note) title))
+     (t
+      (format "[@%s] %s %s"
+              (vulpea-note-level note) title
+              (propertize (format "(%s)"
+                                  (darcamo/crop-string
+                                   (vulpea-note-file-title note) 35))
+                          'face 'completions-annotations))))))
 
 
 ;; Replace the default value of `vulpea-select-describe-fn' (that only returns
 ;; the note title) with our custom function
-(setopt vulpea-select-describe-fn 'darcamo/vulpea-get-display-title)
+(setopt vulpea-select-describe-fn #'darcamo/vulpea-get-display-title)
+;; (setopt vulpea-select-describe-fn 'vulpea-select-describe-outline)
+;; (setopt vulpea-select-describe-fn 'vulpea-select-describe-outline-full)
 #+end_src
 
 *** Define schema for particular types of notes
@@ -5479,6 +5606,10 @@ Call =vulpea-ui-collection= to view configured collections.
 
   ;; (vulpea-ui-backlinks-context-types '(meta header table list quote footnote prose))
 
+  :custom-face
+  (vulpea-ui-backlink-heading-face ((t (:inherit 'org-document-title))))    ;;
+  (vulpea-ui-backlink-context-face ((t (:inherit 'org-date))))    ;; Face for context type indicators (§, •, >, etc.) in backlink previews.
+
   :hook
   (vulpea-ui-sidebar-mode . visual-line-mode)
   )
@@ -5673,6 +5804,7 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "OrgRef" "646b1d34-caac-4a5f-b0d3-00060b0a3313"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "OrgBabel" "535c057d-55da-4cec-811c-6e7d3d1fdab2"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "MachineLearning" "9333240c-a40c-4512-872d-0a2032ed8433"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Saude" "0815968f-109a-4e42-ad02-8dcf37d6fd3c"))
 
   (vulpea-tag-links-register-extractor)
   )
@@ -7988,7 +8120,7 @@ https://github.com/isamert/swagg.el
 
 *Usage*: Just call one of
 - =swagg-request=
-  + Lets you interactively select an endpoint, using completing-read and then asks interactively for all required query strings, query parameters etc. and makes the request. Result of the request is shown in a separate special buffer. Only response body is shown. If you want to display headers, call swagg-display-headers in the response buffer.
+  + Lets you interactively select an endpoint, using =completing-read= and then asks interactively for all required query strings, query parameters etc. and makes the request. Result of the request is shown in a separate special buffer. Only response body is shown. If you want to display headers, call swagg-display-headers in the response buffer.
 - =swagg-request-with-rest-block=
   + Same as above, but instead of making the request, insert rest style request string that you can use with verb, restclient, ob-http etc. Now you can utilize one of these packages to send your request.
 - =swagg-request-with-fetch=
