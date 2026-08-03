@@ -5730,6 +5730,8 @@ automatically add the 'site' tag to notes that have 'Site' metadata."
   :after vulpea
   :config
   (add-to-list 'vulpea-auto-tag-rules #'darcamo/auto-tag-site)
+  :custom
+  (vulpea-auto-tag-todo-re "\\* \\(TODO\\|WAIT\\|STARTED\\|CYCLIC\\|PROJ\\|SOMEDAY\\)")
   )
 #+end_src
 
@@ -5805,6 +5807,7 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "OrgBabel" "535c057d-55da-4cec-811c-6e7d3d1fdab2"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "MachineLearning" "9333240c-a40c-4512-872d-0a2032ed8433"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Saude" "0815968f-109a-4e42-ad02-8dcf37d6fd3c"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "LLM" "3b424fd0-3d45-44f8-a39a-3c39c9b3936a"))
 
   (vulpea-tag-links-register-extractor)
   )
