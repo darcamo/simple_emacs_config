@@ -425,6 +425,27 @@ https://www.reddit.com/r/emacs/comments/14o2n59/how_to_interactively_sort_comple
   (vertico-mouse-mode))
 #+end_src
 
+*** vertico-multiform-commands
+Temporary toggling between the different display modes is possible.
+The following keys are bound in the `vertico-multiform-map'.
+
+| Keybinding | Command                         |
+|------------+---------------------------------|
+| M-B        | =vertico-multiform-buffer'      |
+| M-F        | =vertico-multiform-flat'        |
+| M-G        | =vertico-multiform-grid'        |
+| M-R        | =vertico-multiform-reverse'     |
+| M-U        | =vertico-multiform-unobtrusive' |
+| M-V        | =vertico-multiform-vertical'    |
+
+#+begin_src emacs-lisp
+(use-package vertico
+  :defer t
+  :config
+  (vertico-multiform-mode)
+  )
+#+end_src
+
 ** Orderless                                                             :Orderless:
 #+begin_src emacs-lisp
 ;; Optionally use the `orderless' completion style.
