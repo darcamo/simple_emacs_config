@@ -5528,88 +5528,14 @@ timestamp."
   )
 #+end_src
 
-*** COMMENT Refiling vulpea notes
-:PROPERTIES:
-:SOMETHING: some value
-:END:
+*** Turn heading note into a file note
 
+See the discussion in
 https://github.com/d12frosted/vulpea/issues/343
 
-#+begin_src emacs-lisp
-(defun darcamo/ensure-on-org-heading ()
-  "Ensure the cursor is on a heading.
-If not, move up to the nearest parent heading.
-Error out if not in an Org subtree."
-  (interactive)
-  (unless (derived-mode-p 'org-mode)
-    (error "Not in an Org buffer"))
-  (while (not (org-at-heading-p))
-    (unless (org-previous-visible-heading 1)
-      (error "Not inside an Org heading"))))
+Vulpea now has the =vulpea-split-heading= command.
 
-
-(defun darcamo/get-org-heading-content ()
-  "Get the content inside the current Org heading."
-  (let* ((element (org-element-at-point))
-         (begin (org-element-property :contents-begin element))
-         (end (org-element-property :contents-end element)))
-    (if (and begin end)
-        (buffer-substring-no-properties begin end)
-      "")))
-#+end_src
-
-Algo como o pseudo-código abaixo.
-#+begin_src emacs-lisp
-(defun turn-heading-note-into-page-note (note-id)
-  "Turn a heading note with NOTE-ID into a file note."
-  (interactive)
-  (let* ((note (vulpea-db-get-by-id note-id))
-         (title (vulpea-note-title note))
-         (id (vulpea-note-id note))
-         (meta (vulpea-note-meta note))
-         (body (<somehow-get-note-body>))
-         ;; Maybe remove ID from properties, since we are passing ID?
-         (properties (vulpea-note-properties note))
-         (tags (vulpea-note-tags note))
-         )
-    (vulpea-create title nil id nil meta body nil properties tags nil)))
-#+end_src
-
-Ex
-: (vulpea-create "Isso é um teste do vulpea-create" nil :id "id-123456" :body "This is the body" :tags '("vulpea"))
-
-Outras coisas úteis
-: (vulpea-title-to-slug "The title")
-: org-end-of-subtree
-: org-heading-components
-: org-back-to-heading
-
-- Steps
-  - call =darcamo/ensure-on-org-heading= to make sure it's in the heading
-    - maybe I can just call the native =(ignore-errors (org-back-to-heading))= instead
-  - Get the heading ID with org-id-get
-  - get all tags, metadata, etc
-  - Call =vulpea-create= passing all data
-    - If you have an ID, provide it to =vulpea-create=. If not, let =vulpea-create= create one
-  - Delete the heading -> use =org-cut-subtree=
-
-
-#+begin_example
-(with-current-buffer "20260201114429_testando_vulpea.org"
-  (darcamo/ensure-on-org-heading)
-  (let ((id (org-id-get))
-        (title (org-no-properties (org-get-heading)))
-        (properties (org-entry-properties nil 'standard))
-        (tags (org-get-tags))
-        (body (darcamo/get-org-heading-content))
-        )
-    ;; title
-    ;; properties
-    ;; tags
-    body
-    )
-  )
-#+end_example
+*TIP*: With =C-u=, the =vulpea-split-heading= command will leave a link in the place of the heading that was turned into a file note.
 
 *** Vulpea consult                                                        :Consult:
 #+begin_src emacs-lisp
