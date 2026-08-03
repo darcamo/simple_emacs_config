@@ -5385,6 +5385,29 @@ necessary."
 (setopt vulpea-select-describe-fn #'darcamo/vulpea-get-display-title)
 ;; (setopt vulpea-select-describe-fn 'vulpea-select-describe-outline)
 ;; (setopt vulpea-select-describe-fn 'vulpea-select-describe-outline-full)
+
+
+(defun darcamo/empty-vulpea-select-annotate (_)
+  "Return an empty string, regardless of the input.
+
+  This is used to make vulpea not add any annotation as part of the
+  candidate string."
+  ""
+  )
+
+
+(defun darcamo/vulpea-select-annotate (note)
+  "Get the annotation for NOTE to use in completions.
+
+This is the same as the standard `vulpea-select-annotate' function, but
+add the creation date at the end."
+  (if-let* ((creation-date (vulpea-note-created-at note)))
+      (format "%s <%s>" (vulpea-select-annotate note) creation-date)
+    (vulpea-select-annotate note)))
+
+
+;; (setopt vulpea-select-annotate-fn #'darcamo/vulpea-select-annotate)
+(setopt vulpea-select-annotate-fn #'darcamo/empty-vulpea-select-annotate)
 #+end_src
 
 *** Define schema for particular types of notes
@@ -5931,6 +5954,51 @@ The code below defines a source limited to org-mode buffers visiting a file in t
   consult
   :defer t
   :config (add-to-list 'consult-buffer-sources 'vulpea-note-source 'append))
+#+end_src
+
+*** Add marginalia annotators for vulpea note
+#+begin_src emacs-lisp
+(defun darcamo/marginalia-vulpea-standard-note-annotation (cand)
+  "Annotate CAND using `vulpea-select-annotate'.
+
+This function is used as an annotation function for `marginalia-annotators'."
+  (let ((note (vulpea-select-candidate-note cand)))
+    (propertize (vulpea-select-annotate note)
+                'face
+                'completions-annotations)))
+
+
+(defun darcamo/marginalia-vulpea-standard-note-annotation-plus-date (cand)
+  "Annotate CAND using `vulpea-select-annotate' plus creation date.
+
+This function is used as an annotation function for `marginalia-annotators'."
+  (let ((note (vulpea-select-candidate-note cand)))
+    (propertize (darcamo/vulpea-select-annotate note)
+                'face
+                'completions-annotations)))
+
+(defun darcamo/marginalia-vulpea-id-note-annotation (cand)
+  "Annotate CAND using the note ID.
+
+This function is used as an annotation function for `marginalia-annotators'."
+  (let ((note (vulpea-select-candidate-note cand)))
+    (propertize (format " %s" (vulpea-note-id note))
+                'face
+                'completions-annotations)))
+
+
+(use-package marginalia
+  :defer t
+  :config
+  (add-to-list 'marginalia-annotators
+               '(vulpea-note
+                 darcamo/marginalia-vulpea-standard-note-annotation
+                 darcamo/marginalia-vulpea-standard-note-annotation-plus-date
+                 darcamo/marginalia-vulpea-id-note-annotation
+                 ;; builtin
+                 ;; none
+                 ))
+  )
 #+end_src
 
 ** calibredb                                                 :Calibre:calibre:ebook:
