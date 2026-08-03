@@ -2772,6 +2772,9 @@ project.
   ;; I add the "category" tag to notes that I use to group related notes.
   (add-to-list 'org-tags-exclude-from-inheritance "category")
 
+  ;; I add the "site" tag to notes that have a Site metadata notes.
+  (add-to-list 'org-tags-exclude-from-inheritance "site")
+
   :hook
   (org-mode . (lambda () (setq fill-column 90)))
   (org-mode . (lambda () (outline-minor-mode t)))
