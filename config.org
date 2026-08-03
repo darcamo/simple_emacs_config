@@ -399,6 +399,23 @@ Veja atalhos do vertigo em https://github.com/minad/vertico#key-bindings
 
   )
 #+end_src
+*** Toggle alphabetical ordering during completion with M-s
+https://www.reddit.com/r/emacs/comments/14o2n59/how_to_interactively_sort_completion_candidates/
+#+begin_src emacs-lisp
+(defun darcamo/vertico-toggle-sort ()
+  (interactive)
+  (setq-local vertico-sort-override-function
+              (and (not vertico-sort-override-function)
+                   #'vertico-sort-alpha)
+              vertico--input t))
+
+
+(use-package vertico
+  :defer t
+  :bind ( :map vertico-map
+          ("M-s" . darcamo/vertico-toggle-sort))
+  )
+#+end_src
 
 *** COMMENT Extra packages: vertico-mouse
 #+begin_src emacs-lisp
