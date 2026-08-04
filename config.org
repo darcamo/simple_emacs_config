@@ -99,6 +99,7 @@ FOLDER is expanded using `expand-file-name`."
 ;; Add .local/bin to path, since have a few programs there
 (darcamo/add-folder-to-path "~/.local/bin")
 (darcamo/add-folder-to-path "~/go/bin")
+(darcamo/add-folder-to-path "~/.emacs.d/elpaca/sources/eldev/bin/")
 
 
 (defvar qt-location (expand-file-name "~/Qt/6.10.1/gcc_64") "Base location where I installed Qt")
@@ -7943,6 +7944,22 @@ reformat the buffer on save.
                  (slot . 1)
                  (window-width . 0.40)
                  (window-height . fit-window-to-buffer)))
+#+end_src
+
+*** eldev
+#+begin_src emacs-lisp
+(use-package eldev
+  :ensure t
+  :defer t
+  )
+#+end_src
+
+*** buttercup
+#+begin_src emacs-lisp
+(use-package buttercup
+  :ensure t
+  :defer t
+  )
 #+end_src
 
 ** Go (golang)                                                      :Go:Programming:
