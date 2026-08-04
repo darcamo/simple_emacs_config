@@ -2553,7 +2553,7 @@ project.
             (thing-at-point 'symbol)))
 
     (setq myword (replace-regexp-in-string " " "_" myword))
-    (setq myurl (concat "http://thesaurus.reference.com/browse/" myword))
+    (setq myurl (concat "http://thesaurus.com/browse/" myword))
     (browse-url myurl)
     ))
 
@@ -2582,7 +2582,8 @@ project.
          ;; Use Ctrl + f12 to lookup the definition of the word at point in the
          ;; Cambridge dictionary and Ctrl + Shift + f12 to lookup for synonyms in
          ;; www.thesaurus.com
-         ([C-f12] . dictionary-search)
+         ([C-f12] . gt-translate)
+         ;; ([C-f12] . dictionary-search)
          ;; ([C-f12] . dictionary-lookup-definition)
          ([C-S-f12] . lookup-synonym)
          ;; ([M-f12] . thesaurus-choose-synonym-and-replace)
@@ -2591,6 +2592,16 @@ project.
          ;; specific function that only spellchecks comments and strings
          ([f7] . ispell-comments-and-strings)
          )
+  )
+#+end_src
+
+** Translate text
+#+begin_src emacs-lisp
+(use-package gt
+  :ensure t
+  :custom
+  (gt-langs '(en pt-br))
+  (gt-default-translator (gt-translator :engines (gt-google-engine)))
   )
 #+end_src
 
