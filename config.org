@@ -10450,6 +10450,34 @@ https://github.com/Silex/docker.el
   )
 #+end_src
 
+* MPRIS and Media Players
+** emprise: MPRIS Controls
+#+begin_src emacs-lisp
+(use-package emprise
+  :commands (emprise-play-pause-players emprise-pause-players emprise-pause-all-players)
+  :ensure (emprise :type git :repo "https://git.sr.ht/~plattfot/emprise")
+  ;; :config
+  ;; (define-key nov-mode-map (kbd "o") 'nov-xwidget-view)
+  ;; (add-hook 'nov-mode-hook 'nov-xwidget-inject-all-files)
+  :bind
+  ("C-c p" .  emprise-play-pause-last-player)
+  ("C-c P" .  emprise-play-pause-players)
+  )
+
+(use-package marginalia-emprise
+  :after (marginalia emprise)
+  :ensure (marginalia-emprise :type git :repo "https://git.sr.ht/~plattfot/marginalia-emprise")
+  :config
+  (add-to-list 'marginalia-annotators
+               '(emprise marginalia-emprise-annotate builtin none)))
+#+end_src
+
+** TODO COMMENT smudge
+https://github.com/danielfm/smudge
+
+Control the Spotify app from within Emacs.
+- *Requires creating a "Spotify app" for your account* to get a client ID and client secret.
+
 * Diagrams and drawing
 ** PlantUML
 Note: Org-mode has native support for evaluating code blocks using plantUML. Just add
