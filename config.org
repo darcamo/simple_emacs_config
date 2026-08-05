@@ -5228,16 +5228,20 @@ comparison criteria are as follows:
 3. If neither note has a creation date, return t if NOTE1 is title
    lexicographically greater then NOTE2 title."
   (when (and note1 note2)
-    (let* ((title-desc-sort-func
+    (let* ((title-asc-sort-func
             (lambda (first second)
-              (string>
+              (string<
                (or (vulpea-note-title first) "")
                (or (vulpea-note-title second) ""))))
            (created-desc-sort-func
             (lambda (first second)
-              (string>
-               (or (vulpea-note-created-at first) "")
-               (or (vulpea-note-created-at second) "")))))
+              (let ((created1 (or (vulpea-note-created-at first) ""))
+                    (created2 (or (vulpea-note-created-at second) "")))
+                (if (string= created1 created2)
+                    ;; Creation date is the same -> order by title
+                    (funcall title-asc-sort-func first second)
+                  ;; Creation date is different
+                  (string> created1 created2))))))
 
       ;; Case where both notes have a created-at value
       (if (and (vulpea-note-created-at note1) (vulpea-note-created-at note2))
@@ -5250,7 +5254,7 @@ comparison criteria are as follows:
           nil)
          ;; Neither note has a created-at value
          (t
-          (title-desc-sort-func note1 note2)))))))
+          (funcall title-asc-sort-func note1 note2)))))))
 
 
 (defun darcamo/vulpea-ui-backlinks-sort-func (a b)
