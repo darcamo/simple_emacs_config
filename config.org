@@ -2413,6 +2413,17 @@ In Arch Linux, the name of the package is =git-delta=.
   )
 #+end_src
 
+*** magit-todos                                                              :Magit:
+#+begin_src emacs-lisp
+(use-package magit-todos
+  :ensure t
+  :after magit
+  :config (magit-todos-mode 1)
+  :custom
+  (magit-todos-exclude-globs '(".git/" "debug-adapters" "snippets/" "org-mode-setup/new_task.org"))
+  )
+#+end_src
+
 ** consult-gh
 See [[https://github.com/armindarvish/consult-gh#main-functions-and-interactive-commands][Main Functions and Interactive Commands]] for the main commands.
 
@@ -2455,17 +2466,6 @@ See [[https://github.com/armindarvish/consult-gh#main-functions-and-interactive-
   ;;                  :italic t)))
   ;; :config
   ;; (global-blamer-mode 1)
-  )
-#+end_src
-
-** magit-todos                                                               :Magit:
-#+begin_src emacs-lisp
-(use-package magit-todos
-  :ensure t
-  :after magit
-  :config (magit-todos-mode 1)
-  :custom
-  (magit-todos-exclude-globs '(".git/" "debug-adapters" "snippets/" "org-mode-setup/new_task.org"))
   )
 #+end_src
 
@@ -9816,6 +9816,10 @@ Some useful keybindings
 https://github.com/bdarcus/citar#notes
 
 ** TODO Org-noter                                     :Investigate:OrgMode:OrgNoter:
+** TODO Simple annotate
+https://github.com/captainflasmr/simply-annotate
+
+Alternativa ao org-noter
 
 * E-Mail
 ** Set some common Email related variables
