@@ -2348,6 +2348,10 @@ In both cases you are prompted for a language.
   ;; magit. This is nice when we set magit-display-buffer-function to something
   ;; that changes the window configuration.
   (magit-bury-buffer-function 'magit-restore-window-configuration)
+
+  :config
+  ;; Make current branch clear
+  (set-face-attribute 'magit-branch-current nil :weight 'bold :underline t)
   )
 
 
