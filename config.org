@@ -325,6 +325,11 @@ Use =show-font-select-preview= to preview a single font.
 (setopt ring-bell-function 'ignore)
 #+end_src
 
+** Spacing above and below
+#+begin_src emacs-lisp
+(setopt line-spacing '(0.04 . 0.04))
+#+end_src
+
 * Support Kitty Keyboard Protocol (KKP)
 https://github.com/benotn/kkp
 #+begin_src emacs-lisp
@@ -2701,7 +2706,7 @@ project.
 
   ;; Disallow editing invisible parts (folded headlines) to avoid accidental
   ;; modifications.
-  (org-catch-invisible-edits 'error)
+  (org-fold-catch-invisible-edits 'error)
 
   ;; Non-nil means single character alphabetical bullets are allowed.
   (org-list-allow-alphabetical t)
@@ -4149,9 +4154,6 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 (use-package org-modern
   :ensure t
   :custom
-  (org-modern-timestamp nil)
-  (org-modern-hide-stars nil)
-  (org-modern-tag nil)
   (org-modern-fold-stars '(("▶" . "▼") ("▷" . "▽") ("▷" . "▽") ("▹" . "▿") ("▸" . "▾")))
   :hook
   (org-mode . org-modern-mode)
@@ -4176,11 +4178,6 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   :custom
   ;; Set to "t" to hide leading stars in org files by default
   (org-hide-leading-stars t)
-
-  ;; Change the face of the ellipsis that represent folded text. I like
-  ;; something with a slightly different color so that I can spot the
-  ;; ellipsis easily
-  (org-ellipsis 'org-column)
 
   ;; Faces of some tags (ATTACH tag)
   ;;(org-tag-faces '(("ATTACH" :inherit org-done :box nil :underline t :height 1.2)))
@@ -9664,7 +9661,7 @@ The code below will make emacs recognize a folder with a =.project= file as a pr
   )
 #+end_src
 
-* TODO References: Bibtex, bibtex-completions, org-ref [0/3]             :References:
+* TODO References: Bibtex, bibtex-completions, org-ref [0/3]    :References:
 Veja a nota [[file:~/org/org-roam-notes/20210305171627-leituras_de_papers_e_outros_documentos.org][Leituras de papers e outros documentos]]
 
 ** Set my default bibliograph folder and files (used by native org-cite)
