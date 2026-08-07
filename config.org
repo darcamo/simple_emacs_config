@@ -5658,7 +5658,7 @@ We need to change =vulpea-ui--widget-registry=.
   (vulpea-journal-default-template
    ;; Change the folder to "daily", add a "daily" tag, and slightly change
    ;; the title format. With this, we match the org-roam-dailies setup.
-   '(:file-name "daily/%Y-%m-%d.org" :title "%Y-%m-%d" :tags ("journal") :head "\n\n")
+   '(:file-name "journal/%Y-%m-%d.org" :title "%Y-%m-%d" :tags ("journal") :head "\n\n")
    )
   )
 #+end_src
