@@ -4464,31 +4464,6 @@ my config file are located here.
   )
 #+end_src
 
-** org-journal
-
-TODO: Move all org-journal files to my org-roam/vulpea daily files
-
-Default prefix is =C-c C-=
-   This prefix key is used for:
-   - ‘org-journal-next-entry’ (key "f")
-   - ‘org-journal-previous-entry’ (key "b")
-   - ‘org-journal-new-entry’ (key "j")
-   - ‘org-journal-search’ (key "s")
-
-#+begin_src emacs-lisp
-(use-package org-journal
-  :ensure t
-  :custom
-  (org-journal-dir (file-name-concat org-directory "journal/"))
-  (org-journal-file-format "%Y%m%d.org")
-  (org-journal-date-format "%a, %x")
-  :bind (
-         ("C-c C-j" . org-journal-new-entry)
-         :map org-mode-map
-         ("C-c C-j" . org-journal-new-entry)
-         ))
-#+end_src
-
 ** org-transclusion
 https://nobiot.github.io/org-transclusion/
 
