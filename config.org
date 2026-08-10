@@ -5740,6 +5740,26 @@ Vulpea database."
 The resulting string can be inserted into an Org file, and it will contain
 a list of links to the notes in NOTE-LIST."
   (s-join "\n" (mapcar 'darcamo/vulpea-note-to-org-link note-list)))
+
+
+(defun darcamo/vulpea-db-query-isolated-notes ()
+  "Find notes with no incoming or outgoing ID links.
+
+Returns list of `vulpea-note' structs for notes that have zero
+connections in either direction — neither linked to nor linking to
+any other note via \"id\" links.
+
+This is stricter than `vulpea-db-query-orphan-notes' which only
+checks for missing incoming links."
+  (let ((rows (emacsql (vulpea-db)
+                       [:select * :from notes
+                                :where (and (not (in id [:select :distinct [dest]
+                                                                 :from links
+                                                                 :where (or (= type "id") (= type "tag"))]))
+                                            (not (in id [:select :distinct [source]
+                                                                 :from links
+                                                                 :where (or (= type "id") (= type "tag"))])))])))
+    (mapcar #'vulpea-db--row-to-note rows)))
 #+end_src
 
 *** vulpea-tag-links: Plugin for adding links from tags
