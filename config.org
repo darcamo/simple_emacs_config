@@ -5280,6 +5280,7 @@ This function is intended to be used as the value for `vulpea-ui-backlinks-sort'
   (vulpea-db-sync-external-method 'poll)
   (vulpea-db-parse-method 'single-temp-buffer)
   (vulpea-db-async-extraction t)
+  (vulpea-select-annotate-matchable nil)
   (vulpea-create-default-template '(:file-name "${timestamp}_${slug}.org"
                                                :head "#+SETUPFILE: org-roam-setup.org\n\n"
                                                :properties (("CREATED" . "%<%Y-%m-%d>"))))
@@ -5378,17 +5379,6 @@ necessary."
 ;; Replace the default value of `vulpea-select-describe-fn' (that only returns
 ;; the note title) with our custom function
 (setopt vulpea-select-describe-fn #'darcamo/vulpea-get-display-title)
-;; (setopt vulpea-select-describe-fn 'vulpea-select-describe-outline)
-;; (setopt vulpea-select-describe-fn 'vulpea-select-describe-outline-full)
-
-
-(defun darcamo/empty-vulpea-select-annotate (_)
-  "Return an empty string, regardless of the input.
-
-  This is used to make vulpea not add any annotation as part of the
-  candidate string."
-  ""
-  )
 
 
 (defun darcamo/vulpea-select-annotate (note)
@@ -5399,10 +5389,6 @@ add the creation date at the end."
   (if-let* ((creation-date (vulpea-note-created-at note)))
       (format "%s <%s>" (vulpea-select-annotate note) creation-date)
     (vulpea-select-annotate note)))
-
-
-;; (setopt vulpea-select-annotate-fn #'darcamo/vulpea-select-annotate)
-(setopt vulpea-select-annotate-fn #'darcamo/empty-vulpea-select-annotate)
 #+end_src
 
 *** Define schema for particular types of notes
@@ -5578,7 +5564,7 @@ Call =vulpea-ui-collection= to view configured collections.
                  (side . right)
                  (preserve-size t)
                  (delete-window t)
-                 (window-width . 40)
+                 (window-width . 60)
                  (window-height . fit-window-to-buffer)))
 
   ;; Define some collections
@@ -5595,7 +5581,7 @@ Call =vulpea-ui-collection= to view configured collections.
 
   :custom
   (vulpea-ui-outline-max-depth 2)
-  ;; (vulpea-ui-link-types '("id" "tag"))
+  (vulpea-ui-link-types '("id" "tag"))
 
   ;; (vulpea-ui-backlinks-context-types '(meta header table list quote footnote prose))
 
@@ -5807,7 +5793,9 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
   )
 #+end_src
 
-*** TODO COMMENT citar-vulpea                                               :Citar:
+*TODO*: Create a command to add an entry to =vulpea-tag-links-id-tag-pairs=, then gather the list of notes with the tag and call =vulpea-db-sync-update-file= for each file. This makes sure the new links are created right away without requiring a full db scan with =vulpea-db-sync-full-scan=.
+
+*** TODO COMMENT citar-vulpea                                             :Citar:
 https://github.com/fabcontigiani/citar-vulpea
 
 Emacs minor mode integrating [[https://github.com/emacs-citar/citar][citar]] bibliography management with vulpea note database.
@@ -5880,16 +5868,6 @@ The code below defines a source limited to org-mode buffers visiting a file in t
 
 *** Add marginalia annotators for vulpea note
 #+begin_src emacs-lisp
-(defun darcamo/marginalia-vulpea-standard-note-annotation (cand)
-  "Annotate CAND using `vulpea-select-annotate'.
-
-This function is used as an annotation function for `marginalia-annotators'."
-  (let ((note (vulpea-select-candidate-note cand)))
-    (propertize (vulpea-select-annotate note)
-                'face
-                'completions-annotations)))
-
-
 (defun darcamo/marginalia-vulpea-standard-note-annotation-plus-date (cand)
   "Annotate CAND using `vulpea-select-annotate' plus creation date.
 
@@ -5914,15 +5892,21 @@ This function is used as an annotation function for `marginalia-annotators'."
   :config
   (add-to-list 'marginalia-annotators
                '(vulpea-note
-                 darcamo/marginalia-vulpea-standard-note-annotation
+                 builtin
                  darcamo/marginalia-vulpea-standard-note-annotation-plus-date
                  darcamo/marginalia-vulpea-id-note-annotation
-                 ;; builtin
-                 ;; none
                  ))
   )
 #+end_src
+*** COMMENT vulpea-graph
+#+begin_src emacs-lisp
+(use-package graph-fa2
+  :ensure (:host github :repo "elij/graph-fa2"))
 
+(use-package vulpea-graph
+  :ensure (:host github :repo "neonmei/vulpea-graph")
+  )
+#+end_src
 ** calibredb                                                 :Calibre:calibre:ebook:
 Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
 ("=R=" to remove the filter), "=f=" to filter ("=r=" to remove filter), "=RET=" to open an ebook,
