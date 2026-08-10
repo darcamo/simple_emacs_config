@@ -4158,6 +4158,10 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   :hook
   (org-mode . org-modern-mode)
   (org-agenda-finalize . org-modern-agenda)
+  :config
+  ;; By default, org-modern-label height is 0.8, but this breaks alignments in
+  ;; tables and other places
+  (set-face-attribute 'org-modern-label nil :height 1.0)
   )
 #+end_src
 
