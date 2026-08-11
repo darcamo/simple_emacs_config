@@ -3185,12 +3185,6 @@ project.
   (jupyter-org-define-key (kbd "C-M-p") (lambda () (interactive) (org-babel-previous-src-block) (next-line)))
   (jupyter-org-define-key (kbd "C-M-n") (lambda () (interactive) (org-babel-next-src-block) (next-line)))
   )
-
-  ;; (defun darlan-exec ()
-  ;;   "docstring"
-  ;;   (interactive)
-  ;;   (org-ctrl-c-ctrl-c) (org-babel-next-src-block)
-  ;;   )
 #+end_src
 
 *** go                                                                         :Go:
@@ -7275,9 +7269,6 @@ uses the =.ts= extension for itsa (translation) language files.
   )
 #+end_src
 
-*** TODO Other packages to investigate                                :Investigate:
-- [[https://github.com/plandes/flex-compile][flex-compile]]
-- [[https://github.com/ReanGD/emacs-multi-compile][emacs-multi-compile]]
 ** CMake                                                                     :CMake:
 *** CMake-ts-mode
 #+begin_src emacs-lisp
@@ -8889,8 +8880,6 @@ TeX-command-master (from auctex) with a 'Latex' argument."
   )
 #+end_src
 
-*** TODO Tectonic
-Investigate the use of lsp and latex with the [[https://github.com/tectonic-typesetting/tectonic][Tectonic]] engine
 *** Beamer                                                                 :Beamer:
 #+begin_src emacs-lisp
 (define-derived-mode beamer-mode
@@ -9659,17 +9648,6 @@ The code below will make emacs recognize a folder with a =.project= file as a pr
 ** Make project ignore the .venv folder                                       :venv:
 #+begin_src emacs-lisp
 (add-to-list 'project-vc-ignores "./.venv/")
-#+end_src
-
-* COMMENT TZCPY
-#+begin_src emacs-lisp
-(use-package tzcpy
-  ;; :ensure (tzcpy :type git :host git :repo "git@github.azc.ext.hp.com:darlan-moreira/tzcpy.git")
-  :commands (tzcpy-view-available-versions tzcpy-show-current-context)
-  :custom
-  (tzcpy-python-folder (expand-file-name "~/git_files/docs/examples/"))
-  (tzcpy-default-endpoint-id "endpoint-4cc54e20e99c41f0a2d5a6a9df2c7f15")
-  )
 #+end_src
 
 * TODO References: Bibtex, bibtex-completions, org-ref [0/3]    :References:
