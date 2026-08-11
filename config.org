@@ -6612,9 +6612,9 @@ Change `completion-at-point-functions' in eglot managed buffers to use
 as capf the combination of `eglot-completion-at-point' and
 `yasnippet-capf'."
   (setq-local completion-at-point-functions
-              (list (cape-capf-super
-                     #'eglot-completion-at-point
-                     #'yasnippet-capf) #'cape-file)))
+              (list
+               #'cape-file
+               (cape-capf-super #'eglot-completion-at-point #'yasnippet-capf))))
 
 (add-hook 'eglot-managed-mode-hook #'darcamo/eglot-setup-capf)
 #+end_src
