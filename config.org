@@ -5916,6 +5916,62 @@ This function is used as an annotation function for `marginalia-annotators'."
                  ))
   )
 #+end_src
+
+*** Complete @ with contact notes
+
+Define a function that acts as a capf function to complete "@something" with a contact
+note.
+
+#+begin_src emacs-lisp
+(defun darcamo/cape-vulpea-contact (&optional interactive)
+  "Complete at point function for vulpea contact notes.
+
+If INTERACTIVE is nil the function acts like a Capf."
+  (interactive (list t))
+
+  (if interactive
+      (cape-interactive '(cape-file-directory-must-exist) #'hehe)
+
+    (when-let* ((person-completion-regexp "\\(@\\)\\([A-Za-z]+\\)")
+                (reg (org-in-regexp person-completion-regexp 1))
+                (uri-start (match-beginning 1))
+                (name-start (match-beginning 2))
+                (name-end (match-end 2))
+                (table
+                 (let ((rows (vulpea-db-query-by-tags-some '("pessoas"))))
+                   (mapcar
+                    (lambda (note) (cons (vulpea-note-title note) note))
+                    rows))))
+
+      (setq mytable table)
+
+      (list
+       name-start name-end table
+       :exit-function
+       `(lambda (str &rest _)
+          "Replace title inserted by completion with ID and title."
+          (let* ((note (alist-get str mytable nil nil 'equal))
+                 (note-id (vulpea-note-id note))
+                 (note-title str))
+            (delete-region ,uri-start (point))
+            (insert (format "[[id:%s][%s]]" note-id note-title))))))))
+
+
+(defun darcamo/org-mode-setup-cape-cape-vulpea-contact ()
+  "Add `darcamo/cape-vulpea-contact' locally to `completion-at-point-functions'.
+
+This function should be added to `org-mode-hook' to enable completion
+vulpea contact notes in Org mode."
+  (let ((capf #'darcamo/cape-vulpea-contact))
+    (unless (memq capf completion-at-point-functions)
+      (add-hook 'completion-at-point-functions capf nil 'local))))
+
+
+(use-package org
+  :hook
+  (org-mode . darcamo/org-mode-setup-cape-cape-vulpea-contact))
+#+end_src
+
 *** COMMENT vulpea-graph
 #+begin_src emacs-lisp
 (use-package graph-fa2
