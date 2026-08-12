@@ -7911,6 +7911,8 @@ NOTE: code-cells-mode will also define the cells as the outline. With this,
           ("C-M-n" . code-cells-forward-cell)
           ("M-S-<up>" . code-cells-move-cell-up)
           ("M-S-<down>" . code-cells-move-cell-down)
+          ("S-<return>" . code-cells-eval-and-step)
+          ("C-<return>" . code-cells-eval)
           )
   :hook ((python-base-mode . code-cells-mode))
   )
