@@ -5370,10 +5370,13 @@ necessary."
                                    (vulpea-note-file-title note) 35))
                           'face 'completions-annotations))))))
 
+(use-package vulpea
+  :defer t
+  :custom
 
-;; Replace the default value of `vulpea-select-describe-fn' (that only returns
-;; the note title) with our custom function
-(setopt vulpea-select-describe-fn #'darcamo/vulpea-get-display-title)
+  ;; Replace the default value of `vulpea-select-describe-fn' (that only returns
+  ;; the note title) with our custom function
+  (vulpea-select-describe-fn 'darcamo/vulpea-get-display-title))
 
 
 (defun darcamo/vulpea-select-annotate (note)
