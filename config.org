@@ -28,6 +28,7 @@ TODO: See
 - `C-x w` é um prefix para muitas operações com window
   - 'C-x w o <left>/<right>' rotate the windows within the current layout.
   - 'C-x w f <left>/<right>/<up>/<down>' flip window layouts.
+- =safe-local-variable-directories= variable
 
 
 TODO: Check the [[https://github.com/alphapapa/org-ql?tab=readme-ov-file][org-ql]] package
@@ -5909,6 +5910,8 @@ When acting on a vulpea note candidate (e.g. during vulpea-find), the following 
   )
 #+end_src
 
+*TODO*: Add a function to recognize if a heading is a vulpea note to =embark-target-finder=
+
 *** Add a source for consult-buffer for vulpea notes
 See consult documentation for [[https://github.com/minad/consult#multiple-sources][multiple-sources]].
 
@@ -6520,7 +6523,7 @@ does not need zeal.
   (add-to-list 'zeal-at-point-mode-alist '(c++-mode . ("cpp" "Boost")))
   (add-to-list 'zeal-at-point-mode-alist '(c++-ts-mode . ("cpp" "Boost" "Qt")))
   (add-to-list 'zeal-at-point-mode-alist '(python-mode . ("python3" "NumPy" "SciPy" "Pandas")))
-  (add-to-list 'zeal-at-point-mode-alist '(python-ts-mode . ("python3" "NumPy" "SciPy" "Pandas")))
+  (add-to-list 'zeal-at-point-mode-alist '(python-ts-mode . ("python3" "NumPy" "SciPy" "Pandas" "scikit-learn")))
   )
 #+end_src
 
@@ -8056,6 +8059,14 @@ running one of them you can easily re-run it with =recompile=.
   (go-integration-setup-dape)
   )
 #+end_src
+
+- [X] Add support in =go-integration= to call =go mod tidy= from the project root
+- [ ] Add support in =go-integration= to call =protoc= (with and without gRPC flag)
+- [X] Add support for importing an internal package
+  - Call =go list ./...= from project root to get all available packages
+- [ ] Add support for listing external dependencies (modules)
+  - Call =go list -m all= from project root
+  - You can also add the flag =-json= to get more information like version and indirect dependencies
 
 *** Add keybindigns for go-integration
 #+begin_src emacs-lisp
@@ -10707,9 +10718,10 @@ Llama.cpp, Codestral, and more.
   )
 #+end_src
 ** gptel                                                  :LLM:copilot:gptel:ollama:
-*** General configuration
+*** Some useful information
+
 You can limit the conversation context to an Org heading with the command
-gptel-org-set-topic. (This sets an Org property (GPTEL_TOPIC) under the heading. You can
+=gptel-org-set-topic=. (This sets an Org property (=GPTEL_TOPIC=) under the heading. You can
 also add this property manually instead.)
 
 You can add a selected region, buffer or file to gptel's context from the menu, or call
@@ -10742,9 +10754,7 @@ for more. Casual users won't have a problem.
 Watch out, with billing enabled and the huge gemini context, you can rack up big bills
 quickly. So not recommended to set up billing if you are just experimenting.
 #+end_quote
-
-
-
+*** Helper functions and faces for my configuration
 #+begin_src emacs-lisp
 ;; NOTE: You need to add the line below to the .authinfo.gpg file
 ;; machine openrouter.ai login gptel-apikey password <API-KEY>
