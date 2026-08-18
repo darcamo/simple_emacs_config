@@ -4239,7 +4239,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   )
 #+end_src
 
-*** Minor-mode to customize faces for emphasis characters
+*** TODO Minor-mode to customize faces for emphasis characters
 Customize faces for bold, italic and strike-through.
 
 **** Define the minor-mode
@@ -4291,7 +4291,7 @@ Customize faces for bold, italic and strike-through.
         (font-lock-ensure)))))
 #+end_src
 
-**** Enable the minor-mode in all org-mode buffers
+**** COMMENT Enable the minor-mode in all org-mode buffers
 #+begin_src emacs-lisp
 (use-package org-mode
   :defer t
@@ -4476,6 +4476,10 @@ Layer darcamo-preview-latex
 * Org-mode Ecosystem Packages
 Configuration for package build over org-mode which don't have another better section in
 my config file are located here.
+
+** TODO org-table-highlight
+https://github.com/llcc/org-table-highlight
+
 ** org-download
 #+begin_src emacs-lisp
 (defun darcamo/wsl-copy-latest-screenshot (target-filename)
