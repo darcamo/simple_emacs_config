@@ -5899,6 +5899,36 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
 
 *TODO*: Create a command to add an entry to =vulpea-tag-links-id-tag-pairs=, then gather the list of notes with the tag and call =vulpea-db-sync-update-file= for each file. This makes sure the new links are created right away without requiring a full db scan with =vulpea-db-sync-full-scan=.
 
+*** vulpea-dblock
+https://github.com/Arenile/vulpea-dblock
+
+Declarative dynamic blocks for vulpea with reactive, incremental refresh.
+
+Check the available block parameters in https://github.com/Arenile/vulpea-dblock#block-parameters
+
+#+begin_src emacs-lisp
+(use-package vulpea-dblock
+  :ensure (vulpea-dblock :type git :host github :repo "Arenile/vulpea-dblock")
+  :after vulpea
+  :config
+  (vulpea-dblock-mode 1)
+  )
+#+end_src
+
+*** vulpea-capf
+https://github.com/neonmei/vulpea-capf
+
+#+begin_src emacs-lisp
+(use-package vulpea-capf
+  :ensure (vulpea-capf :type git :host github :repo "neonmei/vulpea-capf")
+  :after vulpea
+  :custom
+  ;; (vulpea-capf-everywhere nil)
+  (setq vulpea-capf-annotate-function nil)
+  :hook
+  (org-mode . vulpea-capf-mode))
+#+end_src
+
 *** TODO COMMENT citar-vulpea                                             :Citar:
 https://github.com/fabcontigiani/citar-vulpea
 
@@ -6005,7 +6035,7 @@ This function is used as an annotation function for `marginalia-annotators'."
   )
 #+end_src
 
-*** Complete @ with contact notes
+*** COMMENT Complete @ with contact notes
 
 Define a function that acts as a capf function to complete "@something" with a contact
 note.
@@ -6069,6 +6099,12 @@ vulpea contact notes in Org mode."
   :ensure (:host github :repo "neonmei/vulpea-graph")
   )
 #+end_src
+
+*** TODO vulpea-mcp
+https://codeberg.org/nicolas-graves/vulpea-mcp
+
+*Note*: See also the [[https://github.com/laurynas-biveinis/org-mcp][org-mcp]] package.
+
 ** calibredb                                                 :Calibre:calibre:ebook:
 Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
 ("=R=" to remove the filter), "=f=" to filter ("=r=" to remove filter), "=RET=" to open an ebook,
