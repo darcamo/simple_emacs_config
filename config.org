@@ -5295,6 +5295,12 @@ comparison criteria are as follows:
           (funcall title-asc-sort-func note1 note2)))))))
 
 
+(defun darcamo/vulpea-insert-person ()
+  "Similar to `vulpea-insert', but limited to contact notes."
+  (interactive)
+  (vulpea-insert :candidates-fn (lambda (filter-fn)
+                                  (vulpea-db-query-by-tags-some '("pessoas")))))
+
 (defun darcamo/vulpea-ui-backlinks-sort-func (a b)
   "Sort function for backlinks in vulpea-ui sidebar.
 
@@ -5328,6 +5334,7 @@ This function is intended to be used as the value for `vulpea-ui-backlinks-sort'
          :map org-mode-map
          ("C-c n l" . vulpea-ui-sidebar-toggle)
          ("C-c n i" . vulpea-insert)
+         ("C-c n p" . darcamo/vulpea-insert-person)
          ("C-c n b" . vulpea-find-backlink)
          ("C-c n t a" . vulpea-buffer-tags-add)
          ("C-c n t r" . vulpea-buffer-tags-remove)
@@ -5342,6 +5349,7 @@ This function is intended to be used as the value for `vulpea-ui-backlinks-sort'
   (vulpea-db-parse-method 'single-temp-buffer)
   (vulpea-db-async-extraction t)
   (vulpea-select-annotate-matchable nil)
+  (vulpea-find-backlink-expand-aliases nil)
   (vulpea-create-default-template '(:file-name "${timestamp}_${slug}.org"
                                                :head "#+SETUPFILE: org-roam-setup.org\n\n"
                                                :properties (("CREATED" . "%<%Y-%m-%d>"))))
@@ -5594,6 +5602,15 @@ Vulpea now has the =vulpea-split-heading= command.
   :after vulpea
   :config
   (consult-vulpea-mode 1)
+  )
+
+(use-package emacs
+  :bind ( :map minibuffer-local-map
+          ("M-<right>" . consult-vulpea-go-to-next-backlink-overlay)
+          ("M-<down>" . consult-vulpea-go-to-next-backlink-overlay)
+          ("M-<left>" . consult-vulpea-go-to-previous-backlink-overlay)
+          ("M-<up>" . consult-vulpea-go-to-previous-backlink-overlay)
+          )
   )
 #+end_src
 
