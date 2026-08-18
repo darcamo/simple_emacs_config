@@ -10754,6 +10754,24 @@ for more. Casual users won't have a problem.
 Watch out, with billing enabled and the huge gemini context, you can rack up big bills
 quickly. So not recommended to set up billing if you are just experimenting.
 #+end_quote
+
+
+*Note*: You can customize the =gptel-directives= variable.
+You can also customize =gptel-temperature=.
+
+- To customize gptel to auto-scroll and go to the end of the response
+  : (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
+  : (add-hook 'gptel-post-response-hook 'gptel-end-of-response)
+- To write your own workflows use =gptel-request=
+  : (gptel-request
+  :  "My prompt"
+  :  :system "Respond like a frobinator. Be terse."
+  :  :callback (lambda (response info)
+  :              "Frobnicate LLM RESPONSE"
+  :              (frob response)))
+- *Note*: When the gptel-send transient menu is open, you can use =C-x C-s= to save the
+  current choice as default. THIS WORKS IN ANY TRANSIENT MENU!.
+
 *** Helper functions and faces for my configuration
 #+begin_src emacs-lisp
 ;; NOTE: You need to add the line below to the .authinfo.gpg file
@@ -10781,6 +10799,25 @@ a symbol."
   (setq-default gptel-model model))
 
 
+(defface gptel-prompt-prefix-face
+  '((t :inherit font-lock-type-face :underline t :extend t :height 1.4))
+  "Face used on gptel prompt prefix .")
+
+(defface gptel-response-prefix-face
+  '((t :inherit font-lock-warning-face :underline t :extend t :height 1.4))
+  "Face used on gptel response prefix .")
+
+(defun darcamo/fontify-gptel-org-buffers ()
+  "Font-lock rules to fontify @user and @assistant in gptel buffers."
+  ;; Fontify the gptel prompt and response prefixes
+  (font-lock-add-keywords nil
+                          `((,(alist-get 'org-mode gptel-prompt-prefix-alist) . 'gptel-prompt-prefix-face)
+                            (,(alist-get 'org-mode gptel-response-prefix-alist) . 'gptel-response-prefix-face))
+                          nil))
+#+end_src
+
+*** General configuration
+#+begin_src emacs-lisp
 (use-package gptel
   :ensure t
   :commands (gptel-menu gptel-send gptel gptel-mode gptel-set-topic gptel--convert-markdown->org)
@@ -10800,6 +10837,7 @@ a symbol."
   :hook
   (gptel-mode . toggle-truncate-lines)
   (gptel-mode . gptel-highlight-mode)
+  (gptel-mode . darcamo/fontify-gptel-org-buffers)
   :config
   (gptel-make-ollama
       "Ollama"                               ;Any name of your choosing
@@ -10864,42 +10902,8 @@ a symbol."
    :description "Return the current local time (including current time and date), as a human-readable string."
    :category "emacs")
   )
-
-
-(defface gptel-prompt-prefix-face
-  '((t :inherit font-lock-type-face :underline t :extend t :height 1.4))
-  "Face used on gptel prompt prefix .")
-
-(defface gptel-response-prefix-face
-  '((t :inherit font-lock-warning-face :underline t :extend t :height 1.4))
-  "Face used on gptel response prefix .")
-
-(defun darcamo/fontify-gptel-org-buffers ()
-  "Font-lock rules to fontify @user and @assistant in gptel buffers."
-  ;; Fontify the gptel prompt and response prefixes
-  (font-lock-add-keywords nil
-                          `((,(alist-get 'org-mode gptel-prompt-prefix-alist) . 'gptel-prompt-prefix-face)
-                            (,(alist-get 'org-mode gptel-response-prefix-alist) . 'gptel-response-prefix-face))
-                          nil))
-
-(add-hook 'gptel-mode-hook #'darcamo/fontify-gptel-org-buffers)
 #+end_src
 
-Note: You can customize the =gptel-directives= variable.
-You can also customize =gptel-temperature=.
-
-- To customize gptel to auto-scroll and go to the end of the response
-  : (add-hook 'gptel-post-stream-hook 'gptel-auto-scroll)
-  : (add-hook 'gptel-post-response-hook 'gptel-end-of-response)
-- To write your own workflows use =gptel-request=
-  : (gptel-request
-  :  "My prompt"
-  :  :system "Respond like a frobinator. Be terse."
-  :  :callback (lambda (response info)
-  :              "Frobnicate LLM RESPONSE"
-  :              (frob response)))
-- Note: When the gptel-send transient menu is open, you can use =C-x C-s= to save the
-  current choice as default. THIS WORKS IN ANY TRANSIENT MENU!.
 *** gptel-openrouter
 Emacs package to make it easy to add OpenRouter models to gptel with extra information
 that gptel can display.
@@ -10990,6 +10994,9 @@ Pres "=+=" (possible multiple times) to to expand the explanation.
   :config (gptel-agent-update)
   )
 #+end_src
+*** TODO gptel-inline
+See https://github.com/karthink/gptel-inline
+
 ** COMMENT mcp - model context protocol
 #+begin_src emacs-lisp
 (use-package mcp
