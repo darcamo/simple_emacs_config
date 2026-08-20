@@ -10930,22 +10930,13 @@ You can also customize =gptel-temperature=.
   (darcamo/get-secret-from-auth-source "openrouter.ai" "gptel-apikey"))
 
 
-(defun darcamo/set-gptel-default-backend-from-name (backend-name)
-  "Set the default backend in gptel to be the one with BACKEND-NAME.
-
-BACKEND is the string used when you registered a backend, while MODEL is
-a symbol."
-  (if-let* ((backend-data (cdr (assoc backend-name gptel--known-backends))))
-      (setq-default gptel-backend backend-data)))
-
-
 (defun darcamo/set-gptel-default-model (backend model)
   "Set the default BACKEND and MODEL in gptel.
 
 BACKEND is the string used when you registered a backend, while MODEL is
 a symbol."
-  (darcamo/set-gptel-default-backend-from-name backend)
-  (setq-default gptel-model model))
+  (setq gptel-backend (gptel-get-backend backend))
+  (setq gptel-model model))
 
 
 (defface gptel-prompt-prefix-face
@@ -11034,7 +11025,7 @@ a symbol."
   (setq-default gptel-expert-commands t)
 
   ;; See gptel--sanitize-model
-  ;; (darcamo/set-gptel-default-model "OpenRouter" 'OpenRouter:openai/gpt-4o)
+  ;; (darcamo/set-gptel-default-model "OpenRouter" 'openai/gpt-4o)
   ;; (darcamo/set-gptel-default-model "OpenRouter" 'google/gemini-2.5-flash)
   (darcamo/set-gptel-default-model "Copilot" 'gpt-4o)
 
