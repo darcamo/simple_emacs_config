@@ -728,8 +728,7 @@ action is performed (you will still be in the minibuffer)
                '("\\`\\*Embark Collect \\(Live\\|Completions\\)\\*"
                  nil  ;; I don't need any specific action functions
                  ;; The following lines are the "action alist" passed to
-                 ;; display-buffer. For now, I only want to remove the
-                 ;; mode-line.
+                 ;; display-buffer.
                  (window-parameters (mode-line-format . none))
                  )))
 
@@ -4548,6 +4547,8 @@ See also the [[https://github.com/steve-downey/surround][surround]] package, whi
 transclude the content later.
 
 ** org-present
+https://github.com/rlister/org-present
+
 - Activate presentation mode using =org-present=.
 - Navigate slides with =<right>= to move forward or =<left>= to go back.
 
@@ -4636,6 +4637,11 @@ to make the mode-line reappear properly.
   (add-hook 'org-present-after-navigate-functions #'darcamo/prepare-slide)
   )
 #+end_src
+
+** TODO dslide
+https://github.com/positron-solutions/dslide
+
+This seems more powerful than =org-present= (since =org-present= tries to be mninimalist).
 
 ** org-remark
 Org-remark lets you highlight and annotate any text file with using Org mode.
@@ -4869,8 +4875,7 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
                '("\\*org-roam\\*"
                  display-buffer-in-side-window
                  ;; The following lines are the "action alist" passed to
-                 ;; display-buffer. For now, I only want to remove the
-                 ;; mode-line.
+                 ;; display-buffer.
                  (side . right)
                  (preserve-size t)
                  (delete-window t)
@@ -5640,8 +5645,7 @@ Call =vulpea-ui-collection= to view configured collections.
                '("\\*vulpea-ui-sidebar:"
                  display-buffer-in-side-window
                  ;; The following lines are the "action alist" passed to
-                 ;; display-buffer. For now, I only want to remove the
-                 ;; mode-line.
+                 ;; display-buffer.
                  (side . right)
                  (preserve-size t)
                  (delete-window t)
@@ -6399,8 +6403,7 @@ the other one separately.
                '("\\*compilation\\*"
                  bottom-buffer-manager-display-action-function
                  ;; The following lines are the "action alist" passed to
-                 ;; display-buffer. For now, I only want to remove the
-                 ;; mode-line.
+                 ;; display-buffer.
                  (window-height . 0.28)
                  ))
 #+end_src
@@ -10774,7 +10777,7 @@ Llama.cpp, Codestral, and more.
   (minuet-set-optional-options minuet-openai-fim-compatible-options :max_tokens 64)
   )
 #+end_src
-** gptel                                                  :LLM:copilot:gptel:ollama:
+** gptel                                                      :copilot:gptel:ollama:
 *** Some useful information
 
 You can limit the conversation context to an Org heading with the command
@@ -11092,7 +11095,7 @@ See https://github.com/karthink/gptel-inline
             tools)))
 #+end_src
 
-** COMMENT Ellama                                                       :LLM:ollama:
+** COMMENT Ellama                                                           :ollama:
 https://www.rahuljuliato.com/posts/ellama
 #+begin_src emacs-lisp
 (use-package ellama
@@ -11136,7 +11139,7 @@ https://github.com/tninja/ai-code-interface.el
     (ai-code-magit-setup-transients)))
 #+end_src
 
-** COMMENT Aider Integration                                                   :LLM:
+** COMMENT Aider Integration
 *** Get my API
 #+begin_src emacs-lisp
 ;; NOTE: You need to add the line below to the .authinfo.gpg file
