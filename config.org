@@ -8096,30 +8096,60 @@ reformat the buffer on save.
           ("C-c f" . 'elisp-autofmt-buffer)))
 #+end_src
 
-*** COMMENT ert buffer always at bottom
-#+begin_src emacs-lisp
-(add-to-list 'display-buffer-alist
-               '("\\*ert\\*"
-                 bottom-buffer-manager-display-action-function
-                 ;; The following lines are the "action alist" passed to
-                 ;; display-buffer. For now, I only want to remove the
-                 ;; mode-line.
-                 (window-height . 0.28)
-                 ))
-#+end_src
-
 *** ert buffer in side-window
 #+begin_src emacs-lisp
+(defcustom darcamo/ert-buffer-position 'side "Position where to display ert buffer.
+
+Can be either `'side' of `'bottom'.")
+
+
+(defun darcamo/toggle-ert-buffer-side ()
+  "Toggle displaying ERT buffer between right side or bottom."
+  (interactive)
+  (if (eq darcamo/ert-buffer-position 'side)
+      (setq darcamo/ert-buffer-position 'bottom)
+    (setq darcamo/ert-buffer-position 'side))
+
+  (when-let* ((window (get-buffer-window "*ert*")))
+    ;; Close the window displaying the buffer and ask Emacs to redisplay it
+    ;; again to account for the change
+    (delete-window window)
+    (display-buffer "*ert*")
+    ;; Window is differemt -> Hence we need to get the buffer window again
+    (select-window (get-buffer-window "*ert*"))))
+
+
+(defun darcamo/dynamic-dysplay-ert-buffer-fn (buf alist)
+  "Display BUF and also pass ALIST to display function."
+
+  (if (eq darcamo/ert-buffer-position 'side)
+      (let ((optimal-width (if (> (frame-width) 190) 0.33 0.25)))
+        (display-buffer-in-side-window
+         buf (append
+              `(
+                (side . right)
+                (slot . 1)
+                (window-width . ,optimal-width)
+                (window-height . fit-window-to-buffer)
+                (preserve-size t)
+                ) alist)))
+
+    (display-buffer-in-side-window
+     buf (append
+          `(
+            (side . bottom)
+            (slot . 1)
+            (preserve-size t)
+            ) alist))))
+
+
 (add-to-list 'display-buffer-alist
-               '("\\*ert\\*"
-                 display-buffer-in-side-window
-                 ;; The following lines are the "action alist" passed to
-                 ;; display-buffer. For now, I only want to remove the
-                 ;; mode-line.
-                 (side . right)
-                 (slot . 1)
-                 (window-width . 0.40)
-                 (window-height . fit-window-to-buffer)))
+               '("\\*ert\\*" darcamo/dynamic-dysplay-ert-buffer-fn))
+
+
+(use-package
+ emacs
+ :bind (:map ert-results-mode-map ("t" . darcamo/toggle-ert-buffer-side)))
 #+end_src
 
 *** eldev
