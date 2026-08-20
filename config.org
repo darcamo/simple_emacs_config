@@ -11056,7 +11056,50 @@ Note that there is also https://models.dev/, with information about many models.
                             :repo "darcamo/gptel-openrouter" :depth nil)
   :defer t)
 #+end_src
+*** TODO COMMENT Custom marginalia annotators for model selection
+#+begin_src emacs-lisp
+(defun darcamo/gptel-model-annotation (cand)
+  "Annotate CAND that is a gptel model.
 
+This function is used as an annotation function for `marginalia-annotators'."
+  (let* ((model (nth 2 (assoc cand gptel--completion-cadidates)))
+    	 (desc (get model :description))
+    	 (caps (get model :capabilities))
+    	 (context (get model :context-window))
+    	 (input-cost (get model :input-cost))
+    	 (output-cost (get model :output-cost))
+    	 (cutoff (get model :cutoff-date)))
+    (when (or desc caps context input-cost output-cost cutoff)
+      (concat
+       (propertize " " 'display `(space :align-to 40))
+       ;; (when desc (truncate-string-to-width desc 70 nil ? t t))
+       ;; " " (propertize " " 'display `(space :align-to 40))
+       (when caps (truncate-string-to-width (prin1-to-string caps) 41 nil ? t t))
+       " " (propertize " " 'display `(space :align-to 134))
+       (when context (format "%5dk" context))
+       " " (propertize " " 'display `(space :align-to 142))
+       (when input-cost (format "$%5.2f in" input-cost))
+       (if (and input-cost output-cost) "," " ")
+       " " (propertize " " 'display `(space :align-to 153))
+       (when output-cost (format "$%6.2f out" output-cost))
+       " " (propertize " " 'display `(space :align-to 166))
+       cutoff))
+    )
+  )
+
+(use-package gptel
+  :after marginalia
+  :config
+  ;; Match the prompt for model selection with a 'gptel-model category
+  (push (cons "Model:" 'gptel-model) marginalia-prompt-categories)
+
+  (add-to-list 'marginalia-annotators
+               '(gptel-model
+                 builtin
+                 darcamo/gptel-model-annotation
+                 ))
+  )
+#+end_src
 *** gptel quick
 Just put the cursor in a word, or select something and call =gptel-quick= to ask the current
 model in gptel to explain it in a post frame.
@@ -11086,11 +11129,22 @@ Pres "=+=" (possible multiple times) to to expand the explanation.
   (gptel-commit-stream t))
 #+end_src
 *** gptel Presets
+Great video from Karthink
+- https://www.youtube.com/watch?v=xHEnWvKmSKM&t=191s
+
 - TIP: You can apply a preset to a single query by including @preset-name in the prompt,
   where preset-name is the name of the preset. (The oneshot scope option in gptel's
   transient menus is another way to do this, see the FAQ.)
 - TIP2: Type just =@= and then use =complete-symbol= to complete with a preset name. You can
   also type part of it's name.
+- TIP3 (This one is awesome): *Any key in a preset that you can specify a static value for, you can also specify dynamically by providing a function or some code instead.*
+  + Ex: Suppose you want to add some dynamic context for the agent. You could specify the =:system-prompt= in a preset with something like
+    : :system-prompt `(:function ,#'my/agent-prompt)
+    and this ='my/agent-prompt= function could do anything (including reading =agents.md=, for instance).
+  + Ex2: You could specify the tools like
+    : :tools '(:eval (my/ensure-tools "read_file" "edit_file"))
+    where this =my/ensure-tools= function makes sure the tools are actually defined.
+
 
 #+begin_src emacs-lisp
 (use-package gptel
@@ -11124,7 +11178,7 @@ Pres "=+=" (possible multiple times) to to expand the explanation.
   ;;   :tools        '("search_web" "read_url" "get_youtube_meta"))
   )
 #+end_src
-*** gptel-agent
+*** TODO gptel-agent
 #+begin_src emacs-lisp
 (use-package gptel-agent
   :ensure (gptel-agent :type git :host github :repo "karthink/gptel-agent")
@@ -11134,8 +11188,23 @@ Pres "=+=" (possible multiple times) to to expand the explanation.
   :config (gptel-agent-update)
   )
 #+end_src
+
 *** TODO gptel-inline
 See https://github.com/karthink/gptel-inline
+
+*** TODO COMMENT gptel preset collection from karthink
+https://github.com/karthink/gptel-preset-collection
+
+See the video in https://www.youtube.com/watch?v=xHEnWvKmSKM&t=191s
+
+*Note*: Just loading the package already register the presets and they should be good to use.
+
+#+begin_src emacs-lisp
+(use-package gptel-preset-collection
+  :ensure (:host github :repo "karthink/gptel-preset-collection")
+  :after gptel)
+** TODO matcher (based on gptel)
+https://github.com/kmontag/macher
 
 ** COMMENT mcp - model context protocol
 #+begin_src emacs-lisp
