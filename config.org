@@ -3325,36 +3325,20 @@ Full list of options:
   ("M-." . org-babel-pop-to-session)
   )
 
-  :init
+:hook
+  (elpaca-after-init . (lambda ()   (org-babel-do-load-languages
   ;; Load Languages
-  (org-babel-do-load-languages
    'org-babel-load-languages
-   '(
-     ;; (R . nil)
+   '((python . t)
      (ditaa . t)
-     ;; (dot . nil)
      (emacs-lisp . t)
-     ;; (gnuplot . t)
-     ;; (haskell . t)
-     ;; (ocaml . nil)
-     (python . t)
-     ;; ipython can be a better option then standard python
-     ;;(ipython . t)
      (C . t)  ;; Adds 'C' and 'cpp' languages to org-babel
-     ;; (ruby . nil)
-     ;; (screen . nil)
      (shell . t)
-     ;; (sql . nil)
-     ;; (sqlite . nil)
-     ;; (octave . t)
-     ;; (matlab . t)
-     (latex . t)
      (plantuml . t)
      (java . t)
-     ;; (go . t)  ;; Requires the ob-go emacs package
-     ;; (jupyter . t) ;; Requires the 'jupyter' emacs package and this must come last
-     ))
-  )
+     ;; (go . t)
+      ;; (jupyter . t) ;; Requires the 'jupyter' emacs package and this must come last
+   )))))
 #+end_src
 
 ** Capture                                                                 :Capture:
@@ -7754,7 +7738,7 @@ completion).
 The language server I'm using for Python adds too much to imenu (it adds all variables). I
 prefer the imenu entries computed from tree-sitter.
 #+begin_src emacs-lisp
-(use-package python
+(use-package eglot
   :hook
   (python-ts-mode . (lambda () (set
                            (make-local-variable 'eglot-ignored-server-capabilities)
