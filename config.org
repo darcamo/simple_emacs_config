@@ -2663,13 +2663,19 @@ project.
   )
 #+end_src
 
-** Translate text
+** gt - Translate text
+https://github.com/lorniu/gt.el
 #+begin_src emacs-lisp
 (use-package gt
   :ensure t
+  :commands (gt-translate gt-setup)
   :custom
   (gt-langs '(en pt-br))
-  (gt-default-translator (gt-translator :engines (gt-google-engine)))
+  :config
+  (setq gt-default-translator (gt-translator
+                               :engines (gt-google-engine)
+                               :render  (gt-overlay-render)
+                               ))
   )
 #+end_src
 
