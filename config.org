@@ -9535,6 +9535,7 @@ https://github.com/let-def/texpresso
 #+begin_src emacs-lisp
 (use-package saveplace-pdf-view
   :ensure t
+  :after pdf-tools
   :config
   (save-place-mode 1))
 #+end_src
