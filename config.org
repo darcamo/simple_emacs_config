@@ -5978,8 +5978,10 @@ https://github.com/neonmei/vulpea-capf
   :ensure (vulpea-capf :type git :host github :repo "neonmei/vulpea-capf")
   :after vulpea
   :custom
-  ;; (vulpea-capf-everywhere nil)
-  (setq vulpea-capf-annotate-function nil)
+  ;; Letting it complete everywhere interferes with other complete at point
+  ;; functions, such as completing "#+tit" to get "#+title: "
+  (vulpea-capf-everywhere nil)
+  ;; (vulpea-capf-annotate-function nil)
   :hook
   (org-mode . vulpea-capf-mode))
 #+end_src
