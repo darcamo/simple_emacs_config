@@ -1015,12 +1015,14 @@ Tip: Check the =yas-describe-tables= command
 
 This method is used in the 'comment' yasnippets template."
   (interactive)
-  (if (equal ";" comment-start)
-      ;; For emacs-lisp mode, we want two ';' symbols.
-      ";;"
-    ;; For all the other major modes, the line below inserts the correct
-    ;; comment-start.
-    (string-trim comment-start)
+  (let ((comment-start (or comment-start ";")))
+    (if (equal ";" comment-start)
+        ;; For emacs-lisp mode, we want two ';' symbols.
+        ";;"
+      ;; For all the other major modes, the line below inserts the correct
+      ;; comment-start.
+      (string-trim comment-start)
+      )
     )
   )
 
