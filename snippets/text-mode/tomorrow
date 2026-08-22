@@ -1,0 +1,4 @@
+# -*- mode: snippet -*-
+#name : tomorrow
+# --
+`(format-time-string "%Y-%m-%d" (time-add (current-time) (days-to-time 1)))`
