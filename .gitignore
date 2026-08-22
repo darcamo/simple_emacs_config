@@ -33,3 +33,4 @@ url
 .cask
 /cmake-integration/
 /vulpea.db
+/dape-breakpoints
