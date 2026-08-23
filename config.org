@@ -5425,10 +5425,16 @@ This function is intended to be used as the value for `vulpea-ui-backlinks-sort'
          ("C-c n i" . vulpea-insert)
          ("C-c n p" . darcamo/vulpea-insert-person)
          ("C-c n b" . vulpea-find-backlink)
+         ;; Add/Remvoe Tags
          ("C-c n t a" . vulpea-buffer-tags-add)
          ("C-c n t r" . vulpea-buffer-tags-remove)
+         ;; Add/Remove aliases
          ("C-c n a a" . vulpea-buffer-alias-add)
          ("C-c n a r" . vulpea-buffer-alias-remove)
+         ;; Add metadata
+         ("C-c n m a" . vulpea-meta-add)
+         ("C-c n m l" . vulpea-meta-add-list)
+         ("C-c n m s" . vulpea-schema-insert-fields)
          )
   :custom
   (vulpea-db-sync-directories '("~/notes/"))
