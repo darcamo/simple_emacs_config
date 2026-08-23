@@ -2491,6 +2491,39 @@ In Arch Linux, the name of the package is =git-delta=.
   )
 #+end_src
 
+** Forge
+https://docs.magit.vc/forge/
+
+Forge allows you to work with Git forges, currently Github and Gitlab, from the comfort of Magit and Emacs.
+
+Forge fetches issues, pull-requests and other data using the forge's API and stores the retrieved information in a local database. Additionally it fetches pull-request references using Git.
+
+*Note*: You need to create a personal (classic) token on github for git Forge to be able to work (see [[https://docs.magit.vc/forge/Setup-for-Githubcom.html][here]]).
+
+- *Initial Pull*
+  + Type =N / a= in magit buffer to track the current project
+  + The command to fetch other topics and information (=N f f=) will also add the repo to be tracked, if it is not tracked yet
+- *Forge full*
+  + =f n= in magit status to fetch topis from github
+- Create a local branch from a pull request
+  + =b F= from magit buffer -> Use =b f= to also checkout the local branch
+    + This also configures /upstream/ a /push-remote/ of the local branch it creates.
+  + You can also use =Z n= to checkout a new /worktree/ with the pull request branch
+- *Special Dispatch Menu*
+  + =N= in any magit buffer
+- Special view for issues and PRs
+  + Put cursor in session header in magit status buffer and press =RET= in the
+
+*Note*: =C-c C-c= will bring up the most appropriated menu.
+
+*Note*: If Forge uses the wrong remote to fetch topis, see the documentation [[https://docs.magit.vc/forge/How-Forge-Detection-Works.html][here]], but, in summary, the convention is to name the upstream remote "origin" and then Forge will fetch data from it.
+
+#+begin_src emacs-lisp
+(use-package forge
+  :ensure t
+  :after magit)
+#+end_src
+
 ** consult-gh
 See [[https://github.com/armindarvish/consult-gh#main-functions-and-interactive-commands][Main Functions and Interactive Commands]] for the main commands.
 
