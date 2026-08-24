@@ -6207,6 +6207,14 @@ https://codeberg.org/nicolas-graves/vulpea-mcp
 
 *Note*: See also the [[https://github.com/laurynas-biveinis/org-mcp][org-mcp]] package.
 
+** logseq-to-vulpea
+#+begin_src emacs-lisp
+(use-package logseq-to-vulpea
+  :ensure (logseq-to-vulpea :type git :host github :protocol ssh
+  :repo "darcamo/logseq-to-vulpea" :depth nil)
+  )
+#+end_src
+
 ** calibredb                                                 :Calibre:calibre:ebook:
 Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
 ("=R=" to remove the filter), "=f=" to filter ("=r=" to remove filter), "=RET=" to open an ebook,
