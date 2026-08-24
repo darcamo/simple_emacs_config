@@ -124,6 +124,12 @@ This is specially useful with docker.
   )
 #+end_src
 
+* Set some variables
+#+begin_src emacs-lisp
+(when (getenv "EMAIL")
+  (setq user-mail-address (getenv "EMAIL")))
+#+end_src
+
 * Appearance                                                             :Appearance:
 ** Theme                                                                :Theme:font:
 Good themes:
