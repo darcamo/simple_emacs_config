@@ -2246,6 +2246,12 @@ A beautiful inline overlay for Emacs (Flycheck | Flymake)
   ;; (flyover-hide-during-completion t)
   )
 #+end_src
+** context-menu-mode
+Open a context menu on mouse right click.
+#+begin_src emacs-lisp
+(context-menu-mode)
+#+end_src
+
 * Shell integration
 ** eat
 TODO: https://codeberg.org/akib/emacs-eat
