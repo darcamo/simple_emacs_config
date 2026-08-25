@@ -2530,6 +2530,9 @@ Forge fetches issues, pull-requests and other data using the forge's API and sto
   :after magit)
 #+end_src
 
+** TODO Review PRs in Emacs
+https://github.com/blahgeek/emacs-pr-review
+
 ** consult-gh
 See [[https://github.com/armindarvish/consult-gh#main-functions-and-interactive-commands][Main Functions and Interactive Commands]] for the main commands.
 
@@ -2540,6 +2543,11 @@ See [[https://github.com/armindarvish/consult-gh#main-functions-and-interactive-
 :after consult
 )
 #+end_src
+
+*** TODO consult-gh-forge
+https://github.com/armindarvish/consult-gh#set-up-and-customization-of-forge-integration
+
+You need magit and forge to already be installed.
 
 ** Git timemachine
 #+begin_src emacs-lisp
