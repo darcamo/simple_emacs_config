@@ -2746,6 +2746,13 @@ https://github.com/lorniu/gt.el
   ;; Enable org-indent-mode by default
   (org-startup-indented t)
 
+  ;; By default, this is `'showeverything', which shows everything (including
+  ;; property drawers), and ignore the VISIBILITY property of a header.
+  ;;
+  ;; On the other hand, the `'nofold' value respects the VISIBILITY property of
+  ;; headers and also fold property drawers.
+  (org-startup-folded 'nofold)
+
   ;; When tags are added, sort them alfabetically. However, always put
   ;; the "ATTACH" tag at the end
   (org-tags-sort-function (lambda (x y)
