@@ -337,6 +337,17 @@ Use =show-font-select-preview= to preview a single font.
 (setopt line-spacing '(0.04 . 0.04))
 #+end_src
 
+** prettify-symbols-mode
+*Note*: Configuration of =prettify-symbols-alist= is done in major mode hooks.
+
+#+begin_src emacs-lisp
+(use-package emacs
+  :custom
+  (prettify-symbols-unprettify-at-point t)
+  :config
+  (global-prettify-symbols-mode 1))
+#+end_src
+
 * Support Kitty Keyboard Protocol (KKP)
 https://github.com/benotn/kkp
 #+begin_src emacs-lisp
@@ -4222,6 +4233,16 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 #+end_src
 
 ** Org-mode Appearance                                                  :Appearance:
+*** Change org-ellipsis
+
+#+begin_src emacs-lisp
+(use-package org
+  :custom
+  (org-ellipsis "⮷")
+  ;; Other goog options: ⤵↓↲↳⬎⤶⮧⮷
+  )
+#+end_src
+
 *** Different link colors depending on link type
 #+begin_src emacs-lisp
 (use-package org
@@ -4252,11 +4273,14 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 #+end_src
 
 *** org-modern
+
 #+begin_src emacs-lisp
 (use-package org-modern
   :ensure t
   :custom
   (org-modern-fold-stars '(("▶" . "▼") ("▷" . "▽") ("▷" . "▽") ("▹" . "▿") ("▸" . "▾")))
+  ;; Disable prettify of blocks names to leave it for prettify-symbols-mode
+  (org-modern-block-name nil)
   :hook
   (org-mode . org-modern-mode)
   (org-agenda-finalize . org-modern-agenda)
@@ -4279,6 +4303,11 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 #+end_src
 
 *** Face and prettify-symbols
+See https://www.reddit.com/r/emacs/comments/o04it0/comment/h1tbmlo/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+and
+https://www.reddit.com/r/emacs/comments/o04it0/comment/jriym0x/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+for some interesting options.
+
 #+begin_src emacs-lisp
 (use-package org-faces
   :custom
@@ -4339,11 +4368,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
                 (add-to-list 'prettify-symbols-alist '("[-]" . "❍"))
 
                 (add-to-list 'prettify-symbols-alist '("#+begin_src" . "↦" ))
-                (add-to-list 'prettify-symbols-alist '("#+end_src" . "⇤" ))
-
-                (setq prettify-symbols-unprettify-at-point t)
-                (prettify-symbols-mode)
-                ))
+                (add-to-list 'prettify-symbols-alist '("#+end_src" . "⇤" ))))
   ;; Enable visual-line-mode in all org-mode buffers
   ;; (org-mode . visual-line-mode)
   )
@@ -6455,11 +6480,7 @@ imenu support breadcrumbs should work.
  'prog-mode-hook
  (lambda ()
    (add-to-list 'prettify-symbols-alist '("<=" . "≤"))
-   (add-to-list 'prettify-symbols-alist '(">=" . "≥"))
-   (setq prettify-symbols-unprettify-at-point t)
-   (prettify-symbols-mode)
-   )
- )
+   (add-to-list 'prettify-symbols-alist '(">=" . "≥"))))
 #+end_src
 
 *** Handle ansi colors in compilation buffer                          :Compilation:
@@ -8787,8 +8808,7 @@ Just run =M-x counsel-jq= in a json buffer. Enter any query and you can see a li
   (pcoip-log-mode . auto-revert-tail-mode)
   (pcoip-log-mode . display-line-numbers-mode)
   ;; (pcoip-log-mode . (lambda ()
-  ;;                     (add-to-list 'prettify-symbols-alist '("00000000-0000-0000-0000-000000000000" . "※"))
-  ;;                     (prettify-symbols-mode)))
+  ;;                     (add-to-list 'prettify-symbols-alist '("00000000-0000-0000-0000-000000000000" . "※"))))
   :mode
   ("^/tmp/Teradici/.*/PCoIPClient/logs/" . pcoip-log-mode)
   )
@@ -9111,9 +9131,9 @@ TeX-command-master (from auctex) with a 'Latex' argument."
 (defun darcamo/add-vector-and-matrix-prettify-symbol-letter (s)
   "This will call 'add-to-list' function to add a pretty symbol for '\\vtS and \\mtS'"
   (interactive "P")
-  (add-to-list 'prettify-symbols-alist `(,(concat "\\vt" (capitalize s)) . ,(downcase s) ) )
-  (add-to-list 'prettify-symbols-alist `(,(concat "\\mt" (capitalize s)) . ,(capitalize s) ) )
-  )
+  (add-to-list 'prettify-symbols-alist `(,(concat "\\vt" (capitalize s)) . ,(downcase s) ))
+  (add-to-list 'prettify-symbols-alist `(,(concat "\\mt" (capitalize s)) . ,(capitalize s))))
+
 
 (defun darcamo/add-blackboard-prettify-symbol-math-field (s)
   "This will call 'add-to-list' function to add a pretty symbol for '\\bbS"
@@ -9124,14 +9144,14 @@ TeX-command-master (from auctex) with a 'Latex' argument."
   ;; CAPITAL X". The characters with this shorter name version are: C H N P Q R Z
   (if (member s '("C" "H" "N" "P" "Q" "R" "Z") )
       (add-to-list 'prettify-symbols-alist `(,(concat "\\bb" s) . ,(char-to-string (char-from-name (concat "DOUBLE-STRUCK CAPITAL " s)))))
-    (add-to-list 'prettify-symbols-alist `(,(concat "\\bb" s) . ,(char-to-string (char-from-name (concat "MATHEMATICAL DOUBLE-STRUCK CAPITAL " s)))))
-    ))
+    (add-to-list 'prettify-symbols-alist `(,(concat "\\bb" s) . ,(char-to-string (char-from-name (concat "MATHEMATICAL DOUBLE-STRUCK CAPITAL " s)))))))
+
 
 (defun darcamo/add-vector-and-matrix-prettify-symbol-greek (name unicode-value)
   "This will call 'add-to-list' function to add a pretty symbol for '\\vtName' with 'unicode-value'"
   (interactive "P")
-  (add-to-list 'prettify-symbols-alist `(,(concat "\\vt" (capitalize name)) . ,unicode-value) )
-  )
+  (add-to-list 'prettify-symbols-alist `(,(concat "\\vt" (capitalize name)) . ,unicode-value)))
+
 
 ;; A list
 (defvar darcamo/latin-letters-list '("A" "B" "C" "D" "E" "F" "G" "H" "I" "J" "K" "L" "M" "N" "O" "P" "Q" "R" "S" "T" "U" "V" "W" "X" "Y" "Z" ))
@@ -9155,12 +9175,7 @@ TeX-command-master (from auctex) with a 'Latex' argument."
                   (darcamo/add-vector-and-matrix-prettify-symbol-greek "tau" "τ")
                   (darcamo/add-vector-and-matrix-prettify-symbol-greek "gamma" "γ")
                   (darcamo/add-vector-and-matrix-prettify-symbol-greek "one" "1")
-                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "zero" "0")
-
-                  (setq prettify-symbols-unprettify-at-point t)
-                  (prettify-symbols-mode)
-                  ))
-      )
+                  (darcamo/add-vector-and-matrix-prettify-symbol-greek "zero" "0"))))
 #+end_src
 
 *** LSP for Latex                                                             :LSP:
@@ -9843,18 +9858,14 @@ Similarly, but with slightly different semantics and often more useful, is
   )
 #+end_src
 
-** Some pretty symbols
+** COMMENT Some pretty symbols
+Not needed anymore
+
 #+begin_src emacs-lisp
 (add-hook
  'dired-mode-hook
  (lambda ()
-   (add-to-list 'prettify-symbols-alist '("AUTH\\\\" . "★"))
-   ;; (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (user-login-name)) . "🙋"))
-   ;; (add-to-list 'prettify-symbols-alist `(,(s-replace "\\" "\\\\" (group-name (group-gid))) . "🫂"))
-   (setq prettify-symbols-unprettify-at-point t)
-   (prettify-symbols-mode)
-   )
- )
+   (add-to-list 'prettify-symbols-alist '("AUTH\\\\" . "★"))))
 #+end_src
 
 ** Imenu support
@@ -10826,11 +10837,7 @@ See [[https://github.com/abrochard/mermaid-mode?tab=readme-ov-file#usage][Usage]
   :defer artist
   :hook
   (artist-mode . (lambda ()
-   (add-to-list 'prettify-symbols-alist '("->" . "→"))
-   (setq prettify-symbols-unprettify-at-point t)
-   (prettify-symbols-mode)
-   ))
-  )
+                   (add-to-list 'prettify-symbols-alist '("->" . "→")))))
 #+end_src
 
 ** COMMENT draw.io                                                         :OrgMode:
