@@ -4238,8 +4238,8 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 #+begin_src emacs-lisp
 (use-package org
   :custom
-  (org-ellipsis "⮷")
-  ;; Other goog options: ⤵↓↲↳⬎⤶⮧⮷
+  (org-ellipsis " ▾")
+  ;; Other goog options: ⤵↓↲↳⬎⤶⮧⮷⋯▼
   )
 #+end_src
 
