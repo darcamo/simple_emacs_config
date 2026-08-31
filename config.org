@@ -2748,18 +2748,19 @@ https://github.com/lorniu/gt.el
 *** Config
 #+begin_src emacs-lisp
 (defun my-get-org-file-apps ()
-  "Get the value that I want to pass to org-file-apps."
-  '(
-    (auto-mode . emacs)
-    (directory . emacs)
-    ("\\.mm\\'" . default)
-    ("\\.x?html?\\'" . default)
-    ("pdf" . "papers %s")
-    ("\\.pdf::\\([0-9]+\\)\\'" . "papers -p %1 %s")  ;; Link containing a specific page
-    ("\\.od[s|p|t]" . default)
-    ("xmind" . "xmind-zen %s")
-    )
-  )
+  "Get the value that I want to pass to `org-file-apps'."
+  `((auto-mode . emacs) ;;
+    (directory . emacs) ;;
+    ("\\.mm\\'" . default) ;;
+    ("\\.x?html?\\'" . default) ;;
+    ,@
+    (when (not (darcamo/running-in-wsl-p))
+      '(("pdf" . "papers %s") ;;
+        ("\\.pdf::\\([0-9]+\\)\\'" . "papers -p %1 %s")))
+    ;; Link containing a specific page
+    ("\\.od[s|p|t]" . default) ;;
+    ("xmind" . "xmind-zen %s")))
+
 
 (use-package org
   :mode
