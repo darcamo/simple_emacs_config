@@ -6116,10 +6116,49 @@ When acting on a vulpea note candidate (e.g. during vulpea-find), the following 
 | D   | Delete note (with confirmation) |
 
 #+begin_src emacs-lisp
-(use-package embark-vulpea
+(use-package
+  embark-vulpea
   :ensure (:host github :repo "fabcontigiani/embark-vulpea")
-  :after vulpea
-  )
+  :after (embark vulpea)
+
+  :config
+  (defun darcamo/embark-vulpea-add-tags (ids)
+    "Ask for a tag and add it to notes with id in IDS."
+    (let* ((all-vulpea-tags (vulpea-db-query-tags))
+           (tags-to-add
+            (completing-read-multiple "Tag to add: " all-vulpea-tags nil t)))
+
+      (dolist (id ids)
+        (let* ((note (vulpea-db-get-by-id id)))
+
+          (vulpea-utils-with-note-sync
+              note (apply #'vulpea-tags-add id tags-to-add))))))
+
+
+  (defun darcamo/embark-vulpea-remove-tags (ids)
+    "Ask for a tag and remove it from notes with id in IDS."
+    (let* ((all-vulpea-tags (vulpea-db-query-tags))
+           (tags-to-remove
+            (completing-read-multiple "Tag to remove: " all-vulpea-tags nil t)))
+      (dolist (id ids)
+        (let* ((note (vulpea-db-get-by-id id)))
+          (vulpea-utils-with-note-sync
+              note (apply #'vulpea-tags-remove id tags-to-remove))))))
+
+
+  (defun darcamo/embark-vulpea-add-tag-to-selected-notes (args)
+    "Just experiment with embark-selected-candidates."
+    (message "Adding tag to '%s' selected notes..."
+             (car (vulpea-note-title args))))
+
+  (let ((tag-operations-map (make-sparse-keymap)))
+    (define-key tag-operations-map (kbd "a") #'darcamo/embark-vulpea-add-tags)
+    (define-key tag-operations-map (kbd "r") #'darcamo/embark-vulpea-remove-tags)
+    (define-key embark-vulpea-note-map (kbd "t") tag-operations-map))
+
+
+  (add-to-list 'embark-multitarget-actions 'darcamo/embark-vulpea-add-tags)
+  (add-to-list 'embark-multitarget-actions 'darcamo/embark-vulpea-remove-tags))
 #+end_src
 
 *TODO*: Add a function to recognize if a heading is a vulpea note to =embark-target-finder=
