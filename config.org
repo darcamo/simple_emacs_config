@@ -3368,6 +3368,18 @@ Full list of options:
   )
 #+end_src
 
+*** Mermaid
+Note that you need to install [[https://github.com/mermaid-js/mermaid-cli][mermaid-cli]] as well.
+- In Arch, there is a =mermaid-cli= package.
+
+#+begin_src emacs-lisp
+(use-package ob-mermaid
+  :ensure t
+  :defer t
+  :commands (org-babel-execute:mermaid)
+  )
+#+end_src
+
 ** Babel                                                                     :Babel:
 #+begin_src emacs-lisp
 (defun get-plantuml-jar-path ()
@@ -3415,6 +3427,7 @@ Full list of options:
      (shell . t)
      (plantuml . t)
      (java . t)
+     (mermaid . t)  ;; Require the ob-mermaid package
      ;; (go . t)
       ;; (jupyter . t) ;; Requires the 'jupyter' emacs package and this must come last
    )))))
