@@ -5514,7 +5514,8 @@ This function is intended to be used as the value for `vulpea-ui-backlinks-sort'
          ("C-c n m s" . vulpea-schema-insert-fields)
          )
   :custom
-  (vulpea-db-sync-directories '("~/notes/"))
+  (vulpea-db-sync-directories '("~/notes/" "~/notes_work/"))
+  (vulpea-default-notes-directory nil)
   (vulpea-db-autosync-mode +1)
   (vulpea-buffer-alias-property "ROAM_ALIASES")
   (vulpea-db-sync-external-method 'poll)
@@ -5734,22 +5735,19 @@ timestamp."
 
 
 #+begin_src emacs-lisp
-(defun darcamo/vulpea-capture-to-journal-today-path ()
-  "Return the path of the journal note for today.
-
-  If the journal note does not exist yet, create it first."
-  (let ((note (vulpea-journal-note (current-time))))
-    (vulpea-note-path note)))
-
-
 (use-package vulpea-journal
   :defer t
   :commands (vulpea-journal-note)
   :after (org-capture)
   :init
   (add-to-list 'org-capture-templates '("j" "Adidiona entrada no journal"))
-  (add-to-list 'org-capture-templates '("jj" "Nova entrada no journal de hoje" entry (file darcamo/vulpea-capture-to-journal-today-path) "%<%H:%m> %?" :immediate-finish t :jump-to-captured t :empty-lines 2))
-  (add-to-list 'org-capture-templates '("jr" "Reunião com um contato" entry (file darcamo/vulpea-capture-to-journal-today-path) "%<%H:%m> Reunião com %(darcamo/vulpea-note-to-org-link (vulpea-select-from \"Reunião com quem?\" (vulpea-db-query-by-tags-some '(\"pessoas\"))))\n%?" :immediate-finish t :jump-to-captured t :empty-lines 2))
+  (add-to-list 'org-capture-templates '("jj" "Nova entrada no journal de hoje" entry (function vulpea-journal-capture-target) "%<%H:%m> %?" :immediate-finish t :jump-to-captured t :empty-lines 2))
+  (add-to-list 'org-capture-templates '("jd" "Daily" entry (function vulpea-journal-capture-target) "[[id:34a11291-c816-4243-afca-4e78cef23426][Daily]] do [[id:b9f3480e-b1f7-47b3-aa0c-5e47f65a18c9][CaaS]]\n- %?" :immediate-finish t :jump-to-captured t :empty-lines 2))
+
+  (add-to-list 'org-capture-templates '("jr" "Adidiona uma reunião"))
+  (add-to-list 'org-capture-templates '("jrr" "Reunião" entry (function vulpea-journal-capture-target) "[[id:0fddf8c4-0591-42d5-b12b-a33b65683cfa][Reunião]] %?" :immediate-finish t :jump-to-captured t :empty-lines 2))
+  (add-to-list 'org-capture-templates '("jrc" "Reunião com um contato" entry (function vulpea-journal-capture-target) "[[id:0fddf8c4-0591-42d5-b12b-a33b65683cfa][Reunião]] com %(darcamo/vulpea-note-to-org-link (vulpea-select-from \"Reunião com quem?\" (vulpea-db-query-by-tags-some '(\"pessoas\"))))\n%?" :immediate-finish t :jump-to-captured t :empty-lines 2))
+  (add-to-list 'org-capture-templates '("jrm" "Monthly do CaaS" entry (function vulpea-journal-capture-target) "[[id:0fddf8c4-0591-42d5-b12b-a33b65683cfa][Reunião]] de [[id:420f803e-e612-439b-bcec-831337f8de39][Monthly Review]] do [[id:b9f3480e-b1f7-47b3-aa0c-5e47f65a18c9][CaaS]]\n- bla bla%?" :immediate-finish t :jump-to-captured t :empty-lines 2))
   )
 #+end_src
 
