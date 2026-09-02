@@ -29,6 +29,7 @@ TODO: See
   - 'C-x w o <left>/<right>' rotate the windows within the current layout.
   - 'C-x w f <left>/<right>/<up>/<down>' flip window layouts.
 - =safe-local-variable-directories= variable
+- =safe-local-variable-values= variable
 
 
 TODO: Check the [[https://github.com/alphapapa/org-ql?tab=readme-ov-file][org-ql]] package
@@ -59,6 +60,8 @@ used for the first time they should be "configured".
 #+end_src
 
 * Safe local variables
+See https://www.jamescherti.com/securing-emacs-dir-locals-el-local-variables/ for some tips.
+
 #+begin_src emacs-lisp
 (put 'helm-make-build-dir 'safe-local-variable 'stringp)
 (put 'projectile-project-compilation-cmd 'safe-local-variable 'stringp)
@@ -6094,6 +6097,21 @@ Check the available block parameters in https://github.com/Arenile/vulpea-dblock
   (vulpea-dblock-mode 1)
   )
 #+end_src
+
+
+**** Example block
+
+: #+BEGIN: vulpea :backlinks-to "c14d9dc5-a870-4226-8e39-0206ab3640c7" :tags '("pessoas")
+: ...
+: #+END:
+
+It's also possible to specify a format for the output passing =:format=. The argument can be
+a string, which can contain =%i= for the id, =%t= for the title, =%o= for the todo state, =%p= for
+the priority and =%%= for a literal percent. The default value is ="- [[id:%i][%t]]"=.
+
+Note that *it's also possible to pass a function* to =:format=. This function receives the
+whole note as an argument.
+
 
 *** vulpea-capf
 https://github.com/neonmei/vulpea-capf
