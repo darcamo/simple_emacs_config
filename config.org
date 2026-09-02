@@ -6070,6 +6070,8 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Compras" "7ed6fbf1-798e-494b-9a8f-345b84ffdad6"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Criptografia" "f84fb6ab-0013-4f1c-b1f0-8990d0f51d02"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Docker" "295f192f-18f8-4e67-bf94-85d4a478dd3f"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Reunião" "0fddf8c4-0591-42d5-b12b-a33b65683cfa"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "CaaS" "b9f3480e-b1f7-47b3-aa0c-5e47f65a18c9"))
 
   (vulpea-tag-links-register-extractor)
   )
