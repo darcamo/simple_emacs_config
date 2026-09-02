@@ -1068,11 +1068,20 @@ of changing the snippets."
   )
 #+end_src
 
-** TODO yankpad
+** TODO COMMENT yankpad
 https://github.com/Kungsgeten/yankpad
 
 
 See also https://ag91.github.io/blog/2020/07/28/how-to-integrate-yasnippet-and-yankpad-with-org-capture/
+
+#+begin_src elisp
+(use-package yankpad
+  :ensure t
+  :commands (yankpad-insert yankpad-edit yankpad-expand)
+  )
+#+end_src
+
+
 
 ** TODO ya-org-capture
 https://github.com/ag91/ya-org-capture
