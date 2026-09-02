@@ -10938,6 +10938,7 @@ Don't forget to call ~copilot-install-server~.
          (go-ts-mode . copilot-mode)
          (emacs-lisp-mode . (lambda () (unless (darcamo/is-scratch-buffer) (copilot-mode)))))
   :custom
+  (copilot-idle-delay 0.5)
   (copilot-indent-offset-warning-disable t)
   (copilot-max-char-warning-disable t)
   :custom-face
