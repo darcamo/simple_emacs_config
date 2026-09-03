@@ -34,3 +34,4 @@ url
 /cmake-integration/
 /vulpea.db
 /dape-breakpoints
+/forge-database.sqlite

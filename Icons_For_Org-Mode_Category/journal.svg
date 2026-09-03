@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 0.48 0.48"
+   fill="#000000"
+   class="bi bi-journal-bookmark-fill"
+   version="1.1"
+   id="svg3"
+   sodipodi:docname="journal2.svg"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <defs
+     id="defs3" />
+  <sodipodi:namedview
+     id="namedview3"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     showgrid="true"
+     inkscape:zoom="16"
+     inkscape:cx="15.59375"
+     inkscape:cy="13.5"
+     inkscape:window-width="1280"
+     inkscape:window-height="1011"
+     inkscape:window-x="20"
+     inkscape:window-y="20"
+     inkscape:window-maximized="0"
+     inkscape:current-layer="svg3">
+    <inkscape:grid
+       id="grid3"
+       units="px"
+       originx="0"
+       originy="0"
+       spacingx="0.02"
+       spacingy="0.02"
+       empcolor="#0099e5"
+       empopacity="0.30196078"
+       color="#0099e5"
+       opacity="0.14901961"
+       empspacing="5"
+       enabled="true"
+       visible="true" />
+  </sodipodi:namedview>
+  <rect
+     style="fill:#ffffff;stroke-width:0.031084"
+     id="rect2"
+     width="0.41999999"
+     height="0.44"
+     x="0.045000013"
+     y="0.020000001"
+     ry="0.054146688" />
+  <g
+     id="g3"
+     transform="matrix(0.03,0,0,0.03,0.015,0)">
+    <path
+       fill-rule="evenodd"
+       d="m 6,1 h 6 V 8 A 0.5,0.5 0 0 1 11.243,8.429 L 9,7.083 6.757,8.43 A 0.5,0.5 0 0 1 6,8 Z"
+       id="path1" />
+    <path
+       d="m 3,0 h 10 a 2,2 0 0 1 2,2 v 12 a 2,2 0 0 1 -2,2 H 3 A 2,2 0 0 1 1,14 v -1 h 1 v 1 a 1,1 0 0 0 1,1 h 10 a 1,1 0 0 0 1,-1 V 2 A 1,1 0 0 0 13,1 H 3 A 1,1 0 0 0 2,2 V 3 H 1 V 2 A 2,2 0 0 1 3,0 Z"
+       id="path2" />
+    <path
+       d="M 1,5 V 4.5 a 0.5,0.5 0 0 1 1,0 V 5 h 0.5 a 0.5,0.5 0 0 1 0,1 h -2 a 0.5,0.5 0 0 1 0,-1 z M 1,8 V 7.5 a 0.5,0.5 0 0 1 1,0 V 8 h 0.5 a 0.5,0.5 0 0 1 0,1 h -2 a 0.5,0.5 0 0 1 0,-1 z m 0,3 v -0.5 a 0.5,0.5 0 0 1 1,0 V 11 h 0.5 a 0.5,0.5 0 0 1 0,1 h -2 a 0.5,0.5 0 0 1 0,-1 z"
+       id="path3" />
+  </g>
+</svg>
