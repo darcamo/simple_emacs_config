@@ -2954,6 +2954,9 @@ https://github.com/lorniu/gt.el
   ;; I add the "site" tag to notes that have a Site metadata notes.
   (add-to-list 'org-tags-exclude-from-inheritance "site")
 
+  ;; I add the "curso" tag to notes for online courses
+  (add-to-list 'org-tags-exclude-from-inheritance "curso")
+
   :hook
   (org-mode . (lambda () (setq fill-column 90)))
   (org-mode . (lambda () (outline-minor-mode t)))
@@ -5726,6 +5729,15 @@ See the documentation in [[https://github.com/d12frosted/vulpea/blob/master/docs
   '((:key "Team" :type note :required t :target-tags ("HPTimes"))))
 
  (vulpea-schema-define
+  'ticket
+  :predicate (lambda (n) (vulpea-note-meta-get n "Ticket"))
+  :fields
+  '((:key
+     "Ticket"
+     :validate darcamo/vulpea-validate-with-site-schema
+     :required t)))
+
+ (vulpea-schema-define
   'team
   :predicate (lambda (note) (member "HPTimes" (vulpea-note-tags note))))
 
@@ -6108,6 +6120,8 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Docker" "295f192f-18f8-4e67-bf94-85d4a478dd3f"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Reunião" "0fddf8c4-0591-42d5-b12b-a33b65683cfa"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "CaaS" "b9f3480e-b1f7-47b3-aa0c-5e47f65a18c9"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "pessoas" "fe7c0265-3f96-4a63-b69a-5823e3b40497"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "PDI" "9772a954-9c13-4fdc-ba77-f0ad5b448533"))
 
   (vulpea-tag-links-register-extractor)
   )
