@@ -6414,6 +6414,33 @@ https://codeberg.org/nicolas-graves/vulpea-mcp
   )
 #+end_src
 
+** Highlight content inside ^^ like in LogSeq
+#+begin_src emacs-lisp
+(use-package org
+:defer t
+:config
+
+(defface darcamo/double-caret-highlight-face
+  '((t (:background "yellow")))
+  "Face for text between ^^...^^ in Org buffers.")
+
+(defun my-org-fontify-double-carets (limit)
+  "Font-lock matcher for ^^highlighted text^^ up to LIMIT."
+  (when (re-search-forward "\\^\\^\\([^ \t\n].*?\\)\\^\\^" limit t)
+    ;; Add face only to the inner text, not the ^^ markers.
+    (font-lock-append-text-property
+     (match-beginning 1) (match-end 1)
+     'face 'darcamo/double-caret-highlight-face)
+    t))
+
+(font-lock-add-keywords
+ 'org-mode
+ '((my-org-fontify-double-carets))
+ 'append)
+
+)
+#+end_src
+
 ** calibredb                                                 :Calibre:calibre:ebook:
 Run the calibredb command with the "S-f6" keybinding. You can then use "=/=" to live-filter
 ("=R=" to remove the filter), "=f=" to filter ("=r=" to remove filter), "=RET=" to open an ebook,
