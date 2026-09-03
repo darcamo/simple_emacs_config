@@ -5617,6 +5617,16 @@ necessary."
       (concat (substring str 0 (- max-length 3)) "..."))))
 
 
+(defun darcamo/vulpea-is-work-note (note)
+  "Check if NOTE is in my work vault."
+  (let* ((note-path (vulpea-note-path note))
+         (work-notes-path (expand-file-name "~/notes_work/")))
+    (file-equal-p (file-name-parent-directory note-path) work-notes-path)))
+
+
+;; NOTE: Calling `darcamo/vulpea-is-work-note' inside
+;; `darcamo/vulpea-get-display-title' causes a perceivable delay before the
+;; minibuffer opens with the candidates
 (defun darcamo/vulpea-get-display-title (note)
   "Returns the level and the title of a NOTE as a string.
 
@@ -5624,13 +5634,17 @@ necessary."
   `vulpea-select-describe-fn'."
 
   (let ((level (vulpea-note-level note))
-        (title (vulpea-note-title note)))
+        (title (vulpea-note-title note))
+        (work-or-home-str
+         (if (darcamo/vulpea-is-work-note note)
+             "🏢"
+           "🏠")))
     (cond
      ((eq level 0)
-      (format "[@%s] %s" (vulpea-note-level note) title))
+      (format "%s [@%s] %s" work-or-home-str (vulpea-note-level note) title))
      (t
-      (format "[@%s] %s %s"
-              (vulpea-note-level note) title
+      (format "%s [@%s] %s %s"
+              work-or-home-str (vulpea-note-level note) title
               (propertize (format "(%s)"
                                   (darcamo/crop-string
                                    (vulpea-note-file-title note) 35))
