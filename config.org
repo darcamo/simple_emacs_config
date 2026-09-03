@@ -5698,15 +5698,44 @@ vulpea schema field."
 #+end_src
 
 **** Define schema
-#+begin_src emacs-lisp
-(use-package vulpea
-  :defer t
-  :config
-  (vulpea-schema-define 'site
-                        :predicate (lambda (note) (member "site" (vulpea-note-tags note)))
-                        :fields
-                        '((:key "Site" :validate darcamo/vulpea-validate-with-site-schema :required t))))
+See the documentation in [[https://github.com/d12frosted/vulpea/blob/master/docs/api-reference.org#schemas][api-reference.org#schemas]].
 
+#+begin_src emacs-lisp
+(use-package
+ vulpea
+ :defer t
+ :config
+ (vulpea-schema-define
+  'site
+  :predicate (lambda (note) (member "site" (vulpea-note-tags note)))
+  :fields
+  '((:key
+     "Site"
+     :validate darcamo/vulpea-validate-with-site-schema
+     :required t)))
+
+
+ (vulpea-schema-define
+  'team-member
+  :predicate (lambda (n) (vulpea-note-meta-get n "Team"))
+  :fields
+  '((:key "Team" :type note :required t :target-tags ("HPTimes"))))
+
+ (vulpea-schema-define
+  'team
+  :predicate (lambda (note) (member "HPTimes" (vulpea-note-tags note))))
+
+
+ (vulpea-schema-define
+  'curso-online
+  :predicate (lambda (note) (member "curso" (vulpea-note-tags note)))
+  :fields
+  '((:key "Site" :validate darcamo/vulpea-validate-with-site-schema :required t)
+    (:key "Horas" :type string :required t)
+    (:key "Profesor" :type string)
+    (:key "Idioma" :type string :required t)
+    (:key "Nivel" :type string)
+    (:key "Certificado" :type string))))
 #+end_src
 
 *** Creating new notes
