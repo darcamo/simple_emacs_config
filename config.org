@@ -6196,6 +6196,7 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "CaaS" "b9f3480e-b1f7-47b3-aa0c-5e47f65a18c9"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "pessoas" "fe7c0265-3f96-4a63-b69a-5823e3b40497"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "PDI" "9772a954-9c13-4fdc-ba77-f0ad5b448533"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "ALIA" "158b254d-484e-4d1a-98e4-52a23c1e8700"))
 
   (vulpea-tag-links-register-extractor)
   )
