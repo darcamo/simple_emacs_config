@@ -5954,6 +5954,7 @@ We need to change =vulpea-ui--widget-registry=.
 #+end_src
 
 *** Vulpea-journal
+**** General configuration
 #+begin_src emacs-lisp
 ;; https://github.com/d12frosted/vulpea-journal
 ;; TODO: Customize vulpea-journal-default-template
@@ -5976,6 +5977,7 @@ We need to change =vulpea-ui--widget-registry=.
   )
 #+end_src
 
+**** Show journal in its own tab
 #+begin_src emacs-lisp
 (add-to-list 'display-buffer-alist
              '("^[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\.org$"
@@ -5983,6 +5985,58 @@ We need to change =vulpea-ui--widget-registry=.
                (tab-group . "[Notes]")
                (tab-name . "Journal")
                ))
+#+end_src
+
+**** Add an embark action to turn a org-mode timestamp into a link to a vulpea journal entry
+Just put the cursor on an org-mode timestamp, call =embark-act= and press =j= and it will be
+turned into a link to the corresponding vulpea-journal note.
+
+*Note*: If a journal note does not exist yet for the timestamp date, a new note is created.
+
+#+begin_src emacs-lisp
+(defun darcamo/create-or-journal-link-from-timestamp (timestamp)
+  "Generate a link to the journal entry for TIMESTAMP.
+
+  TIMESTAMP must be an org-element timestamp."
+  (when-let* ((year (org-element-property :year-start timestamp))
+              (month (org-element-property :month-start timestamp))
+              (day (org-element-property :day-start timestamp))
+              (time-object (encode-time (list 0 0 0 day month year)))
+              (journal-note (vulpea-journal-note time-object))
+              (journal-note-id (vulpea-note-id journal-note))
+              (journal-note-title (vulpea-note-title journal-note)))
+
+    (format "[[id:%s][%s]]" journal-note-id journal-note-title)))
+
+
+(defun darcamo/org-timestamp-embark-action (timestamp)
+  "Embark action to replace TIMESTAMP at point with org-journal link.
+
+  TIMESTAMP is an org-element object representing the timestamp."
+  (interactive (list (org-element-context)))
+  (if-let* ((_ (eq (org-element-type (org-element-context)) 'timestamp))
+            (begin-region (org-element-begin timestamp))
+            (end-region (org-element-end timestamp))
+            (link (darcamo/create-or-journal-link-from-timestamp timestamp)))
+      (replace-region-contents begin-region end-region link)
+
+    (user-error "Not a org-mode timestamp")))
+
+
+(use-package
+ embark
+ :defer t
+ :config
+
+ (defvar-keymap embark-org-timestamp-map
+   :doc "Keymap for actions on org-mode timestamps"
+   :parent
+   embark-general-map
+   "j"
+   #'darcamo/org-timestamp-embark-action)
+
+ ;; Tell embark to use our keymap for timestamps
+ (add-to-list 'embark-keymap-alist '(org-timestamp . embark-org-timestamp-map)))
 #+end_src
 
 *** ace-link-vui
