@@ -3316,6 +3316,11 @@ https://github.com/lorniu/gt.el
 ;;   (org-agenda-mode . origami-mode)
 ;;   )
 #+end_src
+*** TODO org-timegrid
+https://github.com/Gleek/org-timegrid
+
+*** TODO emacs-calfw
+https://github.com/kiwanami/emacs-calfw
 
 ** Attach
 #+begin_src emacs-lisp
@@ -8826,6 +8831,9 @@ https://github.com/justinhj/eredis/
   )
 #+end_src
 
+** TODO sqlite database
+https://github.com/dusanx/elsqlite
+
 * View/edit text formats (yaml, json, csv, markdown, latex, etc)
 ** Markdown                                                               :markdown:
 Tips:
@@ -11093,6 +11101,8 @@ https://github.com/4honor/org-drawio
 #+end_src
 
 Note: There is also https://github.com/4honor/org-excalidraw
+** TODO org-draw
+https://github.com/larrasket/org-draw
 
 * LLMs                                                                          :LLM:
 ** Co-pilot                                                            :LLM:copilot:
