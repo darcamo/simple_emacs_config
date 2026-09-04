@@ -581,7 +581,6 @@ usando "letra" + SPC. Exemplo, o comando ~consult-buffer~ possui grupos "buffer 
          ("M-s r" . consult-ripgrep)
          ("M-s l" . consult-line)
          ("M-s L" . consult-line-multi)
-         ("M-s m" . consult-multi-occur)
          ("M-s k" . consult-keep-lines)
          ("M-s u" . consult-focus-lines)
          ("M-s s" . consult-yasnippet)
@@ -2231,6 +2230,9 @@ A beautiful inline overlay for Emacs (Flycheck | Flymake)
   :ensure t
   :hook ((flycheck-mode . flyover-mode)
          (flymake-mode . flyover-mode))
+  :bind ( :map prog-mode-map
+          ([S-f5] . flyover-toggle)
+          )
   :custom
   ;; Checker settings
   ;; (flyover-checkers '(flycheck flymake))
@@ -2730,9 +2732,9 @@ project.
   :ensure nil
   :bind (
          ([f7] . ispell)
+         ([C-f7] . ispell-word)
          ([S-f7] . ispell-region)
-         ([C-f7] . darcamo/toggle-ispell-dictionary)
-         ([f12] . ispell-word)
+         ([C-S-f7] . darcamo/toggle-ispell-dictionary)
 
          ;; Use Ctrl + f12 to lookup the definition of the word at point in the
          ;; Cambridge dictionary and Ctrl + Shift + f12 to lookup for synonyms in
@@ -4254,7 +4256,7 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
   :defer t
   :bind
   (
-   ("<C-S-f5>" . my-org-textcolor-red-macro)
+   ;; ("<C-S-f5>" . my-org-textcolor-red-macro)
    :map org-read-date-minibuffer-local-map
    ;; Allow me to quit entering a date by pressing "q"
    ("q" . minibuffer-keyboard-quit)
@@ -6869,8 +6871,9 @@ The idea is to use the threesitter-fold package in treesiter
 #+begin_src emacs-lisp
 (use-package obvious
   :ensure (obvious :type git :host github :protocol ssh :repo "alphapapa/obvious.el")
-  :bind
-  ("<C-f8>" . obvious-mode)
+  :bind ( :map prog-mode-map
+          ([C-S-f5] . obvious-mode)
+          )
   :custom
   (obvious-fringe-bitmap 'filled-rectangle)
   )
