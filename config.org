@@ -8432,6 +8432,49 @@ Standard keybindings
 | =C-c % ;= | code-cells-comment-or-uncomment |
 | =C-c % @= | code-cells-mark-cell            |
 |---------+---------------------------------|
+*** comint-mime - Display graphics and other MIME attachments in Emacs shells
+https://github.com/astoff/comint-mime
+
+Display graphics and other MIME attachments in Emacs shells.
+
+It can show plots inside a python shell buffer, for instance. But it's not limited to Python.
+
+#+begin_src emacs-lisp
+(use-package comint-mime
+  :ensure t
+  :hook
+  (inferior-python-mode . comint-mime-setup)
+  )
+#+end_src
+*** COMMENT drepl
+https://elpa.gnu.org/packages/drepl.html
+
+dREPL is a collection of fully featured language shells for Emacs. At the moment it
+supports the following interpreters:
+
+- Python: requires IPython.
+- Lua: requires luarepl and dkjson.
+- Various SQL and NoSQL databases: based on usql, requires a Go compiler.
+- Node.js: uses the built-in REPL library.
+- SageMath, a computer algebra system.
+
+The following features are available, subject to variations across different REPLs
+(IPython supports all of them):
+
+- Completion, including annotations and also on continuation lines
+- Multi-line input editing
+- Eldoc integration
+- Normal pty interaction during code evaluation (e.g. debuggers)
+- Graphics support via comint-mime
+
+#+begin_src emacs-lisp
+(use-package drepl
+  :ensure t
+  :defer t
+  :commands (drepl-ipython drepl-eval drepl-node drepl-associate drepl-eval-buffer drepl-eval-region drepl-pop-to-repl)
+  )
+#+end_src
+
 ** Lisp
 *** General keybindings to run elisp code
 #+begin_src emacs-lisp
