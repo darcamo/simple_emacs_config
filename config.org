@@ -5743,13 +5743,14 @@ See the documentation in [[https://github.com/d12frosted/vulpea/blob/master/docs
   '((:key
      "Site"
      :validate darcamo/vulpea-validate-with-site-schema
-     :required t)))
+     :required t
+     :multiple t)))
 
  (vulpea-schema-define
   'team-member
   :predicate (lambda (n) (vulpea-note-meta-get n "Team"))
   :fields
-  '((:key "Team" :type note :required t :target-tags ("HPTimes"))))
+  '((:key "Team" :type note :required t :target-tags ("HPTimes") :multiple t)))
 
  (vulpea-schema-define
   'ticket
@@ -5760,6 +5761,7 @@ See the documentation in [[https://github.com/d12frosted/vulpea/blob/master/docs
      :validate darcamo/vulpea-validate-with-site-schema
      :required t)))
 
+ ;; There are no fields for a "team" type
  (vulpea-schema-define
   'team
   :predicate (lambda (note) (member "HPTimes" (vulpea-note-tags note))))
@@ -5767,7 +5769,7 @@ See the documentation in [[https://github.com/d12frosted/vulpea/blob/master/docs
  (vulpea-schema-define
   'relatedto
   :predicate (lambda (n) (vulpea-note-meta-get n "RelatedTo"))
-  :fields '((:key "RelatedTo" :type note :required t)))
+  :fields '((:key "RelatedTo" :type note :required t :multiple t)))
 
  (vulpea-schema-define
   'curso-online
@@ -5775,8 +5777,8 @@ See the documentation in [[https://github.com/d12frosted/vulpea/blob/master/docs
   :fields
   '((:key "Site" :validate darcamo/vulpea-validate-with-site-schema :required t)
     (:key "Horas" :type string :required t)
-    (:key "Profesor" :type string)
-    (:key "Idioma" :type string :required t)
+    (:key "Profesor" :type string :multiple t)
+    (:key "Idioma" :type string :required t :multiple t)
     (:key "Nivel" :type string)
     (:key "Certificado" :type string))))
 #+end_src
