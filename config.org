@@ -8129,6 +8129,20 @@ prefer the imenu entries computed from tree-sitter.
     ))
 
 
+(defun darcamo/start-or-restart-python-repl ()
+  "If there is a running Python REPL, restart it. Otherwise, start a new one."
+  (interactive)
+
+  (if (or (and (derived-mode-p 'inferior-python-mode) (current-buffer))
+          (seq-some
+           (lambda (dedicated)
+             (get-buffer
+              (format "*%s*" (python-shell-get-process-name dedicated))))
+           '(buffer project nil)))
+      (python-shell-restart)
+    (run-python)))
+
+
 ;; Debug helpers
 
 (defun python--add-debug-highlight ()
@@ -8182,11 +8196,17 @@ prefer the imenu entries computed from tree-sitter.
   )
 #+end_src
 *** Configuration and keybindings
+TODO: Set some of the f8 + modifier keyindings to something related to adding
+dependencies, running =uv=, etc.
+
 #+begin_src emacs-lisp
 (use-package python
   :defer t
   :bind (:map python-ts-mode-map
               ([f5] . python-pytest-dispatch)
+
+              ;; Make sure to have a fresh python repl (use C-c C-z to switch to it)
+              ([f8] . darcamo/start-or-restart-python-repl)
 
               ;; Run a python file
               ([f9] . my-python-compile)
@@ -8208,12 +8228,29 @@ prefer the imenu entries computed from tree-sitter.
 
 
   ;; :hook
-  ;; ;; (python-base-mode . python--add-debug-highlight)
-  ;; (python-mode . (lambda ()
+  ;; (python-base-mode . python--add-debug-highlight)
+  ;; (python-ts-mode-hook . (lambda ()
   ;;                  (python--add-debug-highlight)
   ;;                  (require 'dap-python)))
   )
 #+end_src
+
+Note that there are many useul keybindings already set.
+See below
+
+**** repl related keybindings
+
+|------------+-----------------------------+------------------------------------------------------------------|
+| Keybinding | Function                    | Description                                                      |
+|------------+-----------------------------+------------------------------------------------------------------|
+|            | python-shell-send-file      | Send FILE-NAME to inferior Python PROCESS.                       |
+| (C-c C-b)  | python-shell-send-block     | Send the block at point to inferior Python process.              |
+| (C-M-x)    | python-shell-send-defun     | Send the current defun to inferior Python process.               |
+| (C-c C-c)  | python-shell-send-buffer    | Send the entire buffer to inferior Python process.               |
+| (C-c C-r)  | python-shell-send-region    | Send the region delimited by START and END to inferior Python p… |
+| (C-c C-s)  | python-shell-send-string    | Send STRING to inferior Python PROCESS.                          |
+| (C-c C-e)  | python-shell-send-statement | Send the statement at point to inferior Python process.          |
+|------------+-----------------------------+------------------------------------------------------------------|
 
 *** Anaconda support                                                :Anaconda:venv:
 #+begin_src emacs-lisp
