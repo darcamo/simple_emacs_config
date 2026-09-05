@@ -2230,8 +2230,8 @@ A beautiful inline overlay for Emacs (Flycheck | Flymake)
 #+begin_src emacs-lisp
 (use-package flyover
   :ensure t
-  :hook ((flycheck-mode . flyover-mode)
-         (flymake-mode . flyover-mode))
+  ;; :hook ((flycheck-mode . flyover-mode)
+  ;;        (flymake-mode . flyover-mode))
   :bind ( :map prog-mode-map
           ([S-f5] . flyover-toggle)
           )
