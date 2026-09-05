@@ -6475,6 +6475,7 @@ https://codeberg.org/nicolas-graves/vulpea-mcp
 #+begin_src emacs-lisp
 (use-package logseq-to-vulpea
   :ensure (logseq-to-vulpea :type git :host github :protocol ssh
+  :defer t
   :repo "darcamo/logseq-to-vulpea" :depth nil)
   )
 #+end_src
@@ -7313,6 +7314,7 @@ For Python configuration see
   ;; here to run dape and load the dape package, which in turn will define the
   ;; other dape shortcuts.
   ("C-x C-a d" . dape)
+  ([f12] . dape-breakpoint-toggle)
   )
 
   ;; Add inline variable hints, this feature is highly experimental
@@ -8171,7 +8173,7 @@ prefer the imenu entries computed from tree-sitter.
               ([f10] . python-pytest-file-dwim)
               ([C-f10] . python-pytest-run-def-at-point-treesit)
               ([S-f10] . python-pytest)
-              ([C-S-f10] . python-pytest-dispatch)
+              ([f5] . python-pytest-dispatch)
               )
   :config
   (add-to-list 'display-buffer-alist
@@ -8185,7 +8187,7 @@ prefer the imenu entries computed from tree-sitter.
   :defer t
   :bind (:map python-mode-map
               ;; Add breakpoint with pudb
-              ([C-f8] . python-insert-breakpoint)
+              ([f12] . python-insert-breakpoint)
               ;; ([C-S-f8] . pudb-add-breakpoint)
 
               ;; Run a python file
@@ -8194,7 +8196,7 @@ prefer the imenu entries computed from tree-sitter.
               )
   :bind (:map python-ts-mode-map
               ;; Add breakpoint with pudb
-              ([C-f8] . python-insert-breakpoint)
+              ([f12] . python-insert-breakpoint)
               ;; ([C-S-f8] . pudb-add-breakpoint)
 
               ;; Run a python file
@@ -8565,13 +8567,13 @@ running one of them you can easily re-run it with =recompile=.
   (
    :map
    go-integration-project-mode-map
-   ([M-f8] . go-integration-choose-go-file)
-   ([S-M-f8] . go-integration-choose-go-package-with-tests)
-   ([f8] . go-integration-run-current-file)
-   ([S-f8] . go-integration-run-all-tests)
-   ([C-S-f8] . go-integration-run-current-test)
-   ([f9] . compile)
+   ([f9] . go-integration-run-current-file)
+   ([C-f9] . go-integration-run-current-test)
+   ([S-f9] . go-integration-run-all-tests)
+   ([M-f9] . go-integration-choose-go-file)
+   ([S-M-f9] . go-integration-choose-go-package-with-tests)
    ([f10] . recompile)
+   ([C-f10] . compile)
    ([S-f10] . kill-compilation)
    )
   )
