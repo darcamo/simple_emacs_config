@@ -4459,7 +4459,8 @@ Customize faces for bold, italic and strike-through.
 (define-minor-mode darcamo/org-emphasis-faces-mode
   "Use custom faces for Org emphasis in this buffer."
   :init-value nil
-  :lighter " OrgEF"
+  :lighter
+  " OrgEF"
   (if darcamo/org-emphasis-faces-mode
       (progn
         (unless darcamo--org-emphasis-alist-saved
@@ -4468,19 +4469,26 @@ Customize faces for bold, italic and strike-through.
                     (darcamo--org-emphasis-alist-with-custom-faces
                      darcamo--org-emphasis-alist-saved))
         (when (derived-mode-p 'org-mode)
-          (font-lock-refresh-defaults)
-          (font-lock-flush)
-          (font-lock-ensure)))
+          (font-lock-flush)))
     (when darcamo--org-emphasis-alist-saved
       (setq-local org-emphasis-alist darcamo--org-emphasis-alist-saved)
       (setq darcamo--org-emphasis-alist-saved nil)
       (when (derived-mode-p 'org-mode)
-        (font-lock-refresh-defaults)
-        (font-lock-flush)
-        (font-lock-ensure)))))
+        (font-lock-flush)))))
 #+end_src
 
-**** COMMENT Enable the minor-mode in all org-mode buffers
+**** Add C-S-f8 shortcut to toggle the minor-mode
+#+begin_src emacs-lisp
+(use-package
+  org-mode
+  :defer t
+  :bind (
+         :map org-mode-map
+         ([C-S-f8] . darcamo/org-emphasis-faces-mode))
+  )
+#+end_src
+
+**** Enable the minor-mode in all org-mode buffers
 #+begin_src emacs-lisp
 (use-package org-mode
   :defer t
