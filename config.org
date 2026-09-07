@@ -3343,22 +3343,6 @@ https://github.com/kiwanami/emacs-calfw
 #+end_src
 
 ** Extra packages for org-babel language suport
-*** Jupyter
-#+begin_src emacs-lisp
-(use-package jupyter
-  :defer t
-  :ensure t
-  )
-
-(use-package jupyter-org-client
-  :after jupyter
-  :config
-  (jupyter-org-define-key (kbd "M-<return>") (lambda () (interactive) (org-ctrl-c-ctrl-c) (org-babel-next-src-block)))
-  (jupyter-org-define-key (kbd "C-M-p") (lambda () (interactive) (org-babel-previous-src-block) (next-line)))
-  (jupyter-org-define-key (kbd "C-M-n") (lambda () (interactive) (org-babel-next-src-block) (next-line)))
-  )
-#+end_src
-
 *** go                                                                         :Go:
 https://github.com/pope/ob-go
 
@@ -8206,7 +8190,7 @@ prefer the imenu entries computed from tree-sitter.
   )
 #+end_src
 *** Configuration and keybindings
-TODO: Set some of the f8 + modifier keyindings to something related to adding
+*TODO*: Set some of the =f8 + modifier= keyindings to something related to adding
 dependencies, running =uv=, etc.
 
 #+begin_src emacs-lisp
@@ -8280,7 +8264,9 @@ See below
   )
 #+end_src
 
-*** pyvenv: Virtual Environment                                              :venv:
+*** COMMENT pyvenv: Virtual Environment                                      :venv:
+https://github.com/jorgenschaefer/pyvenv
+
 #+begin_src emacs-lisp
 ;; Call pyvenv-activate and specify the folder with the virtual environment
 (use-package pyvenv
@@ -8288,10 +8274,6 @@ See below
   :commands (pyvenv-activate pyvenv-workon pyvenv-mode pyvenv-tracking-mode)
   :custom
   (pyvenv-workon "~/miniconda3/envs/")
-  ;; :init
-  ;; (pyvenv-mode 1)
-  ;; (pyvenv-tracking-mode 1)
-  ;; (setenv "WORKON_HOME" "~/miniconda3/envs/")
   )
 
 (use-package pyvenv-auto
@@ -8299,10 +8281,27 @@ See below
   :hook ((python-base-mode . pyvenv-auto-run)))
 #+end_src
 
-*** uv-mode                                                                  :venv:
+*** uv-mode                                                             :venv:
 https://github.com/z80dev/uv-mode
 
+If can be used as an alternative to pyvenv, if you manager project specific environments using =uv=.
+
 If you decide to try it, you should probably comment out pyvenv package.
+
+UV Mode works automatically once installed. Simply open a Python file in a project that has a .venv directory, and UV Mode will activate the appropriate virtual environment.
+
+You can also *manually activate/deactivate environments* with
+- =C-c C-s=: Manually activate the virtual environment for the current project
+- =C-c C-u=: Deactivate the current virtual environment
+
+
+#+begin_src emacs-lisp
+(use-package uv-mode
+  :ensure t
+  :commands (uv-mode-auto-activate-hook uv-mode-set uv-mode-unset)
+  :hook (python-ts-mode . uv-mode-auto-activate-hook)
+  )
+#+end_src
 
 *** Set language server in eglot                                              :LSP:
 **** Eglot                                                                 :Eglot:
@@ -8393,23 +8392,12 @@ It's broken in more recent Emacs versions because eglot--report-to-flymake signa
           ))
 #+end_src
 
-*** COMMENT Dap-debug (Python)                                              :debug:
-+You need to install ~ptvsd>=4.2~ in your virtual environment+
-
-You need to install ~debugpy~ in your virtual environment
-
-#+begin_src emacs-lisp
-(use-package dap-python
-  :defer t ;; We will explicitly load dap-python in python-mode-hook
-  :custom
-  (dap-python-debugger 'debugpy)
-  )
-#+end_src
-
-*** Dape Python - Debug Protocol                                            :debug:
+*** TODO Dape Python - Debug Protocol                                       :debug:
 Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] in your python environment. Then running =dape= should be enough.
 
 *** code-cells-mode
+https://github.com/astoff/code-cells.el
+
 When code-cell-mode is active, several keybindings are added to the =C-c %= prefix. I have
 added keybindings to some of the commands to easier keys.
 
@@ -8484,6 +8472,100 @@ The following features are available, subject to variations across different REP
   :commands (drepl-ipython drepl-eval drepl-node drepl-associate drepl-eval-buffer drepl-eval-region drepl-pop-to-repl)
   )
 #+end_src
+*** Jupyter (Very Good)
+https://github.com/emacs-jupyter/jupyter
+
+#+begin_src emacs-lisp
+(use-package jupyter
+  :defer t
+  :ensure t
+  )
+
+(use-package jupyter-org-client
+  :after jupyter
+  :config
+  (jupyter-org-define-key (kbd "M-<return>") (lambda () (interactive) (org-ctrl-c-ctrl-c) (org-babel-next-src-block)))
+  (jupyter-org-define-key (kbd "C-M-p") (lambda () (interactive) (org-babel-previous-src-block) (next-line)))
+  (jupyter-org-define-key (kbd "C-M-n") (lambda () (interactive) (org-babel-next-src-block) (next-line)))
+  )
+#+end_src
+
+*** TODO COMMENT ob-ipython
+https://github.com/gregsexton/ob-ipython
+
+org-babel integration with Jupyter for evaluation of (Python by default) code blocks
+
+Works best if source blocks have the =:session= parameter.
+
+Create a src block with language =ipython= and options =:session :results raw drawer=.
+
+You can also use jupyter kernel instead of ipython. Use one of the kernel languages
+instead of ipython, such as
+- =jupyter-python=
+- =jupyter-jupyter=
+- =jupyter-R=
+
+
+*TIP*: With the point in an ipython SRC block, you can open a REPL connected to the current kernel by running =C-c C-v C-z=.
+- See more in https://github.com/gregsexton/ob-ipython
+
+
+#+begin_src emacs-lisp
+(use-package ob-ipython
+  :ensure t
+  :defer t
+  :config
+  (setf (alist-get 'ipython org-babel-load-languages) t)
+  (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
+  )
+#+end_src
+
+*** TODO COMMENT pydoc
+https://github.com/statmobile/pydoc
+
+Emacs mode for navigating Python documentation through pydoc.
+
+*** TODO COMMENT live-py-plugin
+https://github.com/donkirkby/live-py-plugin
+
+*** TODO COMMENT ein - emacs-ipython-notebook
+https://github.com/millejoh/emacs-ipython-notebook
+
+Note: Seems unreliably
+
+**** General
+
+#+begin_src emacs-lisp
+(use-package ein
+  :ensure t
+  :commands (ein:process-find-file-callback ein:run ein:stop)
+  :config
+  ;; Add ein to the list of babel languages
+  (setf (alist-get 'ein org-babel-load-languages) t)
+  (org-babel-do-load-languages 'org-babel-load-languages org-babel-load-languages)
+  )
+#+end_src
+
+**** Usage
+
+Start EIN using ONE of the following:
+
+- Open an =.ipynb= file, press =C-c C-o=, or,
+- =M-x ein:run= launches a jupyter process from emacs, or,
+- =M-x ein:login= to a running jupyter server, or,
+
+=M-x ein:stop= prompts to halt local and remote jupyter services.
+
+
+*Alternativelly*, use =ob-ein= (doc [[https://github.com/millejoh/emacs-ipython-notebook#ob-ein][here]]).
+
+
+*Keybindings*:
+- =C-c C-a=: Add cell above
+- =C-c C-b=: Add cell below
+- =C-c C-c=: Execute cell
+- =M-<up>=: Move cell up
+- =M-<down>=: Move cell down
 
 ** Lisp
 *** General keybindings to run elisp code
