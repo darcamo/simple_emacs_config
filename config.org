@@ -4412,7 +4412,7 @@ for some interesting options.
   )
 #+end_src
 
-*** TODO Minor-mode to customize faces for emphasis characters
+*** Minor-mode to customize faces for emphasis characters
 Customize faces for bold, italic and strike-through.
 
 **** Define the minor-mode
@@ -7217,7 +7217,7 @@ Commands you should know to use dap-mode (see more [[https://emacs-lsp.github.io
 | dap-ui-hide-many-windows             |                                           |
 |--------------------------------------+-------------------------------------------|
 
-**** TODO Check support for launch.json
+**** Check support for launch.json
 https://emacs-lsp.github.io/dap-mode/page/features/#launchjson-support
 
 **** Common configuration for dap-mode
