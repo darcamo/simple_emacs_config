@@ -10858,7 +10858,7 @@ This package makes mu4e much more beautiful
 (use-package
   emacs
   :ensure nil
-  :if (when (not (darcamo/running-in-wsl-p)))
+  :unless (darcamo/running-in-wsl-p)
   :bind (("C-c e" . notmuch)))
 #+end_src
 
