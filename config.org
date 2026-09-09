@@ -5628,9 +5628,7 @@ necessary."
 
 (defun darcamo/vulpea-is-work-note (note)
   "Check if NOTE is in my work vault."
-  (let* ((note-path (vulpea-note-path note))
-         (work-notes-path (expand-file-name "~/notes_work/")))
-    (file-equal-p (file-name-parent-directory note-path) work-notes-path)))
+  (string-match-p "/notes_work/" (vulpea-note-path note)))
 
 
 ;; NOTE: Calling `darcamo/vulpea-is-work-note' inside
