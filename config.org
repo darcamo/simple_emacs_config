@@ -4663,22 +4663,29 @@ https://github.com/llcc/org-table-highlight
 
 ** org-download
 #+begin_src emacs-lisp
+(defvar darcamo/wsl-screenshots-folder "/mnt/c/Users/MoreiraD/OneDrive - HP Inc/Pictures/Screenshots/" "Path of the folder with Windows screenshots from inside WSL.")
+
+
 (defun darcamo/wsl-copy-latest-screenshot (target-filename)
   "Copy the latest Windows screenshot to the provided TARGET-FILENAME in WSL."
-  (if-let* ((windows-user-name (s-trim (shell-command-to-string "powershell.exe '$env:UserName'")))
-            (screenshots-dir (format "/mnt/c/Users/%s/Pictures/Screenshots/" windows-user-name)) ; Adjust this to your setup
+  (if-let* ((screenshots-dir
+             (shell-quote-argument darcamo/wsl-screenshots-folder))
+                                        ; Adjust this to your setup
             (latest-screenshot
              (string-trim
               (shell-command-to-string
                (format "ls -t %s*.png | head -n 1" screenshots-dir))))
-            (latest-valid-screenshot (when (not (string-empty-p latest-screenshot)) latest-screenshot))
+            (latest-valid-screenshot
+             (when (not (string-empty-p latest-screenshot))
+               latest-screenshot))
             (target-file (expand-file-name target-filename)))
       (progn
         (shell-command
-         (format "cp %s '%s'" (shell-quote-argument latest-valid-screenshot) (shell-quote-argument target-file)))
+         (format "cp %s '%s'"
+                 (shell-quote-argument latest-valid-screenshot)
+                 (shell-quote-argument target-file)))
         (message "Copied %s to %s" latest-valid-screenshot target-file))
-    (message "No screenshot found in %s" screenshots-dir)
-    ))
+    (message "No screenshot found in %s" screenshots-dir)))
 
 
 (use-package org-download
