@@ -3141,7 +3141,7 @@ https://github.com/lorniu/gt.el
 
 
 (use-package org
-  ;; :bind ("C-c a" . org-agenda)
+  :bind ("C-c a" . org-agenda)
   :custom
   ;; Category Icons
   ;; ~/.emacs.d/Icons_For_Org-Mode_Category
@@ -6065,17 +6065,13 @@ widgets.
 (use-package vulpea-agenda
   :ensure (vulpea-agenda :type git :host github :protocol ssh
                          :repo "darcamo/vulpea-agenda" :depth nil)
-  :commands (vulpea-agenda-wrapper vulpea-agenda-todo-list-wrapper vulpea-agenda-mode)
+  :after org-agenda
   :custom
   (vulpea-agenda-tags '("agenda" "todo"))
 
   :config
   (vulpea-agenda-mode t)
   )
-
-
-(use-package org
-  :bind ("C-c a" . vulpea-agenda-wrapper))
 #+end_src
 
 *** Vulpea Auto Tag
