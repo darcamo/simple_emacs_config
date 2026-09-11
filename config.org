@@ -8403,16 +8403,27 @@ Note: You need to install [[https://github.com/microsoft/debugpy][debugpy]] in y
 *** code-cells-mode
 https://github.com/astoff/code-cells.el
 
-When code-cell-mode is active, several keybindings are added to the =C-c %= prefix. I have
-added keybindings to some of the commands to easier keys.
+When =code-cell-mode= is active, several keybindings are added to the =C-c %= prefix. I have added keybindings to some of the commands to easier keys.
 
-NOTE: code-cells-mode will also define the cells as the outline. With this,
+*NOTE*: =code-cells-mode= will also define the cells as the outline. With this,
 =consult-outline= becomes a nice way to quickly navigate between cells.
+
+*Note*: Opening an =.ipynb= file will automatically convert it to Python code (using jupytext, which needs to be installed) and show that.
 
 #+begin_src emacs-lisp
 (use-package code-cells
   :ensure t
   :commands (code-cells-mode)
+  :custom
+  ;; The default value of `code-cells-convert-ipynb-style' should work, but it's
+  ;; currently broken in the notebooks that I open. I tries to detect the
+  ;; language from the notebook and set the appropriated jupytext command to
+  ;; convert to that language. Since I only have notebooks in Python, I'm
+  ;; hard-coding the value here to work work Python.
+  (code-cells-convert-ipynb-style '(("jupytext" "--to" "ipynb")
+                                    ("jupytext" "--to" "py")
+                                    (lambda () 'python-ts-mode)
+                                    code-cells-convert-ipynb-hook))
   :bind ( :map code-cells-mode-map
           ("C-M-p" . code-cells-backward-cell)
           ("C-M-n" . code-cells-forward-cell)
