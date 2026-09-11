@@ -2961,6 +2961,8 @@ https://github.com/lorniu/gt.el
   ;; I add the "curso" tag to notes for online courses
   (add-to-list 'org-tags-exclude-from-inheritance "curso")
 
+  (add-to-list 'org-tags-exclude-from-inheritance "pessoas")
+
   :hook
   (org-mode . (lambda () (setq fill-column 90)))
   (org-mode . (lambda () (outline-minor-mode t)))
