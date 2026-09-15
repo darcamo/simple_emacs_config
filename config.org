@@ -2347,35 +2347,56 @@ To start Eat, run M-x eat. Eat has four input modes:
 (use-package vterm
   :ensure t)
 #+end_src
-** COMMENT ghostel
+** ghostel
 - https://github.com/dakra/ghostel
 - https://www.reddit.com/r/emacs/comments/1sc4n6k/ghostel_terminal_emulator_powered_by_libghostty/
+
+
+*Tips*: There are some very useful keybindings
+
+| Keybinding | Function          | Description                               |
+|------------+-------------------+-------------------------------------------|
+| C-c C-t    | ghostel-copy-mode | Allow copying text. Switch back after M-w |
+|            |                   |                                           |
+
 
 #+begin_src emacs-lisp
 (use-package ghostel
   :ensure (ghostel :type git :host github :repo "dakra/ghostel")
+  :bind (
+         :map ghostel-mode-map
+         ("C-k"  . my/ghostel-send-C-k-and-kill)
+         )
+  :config
+  (defun my/ghostel-send-C-k-and-kill ()
+    "Send `C-k' to ghostel.
+Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
+    (interactive)
+    (kill-ring-save (point) (line-end-position))
+    (ghostel-send-key "k" "ctrl"))
   )
 #+end_src
 ** My function to start a shell
 *Note*: A keybinding (=C-z=) was set to call this function.
 #+begin_src emacs-lisp
 (defun darcamo/start-shell (arg)
-  "Start zsh, if available, or bash using `ansi-term'."
-  (interactive "P")
-  (let ((zsh "/bin/zsh")
-        (bash "/bin/bash"))
-    (if (file-executable-p zsh)
-        (eat zsh arg)
-      (eat bash arg))))
+  "Start zsh, if available, or bash if not.
 
-;; (defun darcamo/start-shell ()
-;;   "Start zsh, if available, or bash using `ansi-term'."
-;;   (interactive)
-;;   (let ((zsh "/bin/zsh")
-;;         (bash "/bin/bash"))
-;;     (if (file-executable-p zsh)
-;;         (ghostel)
-;;       (ghostel))))
+If ghostel is available, use it as terminal emulator. If not, use eat.
+In both cases, ARG is passed to them."
+  (interactive "P")
+  (let* ((zsh "/usr/bin/zsh")
+         (bash "/usr/bin/bash")
+         (shell
+          (if (file-executable-p zsh)
+              zsh
+            bash)))
+
+    (if (require 'ghostel nil t)
+        (let ((ghostel-shell shell))
+          (ghostel arg))
+
+      (eat shell arg))))
 #+end_src
 ** powershell
 #+begin_src elisp
