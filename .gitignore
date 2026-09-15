@@ -35,3 +35,7 @@ url
 /vulpea.db
 /dape-breakpoints
 /forge-database.sqlite
+/places.eld
+/projects.eld
+/request/
+/bookmarks.eld
