@@ -6669,6 +6669,16 @@ Useful keybindings:
 #+end_src
 
 * Programming                                                           :Programming:
+
+** Project hooks
+#+begin_src emacs-lisp
+(use-package project-hooks
+  :ensure (project-hooks :type git :host github :protocol ssh
+                         :repo "darcamo/project-hooks" :depth nil)
+  :config
+  (global-project-hooks-mode))
+#+end_src
+
 ** General Programming (not including any specific language)           :Programming:
 *** Set "C-c &" keybinding for org-mark-ring-goto in programming modes
 If in an org-mode file I activated a link that went to a source code, then =C-c &= will go
@@ -7828,7 +7838,8 @@ uses the =.ts= extension for itsa (translation) language files.
                                           :repo "darcamo/cmake-integration" :depth nil)
   :defer nil
   :config
-  (global-cmake-integration-project-mode)
+  (add-to-list 'project-hooks-alist '("CMakeLists.txt" . cmake-integration-project-mode))
+
   ;; Don't enable cmake-integration-project in QML buffers
   (add-to-list 'cmake-integration-project-ignored-major-modes 'qml-ts-mode)
   :bind (:map cmake-integration-project-mode-map
@@ -8730,7 +8741,8 @@ running one of them you can easily re-run it with =recompile=.
   :defer nil
   :commands (go-integration-project-mode)
   :config
-  (global-go-integration-project-mode)
+  (add-to-list 'project-hooks-alist '("go.mod" . go-integration-project-mode))
+
   :bind
   (
    :map
