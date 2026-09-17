@@ -32,6 +32,15 @@ TODO: See
 - =safe-local-variable-values= variable
 
 
+=C-x .= -> set-fill-prefix
+- Set everything from beggining of line to point as the /fill-prefix/
+- Then fill paragraph will add the prefix on every line
+=C-u C-x .= -> unset the fill prefix
+
+
+=fill-paragraph-semlf=: Refill text putting a newline character after each sentence.
+
+
 TODO: Check the [[https://github.com/alphapapa/org-ql?tab=readme-ov-file][org-ql]] package
 + It can perform searches on org-mode files and maybe even be a replacement for org-agenda
 TODO: Check the [[https://github.com/ndwarshuis/org-ml][org-ml]] package
@@ -104,6 +113,8 @@ FOLDER is expanded using `expand-file-name`."
 (darcamo/add-folder-to-path "~/.local/bin")
 (darcamo/add-folder-to-path "~/go/bin")
 (darcamo/add-folder-to-path "~/.emacs.d/elpaca/sources/eldev/bin/")
+(darcamo/add-folder-to-path "~/.cargo/bin")
+(darcamo/add-folder-to-path "~/git_files/solution-hp-boost/vcpkg")
 
 
 (defvar qt-location (expand-file-name "~/Qt/6.10.1/gcc_64") "Base location where I installed Qt")
@@ -346,7 +357,7 @@ Use =show-font-select-preview= to preview a single font.
 #+begin_src emacs-lisp
 (use-package emacs
   :custom
-  (prettify-symbols-unprettify-at-point t)
+  (prettify-symbols-unprettify-at-point nil)
   :config
   (global-prettify-symbols-mode 1))
 #+end_src
@@ -1997,7 +2008,7 @@ You can open links by clicking or with the =C-c RET= keybinding.
   )
 #+end_src
 
-** pulsar
+** COMMENT pulsar
 #+begin_src emacs-lisp
 (use-package pulsar
   :ensure t
@@ -4656,8 +4667,8 @@ Layer darcamo-preview-latex
   ;;         ;; the Emacs background is dark
   ;;         "\\tolerance=1000"))
 
-  (add-to-list 'org-latex-default-packages-alist '("" "MathDefinitions" t) t)
-  (add-to-list 'org-latex-default-packages-alist '("" "tikz" nil) t)
+  ;; (add-to-list 'org-latex-default-packages-alist '("" "MathDefinitions" t) t)
+  ;; (add-to-list 'org-latex-default-packages-alist '("" "tikz" nil) t)
 
   ;; Faz com que o commando \vec seja conhecido para o preview latex
   (setq org-preview-latex-image-directory "~/tmp/ltxpng/")
@@ -9216,6 +9227,8 @@ Note: Run =npm i -g vscode-langservers-extracted= to install the json language s
 #+end_src
 
 *** counsel-jq
+TODO: See also [[https://github.com/elken/consult-jq][consult-jq]]
+
 Just run =M-x counsel-jq= in a json buffer. Enter any query and you can see a live preview. Pressing enter will put the result in a new buffer.
 
 #+begin_src elisp
