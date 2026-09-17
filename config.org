@@ -2354,11 +2354,27 @@ To start Eat, run M-x eat. Eat has four input modes:
 
 *Tips*: There are some very useful keybindings
 
-| Keybinding | Function          | Description                               |
-|------------+-------------------+-------------------------------------------|
-| C-c C-t    | ghostel-copy-mode | Allow copying text. Switch back after M-w |
-|            |                   |                                           |
+| Keybinding | Description                               |
+|------------+-------------------------------------------|
+| C-c C-j    | Switch to semi-char mode (universal exit) |
+| C-c M-d    | Switch to char mode                       |
+| C-c C-e    | Switch to Emacs mode                      |
+| C-c C-t    | Toggle copy mode                          |
+| C-c C-l    | Switch to line mode                       |
+| M-RET      | Char mode only: return to semi-char       |
 
+Note about the different (input) modes:
+- *Semi-char mode* (default): Most keys are sent to the terminal, except the ones in =ghostel-keymap-exceptions=
+- *Char-mode*: All keys (including =ghostel-keymap-exceptions=) are sent to the terminal. Useful for TUI apps.
+- *Emacs mode (read-only, live)*: The terminal keeps running, the buffer is read-only, and standard Emacs bindings fall through to the global map. isearch-forward, occur, M-x, C-SPC + M-w, arrow keys, wheel scroll - all work unmodified. The terminal keeps producing output and the buffer keeps growing. While point sits on the live terminal cursor the window follows the new output; the moment you navigate away (or start a selection) the following stops and point stays where you put it, resuming once point returns to the cursor (M-> jumps back to it).
+  * /Typed keys do not reach the shell/ - Emacs mode is a "look but don't touch" view.
+- *Copy mode (freeze output)*: The terminal is frozen - no live output updates the buffer until you exit. Use this when you want to select text precisely without the terminal scrolling underneath your cursor.
+  - =C-c C-t= toggles copy mode off again, and =C-c C-e= switches to Emacs mode - read-only but live, so output resumes - without going through semi-char.
+  - =M-w= copy selection and exit copy-mode
+  - =q= exits copy-mode without copying
+- *line mode (Local editing)*: Line mode buffers the user's input locally in Emacs - no keystrokes are forwarded to the shell while composing. Full Emacs editing (M-b, M-DEL, C-y yank, transpose-words, etc.) works on the input region. Pressing RET sends the whole line to the shell in one write; bash receives it atomically, echoes and executes it.
+
+*** General
 
 #+begin_src emacs-lisp
 (use-package ghostel
@@ -2366,6 +2382,15 @@ To start Eat, run M-x eat. Eat has four input modes:
   :bind (
          :map ghostel-mode-map
          ("C-k"  . my/ghostel-send-C-k-and-kill)
+         :map ghostel-semi-char-mode-map
+         ([f2] . delete-window)
+         ([f3] . bury-buffer)
+         ([C-f3] . unbury-buffer)
+         ([f4] . kill-current-buffer)
+         ("S-<right>" . windmove-right)
+         ("S-<left>" . windmove-left)
+         ("S-<up>" . windmove-up)
+         ("S-<down>" . windmove-down)
          )
   :config
   (defun my/ghostel-send-C-k-and-kill ()
@@ -2376,6 +2401,21 @@ Like normal Emacs `C-k'.  Kill to end of line and put content in kill-ring."
     (ghostel-send-key "k" "ctrl"))
   )
 #+end_src
+
+*** COMMENT Use ghostel for compile command
+
+#+begin_src emacs-lisp
+(use-package ghostel-compile
+  :hook (after-init . ghostel-compile-global-mode))
+#+end_src
+
+*** COMMENT Replace comint's built-in =ansi-color-process-output= with Ghostel's VT parser
+
+#+begin_src emacs-lisp
+(use-package ghostel-comint
+  :hook (after-init . ghostel-comint-global-mode))
+#+end_src
+
 ** My function to start a shell
 *Note*: A keybinding (=C-z=) was set to call this function.
 #+begin_src emacs-lisp
@@ -11297,7 +11337,7 @@ Note: There is also https://github.com/4honor/org-excalidraw
 https://github.com/larrasket/org-draw
 
 * LLMs                                                                          :LLM:
-** Co-pilot                                                            :LLM:copilot:
+** Copilot                                                            :LLM:copilot:
 *** Completions in buffer
 https://github.com/copilot-emacs/copilot.el
 
@@ -11335,12 +11375,12 @@ Don't forget to call ~copilot-install-server~.
   (copilot-overlay-face ((t (:foreground "DeepSkyBlue")))))
 #+end_src
 
-TODO Check the copilot-disable-display-predicates variable
+*TODO* Check the =copilot-disable-display-predicates= variable
 - If could ne a nice way to set-up some "snooze" mode which makes copilot not suggest
   completions for some time
 
 
-TODO Check the copilot-clear-overlay-ignore-commands variable
+*TODO* Check the =copilot-clear-overlay-ignore-commands= variable
 
 *** COMMENT Chat
 #+begin_src emacs-lisp
