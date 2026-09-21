@@ -2348,6 +2348,7 @@ To start Eat, run M-x eat. Eat has four input modes:
   :ensure t)
 #+end_src
 ** ghostel
+*** Information
 - https://github.com/dakra/ghostel
 - https://www.reddit.com/r/emacs/comments/1sc4n6k/ghostel_terminal_emulator_powered_by_libghostty/
 
