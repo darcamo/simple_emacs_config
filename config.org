@@ -5512,6 +5512,13 @@ TODO: See [[https://elpa.gnu.org/packages/denote-journal.html#h:create-a-journal
 - https://github.com/d12frosted/vulpea/issues/146
 - https://orgmode.org/manual/Tag-Hierarchy.html
 
+
+*** Don't enable vulpea in computers where I don't have notes - START
+Note that the code here is missing a closing parenthesis on purpose
+#+begin_src emacs-lisp
+(when (or (file-exists-p "~/notes/") (file-exists-p "~/notes_work/"))
+#+end_src
+
 *** General
 #+begin_src emacs-lisp
 (defun darcamo/vulpea-compare-by-create-date (note1 note2)
@@ -6343,7 +6350,6 @@ the priority and =%%= for a literal percent. The default value is ="- [[id:%i][%
 Note that *it's also possible to pass a function* to =:format=. This function receives the
 whole note as an argument.
 
-
 *** vulpea-capf
 https://github.com/neonmei/vulpea-capf
 
@@ -6537,6 +6543,11 @@ https://codeberg.org/nicolas-graves/vulpea-mcp
 
 *Note*: See also the [[https://github.com/laurynas-biveinis/org-mcp][org-mcp]] package.
 
+*** Don't enable vulpea in computers where I don't have notes - FINISH
+The code here just close the missing parenthesis
+#+begin_src emacs-lisp
+)
+#+end_src
 ** logseq-to-vulpea
 #+begin_src emacs-lisp
 (use-package logseq-to-vulpea
