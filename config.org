@@ -5582,6 +5582,44 @@ This function is intended to be used as the value for `vulpea-ui-backlinks-sort'
    (plist-get a :file-note) (plist-get b :file-note)))
 
 
+(defvar darcamo/vulpea-hidden-note-tag "hidden" "Tag to use to mark a note as hidden.
+
+A hidden note is a note that is not included for completion in
+`vulpea-find`. Everything else is the same as a normal note. This is
+specially useful for heading that I don't necessarily want to turn into
+notes, but that I need to in order to transclude their content.")
+
+
+;; (defun darcamo/vulpea-turn-heading-into-note ()
+;;   "Turn current heading into a note"
+;;   (interactive)
+;;   (org-id-get-create))
+
+
+(defun darcamo/vulpea-turn-heading-into-hidden-note ()
+  "Turn current heading into a note"
+  (interactive)
+  (org-id-get-create)
+  (vulpea-buffer-tags-add (list darcamo/vulpea-hidden-note-tag)))
+
+
+(defun darcamo/vulpea-db-query-no-hideen (&optional predicate)
+  "Query all notes that should be used for completion in `vulpea-find'.
+
+  This functions is intended to be used as the value of
+  `vulpea-find-default-candidates-source'. The only difference compared
+  to `vulpea-db-query' is that it does not include notes with the tag
+  set in `darcamo/vulpea-hidden-note-tag'.
+
+  If PREDICATE is provided, then only notes maching that PREDICATE are
+  returned."
+  (let ((notes
+         (vulpea-db-query-by-tags-none (list darcamo/vulpea-hidden-note-tag))))
+    (if predicate
+        (seq-filter predicate notes)
+      notes)))
+
+
 (use-package vulpea
   ;; :ensure (vulpea :type git :host github :repo "darcamo/vulpea")
   :ensure vulpea
@@ -5618,6 +5656,7 @@ This function is intended to be used as the value for `vulpea-ui-backlinks-sort'
   (vulpea-db-async-extraction t)
   (vulpea-select-annotate-matchable nil)
   (vulpea-find-backlink-expand-aliases nil)
+  (vulpea-find-default-candidates-source 'darcamo/vulpea-db-query-no-hideen)
   (vulpea-create-default-template '(:file-name "${timestamp}_${slug}.org"
                                                :head "#+SETUPFILE: org-roam-setup.org\n\n"
                                                :properties (("CREATED" . "%<%Y-%m-%d>"))))
