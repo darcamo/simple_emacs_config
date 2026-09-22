@@ -7930,7 +7930,9 @@ uses the =.ts= extension for itsa (translation) language files.
                                           :repo "darcamo/cmake-integration" :depth nil)
   :defer nil
   :config
-  (add-to-list 'project-hooks-alist '("CMakeLists.txt" . cmake-integration-project-mode))
+  (when (featurep 'project-hooks)
+    (add-to-list 'project-hooks-alist '("CMakeLists.txt" . cmake-integration-project-mode))
+    )
 
   ;; Don't enable cmake-integration-project in QML buffers
   (add-to-list 'cmake-integration-project-ignored-major-modes 'qml-ts-mode)
@@ -8833,7 +8835,9 @@ running one of them you can easily re-run it with =recompile=.
   :defer nil
   :commands (go-integration-project-mode)
   :config
-  (add-to-list 'project-hooks-alist '("go.mod" . go-integration-project-mode))
+  (when (featurep 'project-hooks)
+    (add-to-list 'project-hooks-alist '("go.mod" . go-integration-project-mode))
+    )
 
   :bind
   (
