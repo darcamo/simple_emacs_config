@@ -2954,7 +2954,7 @@ https://github.com/lorniu/gt.el
   (org-tag-persistent-alist
    '(
      ("ignore" . ?I)
-     ("Doutorado" . ?d) ("noexport" . ?N) ("Errands" . ?E) ("crypt" . ?C) ("Projeto" . ?p) ("Leituras" . ?l) ("CaaS" . ?c)
+     ("Doutorado" . ?d) ("noexport" . ?N) ("Errands" . ?E) ("crypt" . ?C) ("Projeto" . ?p) ("Leituras" . ?l) ("CaaS" . ?c) ("PDI" . P)
 
      ;; An exclusive group with either Home or Trabalho. Trabalho is a
      ;; group tag that matches both "Atlântico" and "GTEL"
