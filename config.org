@@ -5882,6 +5882,12 @@ See the documentation in [[https://github.com/d12frosted/vulpea/blob/master/docs
   :fields '((:key "RelatedTo" :type note :required t :multiple t)))
 
  (vulpea-schema-define
+  'contact
+  :predicate (lambda (note) (member "pessoas" (vulpea-note-tags note)))
+  :fields '((:key "Email" :type string equired nil :multiple t)
+            (:key "Linkedin" :validate darcamo/vulpea-validate-with-site-schema :required nil)))
+
+ (vulpea-schema-define
   'curso-online
   :predicate (lambda (note) (member "curso" (vulpea-note-tags note)))
   :fields
