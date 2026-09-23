@@ -6086,6 +6086,8 @@ We need to change =vulpea-ui--widget-registry=.
          :map org-mode-map
          ("M-[" . vulpea-journal-previous)
          ("M-]" . vulpea-journal-next)
+         :map vulpea-ui-sidebar-mode-map
+         ("." . vulpea-journal-ui-today)
          )
   :custom
   (vulpea-journal-default-template
