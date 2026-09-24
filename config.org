@@ -2379,7 +2379,9 @@ Note about the different (input) modes:
 
 #+begin_src emacs-lisp
 (use-package ghostel
-  :ensure (ghostel :type git :host github :repo "dakra/ghostel")
+  :ensure (ghostel :type git :host github :repo "dakra/ghostel"
+  :files ("etc" "ghostel-module.so" "terminfo" :defaults)
+  )
   :bind (
          :map ghostel-mode-map
          ("C-k"  . my/ghostel-send-C-k-and-kill)
