@@ -2512,7 +2512,7 @@ In both cases you are prompted for a language.
   :bind (
          ("C-x g" . magit-status)
          ;; Open magit in a new tab
-         ("C-x G" . (lambda () (interactive) (other-tab-prefix) (magit-status) ))
+         ("C-x G" . magit-list-repositories)
          )
   :custom
   (magit-diff-refine-hunk t)  ;; Note sure about the effect of this one
@@ -2528,6 +2528,23 @@ In both cases you are prompted for a language.
   ;; magit. This is nice when we set magit-display-buffer-function to something
   ;; that changes the window configuration.
   (magit-bury-buffer-function 'magit-restore-window-configuration)
+
+  ;; Track multiple repositories (call `magit-list-repositories' to use it)
+  (magit-repository-directories '(("~/git_files/" . 1)
+                                  ("~/.emacs.d/" . 0)
+                                  ("~/notes/" . 0)
+                                  ("~/notes_work/" . 0)
+                                  ("~/.emacs.d/elpaca/sources/vulpea" . 0)
+                                  ;; ("~/.emacs.d/elpaca/sources/vulpea-agenda" . 0)
+                                  ;; ("~/.emacs.d/elpaca/sources/vulpea-auto-tag" . 0)
+                                  ;; ("~/.emacs.d/elpaca/sources/vulpea-tag-links" . 0)
+                                  ;; ("~/.emacs.d/elpaca/so urces/project-hooks" . 0)
+                                  ;; ("~/.emacs.d/elpaca/sources/cmake-integration" . 0)
+                                  ;; ("~/.emacs.d/elpaca/sources/cmakepresets-mode" . 0)
+                                  ;; ("~/.emacs.d/elpaca/sources/go-integration" . 0)
+                                  ;; ("~/.emacs.d/elpaca/sources/go-task" . 0)
+                                  ;; ("~/.emacs.d/elpaca/sources/bottom-buffer-manager" . 0)
+                                  ))
 
   :config
   ;; Make current branch clear
