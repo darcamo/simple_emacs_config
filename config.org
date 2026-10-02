@@ -2549,6 +2549,9 @@ In both cases you are prompted for a language.
   :config
   ;; Make current branch clear
   (set-face-attribute 'magit-branch-current nil :weight 'bold :underline t)
+
+  :hook
+  (magit-mode . evz/setup-magit-submodule-update-all)
   )
 
 
@@ -2568,8 +2571,6 @@ In both cases you are prompted for a language.
         (magit-run-git-async "submodule" "update" "--init" args)))
     (transient-append-suffix 'magit-submodule '(2 -1) ;; add as last entry in the 3rd section
       '("U" magit-submodule-update-all))))
-
-(add-hook 'magit-mode-hook #'evz/setup-magit-submodule-update-all)
 #+end_src
 
 *** Enable smartparens-mode in git-commit-mode
