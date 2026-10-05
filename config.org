@@ -4355,6 +4355,19 @@ Set ~org-odt-preferred-output-format~ to "docx" to export to docx instead.
 #+end_src
 
 ** Org-mode Appearance                                                  :Appearance:
+
+*** Add a face for quote and verse blocks
+Org-mode does not add any face to quote and verse blocks by default. This can be changed by setting the =org-fontify-quote-and-verse-blocks= variable to =t=.
+
+#+begin_src emacs-lisp
+(use-package org
+  :custom
+  (org-fontify-quote-and-verse-blocks t)
+  :config
+  (set-face-attribute 'org-quote nil :background "dark slate gray")
+  )
+#+end_src
+
 *** Change org-ellipsis
 
 #+begin_src emacs-lisp
