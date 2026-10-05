@@ -2530,10 +2530,12 @@ In both cases you are prompted for a language.
   (magit-bury-buffer-function 'magit-restore-window-configuration)
 
   ;; Track multiple repositories (call `magit-list-repositories' to use it)
-  (magit-repository-directories '(("~/git_files/" . 1)
+  (magit-repository-directories '(
+                                  ("~/git_files/2026-CacheService/" . 0)
                                   ("~/.emacs.d/" . 0)
                                   ("~/notes/" . 0)
                                   ("~/notes_work/" . 0)
+                                  ("~/.local/share/vcpkg/" . 0)
                                   ("~/.emacs.d/elpaca/sources/vulpea" . 0)
                                   ;; ("~/.emacs.d/elpaca/sources/vulpea-agenda" . 0)
                                   ;; ("~/.emacs.d/elpaca/sources/vulpea-auto-tag" . 0)
