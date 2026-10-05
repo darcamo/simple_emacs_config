@@ -2552,6 +2552,12 @@ In both cases you are prompted for a language.
   ;; Make current branch clear
   (set-face-attribute 'magit-branch-current nil :weight 'bold :underline t)
 
+  (set-face-attribute 'magit-diff-revision-summary nil :background "dark goldenrod")
+  (set-face-attribute 'magit-diff-revision-summary-highlight nil :background "goldenrod")
+
+  (set-face-attribute 'magit-diff-hunk-heading-highlight nil :background "dark salmon")
+  (set-face-attribute 'magit-diff-hunk-heading nil :background "salmon")
+
   :hook
   (magit-mode . evz/setup-magit-submodule-update-all)
   )
