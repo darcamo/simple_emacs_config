@@ -9300,6 +9300,18 @@ browser. You need to save the file to see changes.
 *Note*: Only updates when you save the file. Use =impatient-showdown= instead if you want true
 live updates.
 
+*** markdown-ts-appear
+This is similar to =org-eppear=, but for markdown. It shows emphasis markers when cursor is
+on marked text.
+
+#+begin_src emacs-lisp
+(use-package markdown-ts-appear
+  ;; :ensure  (markdown-ts-appear :type git :host github :repo "Thysrael/markdown-ts-appear")
+  :ensure t
+  :hook (markdown-ts-mode . markdown-ts-appear-mode)
+  )
+#+end_src
+
 ** YAML                                                                       :YAML:
 *** yaml-ts-mode
 #+begin_src emacs-lisp
