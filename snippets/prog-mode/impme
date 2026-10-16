@@ -1,4 +1,5 @@
 # -*- mode: snippet -*-
 #name : TODO: Implement-me
 # --
-`(darcamo/get-comment-block-start)` TODO: Implement-me `(darcamo/get-comment-block-end)`
+`(darcamo/get-comment-block-start)` TODO: Implement-me`(when (not (string-empty-p (darcamo/get-comment-block-end))) (format " %s" (darcamo/get-comment-block-end)))`
+$>
