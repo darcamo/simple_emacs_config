@@ -11767,15 +11767,18 @@ a symbol."
   ;; Add a copilot backend
   (gptel-make-gh-copilot "Copilot")
 
+  ;; TODO: Add gemma-4
   (gptel-make-openai "OpenRouter"
     :host "openrouter.ai"
     :endpoint "/api/v1/chat/completions"
     :stream t
     :key 'darcamo/get-gptel-openrouter-key
-    :models (gptel-openrouter-get-annotated-models '(openrouter/pareto-code
+    :models (gptel-openrouter-get-annotated-models '(~unbiased/pareto-latest
+                                                     openrouter/pareto-code
                                                      deepseek/deepseek-v4-pro
                                                      deepseek/deepseek-v4-flash
                                                      x-ai/grok-code-fast-1
+                                                     openai/gpt-6-luna
                                                      openai/gpt-4o
                                                      openai/gpt-5.4-nano
                                                      openai/gpt-5.4
@@ -11785,9 +11788,12 @@ a symbol."
                                                      qwen/qwen3.7-max
                                                      google/gemini-2.5-pro
                                                      google/gemini-2.5-flash
+                                                     google/gemini-4-argon
                                                      z-ai/glm-5.1
                                                      z-ai/glm-5.2  ;; Seems really good
                                                      z-ai/glm-4.5-air  ;; Cheap
+                                                     z-ai/glm-4.5v
+                                                     z-ai/glm-4.6v
                                                      minimax/minimax-m2.5
                                                      moonshotai/kimi-k2.6
                                                      )))
