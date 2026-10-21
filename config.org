@@ -2897,6 +2897,12 @@ https://github.com/lorniu/gt.el
   ;; Enable org-indent-mode by default
   (org-startup-indented t)
 
+  ;; Show inline images when loading a new Org file
+  (org-startup-with-inline-images t)
+
+  ;; Preview LaTeX fragments when loading a new Org file
+  (org-startup-with-latex-preview t)
+
   ;; By default, this is `'showeverything', which shows everything (including
   ;; property drawers), and ignore the VISIBILITY property of a header.
   ;;
@@ -10246,9 +10252,18 @@ This only makes sense for empty buffers."
 *** Texpresso
 Live Latex
 https://github.com/let-def/texpresso
+
+*** TODO xenops
+https://github.com/dandavison/xenops
+
+I'm not sure if it replaces Auctex, of if it's supposed to be used alongside it.
+
 * Viewers (PDF, epub, browser, etc)
 ** PDF                                                                         :PDF:
 *** PDF-tools package
+It seems there is a [[https://github.com/alberti42/fork-pdf-tools/][fork]] that fix issues and merge PRs, since the original repo has not
+being updated for a while. It might be a good idea to try it.
+
 #+begin_src emacs-lisp
 (use-package pdf-tools
   :ensure t
