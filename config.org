@@ -2220,8 +2220,8 @@ overlay.
 (use-package visual-fill-column
   :ensure t
   :commands (visual-fill-column-mode global-visual-fill-column-mode)
-  :custom
-  (visual-fill-column-center-text t)
+  ;; :custom
+  ;; (visual-fill-column-center-text t)
   :hook
   (org-mode . visual-fill-column-mode)
   (org-mode . visual-line-mode)
