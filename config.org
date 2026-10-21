@@ -8575,7 +8575,32 @@ When =code-cell-mode= is active, several keybindings are added to the =C-c %= pr
 
 *Note*: Opening an =.ipynb= file will automatically convert it to Python code (using jupytext, which needs to be installed) and show that.
 
+See also [[*poporg][poporg]] for editing the markdown blocks.
+
 #+begin_src emacs-lisp
+(defun darcamo/hide-notebook-meta ()
+  "Hide extraneous info after '# %%' markers in jupyter-python files."
+  (font-lock-add-keywords
+   nil
+   ;; For markdown cells: hide after "# %% [markdown] "
+   '(
+     ("^# \\(%%\\)"
+      ;; (1 '(:invisible t :foreground "orange"))
+      (1 '(:inherit code-cells-header-line :foreground "orange" :overline "#8c8c8c") t t)
+      )
+     ;; For code cells: hide after "# %% " but not followed by "[markdown]"
+     ("^# %% \\(.*\\)"
+      (1 '(:inherit code-cells-header-line :foreground "#323131" :overline "#8c8c8c") t t)
+      )
+     ("^# %% \\(\\[markdown\\]\\) \\(.*\\)"
+      ;; (1 '(:invisible t :foreground "orange"))
+      (1 '(:inherit code-cells-header-line :foreground "green" :overline "#8c8c8c") t t)
+      (2 '(:inherit code-cells-header-line :foreground "#323131" :overline "#8c8c8c") t t)
+      )
+     )
+   (font-lock-mode 1)))
+
+
 (use-package code-cells
   :ensure t
   :commands (code-cells-mode)
@@ -8597,7 +8622,9 @@ When =code-cell-mode= is active, several keybindings are added to the =C-c %= pr
           ("S-<return>" . code-cells-eval-and-step)
           ("C-<return>" . code-cells-eval)
           )
-  :hook ((python-base-mode . code-cells-mode))
+  :hook
+  (python-base-mode . code-cells-mode)
+  (code-cells-mode . darcamo/hide-notebook-meta)
   )
 #+end_src
 
