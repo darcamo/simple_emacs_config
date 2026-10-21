@@ -7144,6 +7144,22 @@ does not need zeal.
   :hook
   (prog-mode . page-break-lines-mode))
 #+end_src
+** poporg
+Use =C-c '= to edit big blocks of comments in programming buffers.
+
+#+begin_src emacs-lisp
+(use-package poporg
+  :ensure t
+  :bind
+  (:map prog-mode-map
+	    ("C-c '" . poporg-dwim)
+	    )
+  (:map poporg-mode-map
+	    ("C-c '" . poporg-dwim)
+	    )
+  )
+#+end_src
+
 ** Eldoc
 *** Replace HTML characters with plain text ones in eldoc buffers.
 
