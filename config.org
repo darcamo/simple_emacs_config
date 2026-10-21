@@ -5032,6 +5032,17 @@ Veja o [[https://gitlab.com/oer/org-re-reveal][org-re-reveal]] como alternativa.
 #+end_src
 
 * PKM and reference systems
+** Tell Emacs to trust files on my notes folders
+#+begin_src emacs-lisp
+(use-package emacs
+  :config
+  (add-to-list 'trusted-content "~/notes/")
+  (add-to-list 'trusted-content "~/notes_work/")
+  )
+#+end_src
+
+*Note*: There is also [[https://github.com/eshelyaron/trust-manager][this package]] that could be used to help with trust management.
+
 ** COMMENT Org-roam                                                        :OrgRoam:
 *** Configuration
 #+begin_src emacs-lisp
