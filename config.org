@@ -2542,6 +2542,7 @@ In both cases you are prompted for a language.
                                   ("~/notes_work/" . 0)
                                   ("~/.local/share/vcpkg/" . 0)
                                   ("~/.emacs.d/elpaca/sources/vulpea" . 0)
+                                  ("~/Programas_locais/emacs/" . 0)
                                   ;; ("~/.emacs.d/elpaca/sources/vulpea-agenda" . 0)
                                   ;; ("~/.emacs.d/elpaca/sources/vulpea-auto-tag" . 0)
                                   ;; ("~/.emacs.d/elpaca/sources/vulpea-tag-links" . 0)
