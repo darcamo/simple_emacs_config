@@ -1310,9 +1310,23 @@ This will be equal to the current yar except when we are in january"
    (concat "start " (expand-file-name dir-as-string))))
 
 
+(defun browse-dir-wsl (dir-as-string)
+  "Open the path DIR-AS-STRING inside WSL using Windows Explorer."
+  (interactive)
+  (let* ((command
+          (format "wslview `wslpath -w \"%s\"`"
+                  (expand-file-name dir-as-string))))
+    ;; wslview-command                 ;
+    (start-process-shell-command
+     "browse" "*scratch*"
+     ;; Trocar nautilus por pcmanfm para o lxde
+     command)))
+
+
 (defun browse-dir (dir-as-string)
   "Open the file browser in directory DIR-AS-STRING."
   (cond
+   ((darcamo/running-in-wsl-p) (browse-dir-wsl dir-as-string))
    ((system-type-is-linux) (browse-dir-linux dir-as-string))
    ((system-type-is-macos) (browse-dir-macos dir-as-string))
    ((system-type-is-windows) (browse-dir-windows dir-as-string))
