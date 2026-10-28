@@ -9250,6 +9250,14 @@ https://github.com/justinhj/eredis/
 ** TODO sqlite database
 https://github.com/dusanx/elsqlite
 
+** Terraform
+#+begin_src emacs-lisp
+(use-package terraform-mode
+  :ensure t
+  :defer t
+)
+#+end_src
+
 * View/edit text formats (yaml, json, csv, markdown, latex, etc)
 ** Markdown                                                               :markdown:
 Tips:
