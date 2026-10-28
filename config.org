@@ -9287,6 +9287,9 @@ Tips:
          :map markdown-ts-view-mode-map
          ("C-c v" . (lambda () (interactive) (markdown-ts-mode) (read-only-mode -1)))
          )
+  :mode
+  ;; Cursor uses the mdc extension for its rules, and these are just markdown files
+  ("\\.mdc\\'" . markdown-ts-mode)
   )
 #+end_src
 
