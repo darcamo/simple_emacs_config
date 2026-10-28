@@ -103,6 +103,7 @@ FOLDER is expanded using `expand-file-name`."
 ;; Add .local/bin to path, since have a few programs there
 (darcamo/add-folder-to-path "~/.local/bin")
 (darcamo/add-folder-to-path "~/go/bin")
+(darcamo/add-folder-to-path "~/.cargo/bin")
 (darcamo/add-folder-to-path "~/.emacs.d/elpaca/sources/eldev/bin/")
 
 
