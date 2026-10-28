@@ -3352,6 +3352,7 @@ https://github.com/lorniu/gt.el
      ("a" "Agenda" (
                     (agenda "" ((org-super-agenda-groups my-agenda-org-super-agenda-groups)))
                     (tags-todo "NextActions" ((org-agenda-overriding-header "Task with tag NextActions")))
+                    (tags-todo "Someday" ((org-agenda-overriding-header "Task with tag Someday")))
                     )
       )
 
