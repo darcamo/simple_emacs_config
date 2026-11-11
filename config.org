@@ -2655,6 +2655,17 @@ In Arch Linux, the name of the package is =git-delta=.
   )
 #+end_src
 
+*** TODO COMMENT magit-boost
+Fater magit over tramp by disabling a few features.
+https://github.com/jeremy-compostella/magit-boost
+
+#+begin_src emacs-lisp
+(use-package magit-boost
+  :ensure t
+  :config
+  (magit-boost-mode 1)
+#+end_src
+
 ** Forge
 https://docs.magit.vc/forge/
 
