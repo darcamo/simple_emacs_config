@@ -5752,7 +5752,9 @@ This function is intended to be used as the value for `vulpea-ui-backlinks-sort'
          ([f6] . vulpea-find)
          ([C-f6] . consult-vulpea-grep)
          ("C-c n j" . vulpea-journal-today)
+         ("C-c n J" . darcamo/vulpea-journal-today-in-own-tab)
          ("C-c n g" . vulpea-journal-date)
+         ("C-c n G" . darcamo/vulpea-journal-date-in-own-tab)
          :map org-mode-map
          ("C-c n l" . vulpea-ui-sidebar-toggle)
          ("C-c n i" . vulpea-insert)
@@ -6267,12 +6269,29 @@ We need to change =vulpea-ui--widget-registry=.
 
 **** Show journal in its own tab
 #+begin_src emacs-lisp
-(add-to-list 'display-buffer-alist
-             '("^[0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\.org$"
-               display-buffer-in-tab
-               (tab-group . "[Notes]")
-               (tab-name . "Journal")
-               ))
+(defun darcamo/set-up-next-vulpea-journal-to-its-own-tab ()
+  "Make sure next time `vulpea-journal' is called it uses a dedicated tab."
+  (display-buffer-override-next-command
+   (lambda (buffer alist)
+     (cons (progn
+             (display-buffer-in-tab
+              buffer (append alist '((inhibit-same-window . nil) (tab-group . "[Notes]") (tab-name . "Journal") )))
+             (selected-window))
+           'tab))
+   nil "[other-tab]"))
+
+(defun darcamo/vulpea-journal-today-in-own-tab ()
+  "Open journal for current day in its own tab"
+  (interactive)
+  (darcamo/set-up-next-vulpea-journal-to-its-own-tab)
+  (vulpea-journal-today))
+
+
+(defun darcamo/vulpea-journal-date-in-own-tab (date)
+  "docstring"
+  (interactive (list (vulpea-journal--read-date "Journal date: ")))
+  (darcamo/set-up-next-vulpea-journal-to-its-own-tab)
+  (vulpea-journal date))
 #+end_src
 
 **** Add an embark action to turn a org-mode timestamp into a link to a vulpea journal entry
