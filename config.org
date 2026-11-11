@@ -2237,9 +2237,9 @@ overlay.
   :commands (visual-fill-column-mode global-visual-fill-column-mode)
   ;; :custom
   ;; (visual-fill-column-center-text t)
-  :hook
-  (org-mode . visual-fill-column-mode)
-  (org-mode . visual-line-mode)
+  ;; :hook
+  ;; ;; (org-mode . visual-fill-column-mode)
+  ;; (org-mode . visual-line-mode)
   :bind
   (("C-x x V" . visual-fill-column-mode))
   (("C-x x c" . visual-fill-column-toggle-center-text))
