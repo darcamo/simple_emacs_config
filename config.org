@@ -128,6 +128,70 @@ This is specially useful with docker.
   )
 #+end_src
 
+* COMMENT TRAMP
+** Optimize TRAMP usage
+- https://coredumped.dev/2025/06/18/making-tramp-go-brrrr./
+- https://www.godelia.org/2026/02/emacs-tramp-a-gem-for-remote-access/
+
+#+begin_src emacs-lisp
+(setq
+ tramp-default-method "ssh"
+ remote-file-name-inhibit-cache nil
+ remote-file-name-inhibit-locks t
+ tramp-use-scp-direct-remote-copying t
+ remote-file-name-inhibit-auto-save-visited t
+ tramp-copy-size-limit (* 1024 1024) ;; 1MB
+ tramp-verbose 2
+ )
+
+;; (connection-local-set-profile-variables
+;;  'remote-direct-async-process
+;;  '((tramp-direct-async-process . t)))
+
+;; (connection-local-set-profiles
+;;  '(:application tramp :protocol "scp")
+;;  'remote-direct-async-process)
+
+;; (setq magit-tramp-pipe-stty-settings 'pty)
+
+
+;; ;; Ignore remote version control for speed
+;; (setq vc-ignore-dir-regexp
+;;       (format "\\(%s\\)\\|\\(%s\\)"
+;;               vc-ignore-dir-regexp
+;;               tramp-file-name-regexp))
+
+;; (connection-local-set-profile-variables
+;;  'remote-direct-async-process
+;;  '((tramp-direct-async-process . t)))
+
+;; (connection-local-set-profiles
+;;  '(:application tramp :protocol "scp")
+;;  'remote-direct-async-process)
+
+;; (setq magit-tramp-pipe-stty-settings 'pty)
+#+end_src
+
+** COMMENT tramp-rpc
+https://github.com/ArthurHeymans/emacs-tramp-rpc
+
+#+begin_src elisp
+(use-package tramp-rpc
+  :ensure (tramp-rpc :type git :host github :repo "ArthurHeymans/emacs-tramp-rpc")
+  )
+#+end_src
+
+** COMMENT Emacs Remote Agent - ERA
+Mesma ideia do tramp-rpc
+
+https://github.com/era-emacs-tools/ERA
+
+#+begin_src elisp
+(use-package remote-agent
+  :ensure (remote-agent :type git :host github :repo "era-emacs-tools/ERA" :main "remote-agent.el")
+  )
+#+end_src
+
 * Set some variables
 #+begin_src emacs-lisp
 (when (getenv "EMAIL")
