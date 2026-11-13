@@ -6538,6 +6538,25 @@ the priority and =%%= for a literal percent. The default value is ="- [[id:%i][%
 Note that *it's also possible to pass a function* to =:format=. This function receives the
 whole note as an argument.
 
+**** Block parameters
+
+|---------------+---------------------------------+--------------------------------------------------------------------|
+| param         | value                           | meaning                                                            |
+|---------------+---------------------------------+--------------------------------------------------------------------|
+| :tags         | list of symbols/strings         | notes having all of these tags                                     |
+| :tags-any     | list                            | notes having any of these tags                                     |
+| :backlinks-to | id string, title/alias, or self | notes linking to the given note (self = note containing the block) |
+| :links-from   | id string, title/alias, or self | notes linked from the given note                                   |
+| :todo         | t, keyword string, or list      | t: any todo state; string/list: only those states                  |
+| :exclude-done | t                               | drop notes in the DONE state                                       |
+| :filter       | function symbol                 | final predicate (fn NOTE) -> bool                                   |
+| :sort         | title / mtime / fn symbol       | sort key (default title); fn gets a note, returns a key            |
+| :reverse      | t                               | reverse the sort                                                   |
+| :limit        | integer                         | cap result count                                                   |
+| :format       | format string or fn symbol      | default ="- [[id:%i][%t]]"=; fn gets a note, returns a line          |
+| :empty        | string                          | text when no results (default /none/)                                |
+|---------------+---------------------------------+--------------------------------------------------------------------|
+
 *** vulpea-capf
 https://github.com/neonmei/vulpea-capf
 
