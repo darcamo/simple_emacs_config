@@ -11893,6 +11893,7 @@ a symbol."
   (gptel-mode . toggle-truncate-lines)
   (gptel-mode . gptel-highlight-mode)
   (gptel-mode . darcamo/fontify-gptel-org-buffers)
+  (gptel-mode . visual-line-mode)
   :config
   (gptel-make-ollama
       "Ollama"                               ;Any name of your choosing
