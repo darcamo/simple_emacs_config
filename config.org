@@ -11911,7 +11911,15 @@ a symbol."
     :models '(current-model))
 
   ;; Add a copilot backend
-  (gptel-make-gh-copilot "Copilot")
+  (gptel-make-gh-copilot "Copilot"
+    :models '(
+    gpt-6-luna    ;; Mais barato
+    gpt-5.3-codex ;; Mais caro
+    gpt-6.1-sol   ;; Mais caro
+    gemini-3.8-flash  ;; Custo intermediário
+    claude-haiku-5.5  ;; Mais barato
+    )
+  )
 
   ;; TODO: Add gemma-4
   (gptel-make-openai "OpenRouter"
@@ -11948,7 +11956,7 @@ a symbol."
   ;; See gptel--sanitize-model
   ;; (darcamo/set-gptel-default-model "OpenRouter" 'openai/gpt-4o)
   ;; (darcamo/set-gptel-default-model "OpenRouter" 'google/gemini-2.5-flash)
-  (darcamo/set-gptel-default-model "Copilot" 'gpt-4o)
+  (darcamo/set-gptel-default-model "Copilot" 'gpt-6-luna)
 
   ;; Branching context
   (setq gptel-org-branching-context t)
