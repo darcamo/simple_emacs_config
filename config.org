@@ -9521,8 +9521,8 @@ on marked text.
 #+begin_src emacs-lisp
 (use-package emacs
   :mode
-  (".clang-tidy" . yaml-ts-mode)
-  (".clangd" . yaml-ts-mode)
+  ("\\.clang-tidy" . yaml-ts-mode)
+  ("\\.clangd" . yaml-ts-mode)
   ("\\.ya?ml\\'" . yaml-ts-mode)
   )
 #+end_src
