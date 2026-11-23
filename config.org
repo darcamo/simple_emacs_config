@@ -2642,28 +2642,7 @@ In both cases you are prompted for a language.
 
   (set-face-attribute 'magit-diff-hunk-heading-highlight nil :background "dark salmon")
   (set-face-attribute 'magit-diff-hunk-heading nil :background "salmon")
-
-  :hook
-  (magit-mode . evz/setup-magit-submodule-update-all)
   )
-
-
-;; Add an option to magit to update all submodules
-;; You can use "-r" to add "--recursive"
-;; https://www.reddit.com/r/emacs/comments/1187mmq/can_magit_update_synce_and_init_all_submodules/
-(defun evz/setup-magit-submodule-update-all ()
-  (unless (condition-case nil
-              (transient-get-suffix 'magit-submodule "U")
-            (error nil)) ;; catch error if suffix does not exist, and return nil to (unless)
-    (transient-define-suffix magit-submodule-update-all (args)
-      "Update all submodules"
-      :class 'magit--git-submodule-suffix
-      :description "Update all modules    git submodule update --init [--recursive]"
-      (interactive (list (magit-submodule-arguments "--recursive")))
-      (magit-with-toplevel
-        (magit-run-git-async "submodule" "update" "--init" args)))
-    (transient-append-suffix 'magit-submodule '(2 -1) ;; add as last entry in the 3rd section
-      '("U" magit-submodule-update-all))))
 #+end_src
 
 *** Enable smartparens-mode in git-commit-mode
