@@ -9247,7 +9247,7 @@ See https://hurl.dev/ (uses curl under the hood) and the Emacs package [[https:/
 - hurl is similar to =restclient.el=, but it can be used outside Emacs and it also has some
   testing utilities built in
 
-*** swagg
+*** COMMENT swagg
 
 https://github.com/isamert/swagg.el
 
