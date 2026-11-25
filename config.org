@@ -6027,6 +6027,7 @@ See the documentation in [[https://github.com/d12frosted/vulpea/blob/master/docs
   'contact
   :predicate (lambda (note) (member "pessoas" (vulpea-note-tags note)))
   :fields '((:key "Email" :type string equired nil :multiple t)
+            (:key "Celular" :type string :required nil)
             (:key "Linkedin" :validate darcamo/vulpea-validate-with-site-schema :required nil)))
 
  (vulpea-schema-define
