@@ -6171,7 +6171,9 @@ Call =vulpea-ui-collection= to view configured collections.
           ("TODOs" . (:filter (:todo "TODO")
                               :columns (todo scheduled deadline title tags)
                               )
-           )))
+           )
+          ("Orphans" . (:filter (:tags-none ("journal") :source vulpea-db-query-orphan-notes)))
+          ))
 
   :custom
   (vulpea-ui-outline-max-depth 2)
