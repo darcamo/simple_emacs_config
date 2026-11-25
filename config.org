@@ -6483,6 +6483,9 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "ALIA" "158b254d-484e-4d1a-98e4-52a23c1e8700"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "opencode" "891bc237-7a1e-449b-bcdf-81b7c8832ba2"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Helicarrier" "43b54000-3345-4472-a475-99469b11f299"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Licença" "c5ef508c-3fd5-4354-a385-9ec059ef210b"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "MCP" "b63f8c8b-d137-4ff3-9267-0beba47deb71"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Feedback" "26eadca6-8d2b-46fb-a11a-10b47b060404"))
 
   (vulpea-tag-links-register-extractor)
   )
