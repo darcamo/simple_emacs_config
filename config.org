@@ -2967,11 +2967,6 @@ https://github.com/lorniu/gt.el
   ;; Enable org-indent-mode by default
   (org-startup-indented t)
 
-  ;; Show inline images when loading a new Org file
-  (org-startup-with-inline-images t)
-
-  ;; Preview LaTeX fragments when loading a new Org file
-  (org-startup-with-latex-preview t)
   ;; If an entry has an ID, use that when creating links
   (org-id-link-to-org-use-id 'use-existing)
 
