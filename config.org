@@ -2972,6 +2972,8 @@ https://github.com/lorniu/gt.el
 
   ;; Preview LaTeX fragments when loading a new Org file
   (org-startup-with-latex-preview t)
+  ;; If an entry has an ID, use that when creating links
+  (org-id-link-to-org-use-id 'use-existing)
 
   ;; By default, this is `'showeverything', which shows everything (including
   ;; property drawers), and ignore the VISIBILITY property of a header.
