@@ -6200,26 +6200,46 @@ We need to change =vulpea-ui--widget-registry=.
   )
 #+end_src
 
-**** Define saved collections in vulpea
+**** Define saved collections in vulpea-ui
 
 #+begin_src emacs-lisp
-(use-package vulpea-ui
-:defer t
-:config
-  ;; Define some collections
-  (setq vulpea-ui-collection-views
-        '(("Contatos" . (:filter (:tags-all ("pessoas") :tags-none ("category"))
-                                 ;; :columns (title (meta "country") (meta "producer") tags modified)
-                                 :columns (title context tags backlinks)
-                                 ;; Column to sort . t, for reversed
-                                 :sort ("Title" . nil)))
-          ("TODOs" . (:filter (:todo "TODO")
-                              :columns (todo scheduled deadline title tags)
-                              )
-           )
-          ("Orphans" . (:filter (:tags-none ("journal") :source vulpea-db-query-orphan-notes)))
-          ))
-)
+(defun darcamo--get-course-site (vulpea-note)
+  "Get the course site of a vulpea note"
+  (cond
+   ((member "Udemy" (vulpea-tags vulpea-note))
+    "Udemy")
+   (t
+    "<unknown>")))
+
+(use-package
+ vulpea-ui
+ :defer t
+ :config
+ ;; Define some collections
+ (setq vulpea-ui-collection-views
+       '(("Contatos" .
+          (:filter
+           (:tags-all ("pessoas") :tags-none ("category"))
+           ;; :columns (title (meta "country") (meta "producer") tags modified)
+           :columns (title context tags backlinks)
+           ;; Column to sort . t, for reversed
+           :sort ("Title" . nil)))
+         ("TODOs" .
+          (:filter
+           (:todo "TODO")
+           :columns (todo scheduled deadline title tags)))
+         ("Orphans" .
+          (:filter
+           (:tags-none ("journal") :source vulpea-db-query-orphan-notes)))
+         ("Online Courses" .
+          (:filter
+           (:tags-all ("curso"))
+           :columns
+           ((title :width 90)
+            (meta "Horas")
+            (meta "Idioma")
+            (property "CREATED")
+            (fn "Site" darcamo--get-course-site)))))))
 #+end_src
 
 *** Vulpea-journal
@@ -12349,8 +12369,6 @@ list-todos, get-kanban-board, or get-timeline by tag."
 ;; - vulpea-mcp-create-note
 
 #+end_src
-
-
 
 ** TODO matcher (based on gptel)
 https://github.com/kmontag/macher
