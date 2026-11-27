@@ -6730,7 +6730,7 @@ vulpea contact notes in Org mode."
   )
 #+end_src
 
-*** TODO vulpea-mcp
+*** vulpea-mcp
 https://codeberg.org/nicolas-graves/vulpea-mcp
 
 *Note*: See also the [[https://github.com/laurynas-biveinis/org-mcp][org-mcp]] package.
@@ -6756,6 +6756,19 @@ claude mcp add -s user -t stdio vulpea -- \
 
 *Note*: The code to add vulpea-mcp functionality to gptel is in [[*Add tools for intracting wit vulpea][Add tools for intracting wit vulpea]].
 
+*** TODO COMMENT org-mcp
+
+After =mcp-server-lib= has been properly installed (including =M-x mcp-server-lib-install=), register =org-mcp= with your MCP client:
+#+begin_src bash
+claude mcp add -s user -t stdio org-mcp -- ~/.emacs.d/emacs-mcp-stdio.sh --server-id=org-mcp --init-function=org-mcp-enable --stop-function=org-mcp-disable
+#+end_src
+*Before using the MCP server, you must start it in Emacs* with =M-x mcp-server-lib-start=. Stop it with =M-x mcp-server-lib-stop= when done.
+
+#+begin_src emacs-lisp
+(use-package org-mcp
+  :ensure t
+)
+#+end_src
 *** Don't enable vulpea in computers where I don't have notes - FINISH
 The code here just close the missing parenthesis
 #+begin_src emacs-lisp
