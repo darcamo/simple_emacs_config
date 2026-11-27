@@ -6735,6 +6735,27 @@ https://codeberg.org/nicolas-graves/vulpea-mcp
 
 *Note*: See also the [[https://github.com/laurynas-biveinis/org-mcp][org-mcp]] package.
 
+You need to run =mcp-server-lib-install= to install the stdio wrapper. This writes =~/.emacs.d/emacs-mcp-stdio.sh=.
+After that, register the server with your client:
+#+begin_src bash
+claude mcp add -s user -t stdio vulpea -- \
+  ~/.emacs.d/emacs-mcp-stdio.sh \
+  --init-function=vulpea-mcp-enable --stop-function=vulpea-mcp-disable \
+  --server-id=vulpea
+#+end_src
+=--init-function= / =--stop-function= register and unregister the server's tools on each client connection/disconnection; you do not need to call =vulpea-mcp-enable= yourself unless you want the tools available for local testing (=M-x mcp-server-lib-describe-setup= to confirm registration).
+
+
+#+begin_src emacs-lisp
+(use-package vulpea-mcp
+  ;; :ensure (vulpea-mcp :type git :host github :repo "ArthurHeymans/emacs-tramp-rpc")
+  :ensure (vulpea-mcp :type git :url "https://codeberg.org/nicolas-graves/vulpea-mcp.git")
+  :after vulpea
+)
+#+end_src
+
+*Note*: The code to add vulpea-mcp functionality to gptel is in [[*Add tools for intracting wit vulpea][Add tools for intracting wit vulpea]].
+
 *** Don't enable vulpea in computers where I don't have notes - FINISH
 The code here just close the missing parenthesis
 #+begin_src emacs-lisp
@@ -11881,7 +11902,7 @@ a symbol."
 #+begin_src emacs-lisp
 (use-package gptel
   :ensure t
-  :commands (gptel-menu gptel-send gptel gptel-mode gptel-set-topic gptel--convert-markdown->org)
+  :commands (gptel-menu gptel-send gptel gptel-mode gptel-set-topic gptel--convert-markdown->org gptel-make-tool)
   :bind
   (("C-c g" . gptel)
    ("C-c <return>" . gptel-send)
@@ -12114,7 +12135,7 @@ Great video from Karthink
   ;;   :tools        '("search_web" "read_url" "get_youtube_meta"))
   )
 #+end_src
-*** TODO gptel-agent
+*** gptel-agent
 #+begin_src emacs-lisp
 (use-package gptel-agent
   :ensure (gptel-agent :type git :host github :repo "karthink/gptel-agent")
@@ -12139,10 +12160,191 @@ See the video in https://www.youtube.com/watch?v=xHEnWvKmSKM&t=191s
 (use-package gptel-preset-collection
   :ensure (:host github :repo "karthink/gptel-preset-collection")
   :after gptel)
+#+end_src
+
+*** Add gptel tools to intract with vulpea notes
+Add the functionality from vulpea mcp as tools in gptel
+
+#+begin_src emacs-lisp
+(use-package gptel
+  :after (vulpea-mcp)
+  :config
+
+  ;; Search Notes
+  (gptel-make-tool
+   :name "search_notes"
+   :function 'vulpea-mcp-search-notes
+   :description "Search notes by title, tag, or alias substring."
+   :args '((
+            :name
+            "query"
+            :description
+            "substring to search for in note titles, tags, and aliases"
+            :type string)
+           ;; (:name "limit"
+           ;;             :description "maximum number of results as a string, default 50
+           ;; Capped at 500 regardless of what is requested"
+           ;;             :optional t
+           ;;             )
+           )
+   :category "vulpea notes")
+
+  ;; Get Note
+  (gptel-make-tool
+   :name "get_note"
+   :function 'vulpea-mcp-get-note
+   :description "Get full metadata and content for a single note."
+   :args '((:name "id"
+                  :description "the note's ID (UUID, as found in its :ID: property)"
+                  :type string))
+   :category "vulpea notes")
+
+  ;;Get document map
+  (gptel-make-tool
+   :name "get_document_map"
+   :function 'vulpea-mcp-get-note
+   :description "Get a note's heading structure: each heading's level, title, and
+line number within the content get-note would return for the same
+note.  Useful to preview a long note's shape before reading it in
+full, or to locate a specific heading first.."
+   :args '((:name "id"
+                  :description "the note's ID (UUID, as found in its :ID: property)"
+                  :type string))
+   :category "vulpea notes")
+
+  ;; Get backlinks
+  (gptel-make-tool
+   :name "get_backlinks"
+   :function 'vulpea-mcp-get-backlinks
+   :description "Get all notes that link to a given note (incoming id: links)."
+   :args '((:name "id"
+                  :description "the note's ID to find backlinks for"
+                  :type string))
+   :category "vulpea notes")
+
+  ;; Get note forward links
+  (gptel-make-tool
+   :name "get_forward_links"
+   :function 'vulpea-mcp-get-forward-links
+   :description "Get all links a note makes to other notes (outgoing links)."
+   :args '((:name "id"
+                  :description "the note's ID to find forward links for"
+                  :type string))
+   :category "vulpea notes")
+
+  ;; vulpea-mcp-list-notes-by-directory
+  ;; TODO Add a tool for it
+
+  ;; Get statistics about the corpus
+  (gptel-make-tool
+   :name "get_database_stats"
+   :function 'vulpea-mcp-get-stats
+   :description "Get database statistics: note counts by kind."
+   :category "vulpea notes")
+
+  ;; TODO Modify vulpea-mcp-find-orphan-notes to not include journal notes
+  ;; Get orphan notes
+  (gptel-make-tool
+   :name "find_orphan_notes"
+   :function 'vulpea-mcp-find-orphan-notes
+   :description "Find notes with no incoming id: links."
+   :category "vulpea notes")
+
+  ;; Find dead links
+  (gptel-make-tool
+   :name "find_dead_links"
+   :function 'vulpea-mcp-find-dead-links
+   :description "Find id: links that point at a note which no longer exists."
+   :category "vulpea notes")
+
+  ;; Find stale notes
+  (gptel-make-tool
+   :name "find_stale_notes"
+   :function 'vulpea-mcp-find-stale-notes
+   :description "Find stale notes, which are notes I have not touched in the last N days."
+   :args (list '(:name "days"
+                       :description "staleness threshold in days, as a string"
+                       :type string)
+               '(:name "limit"
+                       :description "maximum number of results as a string, default 50"
+                       :type string)
+               )
+   :category "vulpea notes")
+
+  ;; Find title collisions in notes
+  ;; vulpea-mcp-find-title-collisions
+  (gptel-make-tool
+   :name "find_title_collisions_in_notes"
+   :function 'vulpea-mcp-find-title-collisions
+   :description "Find notes that share the same title."
+   :category "vulpea notes")
+
+  ;; List Tags
+  (gptel-make-tool
+   :name "list_note_tags"
+   :function 'vulpea-mcp-list-tags
+   :description "List all tags in use across the vulpea corpus, with note counts.
+
+Returns a JSON array of {tag, count} objects sorted by tag name, so a
+caller can discover what tags/projects exist before filtering
+list-todos, get-kanban-board, or get-timeline by tag."
+   :category "vulpea notes")
+
+
+  (gptel-make-tool
+   :name "create_note"
+   :function 'vulpea-mcp-create-note
+   :description "Create a new file-level vulpea note."
+   :args (list '(:name "title"
+                       :description "title of the new note"
+                       :type string)
+               '(:name "tags"
+                       :description "comma-separated list of tags, e.g. \"wine,piedmont\"
+      Optional, pass an empty string for no tags"
+                       :type string)
+               '(:name "body"
+                       :description "initial body content of the note
+      Optional, pass an empty string for an empty note"
+                       :type string
+                       )
+               )
+   :category "vulpea notes")
+
+
+  )
+
+
+;;   Functions
+;; - vulpea-mcp-search-notes
+;; - vulpea-mcp-get-note
+;; - vulpea-mcp-get-document-map
+;; - vulpea-mcp-get-backlinks
+;; - vulpea-mcp-get-forward-links
+;; - vulpea-mcp-list-notes-by-directory
+;; - vulpea-mcp-get-stats
+;; - vulpea-mcp-find-orphan-notes
+;; - vulpea-mcp-find-dead-links
+;; - vulpea-mcp-find-stale-notes
+;; - vulpea-mcp-find-title-collisions
+;; - vulpea-mcp-list-tags
+
+;; - vulpea-mcp--tags-match-p
+;; - vulpea-mcp--todo-predicate
+;; - vulpea-mcp-list-todos
+;; - vulpea-mcp-get-kanban-board
+;; - vulpea-mcp-get-timeline
+;; - vulpea-mcp-create-note
+
+#+end_src
+
+
+
 ** TODO matcher (based on gptel)
 https://github.com/kmontag/macher
 
 ** COMMENT mcp - model context protocol
+https://github.com/lizqwerscott/mcp.el
+
 #+begin_src emacs-lisp
 (use-package mcp
   :ensure (mcp :type git :host github :repo "lizqwerscott/mcp.el")
