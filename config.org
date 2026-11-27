@@ -6506,6 +6506,7 @@ Issue in vulpea repository: [[https://github.com/d12frosted/vulpea/issues/362][#
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Licença" "c5ef508c-3fd5-4354-a385-9ec059ef210b"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "MCP" "b63f8c8b-d137-4ff3-9267-0beba47deb71"))
   (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Feedback" "26eadca6-8d2b-46fb-a11a-10b47b060404"))
+  (add-to-list 'vulpea-tag-links-id-tag-pairs (cons "Udemy" "f2373ef6-4abf-431b-83e4-66721ec21aae"))
 
   (vulpea-tag-links-register-extractor)
   )
